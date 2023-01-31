@@ -6,6 +6,11 @@
 .pnp.js
 .idea
 
+# firebase
+.firebase
+.firebaserc
+firebase.json
+
 # testing
 /coverage
 
