@@ -1,4 +1,4 @@
-.app {
+/* .app {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -59,4 +59,7 @@ input[type="submit"]:hover {
     flex-direction: column;
     gap: 8px;
     margin: 10px;
-}
+} */
+body {
+    background-color: #D3D3D3;
+  }

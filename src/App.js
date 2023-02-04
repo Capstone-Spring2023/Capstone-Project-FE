@@ -5,8 +5,14 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { useStateContext } from "./contexts/ContextProvider";
 
 import { Navbar, Sidebar } from "./components";
-import { Calendar, ColorPicker, Dashboard, Exam, Lecturers } from "./pages";
+import { Calendar, ColorPicker, Dashboard, Exam, Lecturers ,LoginPage } from "./pages";
 import "./App.css";
+
+//login
+import ReactDOM from 'react-dom/client';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'bootstrap-css-only/css/bootstrap.min.css';
+import 'mdbreact/dist/css/mdb.css';
 
 const App = () => {
   const { activeMenu } = useStateContext();
@@ -61,6 +67,11 @@ const App = () => {
                 <Route path="/color-picker" element={<ColorPicker />} />
               </Routes>
             </div>
+            {/* <div>
+              <Routes>
+                <Route path="/login" element={<LoginPage/>}/>
+              </Routes>
+            </div> */}
           </div>
         </div>
       </BrowserRouter>

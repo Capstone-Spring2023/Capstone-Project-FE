@@ -1,87 +1,108 @@
-import React, { useState } from "react";
-
+import React from 'react';
+import {
+  MDBBtn,
+  MDBContainer,
+  MDBCard,
+  MDBCardBody,
+  MDBCardImage,
+  MDBRow,
+  MDBCol,
+  MDBIcon,
+  MDBInput
+}
+from 'mdb-react-ui-kit';
+import {GoogleLogin, GoogleLogout} from 'react-google-login';
+import { refreshTokenSetup } from '../../utils/refreshTokenSetup';
 import "./style.css";
+import { gapi } from "gapi-script";
 
-function LoginPage() {
-    // React States
-    const [errorMessages, setErrorMessages] = useState({});
-    const [isSubmitted, setIsSubmitted] = useState(false);
+const clientId="197384081208-i1vn1iid7akchjifgqddici3ct19pcl7.apps.googleusercontent.com";
 
-    // User Login info
-    const database = [
-        {
-            username: "user1",
-            password: "pass1"
-        },
-        {
-            username: "user2",
-            password: "pass2"
-        }
-    ];
-
-    const errors = {
-        uname: "invalid username",
-        pass: "invalid password"
+function App1() {
+    const onSuccess=(res) => {
+      window.gapi.load('client:auth2', () => {
+        window.gapi.client.init({
+            clientId: 'your client id will be display here',
+            plugin_name: "chat"
+        })})
+      console.log('[Login Success] currentUser:',res.profileObj);
+      console.log(res.tokenId);
+      refreshTokenSetup(res);
     };
-
-    const handleSubmit = (event) => {
-        //Prevent page reload
-        event.preventDefault();
-
-        let { uname, pass } = document.forms[0];
-
-        // Find user login info
-        const userData = database.find((user) => user.username === uname.value);
-
-        // Compare user info
-        if (userData) {
-            if (userData.password !== pass.value) {
-                // Invalid password
-                setErrorMessages({ name: "pass", message: errors.pass });
-            } else {
-                setIsSubmitted(true);
-            }
-        } else {
-            // Username not found
-            setErrorMessages({ name: "uname", message: errors.uname });
-        }
+    const onFailure=(res)=>{
+      console.log('[Login failed] res:',res);
     };
+    const onSuccess2=()=>{
+      alert('Logout made successfully');
+    };
+  return (
+    <div>
+    <MDBContainer className='container p-4 my-5 border bg-info'>
 
-    // Generate JSX code for error message
-    const renderErrorMessage = (name) =>
-        name === errorMessages.name && (
-            <div className="error">{errorMessages.message}</div>
-        );
+      <MDBCard>
+        <MDBRow className='g-0'>
 
-    // JSX code for login form
-    const renderForm = (
-        <div className="form">
-            <form onSubmit={handleSubmit}>
-                <div className="input-container">
-                    <label>Username </label>
-                    <input type="text" name="uname" required />
-                    {renderErrorMessage("uname")}
-                </div>
-                <div className="input-container">
-                    <label>Password </label>
-                    <input type="password" name="pass" required />
-                    {renderErrorMessage("pass")}
-                </div>
-                <div className="button-container">
-                    <input type="submit" />
-                </div>
-            </form>
-        </div>
-    );
+          <MDBCol md='6'>
+            <MDBCardImage src='https://image.thanhnien.vn/w1024/Uploaded/2023/puqgfdmzs-co/2022_04_24/fpt3-1647.jpg' alt="login form" className='rounded-start w-100 h-100'/>
+          </MDBCol>
 
-    return (
-        <div className="app">
-            <div className="login-form">
-                <div className="title">Sign In</div>
-                {isSubmitted ? <div>User is successfully logged in</div> : renderForm}
-            </div>
-        </div>
-    );
+          <MDBCol md='6'>
+            <MDBCardBody className='d-flex flex-column'>
+
+            <MDBCol className=''>
+            <MDBCardImage src='https://upload.wikimedia.org/wikipedia/vi/1/1d/Logo_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.png' className='rounded-start w-100 h-100'/>
+          </MDBCol>
+
+              <h5 className="fw-normal my-4 pb-3 text-center" style={{letterSpacing: '1px',color:'green'}}>Sign In</h5>
+
+              <div>
+                
+                <GoogleLogin
+                  clientId={clientId}
+                  buttonText="Login"
+                  onSuccess={onSuccess}
+                  onFailure={onFailure}
+                  cookiePolicy={'single_host_origin'}
+                  style={{marginTop:'100px'}}
+                  isSignedIn={true}
+                />
+              </div>
+              <div>
+      <GoogleLogout 
+      clientId={clientId}
+      buttonText="Logout"
+      onLogoutSuccess={onSuccess2}
+      ></GoogleLogout>
+    </div>
+              
+              <div className='d-flex flex-row justify-content-start'>
+                <a href="#!" className="small text-muted me-1">Terms of use.</a>
+                <a href="#!" className="small text-muted">Privacy policy</a>
+              </div>
+            </MDBCardBody>
+          </MDBCol>
+
+        </MDBRow>
+      </MDBCard>
+
+    </MDBContainer>
+    </div>
+  );
 }
 
-export default LoginPage;
+// function Logout(){
+//   const onSuccess=()=>{
+//     alert('Logout made successfully');
+//   };
+//   return(
+//     <div>
+//       <GoogleLogout 
+//       clientId={clientId}
+//       buttonText="Logout"
+//       onLogoutSuccess={onSuccess}
+//       ></GoogleLogout>
+//     </div>
+//   );
+// }
+
+export default App1;
