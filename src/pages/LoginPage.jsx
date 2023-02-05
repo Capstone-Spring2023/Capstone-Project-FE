@@ -3,11 +3,15 @@ import { refreshTokenSetup } from "../utils/refreshTokenSetup";
 import backGroundImage from "../assets/background.jpg";
 import logo from "../assets/fptLogo.png";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
+import { useStateContext } from "../contexts/ContextProvider";
+import { useNavigate } from "react-router-dom";
 
 const clientId =
   "197384081208-i1vn1iid7akchjifgqddici3ct19pcl7.apps.googleusercontent.com";
 
-function App1() {
+const LoginPage = () => {
+  const { setIsLoginPage } = useStateContext();
+  const navigate = useNavigate();
   const onSuccess = (res) => {
     window.gapi.load("client:auth2", () => {
       window.gapi.client.init({
@@ -15,6 +19,8 @@ function App1() {
         plugin_name: "chat",
       });
     });
+    setIsLoginPage(false);
+    navigate("/overview");
     console.log("[Login Success] currentUser:", res.profileObj);
     console.log(res.tokenId);
     refreshTokenSetup(res);
@@ -71,7 +77,7 @@ function App1() {
       </div>
     </div>
   );
-}
+};
 
 // function Logout(){
 //   const onSuccess=()=>{
@@ -88,4 +94,4 @@ function App1() {
 //   );
 // }
 
-export default App1;
+export default LoginPage;
