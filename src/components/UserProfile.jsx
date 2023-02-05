@@ -2,12 +2,27 @@ import React from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import { Button } from "./index";
 import { MdOutlineCancel } from "react-icons/md";
-
+import { gapi } from "gapi-script";
 import avatar from "../assets/avatar.jpg";
 import { userProfileData } from "../data/dummy";
+import {  GoogleLogout } from "react-google-login";
 
+const clientId =
+  "197384081208-i1vn1iid7akchjifgqddici3ct19pcl7.apps.googleusercontent.com";
 const UserProfile = () => {
   const { currentColor } = useStateContext();
+  const onSuccess2 = () => {
+    localStorage.clear();
+    // localStorage.removeItem('tokenId');
+    window.gapi.load("client:auth2", () => {
+      window.gapi.client.init({
+        clientId: "your client id will be display here",
+        plugin_name: "chat",
+      });
+    });
+    console.log("Logout successfully");
+    alert("Logout made successfully");
+  };
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
       <div className="flex justify-between items-center">
@@ -54,13 +69,14 @@ const UserProfile = () => {
         ))}
       </div>
       <div className="mt-5">
-        <Button
+        <GoogleLogout
           color="white"
           bgColor={currentColor}
-          text="Logout"
+          buttonText="Logout"
           borderRadius="10px"
           width="full"
-          onClick=""
+          clientId={clientId}
+          onLogoutSuccess={onSuccess2}
         />
       </div>
     </div>
