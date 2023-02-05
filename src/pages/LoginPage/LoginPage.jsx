@@ -53,7 +53,7 @@ function App1() {
   };
   return (
     <div>
-      <MDBContainer className='container p-4 my-5 border bg-info'>
+      <MDBContainer className='container p-4 my-5 border bg-info' style={{color:'6c757d'}}>
 
         <MDBCard>
           <MDBRow className='g-0'>
@@ -69,18 +69,18 @@ function App1() {
                   <MDBCardImage src='https://upload.wikimedia.org/wikipedia/vi/1/1d/Logo_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_FPT.png' className='rounded-start w-100 h-100' />
                 </MDBCol>
 
-                <h5 className="fw-normal my-4 pb-3 text-center" style={{ letterSpacing: '1px', color: 'green' }}>Sign In</h5>
 
-                <div>
-
+                <div className='fw-normal my-1 pb-1 text-center' style={{}}>
+                <h5 className="fw-normal my-3 pb-3 text-center" style={{ letterSpacing: '1px', color: 'green' }}>Sign In</h5>
                   <GoogleLogin
                     clientId={clientId}
                     buttonText="Login"
                     onSuccess={onSuccess}
                     onFailure={onFailure}
                     cookiePolicy={'single_host_origin'}
-                    style={{ marginTop: '100px' }}
+                    style={{ marginTop: '100px',height:'100px', width:'100px'}}
                     isSignedIn={true}
+                    prompt="select_account"
                   />
                 </div>
                 <div>
