@@ -26,9 +26,9 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div>Summary</div>
+      <div className="text-lg font-bold text-start">Summary</div>
 
-      <div className="flex m-3 flex-wrap justify-center gap-6 items-center">
+      <div className="flex m-3 flex-wrap justify-center gap-14 items-center">
         {overviewData.map((item) => (
           <div
             key={item.title}

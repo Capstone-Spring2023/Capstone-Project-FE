@@ -50,7 +50,7 @@ const LoginPage = () => {
   };
   return (
     <div className='bg-[#FF9900] h-[100vh] flex'>
-      <div className='container m-auto h-[90vh] items-center bg-[#FFFFFF] rounded-md shadow-md'>
+      <div className='container m-auto h-[80vh] items-center bg-[#FFFFFF] rounded-md shadow-md'>
         <div className='lg:grid grid-cols-2 gap-5 items-center'>
           <div className='h-[80vh] p-4'>
             <div className='bg-[#F6F6F6] rounded-sm'>
@@ -78,36 +78,7 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
-    // <div className="justify-between h-full flex items-center bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-    //   <div className="gap-5 flex flex-col justify-between p-8 leading-normal">
-    //     <img src={logo} alt="Background Image" />
-    //     <h5 className="text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-    //       Welcome back
-    //     </h5>
-    //     <GoogleLogin
-    //       clientId={clientId}
-    //       buttonText="Login"
-    //       onSuccess={onSuccess}
-    //       onFailure={onFailure}
-    //       cookiePolicy={"single_host_origin"}
-    //       style={{ marginTop: "100px" }}
-    //       isSignedIn={true}
-    //       prompt="select_account"
-    //     />
-    //     <GoogleLogout
-    //       clientId={clientId}
-    //       buttonText="Logout"
-    //       onLogoutSuccess={onSuccess2}
-    //     />
-    //   </div>
-    //   <div>
-    //     <img
-    //       className="object-cover rounded-l-3xl max-h-96"
-    //       src={backGroundImage}
-    //       alt="Background Image"
-    //     />
-    //   </div>
-    // </div>
+    
   );
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
@@ -19,7 +19,32 @@ import ExamCreate from "./section/Exam/ExamCreate";
 import ExamEdit from "./section/Exam/ExamEdit";
 
 const App = () => {
-  const { activeMenu, isLoginPage } = useStateContext();
+  const { activeMenu, isLoginPage, setIsLoginPage } = useStateContext();
+  // localStorage.clear();
+  // const bool = JSON.parse(localStorage.getItem("isLogin"));
+  //
+  // console.log("LOGIN", isLoginPage);
+  // console.log("MENU", activeMenu);
+  // console.log("BOOL", bool);
+  // if (bool != null || bool !== "undefined") {
+  //   console.log("SET");
+  //   setIsLoginPage(bool);
+  //   localStorage.clear();
+  // }
+
+  // useEffect(() => {
+  //   window.addEventListener("beforeunload", alertUser);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", alertUser);
+  //   };
+  // }, []);
+  // const alertUser = (e) => {
+  //   localStorage.setItem("isLogin", isLoginPage.toString());
+  //   console.log("BEFORE");
+  //   e.preventDefault();
+  //   e.returnValue = "";
+  // };
+
   return (
     <BrowserRouter>
       <div className="flex relative dark:bg-main-dark-bg">
@@ -34,7 +59,7 @@ const App = () => {
             </button>
           </TooltipComponent>
         </div>
-        {activeMenu && !isLoginPage ? (
+        {activeMenu && isLoginPage ? (
           <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white">
             <Sidebar />
           </div>
@@ -43,12 +68,12 @@ const App = () => {
         )}
         <div
           className={
-            activeMenu && !isLoginPage
+            activeMenu && isLoginPage
               ? "dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-72 w-full"
               : "bg-main-bg dark:bg-main-dark-bg  w-full min-h-screen flex-2"
           }
         >
-          {!isLoginPage ? (
+          {isLoginPage ? (
             <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full">
               <Navbar />
             </div>

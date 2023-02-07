@@ -4,8 +4,10 @@ import { SiShopware } from "react-icons/si";
 import { MdOutlineCancel } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { useStateContext } from "../contexts/ContextProvider";
+import logo from "../assets/cft-logo.png";
 
 import { links } from "../routes/index";
+import avatar from "../assets/avatar.jpg";
 
 const Sidebar = () => {
   const { currentColor, activeMenu, setActiveMenu, screenSize } =
@@ -26,13 +28,13 @@ const Sidebar = () => {
     <div className="ml-3 h-screen md:overflow-hidden overflow-auto md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10">
       {activeMenu && (
         <>
-          <div className="flex justify-between items-center">
+          <div className="flex items-center mb-10">
             <Link
               to="/"
               onClick={handleCloseSideBar}
-              className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900"
+              className="items-center gap-3 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900"
             >
-              <SiShopware /> <span>CFT</span>
+              <img className="h-20 w-full" src={logo} alt="Logo" />
             </Link>
             <TooltipComponent content="Menu" position="BottomCenter">
               <button
@@ -45,7 +47,7 @@ const Sidebar = () => {
               </button>
             </TooltipComponent>
           </div>
-          <div className="mt-10">
+          <div>
             {links.map((item) => (
               <div
                 key={item.title}

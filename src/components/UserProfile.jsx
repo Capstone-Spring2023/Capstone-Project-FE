@@ -2,15 +2,19 @@ import React from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import { Button } from "./index";
 import { MdOutlineCancel } from "react-icons/md";
-import { gapi } from "gapi-script";
 import avatar from "../assets/avatar.jpg";
 import { userProfileData } from "../data/dummy";
-import {  GoogleLogout } from "react-google-login";
+import { GoogleLogout } from "react-google-login";
+import { useNavigate } from "react-router-dom";
 
 const clientId =
   "197384081208-i1vn1iid7akchjifgqddici3ct19pcl7.apps.googleusercontent.com";
 const UserProfile = () => {
   const { currentColor } = useStateContext();
+  const navigate = useNavigate();
+  const { setIsClicked, initialState, setIsLoginPage, setActiveMenu } =
+    useStateContext();
+
   const onSuccess2 = () => {
     localStorage.clear();
     // localStorage.removeItem('tokenId');
@@ -20,7 +24,11 @@ const UserProfile = () => {
         plugin_name: "chat",
       });
     });
-    console.log("Logout successfully");
+    setIsClicked(initialState);
+    setIsLoginPage(false);
+    setActiveMenu(false);
+    // localStorage.setItem("isLogin", "true");
+    navigate("/");
     alert("Logout made successfully");
   };
   return (
