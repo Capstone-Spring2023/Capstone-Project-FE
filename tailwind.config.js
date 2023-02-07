@@ -1,5 +1,7 @@
 module.exports = {
-    content: ['./src/**/*.{js,jsx,ts,tsx}'],
+    content: ['./src/**/*.{js,jsx,ts,tsx}',,
+                'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
+                ],
     darkMode: 'class',
     theme: {
         fontFamily: {
@@ -42,6 +44,11 @@ module.exports = {
                 'hero-pattern':
                     "url('https://i.ibb.co/MkvLDfb/Rectangle-4389.png')",
             },
+            screen:{
+                'sm':'640px',
+                'md':'768px',
+                'lg':'1400px',
+            }
         },
     },
     plugins: [],
