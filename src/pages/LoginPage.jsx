@@ -20,10 +20,21 @@ const LoginPage = () => {
         plugin_name: "chat",
       });
     });
-    setIsLoginPage(false);
-    navigate("/overview");
-    console.log("[Login Success] currentUser:", res.profileObj);
-    console.log(res.tokenId);
+    fetch("", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(res),
+    })
+      .then((resp) => {
+        console.log("RES", resp);
+        alert("Login successfully");
+        setIsLoginPage(true);
+        navigate("/overview");
+        // localStorage.setItem("isLogin", "false");
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
     refreshTokenSetup(res);
   };
   const onFailure = (res) => {

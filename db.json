@@ -52,7 +52,7 @@
       "id": 8,
       "title": "DQV PE exam",
       "subject": "DQV",
-      "type": "By hand",
+      "type": "By computer",
       "content": "This is PE exam",
       "status": false
     },
@@ -63,6 +63,40 @@
       "content": "This is content",
       "status": true,
       "id": 10
+    }
+  ],
+  "lecturers": [
+    {
+      "fullName": "Nguyen Tan Phat",
+      "email": "Phatntse140192@fpt.edu.vn",
+      "campus": "HCM",
+      "subject": "jds",
+      "status": true,
+      "id": 1
+    },
+    {
+      "fullName": "Nguyen Tan Phat",
+      "email": "Phatntse140192@fpt.edu.vn",
+      "campus": "HCM",
+      "subject": "npn",
+      "status": true,
+      "id": 2
+    },
+    {
+      "fullName": "Hua Minh Luan",
+      "email": "abc@edu.com.vn",
+      "campus": "HCM",
+      "status": true,
+      "subject": "MAE101",
+      "id": 3
+    },
+    {
+      "id": 4,
+      "fullName": "Hua Minh Luan 24",
+      "subject": "MAE1032",
+      "campus": "HL",
+      "status": true,
+      "email": "tanphat26112@gmail.comf"
     }
   ]
 }

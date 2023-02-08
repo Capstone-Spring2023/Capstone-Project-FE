@@ -18,6 +18,9 @@ import "./App.css";
 import ExamCreate from "./section/Exam/ExamCreate";
 import ExamEdit from "./section/Exam/ExamEdit";
 
+import LecturesCreate from "./section/Lecturers/LecturesCreate";
+import LecturersEdit from "./section/Lecturers/LecturesUpdate";
+
 const App = () => {
   const { activeMenu, isLoginPage, setIsLoginPage } = useStateContext();
   // localStorage.clear();
@@ -103,6 +106,10 @@ const App = () => {
               {/*Exams*/}
               <Route path="/exam/create" element={<ExamCreate />} />
               <Route path="/exam/edit/:examid" element={<ExamEdit />} />
+
+              {/*Lectures*/}
+              <Route path="/lecturers/create" element={<LecturesCreate />} />
+              <Route path="/lecturers/edit/:lecturerId" element={<LecturersEdit />} />
             </Routes>
           </div>
           {/* <div>
