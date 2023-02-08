@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
@@ -20,33 +20,34 @@ import ExamEdit from "./section/Exam/ExamEdit";
 
 import LecturesCreate from "./section/Lecturers/LecturesCreate";
 import LecturersEdit from "./section/Lecturers/LecturesUpdate";
+import Spinner from "./components/Spinner";
 
 const App = () => {
   const { activeMenu, isLoginPage, setIsLoginPage } = useStateContext();
   // localStorage.clear();
-  // const bool = JSON.parse(localStorage.getItem("isLogin"));
-  //
-  // console.log("LOGIN", isLoginPage);
-  // console.log("MENU", activeMenu);
-  // console.log("BOOL", bool);
-  // if (bool != null || bool !== "undefined") {
-  //   console.log("SET");
-  //   setIsLoginPage(bool);
-  //   localStorage.clear();
-  // }
+  const bool = JSON.parse(localStorage.getItem("isLogin"));
+  const Exams = lazy(() => import("./pages/Exam"));
 
-  // useEffect(() => {
-  //   window.addEventListener("beforeunload", alertUser);
-  //   return () => {
-  //     window.removeEventListener("beforeunload", alertUser);
-  //   };
-  // }, []);
-  // const alertUser = (e) => {
-  //   localStorage.setItem("isLogin", isLoginPage.toString());
-  //   console.log("BEFORE");
-  //   e.preventDefault();
-  //   e.returnValue = "";
-  // };
+  console.log("LOGIN", isLoginPage);
+  console.log("MENU", activeMenu);
+  console.log("BOOL", bool);
+  if (bool !== null) {
+    console.log("SET", bool);
+    setIsLoginPage(bool);
+    localStorage.clear();
+  }
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", alertUser);
+    return () => {
+      window.removeEventListener("beforeunload", alertUser);
+    };
+  }, []);
+  const alertUser = (e) => {
+    // localStorage.setItem("isLogin", isLoginPage.toString());
+    e.preventDefault();
+    e.returnValue = "";
+  };
 
   return (
     <BrowserRouter>
@@ -93,6 +94,7 @@ const App = () => {
               <Route path="/overview" element={<Dashboard />} />
 
               {/*Pages*/}
+
               <Route path="/exam" element={<Exam />} />
               <Route path="/lecturers" element={<Lecturers />} />
               <Route path="/leaders" element="Leader" />
@@ -109,7 +111,10 @@ const App = () => {
 
               {/*Lectures*/}
               <Route path="/lecturers/create" element={<LecturesCreate />} />
-              <Route path="/lecturers/edit/:lecturerId" element={<LecturersEdit />} />
+              <Route
+                path="/lecturers/edit/:lecturerId"
+                element={<LecturersEdit />}
+              />
             </Routes>
           </div>
           {/* <div>

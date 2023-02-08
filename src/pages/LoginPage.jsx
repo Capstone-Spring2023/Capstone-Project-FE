@@ -23,7 +23,7 @@ const LoginPage = () => {
     fetch("", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify(res),
+      body: JSON.stringify(res.tokenId),
     })
       .then((resp) => {
         console.log("RES", resp);
@@ -60,20 +60,20 @@ const LoginPage = () => {
     alert("Logout made successfully");
   };
   return (
-    <div className='bg-[#FF9900] h-[100vh] flex'>
-      <div className='container m-auto h-[80vh] items-center bg-[#FFFFFF] rounded-md shadow-md'>
-        <div className='lg:grid grid-cols-2 gap-5 items-center'>
-          <div className='h-[80vh] p-4'>
-            <div className='bg-[#F6F6F6] rounded-sm'>
-              <img className="w-full rounded" src={process.env.PUBLIC_URL + './FPTU.jpg'} alt="Show info" />
+    <div className='bg-[#f7bb60] h-[100vh] flex flex-nowrap'>
+      <div className='m-auto items-center bg-[#FFFFFF] shadow-md'>
+        <div className='flex flex-row flex-wrap items-center'>
+          <div>
+            <div>
+              <img className="rounded-r-3xl w-780" src={process.env.PUBLIC_URL + './FPTU.jpg'} alt="FPT image" />
             </div>
           </div>
-          <div className="px-25">
-            <img className="rounded mx-auto d-block" src={process.env.PUBLIC_URL + './logoFPT.png'} alt="Cinque Terre" width="160" height="200" />
+          <div className="pl-20 pr-20 flex flex-col items-center">
+            <img className="rounded d-block" src={process.env.PUBLIC_URL + './logoFPT.png'} alt="Logo" width="160" height="200" />
             <h5 className="text-center text-l font-bold tracking-tight text-gray-900 dark:text-white">
               Welcome back
             </h5>
-            <div className="mx-auto p-1 bg-danger text-white text-center">
+            <div className="p-1 pt-3 bg-danger text-white text-center">
               <GoogleLogin
                 clientId={clientId}
                 buttonText="Login with Google"
