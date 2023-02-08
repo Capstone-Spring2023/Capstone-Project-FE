@@ -124,7 +124,7 @@ const Exam = () => {
                 </td>
                 <td className="px-6 py-4">{item.type}</td>
                 <td className="px-6 py-4">
-                  <div className="flex justify-end gap-4">
+                  <div className="flex justify-start gap-4">
                     <a onClick={() => handleEdit(item.id)}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
