@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { refreshTokenSetup } from "../utils/refreshTokenSetup";
 import backGroundImage from "../assets/background.jpg";
 import logo from "../assets/fptLogo.png";
@@ -6,6 +6,7 @@ import { GoogleLogin, GoogleLogout } from "react-google-login";
 import { useStateContext } from "../contexts/ContextProvider";
 import { useNavigate } from "react-router-dom";
 import { gapi } from "gapi-script";
+import axios from 'axios';
 
 const clientId =
   "197384081208-i1vn1iid7akchjifgqddici3ct19pcl7.apps.googleusercontent.com";
@@ -13,6 +14,7 @@ const clientId =
 const LoginPage = () => {
   const { setIsLoginPage } = useStateContext();
   const navigate = useNavigate();
+  const setUsers = useState([]);
   const onSuccess = (res) => {
     window.gapi.load("client:auth2", () => {
       window.gapi.client.init({
@@ -20,21 +22,38 @@ const LoginPage = () => {
         plugin_name: "chat",
       });
     });
-    fetch("", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(res.tokenId),
+    // fetch('https://fpt-cft.herokuapp.com/v1/api/authentication/login-google', {
+    //   method: "POST",
+    //   headers: { "content-type": "application/json" },
+    //   body: JSON.stringify("tokenId" , res.tokenId),
+    // })
+    //   .then((resp) => {
+    //     console.log("RES", resp);
+    //     alert("Login successfully");
+    //     setIsLoginPage(true);
+    //     navigate("/overview");
+    //     console.log(res.tokenId);
+    //     localStorage.setItem("isLogin", "false");
+    //   })
+    //   .catch((err) => {
+    //     console.log(err.message);
+    //   });
+    axios({
+      url: 'https://fpt-cft.herokuapp.com/v1/api/authentication/login-google',
+      method: 'POST',
+      data: {
+        tokenId: res.tokenId,
+      }
+    }).then((value) => {
+      console.log(value);
+      alert("Login successfully");
+      setIsLoginPage(true);
+      navigate("/overview");
     })
-      .then((resp) => {
-        console.log("RES", resp);
-        alert("Login successfully");
-        setIsLoginPage(true);
-        navigate("/overview");
-        // localStorage.setItem("isLogin", "false");
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    .catch((err) => {
+          console.log(err.message);
+        });
+    console.log(res.tokenId);
     refreshTokenSetup(res);
   };
   const onFailure = (res) => {
@@ -89,7 +108,7 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
-    
+
   );
 };
 
