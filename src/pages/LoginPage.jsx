@@ -66,18 +66,6 @@ const LoginPage = () => {
     });
     console.log("[Login failed] res:", res);
   };
-  const onSuccess2 = () => {
-    localStorage.clear();
-    // localStorage.removeItem('tokenId');
-    window.gapi.load("client:auth2", () => {
-      window.gapi.client.init({
-        clientId: "your client id will be display here",
-        plugin_name: "chat",
-      });
-    });
-    console.log("Logout successfully");
-    alert("Logout made successfully");
-  };
   return (
     <div className='bg-[#f7bb60] h-[100vh] flex flex-nowrap'>
       <div className='m-auto items-center bg-[#FFFFFF] shadow-md'>

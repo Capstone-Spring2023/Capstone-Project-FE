@@ -51,12 +51,7 @@ const LecturersEdit = () => {
         console.log(err.message);
       });
   };
-
-  const notify = () => {
-    console.log("HELLO");
-    toast("Test");
-  };
-
+  
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category="Lecturers" title="Update Lecturers" />
@@ -130,9 +125,7 @@ const LecturersEdit = () => {
             Cancel
           </Link>
         </div>
-        {/*<Toast />*/}
       </form>
-      <button onClick={notify}>Click</button>
       <ToastContainer />
     </div>
   );

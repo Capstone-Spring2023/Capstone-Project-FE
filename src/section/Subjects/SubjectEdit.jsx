@@ -5,30 +5,30 @@ import InputField from "../../components/InputField";
 import { MdOutlineSubtitles, MdSubject } from "react-icons/md";
 import { toast, ToastContainer } from "react-toastify";
 
-const ExamEdit = () => {
-  const { examid } = useParams();
-  const [examData, setExamData] = useState({});
+const SubjectEdit = () => {
+  const { subjectId } = useParams();
+  const [subjectData, setSubjectData] = useState({});
   const [id, setId] = useState("");
-  const [title, setTitle] = useState("");
-  const [subject, setSubject] = useState("");
+  const [departmentId, setDepartmentId] = useState("");
+  const [examId, setEXamId] = useState("");
+  const [subjectName, setSubjectName] = useState("");
   const [type, setType] = useState("");
   const [status, setStatus] = useState(true);
-  const [content, setContent] = useState("This is content");
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:8000/exams/" + examid)
+    fetch("http://localhost:8000/subjects/" + subjectId)
       .then((res) => {
         return res.json();
       })
       .then((resp) => {
         setId(resp.id);
-        setTitle(resp.title);
-        setSubject(resp.subject);
+        setDepartmentId(resp.departmentId);
+        setSubjectName(resp.subjectName);
         setType(resp.type);
-        setContent(resp.content);
+        setEXamId(resp.examId);
         setStatus(resp.status);
-        console.log("ID", id);
+        console.log("ID:", id);
       })
       .catch((err) => {
         console.log(err.message);
@@ -36,44 +36,54 @@ const ExamEdit = () => {
   }, []);
   const handleUpdate = (e) => {
     e.preventDefault();
-    const examData = { id, title, subject, type, content, status };
-    fetch("http://localhost:8000/exams/" + examid, {
+    const subjectData = { id, subjectName, departmentId, examId, type, status };
+    fetch("http://localhost:8000/subjects/" + subjectId, {
       method: "PUT",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify(examData),
+      body: JSON.stringify(subjectData),
     })
       .then((res) => {
         console.log("RES", res);
         alert("Saved successfully");
-        navigate("/exam");
+        navigate("/subjects");
       })
       .catch((err) => {
         console.log(err.message);
       });
   };
 
+
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-      <Header category="Exam" title="Update Exam" />
+      <Header category="Subjects" title="Update Subject" />
       <form onSubmit={handleUpdate}>
         <div className="grid gap-6 mb-6 md:grid-cols-2">
           <InputField
-            label="title"
-            title="Title"
-            placeHolder="Enter exam title"
+            label="Subject Name"
+            title="Subject Name"
+            placeHolder="Enter Subject Name"
             icon={<MdOutlineSubtitles />}
             required={true}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={subjectName}
+            onChange={(e) => setSubjectName(e.target.value)}
           />
           <InputField
-            label="subject"
-            title="Subject"
-            placeHolder="Enter exam subject"
+            label="Department ID"
+            title="Department ID"
+            placeHolder="Enter Department ID"
             icon={<MdSubject />}
             required={true}
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
+            value={departmentId}
+            onChange={(e) => setDepartmentId(e.target.value)}
+          />
+          <InputField
+            label="Exam ID"
+            title="Exam ID"
+            placeHolder="Enter Exam ID"
+            icon={<MdOutlineSubtitles />}
+            required={true}
+            value={examId}
+            onChange={(e) => setEXamId(e.target.value)}
           />
           <div>
             <label
@@ -96,45 +106,6 @@ const ExamEdit = () => {
             </select>
           </div>
         </div>
-        <div className="mb-6">
-          <div className="flex items-center justify-center w-full">
-            <label
-              htmlFor="content"
-              className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-            >
-              <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <svg
-                  aria-hidden="true"
-                  className="w-10 h-10 mb-3 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                  ></path>
-                </svg>
-                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-semibold">Click to upload</span> or drag
-                  and drop your exam content here
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  SVG, PNG, JPG or GIF (MAX. 800x400px)
-                </p>
-              </div>
-              <input
-                id="dropzone-file"
-                type="file"
-                className="hidden"
-                multiple
-              />
-            </label>
-          </div>
-        </div>
         <div className="flex justify-between">
           <button
             type="submit"
@@ -143,17 +114,18 @@ const ExamEdit = () => {
             Submit
           </button>
           <Link
-            to="/exam"
+            to="/subjects"
             type="submit"
             className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
           >
             Cancel
           </Link>
         </div>
+        {/*<Toast />*/}
       </form>
       <ToastContainer />
     </div>
   );
 };
 
-export default ExamEdit;
+export default SubjectEdit;

@@ -98,5 +98,23 @@
       "status": true,
       "email": "tanphat26112@gmail.comf"
     }
+  ],
+  "subjects": [
+    {
+      "id": "1",
+      "subjectName": "MAE101",
+      "departmentId": "1",
+      "examId": "3",
+      "type": "By computer",
+      "status": true
+    },
+    {
+      "id": "VfJLDNi",
+      "subjectName": "CSI",
+      "departmentId": "1",
+      "examId": "2",
+      "type": "By hand",
+      "status": false
+    }
   ]
 }

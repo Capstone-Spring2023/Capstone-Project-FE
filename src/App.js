@@ -22,6 +22,10 @@ import LecturesCreate from "./section/Lecturers/LecturesCreate";
 import LecturersEdit from "./section/Lecturers/LecturesUpdate";
 import Spinner from "./components/Spinner";
 
+import Subjects from "./pages/Subjects";
+import SubjectCreate from "./section/Subjects/SubjectCreate";
+import SubjectEdit from "./section/Subjects/SubjectEdit";
+
 const App = () => {
   const { activeMenu, isLoginPage, setIsLoginPage } = useStateContext();
   // localStorage.clear();
@@ -99,7 +103,7 @@ const App = () => {
               <Route path="/lecturers" element={<Lecturers />} />
               <Route path="/leaders" element="Leader" />
               <Route path="/schedules" element="Schedule" />
-              <Route path="/subjects" element="Subjects" />
+              <Route path="/subjects" element={<Subjects/>} />
 
               {/*Apps*/}
               <Route path="/calendar" element={<Calendar />} />
@@ -114,6 +118,13 @@ const App = () => {
               <Route
                 path="/lecturers/edit/:lecturerId"
                 element={<LecturersEdit />}
+              />
+
+              {/*Subjects*/}
+              <Route path="/subjects/create" element={<SubjectCreate />} />
+              <Route
+                path="/subjects/edit/:subjectId"
+                element={<SubjectEdit />}
               />
             </Routes>
           </div>
