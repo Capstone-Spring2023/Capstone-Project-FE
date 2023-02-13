@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Header } from "../../components";
 import InputField from "../../components/InputField";
-import { MdCategory, MdOutlineSubtitles, MdSubject } from "react-icons/md";
+import { MdOutlineSubtitles, MdSubject } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
+import { toast, Toaster } from "react-hot-toast";
 
 const ExamCreate = () => {
   const [title, setTitle] = useState("");
@@ -10,29 +11,39 @@ const ExamCreate = () => {
   const [type, setType] = useState("");
   const [status, setStatus] = useState(true);
   const [content, setContent] = useState("This is content");
+  const [file, setFile] = useState(null);
   const navigate = useNavigate();
 
+  const onInputChange = (e) => {
+    setFile(e.target.file[0]);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     const examData = { title, subject, type, content, status };
     console.log({ title, subject, type, status });
-    fetch("http://localhost:8000/exams", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(examData),
-    })
-      .then((res) => {
-        console.log("RES", res);
-        alert("Create successfully");
-        navigate("/exam");
+    toast.promise(
+      fetch("http://localhost:8000/exams", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(examData),
       })
-      .catch((err) => {
-        console.log(err.message);
-      });
+        .then((res) => {
+          navigate("/exam");
+        })
+        .catch((err) => {
+          console.log(err.message);
+        }),
+      {
+        loading: "Creating...",
+        success: <b>Created successfully</b>,
+        error: <b>Could not create.</b>,
+      }
+    );
   };
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+      <Toaster />
       <Header category="Exam" title="Create Exam" />
       <form onSubmit={handleSubmit}>
         <div className="grid gap-6 mb-6 md:grid-cols-2">
@@ -105,8 +116,8 @@ const ExamCreate = () => {
               <input
                 id="dropzone-file"
                 type="file"
-                className="hidden"
                 multiple
+                onChange={onInputChange}
               />
             </label>
           </div>

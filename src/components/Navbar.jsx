@@ -55,7 +55,10 @@ const Navbar = () => {
     }
   }, [screenSize]);
 
-  const handleActiveMenu = () => setActiveMenu(!activeMenu);
+  const handleActiveMenu = () => {
+    setActiveMenu(!activeMenu);
+    console.log("MENU", activeMenu);
+  };
 
   return (
     <div className="flex justify-between p-2 md:mx-6 relative">
@@ -70,7 +73,7 @@ const Navbar = () => {
           title="Notification"
           dotColor={LIGHT_BLUE}
           customFunc={() => handleClick("notification")}
-          color="blue"
+          color={currentColor}
           icon={<RiNotification3Line />}
         />
         <TooltipComponent content="Profile" position="BottomCenter">

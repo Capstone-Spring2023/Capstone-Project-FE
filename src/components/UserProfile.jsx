@@ -25,9 +25,10 @@ const UserProfile = () => {
       });
     });
     setIsClicked(initialState);
-    setIsLoginPage(false);
+    setIsLoginPage(true);
     setActiveMenu(false);
-    // localStorage.setItem("isLogin", "true");
+    localStorage.setItem("isLogin", "true");
+    localStorage.setItem("isActiveMenu", "false");
     navigate("/");
     alert("Logout made successfully");
   };

@@ -11,7 +11,7 @@ const clientId =
   "197384081208-i1vn1iid7akchjifgqddici3ct19pcl7.apps.googleusercontent.com";
 
 const LoginPage = () => {
-  const { setIsLoginPage } = useStateContext();
+  const { setIsLoginPage, setActiveMenu } = useStateContext();
   const navigate = useNavigate();
   const onSuccess = (res) => {
     window.gapi.load("client:auth2", () => {
@@ -28,9 +28,11 @@ const LoginPage = () => {
       .then((resp) => {
         console.log("RES", resp);
         alert("Login successfully");
-        setIsLoginPage(true);
+        setIsLoginPage(false);
+        setActiveMenu(true);
         navigate("/overview");
-        // localStorage.setItem("isLogin", "false");
+        localStorage.setItem("isLogin", "false");
+        localStorage.setItem("isActiveMenu", "true");
       })
       .catch((err) => {
         console.log(err.message);
@@ -60,16 +62,26 @@ const LoginPage = () => {
     alert("Logout made successfully");
   };
   return (
-    <div className='bg-[#f7bb60] h-[100vh] flex flex-nowrap'>
-      <div className='m-auto items-center bg-[#FFFFFF] shadow-md'>
-        <div className='flex flex-row flex-wrap items-center'>
+    <div className="bg-[#f7bb60] h-[100vh] flex flex-nowrap">
+      <div className="m-auto items-center bg-[#FFFFFF] shadow-md">
+        <div className="flex flex-row flex-wrap items-center">
           <div>
             <div>
-              <img className="rounded-r-3xl w-780" src={process.env.PUBLIC_URL + './FPTU.jpg'} alt="FPT image" />
+              <img
+                className="rounded-r-3xl w-780"
+                src={process.env.PUBLIC_URL + "./FPTU.jpg"}
+                alt="FPT image"
+              />
             </div>
           </div>
           <div className="pl-20 pr-20 flex flex-col items-center">
-            <img className="rounded d-block" src={process.env.PUBLIC_URL + './logoFPT.png'} alt="Logo" width="160" height="200" />
+            <img
+              className="rounded d-block"
+              src={process.env.PUBLIC_URL + "./logoFPT.png"}
+              alt="Logo"
+              width="160"
+              height="200"
+            />
             <h5 className="text-center text-l font-bold tracking-tight text-gray-900 dark:text-white">
               Welcome back
             </h5>
@@ -89,7 +101,6 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
-    
   );
 };
 
