@@ -1,7 +1,14 @@
 import React from "react";
-import { FaRocket } from "react-icons/fa";
 
-const InputField = ({ label, title, placeHolder, icon, required, value, onChange }) => {
+const InputField = ({
+  label,
+  title,
+  placeHolder,
+  icon,
+  required,
+  value,
+  onChange,
+}) => {
   return (
     <div>
       <label

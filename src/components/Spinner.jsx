@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const Spinner = () => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log("This will run after 1 secondddddd!");
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="text-center">
       <div role="status">

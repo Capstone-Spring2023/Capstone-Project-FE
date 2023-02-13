@@ -1,8 +1,10 @@
 import React from "react";
 import { overviewData } from "../data/dummy";
 import banner from "../assets/banner.png";
+import { useStateContext } from "../contexts/ContextProvider";
 
 const Dashboard = () => {
+  const { currentColor } = useStateContext();
   return (
     <div className="mt-12">
       <div className="flex flex-wrap lg:flex-nowrap justify-center">
