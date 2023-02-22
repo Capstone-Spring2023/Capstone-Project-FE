@@ -12,6 +12,7 @@ import {
   Exam,
   Lecturers,
   LoginPage,
+  RegisterClass
 } from "./pages";
 import "./App.css";
 
@@ -21,6 +22,8 @@ import ExamEdit from "./section/Exam/ExamEdit";
 import LecturesCreate from "./section/Lecturers/LecturesCreate";
 import LecturersEdit from "./section/Lecturers/LecturesUpdate";
 import Spinner from "./components/Spinner";
+
+import RegisterClass_Register from "./section/RegisterClass/RegisterClass_Register"
 
 import Subjects from "./pages/Subjects";
 import SubjectCreate from "./section/Subjects/SubjectCreate";
@@ -108,6 +111,8 @@ const App = () => {
               {/*Apps*/}
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/color-picker" element={<ColorPicker />} />
+              <Route path="/register-class" element={<RegisterClass />} />
+              <Route path="/register-class/register" element={<RegisterClass_Register />} />
 
               {/*Exams*/}
               <Route path="/exam/create" element={<ExamCreate />} />
@@ -128,11 +133,6 @@ const App = () => {
               />
             </Routes>
           </div>
-          {/* <div>
-              <Routes>
-                <Route path="/login" element={<LoginPage/>}/>
-              </Routes>
-            </div> */}
         </div>
       </div>
     </BrowserRouter>

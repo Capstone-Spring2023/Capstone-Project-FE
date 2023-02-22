@@ -116,5 +116,27 @@
       "type": "By hand",
       "status": false
     }
+  ],
+  "register-class": [
+    {
+      "id": "1",
+      "semester": "Spring2023",
+      "department": "Software Engineering",
+      "subject": "BUE201",
+      "slot": "3",
+      "dateTime": "Monday-Thursday",
+      "processnote": "...",
+      "status": true,
+      "createDate": "22/02/2023"
+    },
+    {
+      "department": "Chinese",
+      "semester": "Fall2023",
+      "subject": "DBI201",
+      "status": true,
+      "slot": "3",
+      "dateTime": "Wednesday-Saturday",
+      "id": "8TjkyEd"
+    }
   ]
 }

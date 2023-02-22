@@ -5,3 +5,4 @@ export { default as Exam } from "./Exam";
 export { default as Lecturers } from "./Lecturers";
 export { default as ColorMapping } from "./ColorMapping";
 export { default as LoginPage } from "./LoginPage";
+export { default as RegisterClass } from "./RegisterClass"

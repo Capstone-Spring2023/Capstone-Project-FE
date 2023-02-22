@@ -16,12 +16,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const setUsers = useState([]);
   const onSuccess = (res) => {
-    window.gapi.load("client:auth2", () => {
-      window.gapi.client.init({
-        clientId: "your client id will be display here",
-        plugin_name: "chat",
-      });
-    });
     // fetch('https://fpt-cft.herokuapp.com/v1/api/authentication/login-google', {
     //   method: "POST",
     //   headers: { "content-type": "application/json" },
@@ -38,21 +32,26 @@ const LoginPage = () => {
     //   .catch((err) => {
     //     console.log(err.message);
     //   });
-    axios({
-      url: 'https://fpt-cft.herokuapp.com/v1/api/authentication/login-google',
-      method: 'POST',
-      data: {
-        tokenId: res.tokenId,
-      }
-    }).then((value) => {
-      console.log(value);
+    // axios({
+    //   url: 'https://fpt-cft.herokuapp.com/v1/api/authentication/login-google',
+    //   method: 'POST',
+    //   data: {
+    //     tokenId: res.tokenId,
+    //   }
+    // }).then((value) => {
+      console.log(res);
       alert("Login successfully");
       setIsLoginPage(true);
       navigate("/overview");
-    })
-    .catch((err) => {
-          console.log(err.message);
-        });
+      if(res.googleId === "100421662222806025199"){
+      console.log("Admin");
+      }else{
+        console.log("user");
+      }
+    // })
+    // .catch((err) => {
+    //       console.log(err.message);
+    //     });
     console.log(res.tokenId);
     refreshTokenSetup(res);
   };
@@ -68,11 +67,11 @@ const LoginPage = () => {
   };
   return (
     <div className='bg-[#f7bb60] h-[100vh] flex flex-nowrap'>
-      <div className='m-auto items-center bg-[#FFFFFF] shadow-md'>
+      <div className='rounded m-auto items-center bg-[#FFFFFF] shadow-md'>
         <div className='flex flex-row flex-wrap items-center'>
           <div>
             <div>
-              <img className="rounded-r-3xl w-780" src={process.env.PUBLIC_URL + './FPTU.jpg'} alt="FPT image" />
+              <img className="rounded-r-2xl w-780" src={process.env.PUBLIC_URL + './FPTU.jpg'} alt="FPT image" />
             </div>
           </div>
           <div className="pl-20 pr-20 flex flex-col items-center">
