@@ -27,7 +27,6 @@ const LoginPage = () => {
     })
       .then((resp) => {
         console.log("RES", resp);
-        alert("Login successfully");
         setIsLoginPage(false);
         setActiveMenu(true);
         navigate("/overview");

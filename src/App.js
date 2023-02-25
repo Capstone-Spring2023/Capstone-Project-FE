@@ -4,17 +4,8 @@ import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { useStateContext } from "./contexts/ContextProvider";
 
-import { Navbar, Sidebar } from "./components";
-import {
-  Calendar,
-  ColorPicker,
-  Dashboard,
-  Exam,
-  Lecturers,
-  LoginPage,
-  RegisterClass
-} from "./pages";
 import { Navbar, Sidebar, ThemeSettings } from "./components";
+import {Calendar, ColorPicker, Leaders, LoginPage, RegisterClass} from "./pages";
 import "./App.css";
 
 import ExamSubmissionCreate from "./section/ExamSubmission/ExamSubmissionCreate";
@@ -22,7 +13,6 @@ import ExamSubmissionEdit from "./section/ExamSubmission/ExamSubmissionEdit";
 
 import LecturesCreate from "./section/Lecturers/LecturesCreate";
 import LecturersEdit from "./section/Lecturers/LecturesUpdate";
-import Spinner from "./components/Spinner";
 import { onMessageListener } from "./firebase/firebase";
 import NotiFirebase from "./components/NotiFirebase";
 import NotiPopup from "./components/NotiPopup";
@@ -30,7 +20,7 @@ import ExamScheduleCreate from "./section/ExamSchedule/ExamScheduleCreate";
 import ExamScheduleEdit from "./section/ExamSchedule/ExamScheduleEdit";
 import ExamSubmissionView from "./pages/ExamSubmissionView";
 
-import RegisterClass_Register from "./section/RegisterClass/RegisterClass_Register"
+import RegisterClass_Register from "./section/RegisterClass/RegisterClass_Register";
 
 import Subjects from "./pages/Subjects";
 import SubjectCreate from "./section/Subjects/SubjectCreate";
