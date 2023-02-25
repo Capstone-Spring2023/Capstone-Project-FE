@@ -4,8 +4,17 @@ import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { useStateContext } from "./contexts/ContextProvider";
 
+import { Navbar, Sidebar } from "./components";
+import {
+  Calendar,
+  ColorPicker,
+  Dashboard,
+  Exam,
+  Lecturers,
+  LoginPage,
+  RegisterClass
+} from "./pages";
 import { Navbar, Sidebar, ThemeSettings } from "./components";
-import { Calendar, ColorPicker, Leaders, LoginPage } from "./pages";
 import "./App.css";
 
 import ExamSubmissionCreate from "./section/ExamSubmission/ExamSubmissionCreate";
@@ -20,6 +29,12 @@ import NotiPopup from "./components/NotiPopup";
 import ExamScheduleCreate from "./section/ExamSchedule/ExamScheduleCreate";
 import ExamScheduleEdit from "./section/ExamSchedule/ExamScheduleEdit";
 import ExamSubmissionView from "./pages/ExamSubmissionView";
+
+import RegisterClass_Register from "./section/RegisterClass/RegisterClass_Register"
+
+import Subjects from "./pages/Subjects";
+import SubjectCreate from "./section/Subjects/SubjectCreate";
+import SubjectEdit from "./section/Subjects/SubjectEdit";
 
 const App = () => {
   const {
@@ -131,11 +146,13 @@ const App = () => {
                   />
                   <Route path="/leaders" element={<Leaders />} />
                   <Route path="/schedules" element="Schedule" />
-                  <Route path="/subjects" element="Subjects" />
+                  <Route path="/subjects" element={<Subjects/>} />
 
                   {/*Apps*/}
                   <Route path="/calendar" element={<Calendar />} />
                   <Route path="/color-picker" element={<ColorPicker />} />
+                  <Route path="/register-class" element={<RegisterClass />} />
+                  <Route path="/register-class/register" element={<RegisterClass_Register />} />
 
                   {/*Exams Submission*/}
                   <Route
@@ -165,6 +182,13 @@ const App = () => {
                   <Route
                     path="/lecturers/edit/:lecturerId"
                     element={<LecturersEdit />}
+                  />
+
+                  {/*Subjects*/}
+                  <Route path="/subjects/create" element={<SubjectCreate />} />
+                  <Route
+                      path="/subjects/edit/:subjectId"
+                      element={<SubjectEdit />}
                   />
                 </Routes>
               </Suspense>

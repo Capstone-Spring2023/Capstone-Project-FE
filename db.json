@@ -120,5 +120,45 @@
       "status": true,
       "id": 2
     }
+  ],
+  "subjects": [
+    {
+      "id": "1",
+      "subjectName": "MAE101",
+      "departmentId": "1",
+      "examId": "3",
+      "type": "By computer",
+      "status": true
+    },
+    {
+      "id": "VfJLDNi",
+      "subjectName": "CSI",
+      "departmentId": "1",
+      "examId": "2",
+      "type": "By hand",
+      "status": false
+    }
+  ],
+  "register-class": [
+    {
+      "id": "1",
+      "semester": "Spring2023",
+      "department": "Software Engineering",
+      "subject": "BUE201",
+      "slot": "3",
+      "dateTime": "Monday-Thursday",
+      "processnote": "...",
+      "status": true,
+      "createDate": "22/02/2023"
+    },
+    {
+      "department": "Chinese",
+      "semester": "Fall2023",
+      "subject": "DBI201",
+      "status": true,
+      "slot": "3",
+      "dateTime": "Wednesday-Saturday",
+      "id": "8TjkyEd"
+    }
   ]
 }

@@ -17,13 +17,12 @@ const UserProfile = () => {
 
   const onSuccess2 = () => {
     localStorage.clear();
-    // localStorage.removeItem('tokenId');
-    window.gapi.load("client:auth2", () => {
-      window.gapi.client.init({
-        clientId: "your client id will be display here",
-        plugin_name: "chat",
-      });
-    });
+    // window.gapi.load("client:auth2", () => {
+    //   window.gapi.client.init({
+    //     clientId: "your client id will be display here",
+    //     plugin_name: "chat",
+    //   });
+    // });
     setIsClicked(initialState);
     setIsLoginPage(true);
     setActiveMenu(false);
