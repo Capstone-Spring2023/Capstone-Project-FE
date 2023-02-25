@@ -5,7 +5,10 @@
 /.pnp
 .pnp.js
 .idea
-package-lock.json
+*package-lock.json
+
+# Data
+db.json
 
 # firebase
 .firebase

@@ -33,7 +33,7 @@ const LecturersCreate = () => {
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-      <Header category="Lecturers" title="Create Lecturers" />
+      <Header category="Leaders" title="Create Leaders" />
       <form onSubmit={handleSubmit}>
         <div className="grid gap-6 mb-6 md:grid-cols-2">
           <InputField
@@ -66,7 +66,7 @@ const LecturersCreate = () => {
             onChange={(e) => setSubject(e.target.value)}
           />
         </div>
-        <div >
+        <div className="mb-6">
           <label
             htmlFor="type"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -78,7 +78,7 @@ const LecturersCreate = () => {
             id="type"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option defaultValue>Choose a type</option>
+            <option defaultValue>Choose campus</option>
             <option value="HCM">Ho Chi Minh</option>
             <option value="HL">Hoa Lac</option>
             <option value="DN">Da Nang</option>

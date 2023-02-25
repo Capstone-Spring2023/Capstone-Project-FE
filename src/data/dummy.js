@@ -91,7 +91,7 @@ export const overviewData = [
     icon: <HiOutlineRefresh />,
     amount: '39,354',
     percentage: '-12%',
-    title: 'Exam',
+    title: 'ExamSubmission',
     iconColor: 'rgb(0, 194, 146)',
     iconBg: 'rgb(235, 250, 242)',
     pcColor: 'red-600',
@@ -1553,5 +1553,36 @@ export const dropdownData = [
   }, {
     Id: '3',
     Time: 'May 2023',
+  },
+];
+
+export const chatData = [
+  {
+    image:
+    avatar2,
+    message: 'Roman Joined the Team!',
+    desc: 'Congratulate him',
+    time: '9:08 AM',
+  },
+  {
+    image:
+    avatar3,
+    message: 'New message received',
+    desc: 'Salma sent you new message',
+    time: '11:56 AM',
+  },
+  {
+    image:
+    avatar4,
+    message: 'New Payment received',
+    desc: 'Check your earnings',
+    time: '4:39 AM',
+  },
+  {
+    image:
+    avatar,
+    message: 'Jolly completed tasks',
+    desc: 'Assign her new tasks',
+    time: '1:12 AM',
   },
 ];

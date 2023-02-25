@@ -1,24 +1,29 @@
 import React from "react";
 import { overviewData } from "../data/dummy";
 import banner from "../assets/banner.png";
+import { useStateContext } from "../contexts/ContextProvider";
 
 const Dashboard = () => {
+  const { currentColor } = useStateContext();
   return (
     <div className="mt-12">
       <div className="flex flex-wrap lg:flex-nowrap justify-center">
-        <div className="bg-blue-200 shadow-md dark:text-gray-200 dark:bg-secondary-dark-bg rounded-xl w-800 p-3 m-3 bg-no-repeat bg-cover bg-center">
+        <div
+          className="shadow-md dark:text-gray-200 dark:bg-secondary-dark-bg rounded-xl w-800 p-3 m-3 bg-no-repeat bg-cover bg-center"
+          style={{ backgroundColor: currentColor }}
+        >
           <div className="flex items-center">
             <img
               src={banner}
               alt="Banner"
-              style={{ width: 150, height: 150 }}
+              style={{ width: 250, height: 150, objectFit: "cover" }}
               className="mr-20"
             />
             <div>
-              <p className="font-bold text-black-400">
+              <p className="font-bold text-black-400 text-2xl">
                 Welcome back Mr.Lecturer
               </p>
-              <p className="text-gray-400">
+              <p className="text-gray-600">
                 Hope you have a good day to teach and add something here
               </p>
             </div>

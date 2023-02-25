@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import {LIGHT_BLUE} from "../utils/constants";
 
 const StateContext = createContext();
 
@@ -11,12 +12,12 @@ const initialState = {
 
 export const ContextProvider = ({ children }) => {
   const [screenSize, setScreenSize] = useState(undefined);
-  const [currentColor, setCurrentColor] = useState("#03C9D7");
+  const [currentColor, setCurrentColor] = useState(LIGHT_BLUE);
   const [currentMode, setCurrentMode] = useState("Light");
   const [themeSettings, setThemeSettings] = useState(false);
   const [activeMenu, setActiveMenu] = useState(false);
   const [isClicked, setIsClicked] = useState(initialState);
-  const [isLoginPage, setIsLoginPage] = useState(false);
+  const [isLoginPage, setIsLoginPage] = useState(true);
 
   const setMode = (e) => {
     setCurrentMode(e.target.value);

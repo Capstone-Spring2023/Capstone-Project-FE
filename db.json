@@ -71,6 +71,7 @@
       "email": "Phatntse140192@fpt.edu.vn",
       "campus": "HCM",
       "subject": "jds",
+      "avatar": "../assets/avatar.jpg",
       "status": true,
       "id": 1
     },
@@ -79,6 +80,7 @@
       "email": "Phatntse140192@fpt.edu.vn",
       "campus": "HCM",
       "subject": "npn",
+      "avatar": "../assets/avatar.jpg",
       "status": true,
       "id": 2
     },
@@ -87,16 +89,36 @@
       "email": "abc@edu.com.vn",
       "campus": "HCM",
       "status": true,
-      "subject": "MAE101",
+      "subject": "jpd",
+      "avatar": "../assets/avatar.jpg",
       "id": 3
     },
     {
       "id": 4,
-      "fullName": "Hua Minh Luan 24",
-      "subject": "MAE1032",
+      "fullName": "Hua Nguyen Minh Luan",
+      "subject": "mae",
       "campus": "HL",
       "status": true,
+      "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
       "email": "tanphat26112@gmail.comf"
+    },
+    {
+      "fullName": "Nguyen Tan Phat",
+      "email": "Phatntse140192@fpt.edu.vn",
+      "campus": "HCM",
+      "subject": "jds",
+      "avatar": "../assets/avatar.jpg",
+      "status": true,
+      "id": 1
+    },
+    {
+      "fullName": "Nguyen Tan Phat",
+      "email": "Phatntse140192@fpt.edu.vn",
+      "campus": "HCM",
+      "subject": "npn",
+      "avatar": "../assets/avatar.jpg",
+      "status": true,
+      "id": 2
     }
   ],
   "subjects": [
