@@ -5,7 +5,7 @@ import { MdOutlineSubtitles, MdSubject } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
 
-const ExamCreate = () => {
+const ExamSubmissionCreate = () => {
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("");
   const [type, setType] = useState("");
@@ -28,7 +28,7 @@ const ExamCreate = () => {
         body: JSON.stringify(examData),
       })
         .then((res) => {
-          navigate("/exam");
+          navigate("/exam-submission");
         })
         .catch((err) => {
           console.log(err.message);
@@ -44,7 +44,7 @@ const ExamCreate = () => {
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Toaster />
-      <Header category="Exam" title="Create Exam" />
+      <Header category="ExamSubmission" title="Create ExamSubmission" />
       <form onSubmit={handleSubmit}>
         <div className="grid gap-6 mb-6 md:grid-cols-2">
           <InputField
@@ -130,7 +130,7 @@ const ExamCreate = () => {
             Submit
           </button>
           <Link
-            to="/exam"
+            to="/exam-submission"
             type="submit"
             className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
           >
@@ -142,4 +142,4 @@ const ExamCreate = () => {
   );
 };
 
-export default ExamCreate;
+export default ExamSubmissionCreate;

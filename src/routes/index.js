@@ -2,8 +2,8 @@ import React from "react";
 import { AiOutlineCalendar, AiOutlineSchedule } from "react-icons/ai";
 import { BiColorFill, BiNotepad } from "react-icons/bi";
 import { BsPeople } from "react-icons/bs";
-import { IoMdContacts } from "react-icons/io";
 import { MdClass, MdDashboard, MdOutlineSubject } from "react-icons/md";
+import {GiNotebook, GiStabbedNote} from "react-icons/gi";
 
 export const links = [
   {
@@ -19,14 +19,6 @@ export const links = [
   {
     title: "Managements",
     links: [
-      {
-        name: "exam",
-        icon: <BiNotepad />,
-      },
-      {
-        name: "lecturers",
-        icon: <IoMdContacts />,
-      },
       {
         name: "leaders",
         icon: <BsPeople />,
@@ -44,6 +36,18 @@ export const links = [
   {
     title: "Apps",
     links: [
+      {
+        name: "exam-schedule",
+        icon: <BiNotepad />,
+      },
+      {
+        name: "exam-submission",
+        icon: <GiNotebook />,
+      },
+      {
+        name: "exam-submission-view",
+        icon: <GiStabbedNote />,
+      },
       {
         name: "calendar",
         icon: <AiOutlineCalendar />,

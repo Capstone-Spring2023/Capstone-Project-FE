@@ -1,26 +1,25 @@
-import React, { useEffect, lazy, Suspense } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { useStateContext } from "./contexts/ContextProvider";
 
 import { Navbar, Sidebar, ThemeSettings } from "./components";
-import {
-  Calendar,
-  ColorPicker,
-  Dashboard,
-  Exam,
-  Lecturers,
-  LoginPage,
-} from "./pages";
+import { Calendar, ColorPicker, Leaders, LoginPage } from "./pages";
 import "./App.css";
 
-import ExamCreate from "./section/Exam/ExamCreate";
-import ExamEdit from "./section/Exam/ExamEdit";
+import ExamSubmissionCreate from "./section/ExamSubmission/ExamSubmissionCreate";
+import ExamSubmissionEdit from "./section/ExamSubmission/ExamSubmissionEdit";
 
 import LecturesCreate from "./section/Lecturers/LecturesCreate";
 import LecturersEdit from "./section/Lecturers/LecturesUpdate";
 import Spinner from "./components/Spinner";
+import { onMessageListener } from "./firebase/firebase";
+import NotiFirebase from "./components/NotiFirebase";
+import NotiPopup from "./components/NotiPopup";
+import ExamScheduleCreate from "./section/ExamSchedule/ExamScheduleCreate";
+import ExamScheduleEdit from "./section/ExamSchedule/ExamScheduleEdit";
+import ExamSubmissionView from "./pages/ExamSubmissionView";
 
 const App = () => {
   const {
@@ -35,17 +34,38 @@ const App = () => {
   } = useStateContext();
   const isLogin = JSON.parse(localStorage.getItem("isLogin"));
   const isActiveMenu = JSON.parse(localStorage.getItem("isActiveMenu"));
-  const Exams = lazy(() => import("./pages/Exam"));
+  const ExamsSubmission = lazy(() => import("./pages/ExamSubmission"));
+  const ExamsSchedule = lazy(() => import("./pages/ExamSchedule"));
+  const ExamsSubmissionView = lazy(() => import("./pages/ExamSubmissionView"));
   const DashboardLazy = lazy(() => import("./pages/Dashboard"));
+  const [notification, setNotification] = useState({ title: "", body: "" });
+  const [show, setShow] = useState(false);
 
   if (isLogin !== null && isActiveMenu !== null) {
     setIsLoginPage(isLogin);
     setActiveMenu(isActiveMenu);
   }
+  console.log("SHOW", show);
+
+  onMessageListener()
+    .then((payload) => {
+      console.log("LISTEN", show);
+      setShow(true);
+      setNotification({
+        title: payload?.notification?.title,
+        body: payload?.notification?.body,
+      });
+    })
+    .catch((err) => console.log("failed: ", err));
 
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <BrowserRouter>
+        {show ? (
+          <NotiPopup title={notification.title} body={notification.body} />
+        ) : (
+          <></>
+        )}
         <div className="flex relative dark:bg-main-dark-bg">
           <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
             <TooltipComponent content="Settings" position="Top">
@@ -83,7 +103,7 @@ const App = () => {
 
             <div>
               {themeSettings && <ThemeSettings />}
-              <Suspense fallback={<Spinner />}>
+              <Suspense fallback={<p>Loading...</p>}>
                 <Routes>
                   {/*Login*/}
                   <Route path="/" element={<LoginPage />} />
@@ -92,24 +112,24 @@ const App = () => {
                   <Route
                     path="/overview"
                     element={
-                      <Suspense fallback={<Spinner />}>
+                      <>
                         <DashboardLazy />
-                      </Suspense>
+                        <NotiFirebase />
+                      </>
                     }
                   />
 
                   {/*Pages*/}
-
                   <Route
-                    path="/exam"
-                    element={
-                      <Suspense fallback={<Spinner />}>
-                        <Exams />
-                      </Suspense>
-                    }
+                    path="/exam-submission"
+                    element={<ExamsSubmission />}
                   />
-                  <Route path="/lecturers" element={<Lecturers />} />
-                  <Route path="/leaders" element="Leader" />
+                  <Route path="/exam-schedule" element={<ExamsSchedule />} />
+                  <Route
+                    path="/exam-submission-view"
+                    element={<ExamSubmissionView />}
+                  />
+                  <Route path="/leaders" element={<Leaders />} />
                   <Route path="/schedules" element="Schedule" />
                   <Route path="/subjects" element="Subjects" />
 
@@ -117,9 +137,25 @@ const App = () => {
                   <Route path="/calendar" element={<Calendar />} />
                   <Route path="/color-picker" element={<ColorPicker />} />
 
-                  {/*Exams*/}
-                  <Route path="/exam/create" element={<ExamCreate />} />
-                  <Route path="/exam/edit/:examid" element={<ExamEdit />} />
+                  {/*Exams Submission*/}
+                  <Route
+                    path="/exam/submission/create"
+                    element={<ExamSubmissionCreate />}
+                  />
+                  <Route
+                    path="/exam/submission/edit/:examid"
+                    element={<ExamSubmissionEdit />}
+                  />
+
+                  {/*Exams Schedule*/}
+                  <Route
+                    path="/exam/schedule/create"
+                    element={<ExamScheduleCreate />}
+                  />
+                  <Route
+                    path="/exam/schedule/edit/:examid"
+                    element={<ExamScheduleEdit />}
+                  />
 
                   {/*Lectures*/}
                   <Route

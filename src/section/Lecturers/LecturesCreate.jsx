@@ -33,7 +33,7 @@ const LecturersCreate = () => {
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-      <Header category="Lecturers" title="Create Lecturers" />
+      <Header category="Leaders" title="Create Leaders" />
       <form onSubmit={handleSubmit}>
         <div className="grid gap-6 mb-6 md:grid-cols-2">
           <InputField
