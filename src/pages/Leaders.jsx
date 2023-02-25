@@ -3,70 +3,55 @@ import { Header } from "../components";
 import TableFooter from "../components/Table/TableFooter";
 import useTable from "../hooks/useTable";
 import { Link, useNavigate } from "react-router-dom";
-import avatar from "../assets/banner.jpg";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-import { toast, Toaster } from "react-hot-toast";
 
-const Exam = () => {
+const Leaders = () => {
   const [page, setPage] = useState(1);
-  const [examData, setExamData] = useState([{}]);
-  const { slice, range } = useTable(examData, page, 5);
+  const [lecturersData, setLecturersData] = useState([{}]);
+  const { slice, range } = useTable(lecturersData, page, 5);
   const navigate = useNavigate();
 
   const handleEdit = (id) => {
-    navigate("/exam/edit/" + id);
+    navigate("/lecturers/edit/" + id);
   };
 
   const handleDelete = (id) => {
     if (window.confirm("Do you want to delete?")) {
-      toast.promise(
-        fetch("http://localhost:8000/exams/" + id, {
-          method: "DELETE",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(examData),
+      fetch("http://localhost:8000/lecturers/" + id, {
+        method: "DELETE",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(lecturersData),
+      })
+        .then((res) => {
+          alert("Delete successfully");
+          window.location.reload();
         })
-          .then((res) => {
-            fetchTable();
-          })
-          .catch((err) => {
-            console.log(err.message);
-          }),
-        {
-          loading: "Deleting...",
-          success: <b>Delete successfully</b>,
-          error: <b>Delete fail</b>,
-        }
-      );
+        .catch((err) => {
+          console.log(err.message);
+        });
     }
   };
 
   useEffect(() => {
-    fetchTable();
-  }, []);
-
-  const fetchTable = () => {
-    fetch("http://localhost:8000/exams")
+    fetch("http://localhost:8000/lecturers")
       .then((res) => {
         return res.json();
       })
       .then((resp) => {
-        setExamData(resp);
+        setLecturersData(resp);
       })
       .catch((err) => {
         console.log(err.message);
       });
-  };
+  }, []);
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-      <div>
-        <Toaster />
-      </div>
       <div className="flex justify-between items-center">
-        <Header category="Management" title="Exam" />
+        <Header category="Management" title="Leaders" />
         <div>
           <Link
-            to="/exam/create"
+            to="/lecturers/create"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           >
             Add
@@ -82,18 +67,27 @@ const Exam = () => {
                 Avatar
               </th>
               <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                Title
+                FullName
               </th>
               <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                Content
+                Email
               </th>
-              <th scope="col" className="px-3 py-3 font-medium text-gray-900">
+              <th
+                scope="col"
+                className="px-3 py-3 font-medium text-gray-900 text-center"
+              >
                 Status
               </th>
-              <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                Type
+              <th
+                scope="col"
+                className="px-3 py-3 font-medium text-gray-900 text-center"
+              >
+                Campus
               </th>
-              <th scope="col" className="px-6 py-4 font-medium text-gray-900">
+              <th
+                scope="col"
+                className="px-6 py-4 font-medium text-gray-900 text-center"
+              >
                 Actions
               </th>
             </tr>
@@ -101,11 +95,12 @@ const Exam = () => {
           <tbody className="divide-y divide-gray-100 border-t border-gray-100">
             {slice.map((item, index) => (
               <tr key={index} className="hover:bg-gray-50">
-                <td className="flex gap-3 px-3 py-3 font-normal text-gray-900 items-center">
+                <td className="flex gap-3 font-normal px-3 py-3 text-gray-900 items-center">
                   <div className="relative h-10 w-10">
                     <img
                       className="h-full w-full rounded-full object-cover object-center"
-                      src={avatar}
+                      src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      // src={`${item.avatar}`}
                       alt=""
                     />
                     <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
@@ -117,8 +112,8 @@ const Exam = () => {
                     <div className="text-gray-400">Subject: {item.subject}</div>
                   </div>
                 </td>
-                <td className="px-3 py-3">{item.title}</td>
-                <td className="px-3 py-3">{item.content}</td>
+                <td className="px-3 py-3">{item.fullName}</td>
+                <td className="px-3 py-3">{item.email}</td>
                 <td className="px-3 py-3">
                   <span
                     className={`inline-flex items-center gap-1 rounded-full ${
@@ -135,7 +130,7 @@ const Exam = () => {
                     {item.status ? "Active" : "Inactive"}
                   </span>
                 </td>
-                <td className="px-3 py-3">{item.type}</td>
+                <td className="px-3 py-3 text-center">{item.campus}</td>
                 <td className="px-6 py-4">
                   <div className="flex justify-start gap-4">
                     <TooltipComponent content="Edit" position="BottomCenter">
@@ -184,7 +179,7 @@ const Exam = () => {
         </table>
       </div>
       <TableFooter
-        total={examData}
+        total={lecturersData}
         range={range}
         slice={slice}
         setPage={setPage}
@@ -194,4 +189,4 @@ const Exam = () => {
   );
 };
 
-export default Exam;
+export default Leaders;
