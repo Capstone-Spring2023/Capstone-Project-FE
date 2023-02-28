@@ -2,63 +2,56 @@ import React, { useState } from "react";
 import { refreshTokenSetup } from "../utils/refreshTokenSetup";
 import backGroundImage from "../assets/background.jpg";
 import logo from "../assets/fptLogo.png";
-import { GoogleLogin, GoogleLogout } from "react-google-login";
 import { useStateContext } from "../contexts/ContextProvider";
 import { useNavigate } from "react-router-dom";
-import { gapi } from "gapi-script";
+import firebase, { initializeApp } from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import axios from "axios";
+import './GoogleButton.css';
+import Button from 'react-bootstrap/Button';
 
-const clientId =
-  "197384081208-i1vn1iid7akchjifgqddici3ct19pcl7.apps.googleusercontent.com";
+const firebaseConfig = {
+  apiKey: "AIzaSyCoQVZnZFVPgJbdCR0_cT7N8qEkUE_W7Gk",
+  authDomain: "capstone-cft.firebaseapp.com",
+  databaseURL: "https://capstone-cft-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "capstone-cft",
+  storageBucket: "capstone-cft.appspot.com",
+  messagingSenderId: "240001179952",
+  appId: "1:240001179952:web:a47e364ed5086f3848e8f5",
+  measurementId: "G-Q1YQBVJXWP"
+};
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
-const LoginPage = () => {
-  const { setIsLoginPage, setActiveMenu } = useStateContext();
+const Login = () => {
   const navigate = useNavigate();
-  const onSuccess = (res) => {
-    window.gapi.load("client:auth2", () => {
-      window.gapi.client.init({
-        clientId: "your client id will be display here",
-        plugin_name: "chat",
-      });
-    });
-    fetch("", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(res.tokenId),
-    })
-      .then((resp) => {
-        console.log("RES", resp);
-        setIsLoginPage(false);
-        setActiveMenu(true);
-        navigate("/overview");
-        localStorage.setItem("isLogin", "false");
-        localStorage.setItem("isActiveMenu", "true");
+  const { setIsLoginPage, setActiveMenu } = useStateContext();
+  const onSuccess = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // axios({
+        //   url: 'https://fpt-cft.azurewebsites.net/v1/api/authentication/login-google',
+        //   method: "POST",
+        //   data: {
+        //     tokenId: result._tokenResponse.idToken,
+        //   },
+        // })
+        //   .then((value) => {
+            console.log(result);
+            console.log(result._tokenResponse.idToken);
+            setIsLoginPage(false);
+            setActiveMenu(true);
+            navigate("/overview");
+      //     }).catch((error) => {
+      //       console.log(error);
+      //     })
       })
       .catch((err) => {
         console.log(err.message);
       });
-    refreshTokenSetup(res);
-  };
-  const onFailure = (res) => {
-    localStorage.clear();
-    window.gapi.load("client:auth2", () => {
-      window.gapi.client.init({
-        clientId: "your client id will be display here",
-        plugin_name: "chat",
-      });
-    });
-    console.log("[Login failed] res:", res);
-  };
-  const onSuccess2 = () => {
-    localStorage.clear();
-    // localStorage.removeItem('tokenId');
-    window.gapi.load("client:auth2", () => {
-      window.gapi.client.init({
-        clientId: "your client id will be display here",
-        plugin_name: "chat",
-      });
-    });
-    console.log("Logout successfully");
-    alert("Logout made successfully");
   };
   return (
     <div className="bg-[#f7bb60] h-[100vh] flex flex-nowrap">
@@ -85,16 +78,12 @@ const LoginPage = () => {
               Welcome back
             </h5>
             <div className="p-1 pt-3 bg-danger text-white text-center">
-              <GoogleLogin
-                clientId={clientId}
-                buttonText="Login with Google"
-                onSuccess={onSuccess}
-                onFailure={onFailure}
-                cookiePolicy={"single_host_origin"}
-                style={{ marginTop: "100px" }}
-                isSignedIn={true}
-                prompt="select_account"
-              />
+              <Button className="google-btn" variant="primary" size="lg" onClick={onSuccess} value="Login">
+                <div className="google-icon-wrapper">
+                  <img className="google-icon" src="./logoGoogle.png" alt="Google Icon" />
+                </div>
+                <h4 className="btn-text">Sign in with Google</h4>
+              </Button>
             </div>
           </div>
         </div>
@@ -103,4 +92,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Login;
