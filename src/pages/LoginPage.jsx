@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { refreshTokenSetup } from "../utils/refreshTokenSetup";
-import backGroundImage from "../assets/background.jpg";
-import logo from "../assets/fptLogo.png";
-import { GoogleLogin, GoogleLogout } from "react-google-login";
+import { GoogleLogin } from "react-google-login";
 import { useStateContext } from "../contexts/ContextProvider";
 import { useNavigate } from "react-router-dom";
 import { gapi } from "gapi-script";
+import axios from "axios";
 
 const clientId =
   "197384081208-i1vn1iid7akchjifgqddici3ct19pcl7.apps.googleusercontent.com";
@@ -13,6 +12,8 @@ const clientId =
 const LoginPage = () => {
   const { setIsLoginPage, setActiveMenu } = useStateContext();
   const navigate = useNavigate();
+  // localStorage.setItem("isLogin", "false");
+  // localStorage.setItem("isActiveMenu", "true");
   const onSuccess = (res) => {
     window.gapi.load("client:auth2", () => {
       window.gapi.client.init({
@@ -20,18 +21,18 @@ const LoginPage = () => {
         plugin_name: "chat",
       });
     });
-    fetch("", {
+    axios({
+      url: "https://fpt-cft.azurewebsites.net/v1/api/authentication/login-google",
       method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(res.tokenId),
+      data: {
+        tokenId: res.tokenId,
+      },
     })
-      .then((resp) => {
-        console.log("RES", resp);
+      .then((value) => {
+        console.log(value);
         setIsLoginPage(false);
         setActiveMenu(true);
         navigate("/overview");
-        localStorage.setItem("isLogin", "false");
-        localStorage.setItem("isActiveMenu", "true");
       })
       .catch((err) => {
         console.log(err.message);
@@ -47,18 +48,6 @@ const LoginPage = () => {
       });
     });
     console.log("[Login failed] res:", res);
-  };
-  const onSuccess2 = () => {
-    localStorage.clear();
-    // localStorage.removeItem('tokenId');
-    window.gapi.load("client:auth2", () => {
-      window.gapi.client.init({
-        clientId: "your client id will be display here",
-        plugin_name: "chat",
-      });
-    });
-    console.log("Logout successfully");
-    alert("Logout made successfully");
   };
   return (
     <div className="bg-[#f7bb60] h-[100vh] flex flex-nowrap">

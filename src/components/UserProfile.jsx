@@ -17,19 +17,18 @@ const UserProfile = () => {
 
   const onSuccess2 = () => {
     localStorage.clear();
-    // window.gapi.load("client:auth2", () => {
-    //   window.gapi.client.init({
-    //     clientId: "your client id will be display here",
-    //     plugin_name: "chat",
-    //   });
-    // });
+    window.gapi.load("client:auth2", () => {
+      window.gapi.client.init({
+        clientId: "your client id will be display here",
+        plugin_name: "chat",
+      });
+    });
     setIsClicked(initialState);
     setIsLoginPage(true);
     setActiveMenu(false);
     localStorage.setItem("isLogin", "true");
     localStorage.setItem("isActiveMenu", "false");
     navigate("/");
-    alert("Logout made successfully");
   };
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
