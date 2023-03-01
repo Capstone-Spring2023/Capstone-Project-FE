@@ -46,11 +46,12 @@ const App = () => {
   const [notification, setNotification] = useState({ title: "", body: "" });
   const [show, setShow] = useState(false);
 
-  if (isLogin !== null && isActiveMenu !== null) {
-    setIsLoginPage(isLogin);
-    setActiveMenu(isActiveMenu);
-  }
-  console.log("SHOW", show);
+  // if (isLogin !== null && isActiveMenu !== null) {
+  //   setIsLoginPage(isLogin);
+  //   setActiveMenu(isActiveMenu);
+  //   console.log("SHOW IF", show);
+  // }
+  // console.log("SHOW", show);
 
   onMessageListener()
     .then((payload) => {
@@ -118,8 +119,8 @@ const App = () => {
                     path="/overview"
                     element={
                       <>
+                        {/*<NotiFirebase />*/}
                         <DashboardLazy />
-                        <NotiFirebase />
                       </>
                     }
                   />
