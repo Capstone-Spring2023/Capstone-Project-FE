@@ -6,9 +6,25 @@ import avatar from "../assets/avatar.jpg";
 import { userProfileData } from "../data/dummy";
 import { GoogleLogout } from "react-google-login";
 import { useNavigate } from "react-router-dom";
+import firebase, { initializeApp } from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import Button2 from 'react-bootstrap/Button';
 
-const clientId =
-  "197384081208-i1vn1iid7akchjifgqddici3ct19pcl7.apps.googleusercontent.com";
+const firebaseConfig = {
+  apiKey: "AIzaSyCoQVZnZFVPgJbdCR0_cT7N8qEkUE_W7Gk",
+  authDomain: "capstone-cft.firebaseapp.com",
+  databaseURL: "https://capstone-cft-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "capstone-cft",
+  storageBucket: "capstone-cft.appspot.com",
+  messagingSenderId: "240001179952",
+  appId: "1:240001179952:web:a47e364ed5086f3848e8f5",
+  measurementId: "G-Q1YQBVJXWP"
+};
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 const UserProfile = () => {
   const { currentColor } = useStateContext();
   const navigate = useNavigate();
@@ -16,13 +32,6 @@ const UserProfile = () => {
     useStateContext();
 
   const onSuccess2 = () => {
-    localStorage.clear();
-    window.gapi.load("client:auth2", () => {
-      window.gapi.client.init({
-        clientId: "your client id will be display here",
-        plugin_name: "chat",
-      });
-    });
     setIsClicked(initialState);
     setIsLoginPage(true);
     setActiveMenu(false);
@@ -76,15 +85,12 @@ const UserProfile = () => {
         ))}
       </div>
       <div className="mt-5">
-        <GoogleLogout
-          color="white"
-          bgColor={currentColor}
-          buttonText="Logout"
-          borderRadius="10px"
-          width="full"
-          clientId={clientId}
-          onLogoutSuccess={onSuccess2}
-        />
+        <Button2 className="google-btn" variant="primary" size="lg" onClick={onSuccess2}>
+          <div className="google-icon-wrapper">
+            <img className="google-icon" src="./logoGoogle.png" alt="Google Icon" />
+          </div>
+          <h4 className="btn-text">Sign Out</h4>
+        </Button2>
       </div>
     </div>
   );

@@ -1,0 +1,32 @@
+.google-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    border: none;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+    width: 240px;
+    height: 50px;
+    cursor: pointer;
+  }
+  
+  .google-icon-wrapper {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+  
+  .google-icon {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .btn-text {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #00BFFF; /* thêm thuộc tính này để đặt màu chữ của nút */
+  }

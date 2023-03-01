@@ -85,7 +85,7 @@ const App = () => {
               </button>
             </TooltipComponent>
           </div>
-          {activeMenu && !isLoginPage ? (
+           {activeMenu && !isLoginPage ? (
             <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white">
               <Sidebar />
             </div>
@@ -105,7 +105,7 @@ const App = () => {
               </div>
             ) : (
               <></>
-            )}
+            )} 
 
             <div>
               {themeSettings && <ThemeSettings />}
