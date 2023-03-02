@@ -6,6 +6,7 @@
       "subject": "PRE",
       "type": "By computer",
       "content": "This is PE exam",
+      "file": "type",
       "status": false
     },
     {
@@ -63,6 +64,14 @@
       "content": "This is content",
       "status": true,
       "id": 10
+    },
+    {
+      "title": "phat",
+      "subject": "MAE103",
+      "type": "By hand",
+      "content": "This is content",
+      "status": true,
+      "id": 11
     }
   ],
   "lecturers": [

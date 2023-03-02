@@ -1,9 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Header } from "../../components";
 import InputField from "../../components/InputField";
 import { MdOutlineSubtitles, MdSubject } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
+import { initializeApp } from 'firebase/app';
+import { getDownloadURL, getStorage, uploadBytesResumable } from 'firebase/storage';
+import { ref } from "firebase/storage";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import Dropzone from "dropzone";
+import "dropzone/dist/dropzone.css";
+import { useDropzone } from 'react-dropzone';
+// import axios from "axios";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCoQVZnZFVPgJbdCR0_cT7N8qEkUE_W7Gk",
+  authDomain: "capstone-cft.firebaseapp.com",
+  databaseURL: "https://capstone-cft-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "capstone-cft",
+  storageBucket: "capstone-cft.appspot.com",
+  messagingSenderId: "240001179952",
+  appId: "1:240001179952:web:a47e364ed5086f3848e8f5",
+  measurementId: "G-Q1YQBVJXWP"
+};
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+const storage = getStorage(app);
 
 const ExamSubmissionCreate = () => {
   const [title, setTitle] = useState("");
@@ -11,12 +34,63 @@ const ExamSubmissionCreate = () => {
   const [type, setType] = useState("");
   const [status, setStatus] = useState(true);
   const [content, setContent] = useState("This is content");
-  const [file, setFile] = useState(null);
   const navigate = useNavigate();
+  const dropzoneRef = useRef(null);
+  const [file, setFile] = useState(null);
+
+  useEffect(() => {
+    // Khởi tạo Dropzone
+    var myDropzone = new Dropzone("#my-dropzone", {
+      url: "/upload",
+      maxFiles: 1,
+      acceptedFiles: ".pdf,.doc,.docx,.txt",
+      addRemoveLinks: true,
+      dictDefaultMessage: "Drag and drop your file here or click to browse",
+      dictRemoveFile: "Remove",
+    });
+
+    myDropzone.on("addedfile", function (file) {
+      // Tạo tham chiếu lưu trữ Firebase cho tệp
+      let fileRef = ref(storage, file.name);
+    
+      // Tải tệp lên Firebase Storage
+      var uploadTask = uploadBytesResumable(fileRef, file);
+    
+      // Đăng ký sự kiện khi tải lên hoàn thành
+      uploadTask.on('state_changed', (snapshot) => {
+        const process = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is" + process + "%done");
+      },
+        (err) => console.log(err),
+        () => {
+          // Lấy URL tải xuống từ Firebase Storage và in ra console
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            console.log(url);
+            localStorage.setItem("url",url);
+          })
+        }
+      )
+    });
+  })
 
   const onInputChange = (e) => {
-    setFile(e.target.file[0]);
+    let file = e.target.files[0];
+    let fileRef = ref(storage, file.name);
+    const uploadTask = uploadBytesResumable(fileRef, file);
+    uploadTask.on('state_changed', (snapshot) => {
+      const process = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log("Upload is" + process + "%done");
+    },
+      (err) => console.log(err),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          console.log(url);
+          localStorage.setItem("url",url);
+        })
+      }
+    )
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const examData = { title, subject, type, content, status };
@@ -29,6 +103,7 @@ const ExamSubmissionCreate = () => {
       })
         .then((res) => {
           navigate("/exam-submission");
+          console.log(res);
         })
         .catch((err) => {
           console.log(err.message);
@@ -83,7 +158,7 @@ const ExamSubmissionCreate = () => {
             </select>
           </div>
         </div>
-        <div className="mb-6">
+        <div className="mb-6" id="my-dropzone" ref={dropzoneRef}>
           <div className="flex items-center justify-center w-full">
             <label
               htmlFor="content"
@@ -110,13 +185,14 @@ const ExamSubmissionCreate = () => {
                   and drop your exam content here
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  SVG, PNG, JPG or GIF (MAX. 800x400px)
+                  Docx or Rar
                 </p>
               </div>
               <input
                 id="dropzone-file"
                 type="file"
                 multiple
+                accept=".docx,.rar"
                 onChange={onInputChange}
               />
             </label>
