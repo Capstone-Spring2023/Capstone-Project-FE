@@ -38,24 +38,6 @@ const ExamSubmissionCreate = () => {
   const dropzoneRef = useRef(null);
   const [file, setFile] = useState(null);
 
-  // useEffect(() => {
-  //   const dropzone = new Dropzone(dropzoneRef.current, {
-  //     url: "/upload",
-  //     maxFiles: 1,
-  //     acceptedFiles: ".pdf,.doc,.docx,.txt",
-  //     addRemoveLinks: true,
-  //     dictDefaultMessage: "Drag and drop your file here or click to browse",
-  //     dictRemoveFile: "Remove",
-  //   });
-  //   dropzone.on("addedFile", (addedFile) => {
-  //     setFile(addedFile);
-  //   });
-
-  //   return () => {
-  //     dropzone.removeAllFiles();
-  //   };
-  // }, []);
-
   useEffect(() => {
     // Khởi tạo Dropzone
     var myDropzone = new Dropzone("#my-dropzone", {
