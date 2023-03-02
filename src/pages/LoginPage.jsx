@@ -45,13 +45,13 @@ const Login = () => {
             setIsLoginPage(false);
             setActiveMenu(true);
             navigate("/overview");
-      //     }).catch((error) => {
-      //       console.log(error);
-      //     })
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+          }).catch((error) => {
+            console.log(error);
+          })
+      // })
+      // .catch((err) => {
+      //   console.log(err.message);
+      // });
   };
   return (
     <div className="bg-[#f7bb60] h-[100vh] flex flex-nowrap">

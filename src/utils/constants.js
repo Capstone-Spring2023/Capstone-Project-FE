@@ -1,6 +1,5 @@
 export const LIGHT_BLUE = "#03C9D7";
 export const ACTIVE_GREEN = "#75CB5D";
-
 export const RED = "#e85252";
 export const firebaseConfig = {
   apiKey: "AIzaSyCoQVZnZFVPgJbdCR0_cT7N8qEkUE_W7Gk",

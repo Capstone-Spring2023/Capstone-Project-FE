@@ -1,8 +1,10 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { firebaseConfig } from "../utils/constants";
+import {getStorage} from "firebase/storage";
 
-initializeApp(firebaseConfig);
+const app =initializeApp(firebaseConfig);
+export const storage = getStorage(app);
 
 const messaging = getMessaging();
 
