@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { refreshTokenSetup } from "../utils/refreshTokenSetup";
 import backGroundImage from "../assets/background.jpg";
 import logo from "../assets/fptLogo.png";
@@ -32,26 +32,27 @@ const Login = () => {
   const onSuccess = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        // axios({
-        //   url: 'https://fpt-cft.azurewebsites.net/v1/api/authentication/login-google',
-        //   method: "POST",
-        //   data: {
-        //     tokenId: result._tokenResponse.idToken,
-        //   },
-        // })
-        //   .then((value) => {
+         axios({
+           url: 'https://fpt-cft.azurewebsites.net/v1/api/authentication/login-google',
+           method: "POST",
+           data: {
+             tokenId: result._tokenResponse.idToken,
+           },
+         })
+           .then((value) => {
             console.log(result);
             console.log(result._tokenResponse.idToken);
             setIsLoginPage(false);
             setActiveMenu(true);
             navigate("/overview");
-          }).catch((error) => {
-            console.log(error);
+           }).catch((error) => {
+             console.log(error);
           })
-      // })
-      // .catch((err) => {
-      //   console.log(err.message);
-      // });
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+
   };
   return (
     <div className="bg-[#f7bb60] h-[100vh] flex flex-nowrap">

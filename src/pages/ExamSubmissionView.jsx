@@ -98,7 +98,7 @@ const ExamSubmissionView = () => {
                         item.status ? "bg-green-600" : "bg-red-600"
                       }`}
                     ></span>
-                    {item.status ? "Approved" : "Rejected"}
+                    {item.status ? "Active" : "Inactive"}
                   </span>
                 </td>
                 <td className="px-3 py-3">{item.type}</td>

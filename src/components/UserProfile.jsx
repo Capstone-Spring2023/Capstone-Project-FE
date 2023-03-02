@@ -38,7 +38,6 @@ const UserProfile = () => {
     localStorage.setItem("isLogin", "true");
     localStorage.setItem("isActiveMenu", "false");
     navigate("/");
-    alert("Logout made successfully");
   };
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
