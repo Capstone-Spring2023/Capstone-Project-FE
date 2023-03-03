@@ -41,7 +41,8 @@ const ExamSubmissionCreate = () => {
   useEffect(() => {
     // Khởi tạo Dropzone
     var myDropzone = new Dropzone("#my-dropzone", {
-      url: "/upload",
+      url: "/exam/submission/create",
+      uploadMultiple: true,
       maxFiles: 1,
       acceptedFiles: ".pdf,.doc,.docx,.txt",
       addRemoveLinks: true,
@@ -59,17 +60,15 @@ const ExamSubmissionCreate = () => {
       // Đăng ký sự kiện khi tải lên hoàn thành
       uploadTask.on('state_changed', (snapshot) => {
         const process = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is" + process + "%done");
+        console.log("Upload is " + process + "% done");
       },
-        (err) => console.log(err),
-        () => {
-          // Lấy URL tải xuống từ Firebase Storage và in ra console
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            console.log(url);
-            localStorage.setItem("url",url);
-          })
-        }
-      )
+      (err) => console.log(err),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          console.log(url);
+          localStorage.setItem("url",url);
+        })
+      });
     });
   })
 
