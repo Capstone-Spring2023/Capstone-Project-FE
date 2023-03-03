@@ -11,19 +11,10 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import Dropzone from "dropzone";
 import "dropzone/dist/dropzone.css";
 import { useDropzone } from 'react-dropzone';
+import {firebaseLoginConfig} from "../../utils/constants";
 // import axios from "axios";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCoQVZnZFVPgJbdCR0_cT7N8qEkUE_W7Gk",
-  authDomain: "capstone-cft.firebaseapp.com",
-  databaseURL: "https://capstone-cft-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "capstone-cft",
-  storageBucket: "capstone-cft.appspot.com",
-  messagingSenderId: "240001179952",
-  appId: "1:240001179952:web:a47e364ed5086f3848e8f5",
-  measurementId: "G-Q1YQBVJXWP"
-};
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseLoginConfig);
 export const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const storage = getStorage(app);

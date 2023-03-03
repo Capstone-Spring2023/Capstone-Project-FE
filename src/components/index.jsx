@@ -8,3 +8,4 @@ export { default as Notification } from "./Notification";
 export { default as UserProfile } from "./UserProfile";
 export { default as Header } from "./Header";
 export { default as DateTimePicker } from "./DateTimePicker";
+export { default as ModalAnt } from "./ModalAnt";

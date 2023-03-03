@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import useTable from "../hooks/useTable";
-import { Link, useNavigate } from "react-router-dom";
-import { toast, Toaster } from "react-hot-toast";
-import { Header } from "../components";
+import { Toaster } from "react-hot-toast";
+import { Header, ModalAnt } from "../components";
 import avatar from "../assets/banner.jpg";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import TableFooter from "../components/Table/TableFooter";
 import { ACTIVE_GREEN, RED } from "../utils/constants";
+import { StyleProvider } from "@ant-design/cssinjs";
+import { ConfigProvider, Tooltip } from "antd";
 
 const ExamSubmissionView = () => {
   const [page, setPage] = useState(1);
   const [examData, setExamData] = useState([{}]);
   const { slice, range } = useTable(examData, page, 5);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchTable();
@@ -103,7 +103,7 @@ const ExamSubmissionView = () => {
                 </td>
                 <td className="px-3 py-3">{item.type}</td>
                 <td className="px-6 py-4">
-                  <div className="flex justify-start gap-4">
+                  <div className="flex justify-start gap-4 content-center items-center">
                     <TooltipComponent content="Approve" position="BottomCenter">
                       <a>
                         <svg
@@ -139,6 +139,19 @@ const ExamSubmissionView = () => {
                         </svg>
                       </a>
                     </TooltipComponent>
+                    <Tooltip title="Info">
+                      <ConfigProvider
+                        theme={{
+                          token: {
+                            colorPrimary: "#ea1c1c",
+                          },
+                        }}
+                      >
+                        <StyleProvider hashPriority="high">
+                          <ModalAnt title="Exam submission detail" />
+                        </StyleProvider>
+                      </ConfigProvider>
+                    </Tooltip>
                   </div>
                 </td>
               </tr>

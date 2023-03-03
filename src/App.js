@@ -1,11 +1,17 @@
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { useStateContext } from "./contexts/ContextProvider";
 
 import { Navbar, Sidebar, ThemeSettings } from "./components";
-import {Calendar, ColorPicker, Leaders, LoginPage, RegisterClass} from "./pages";
+import {
+  Calendar,
+  ColorPicker,
+  Leaders,
+  LoginPage,
+  RegisterClass,
+} from "./pages";
 import "./App.css";
 
 import ExamSubmissionCreate from "./section/ExamSubmission/ExamSubmissionCreate";
@@ -25,6 +31,7 @@ import RegisterClass_Register from "./section/RegisterClass/RegisterClass_Regist
 import Subjects from "./pages/Subjects";
 import SubjectCreate from "./section/Subjects/SubjectCreate";
 import SubjectEdit from "./section/Subjects/SubjectEdit";
+import Spinner from "./components/Spinner";
 
 const App = () => {
   const {
@@ -37,25 +44,27 @@ const App = () => {
     currentColor,
     currentMode,
   } = useStateContext();
-  const isLogin = JSON.parse(localStorage.getItem("isLogin"));
-  const isActiveMenu = JSON.parse(localStorage.getItem("isActiveMenu"));
   const ExamsSubmission = lazy(() => import("./pages/ExamSubmission"));
   const ExamsSchedule = lazy(() => import("./pages/ExamSchedule"));
   const ExamsSubmissionView = lazy(() => import("./pages/ExamSubmissionView"));
   const DashboardLazy = lazy(() => import("./pages/Dashboard"));
   const [notification, setNotification] = useState({ title: "", body: "" });
   const [show, setShow] = useState(false);
+  const isLogin = JSON.parse(localStorage.getItem("isLogin"));
+  const isActiveMenu = JSON.parse(localStorage.getItem("isActiveMenu"));
 
-  // if (isLogin !== null && isActiveMenu !== null) {
-  //   setIsLoginPage(isLogin);
-  //   setActiveMenu(isActiveMenu);
-  //   console.log("SHOW IF", show);
-  // }
-  // console.log("SHOW", show);
+  useEffect(() => {
+    if (isLogin != null && isActiveMenu != null) {
+      setIsLoginPage(isLogin);
+      setActiveMenu(isActiveMenu);
+      console.log("isLogin", isLogin);
+      console.log("isActiveMenu", isActiveMenu);
+    }
+  }, [isLoginPage, activeMenu]);
 
   onMessageListener()
     .then((payload) => {
-      console.log("LISTEN", show);
+      // console.log("LISTEN", show);
       setShow(true);
       setNotification({
         title: payload?.notification?.title,
@@ -67,11 +76,6 @@ const App = () => {
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <BrowserRouter>
-        {show ? (
-          <NotiPopup title={notification.title} body={notification.body} />
-        ) : (
-          <></>
-        )}
         <div className="flex relative dark:bg-main-dark-bg">
           <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
             <TooltipComponent content="Settings" position="Top">
@@ -85,7 +89,7 @@ const App = () => {
               </button>
             </TooltipComponent>
           </div>
-           {activeMenu && !isLoginPage ? (
+          {activeMenu && !isLoginPage ? (
             <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white">
               <Sidebar />
             </div>
@@ -105,11 +109,11 @@ const App = () => {
               </div>
             ) : (
               <></>
-            )} 
+            )}
 
             <div>
               {themeSettings && <ThemeSettings />}
-              <Suspense fallback={<p>Loading...</p>}>
+              <Suspense fallback={<Spinner />}>
                 <Routes>
                   {/*Login*/}
                   <Route path="/" element={<LoginPage />} />
@@ -119,8 +123,16 @@ const App = () => {
                     path="/overview"
                     element={
                       <>
-                        {/*<NotiFirebase />*/}
+                        <NotiFirebase />
                         <DashboardLazy />
+                        {show ? (
+                          <NotiPopup
+                            title={notification.title}
+                            body={notification.body}
+                          />
+                        ) : (
+                          <></>
+                        )}
                       </>
                     }
                   />
@@ -137,13 +149,16 @@ const App = () => {
                   />
                   <Route path="/leaders" element={<Leaders />} />
                   <Route path="/schedules" element="Schedule" />
-                  <Route path="/subjects" element={<Subjects/>} />
+                  <Route path="/subjects" element={<Subjects />} />
 
                   {/*Apps*/}
                   <Route path="/calendar" element={<Calendar />} />
                   <Route path="/color-picker" element={<ColorPicker />} />
                   <Route path="/register-class" element={<RegisterClass />} />
-                  <Route path="/register-class/register" element={<RegisterClass_Register />} />
+                  <Route
+                    path="/register-class/register"
+                    element={<RegisterClass_Register />}
+                  />
 
                   {/*Exams Submission*/}
                   <Route
@@ -178,8 +193,8 @@ const App = () => {
                   {/*Subjects*/}
                   <Route path="/subjects/create" element={<SubjectCreate />} />
                   <Route
-                      path="/subjects/edit/:subjectId"
-                      element={<SubjectEdit />}
+                    path="/subjects/edit/:subjectId"
+                    element={<SubjectEdit />}
                   />
                 </Routes>
               </Suspense>
