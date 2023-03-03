@@ -1,28 +1,15 @@
 import React from "react";
-import { refreshTokenSetup } from "../utils/refreshTokenSetup";
-import backGroundImage from "../assets/background.jpg";
-import logo from "../assets/fptLogo.png";
 import { useStateContext } from "../contexts/ContextProvider";
 import { useNavigate } from "react-router-dom";
-import firebase, { initializeApp } from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
+import { initializeApp } from "firebase/app";
+import "firebase/firestore";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import axios from "axios";
-import './GoogleButton.css';
-import Button from 'react-bootstrap/Button';
+import "./GoogleButton.css";
+import Button from "react-bootstrap/Button";
+import { firebaseLoginConfig } from "../utils/constants";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCoQVZnZFVPgJbdCR0_cT7N8qEkUE_W7Gk",
-  authDomain: "capstone-cft.firebaseapp.com",
-  databaseURL: "https://capstone-cft-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "capstone-cft",
-  storageBucket: "capstone-cft.appspot.com",
-  messagingSenderId: "240001179952",
-  appId: "1:240001179952:web:a47e364ed5086f3848e8f5",
-  measurementId: "G-Q1YQBVJXWP"
-};
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseLoginConfig);
 export const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
@@ -32,27 +19,28 @@ const Login = () => {
   const onSuccess = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-         axios({
-           url: 'https://fpt-cft.azurewebsites.net/v1/api/authentication/login-google',
-           method: "POST",
-           data: {
-             tokenId: result._tokenResponse.idToken,
-           },
-         })
-           .then((value) => {
-            console.log(result);
-            console.log(result._tokenResponse.idToken);
+        axios({
+          url: "https://fpt-cft.azurewebsites.net/v1/api/authentication/login-google",
+          method: "POST",
+          data: {
+            tokenId: result._tokenResponse.idToken,
+          },
+        })
+          .then((value) => {
+            console.log("VALUE", value);
             setIsLoginPage(false);
             setActiveMenu(true);
+            localStorage.setItem("isLogin", "false");
+            localStorage.setItem("isActiveMenu", "true");
             navigate("/overview");
-           }).catch((error) => {
-             console.log(error);
           })
+          .catch((error) => {
+            console.log(error);
+          });
       })
       .catch((err) => {
         console.log(err.message);
       });
-
   };
   return (
     <div className="bg-[#f7bb60] h-[100vh] flex flex-nowrap">
@@ -79,9 +67,19 @@ const Login = () => {
               Welcome back
             </h5>
             <div className="p-1 pt-3 bg-danger text-white text-center">
-              <Button className="google-btn" variant="primary" size="lg" onClick={onSuccess} value="Login">
+              <Button
+                className="google-btn"
+                variant="primary"
+                size="lg"
+                onClick={onSuccess}
+                value="Login"
+              >
                 <div className="google-icon-wrapper">
-                  <img className="google-icon" src="./logoGoogle.png" alt="Google Icon" />
+                  <img
+                    className="google-icon"
+                    src="./logoGoogle.png"
+                    alt="Google Icon"
+                  />
                 </div>
                 <h4 className="btn-text">Sign in with Google</h4>
               </Button>
