@@ -29,7 +29,7 @@ const ExamSubmissionCreate = () => {
   const navigate = useNavigate();
   const dropzoneRef = useRef(null);
   const [file, setFile] = useState(null);
-  //
+
   // useEffect(() => {
   //   // Khởi tạo Dropzone
   //   var myDropzone = new Dropzone("#my-dropzone", {

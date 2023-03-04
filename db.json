@@ -78,6 +78,12 @@
       "subject": "",
       "status": true,
       "id": 12
+    },
+    {
+      "title": "New test",
+      "subject": "",
+      "status": true,
+      "id": 13
     }
   ],
   "exams-schedule": [
@@ -179,6 +185,22 @@
       "deadline": "2023-03-04",
       "status": true,
       "id": 16
+    },
+    {
+      "title": "ets",
+      "subject": "ASC",
+      "assignee": "HoaDNT",
+      "deadline": "2023-03-04",
+      "status": true,
+      "id": 17
+    },
+    {
+      "title": "PRF",
+      "subject": "PRF",
+      "assignee": "HoaDNT",
+      "deadline": "2023-03-04",
+      "status": true,
+      "id": 18
     }
   ],
   "lecturers": [
@@ -273,8 +295,28 @@
       "subject": "DBI201",
       "status": true,
       "slot": "3",
-      "dateTime": "Wednesday-Saturday",
+      "date": "Wednesday-Saturday",
       "id": "8TjkyEd"
+    },
+    {
+      "department": "CN",
+      "semester": "",
+      "subject": "PRN",
+      "status": true,
+      "slot": "3",
+      "date": "2023-03-04",
+      "createdDate": "2023-03-04T05:22:35.729Z",
+      "id": "AR4Wod4"
+    },
+    {
+      "department": "CN",
+      "semester": "",
+      "subject": "PRN",
+      "status": true,
+      "slot": "2",
+      "date": "2023-03-04",
+      "createdDate": "2023-03-04T05:23:56.702Z",
+      "id": "oTV6rXJ"
     }
   ]
 }

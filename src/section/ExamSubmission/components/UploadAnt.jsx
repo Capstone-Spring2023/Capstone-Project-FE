@@ -1,29 +1,41 @@
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
+import { storage } from "../../../firebase/firebase";
+import { ref, uploadBytesResumable } from "firebase/storage";
 
 const { Dragger } = Upload;
-const props = {
-  name: "file",
-  multiple: false,
-  action: "",
-  onChange(info) {
-    const { status } = info.file;
-    console.log("FILE", info);
-    if (status !== "uploading") {
-      console.log(info.file, info.fileList);
+
+const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
+  if (!file) return;
+  const storageRef = ref(storage, `/exam/${file.name}`);
+  const uploadTask = uploadBytesResumable(storageRef, file);
+
+  uploadTask.on(
+    "state_changed",
+    function progress(snapshot) {
+      onProgress(
+        {
+          percent:
+            Math.floor(snapshot.bytesTransferred / snapshot.totalBytes).toFixed(
+              2
+            ) * 100,
+        },
+        file
+      );
+    },
+    function error(err) {
+      onError(err, file);
+      message.error(`${file.name} file uploaded failed.`);
+    },
+    function complete() {
+      onSuccess(file);
+      message.success(`${file.name} file uploaded successfully.`);
     }
-    if (status === "error") {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === "done") {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-  onDrop(e) {
-    console.log("Dropped files", e.dataTransfer.files);
-  },
+  );
 };
+
 const UploadAnt = () => (
-  <Dragger {...props}>
+  <Dragger customRequest={(e) => upLoadFile(e)}>
     <p className="ant-upload-drag-icon">
       <InboxOutlined />
     </p>
