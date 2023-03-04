@@ -51,9 +51,6 @@ const ExamSubmissionView = () => {
                 Title
               </th>
               <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                Content
-              </th>
-              <th scope="col" className="px-3 py-3 font-medium text-gray-900">
                 Status
               </th>
               <th scope="col" className="px-3 py-3 font-medium text-gray-900">
@@ -84,7 +81,6 @@ const ExamSubmissionView = () => {
                   </div>
                 </td>
                 <td className="px-3 py-3">{item.title}</td>
-                <td className="px-3 py-3">{item.content}</td>
                 <td className="px-3 py-3">
                   <span
                     className={`inline-flex items-center gap-1 rounded-full ${item.status
