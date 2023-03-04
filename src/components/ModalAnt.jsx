@@ -38,11 +38,10 @@ const ModalAnt = ({ title }) => {
           </Descriptions.Item>
           <Descriptions.Item label="Type">By computer</Descriptions.Item>
           <Descriptions.Item label="File">
-          <a className="container" src="">
+          <a className="container" href="https://firebasestorage.googleapis.com/v0/b/capstone-cft.appspot.com/o/VNR-source-mini-2.docx?alt=media&token=c16c8d87-6029-4bf0-9679-452a98594673">
             <div className="row align-items-center">
               <div className="col-auto">
-                {/* <img src="https://banner2.cleanpng.com/20180611/wc/kisspng-computer-icons-file-explorer-internet-explorer-5b1e670f8e8603.7503591815287191195838.jpg" class="img-thumbnail rounded img-size" alt="Responsive image" /> */}
-                <img src="gs://capstone-cft.appspot.com/exam/Review_1_2_3_SP23SE01.xlsx" class="img-thumbnail rounded img-size" alt="Responsive image" />
+                <img src="https://banner2.cleanpng.com/20180611/wc/kisspng-computer-icons-file-explorer-internet-explorer-5b1e670f8e8603.7503591815287191195838.jpg" class="img-thumbnail rounded img-size" alt="Responsive image" />
               </div>
             </div>
           </a>
