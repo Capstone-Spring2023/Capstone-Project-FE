@@ -85,13 +85,13 @@ const RegisterClass = () => {
                     <div className="font-medium text-gray-700">
                     Subject: {item.subject}
                     </div>
-                    <div className="text-gray-400">Created Date: {item.createDate}</div>
+                    <div className="text-gray-400">Created Date: {item.createdDate}</div>
                   </div>
                 </th>
                 <td className="px-3 py-2">{item.semester}</td>
                 <td className="px-3 py-2">{item.department}</td>
                 <td className="px-3 py-2">{item.slot}</td>
-                <td className="px-3 py-2">{item.dateTime}</td>
+                <td className="px-3 py-2">{item.date}</td>
                 <td className="px-3 py-2">{item.processNote}</td>
                 <td className="px-3 py-2">
                   <span

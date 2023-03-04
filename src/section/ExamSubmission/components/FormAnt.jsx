@@ -1,18 +1,12 @@
 import React, { useRef, useState } from "react";
-import {
-  Button,
-  Col,
-  DatePicker,
-  DatePickerProps,
-  Form,
-  Input,
-  Row,
-} from "antd";
+import { Button, Col, Form, Input, Row } from "antd";
 import SelectAnt from "./SelectAnt";
 import UploadAnt from "./UploadAnt";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import SelectType from "./SelectType";
+import { ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../../firebase/firebase";
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -26,8 +20,10 @@ const FormAnt = () => {
   const navigate = useNavigate();
   const dropzoneRef = useRef(null);
   const [file, setFile] = useState(null);
+  const [progress, setProgress] = useState(0);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    console.log("FILE", e);
     const examData = { title, subject, status };
     console.log({ title, subject, status });
     toast.promise(
@@ -50,6 +46,20 @@ const FormAnt = () => {
       }
     );
   };
+  const upLoadFile = (file) => {
+    if (!file) return;
+    const storageRef = ref(storage, `/files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on("state_changed", (snapshot) => {
+      const prog = Math.round(
+        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      );
+
+      setProgress(prog);
+    });
+  };
+
   const handleSubject = (value) => {
     setSubject(value);
   };

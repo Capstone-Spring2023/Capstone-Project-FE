@@ -19,25 +19,25 @@ const Login = () => {
   const onSuccess = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        // axios({
-        //   url: "https://fpt-cft.azurewebsites.net/v1/api/authentication/login-google",
-        //   method: "POST",
-        //   data: {
-        //     tokenId: result._tokenResponse.idToken,
-        //   },
-        // })
-          // .then((value) => {
-            // console.log("VALUE", value);
+        axios({
+          url: "https://fpt-cft.azurewebsites.net/v1/api/authentication/login-google",
+          method: "POST",
+          data: {
+            tokenId: result._tokenResponse.oauthIdToken,
+          },
+        })
+          .then((value) => {
+            console.log("VALUE", value);
             setIsLoginPage(false);
             setActiveMenu(true);
             localStorage.setItem("isLogin", "false");
             localStorage.setItem("isActiveMenu", "true");
             navigate("/overview");
             console.log(result);
-          // })
-          // .catch((error) => {
-          //   console.log(error);
-          // });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
       .catch((err) => {
         console.log(err.message);
