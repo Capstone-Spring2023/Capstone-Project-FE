@@ -47,24 +47,24 @@ const RegisterClass = () => {
             <tr>
               <th
                 scope="col"
-                className="px-6 py-4 font-medium text-gray-900"
-              ></th>
-              <th scope="col" className="px-6 py-4 font-medium text-gray-900">
+                className="px-3 py-2 font-medium text-gray-900"
+              >Basic info</th>
+              <th scope="col" className="px-3 py-2 font-medium text-gray-900">
                 Semester
               </th>
-              <th scope="col" className="px-6 py-4 font-medium text-gray-900">
+              <th scope="col" className="px-3 py-2 font-medium text-gray-900">
                 Department
               </th>
-              <th scope="col" className="px-6 py-4 font-medium text-gray-900">
+              <th scope="col" className="px-3 py-2 font-medium text-gray-900">
                 Slot
               </th>
-              <th scope="col" className="px-6 py-4 font-medium text-gray-900">
+              <th scope="col" className="px-3 py-2 font-medium text-gray-900">
                 Date time
               </th>
-              <th scope="col" className="px-6 py-4 font-medium text-gray-900">
+              <th scope="col" className="px-3 py-2 font-medium text-gray-900">
                 PROCESSNOTE
               </th>
-              <th scope="col" className="px-6 py-4 font-medium text-gray-900">
+              <th scope="col" className="px-3 py-2 font-medium text-gray-900">
                 Status
               </th>
             </tr>
@@ -72,7 +72,7 @@ const RegisterClass = () => {
           <tbody className="divide-y divide-gray-100 border-t border-gray-100">
             {slice.map((item, index) => (
               <tr key={index} className="hover:bg-gray-50">
-                <th className="flex gap-3 px-6 py-4 font-normal text-gray-900">
+                <th className="flex gap-3 px-6 py-4 font-normal text-gray-900 items-center">
                   <div className="relative h-10 w-10">
                     <img
                       className="h-full w-full rounded-full object-cover object-center"
@@ -85,15 +85,15 @@ const RegisterClass = () => {
                     <div className="font-medium text-gray-700">
                     Subject: {item.subject}
                     </div>
-                    <div className="text-gray-400">Create Date: {item.createDate}</div>
+                    <div className="text-gray-400">Created Date: {item.createDate}</div>
                   </div>
                 </th>
-                <td className="px-6 py-4">{item.semester}</td>
-                <td className="px-6 py-4">{item.department}</td>
-                <td className="px-6 py-4">{item.slot}</td>
-                <td className="px-6 py-4">{item.dateTime}</td>
-                <td className="px-6 py-4">{item.processnote}</td>
-                <td className="px-6 py-4">
+                <td className="px-3 py-2">{item.semester}</td>
+                <td className="px-3 py-2">{item.department}</td>
+                <td className="px-3 py-2">{item.slot}</td>
+                <td className="px-3 py-2">{item.dateTime}</td>
+                <td className="px-3 py-2">{item.processNote}</td>
+                <td className="px-3 py-2">
                   <span
                     className={`inline-flex items-center gap-1 rounded-full ${
                       item.status
