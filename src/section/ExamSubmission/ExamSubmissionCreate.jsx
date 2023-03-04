@@ -11,10 +11,19 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import Dropzone from "dropzone";
 import "dropzone/dist/dropzone.css";
 import { useDropzone } from 'react-dropzone';
-import {firebaseLoginConfig} from "../../utils/constants";
 // import axios from "axios";
 
-const app = initializeApp(firebaseLoginConfig);
+const firebaseConfig = {
+  apiKey: "AIzaSyCoQVZnZFVPgJbdCR0_cT7N8qEkUE_W7Gk",
+  authDomain: "capstone-cft.firebaseapp.com",
+  databaseURL: "https://capstone-cft-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "capstone-cft",
+  storageBucket: "capstone-cft.appspot.com",
+  messagingSenderId: "240001179952",
+  appId: "1:240001179952:web:a47e364ed5086f3848e8f5",
+  measurementId: "G-Q1YQBVJXWP"
+};
+const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const storage = getStorage(app);
@@ -29,39 +38,39 @@ const ExamSubmissionCreate = () => {
   const dropzoneRef = useRef(null);
   const [file, setFile] = useState(null);
 
-  useEffect(() => {
-    // Khởi tạo Dropzone
-    var myDropzone = new Dropzone("#my-dropzone", {
-      url: "/exam/submission/create",
-      uploadMultiple: true,
-      maxFiles: 1,
-      acceptedFiles: ".pdf,.doc,.docx,.txt",
-      addRemoveLinks: true,
-      dictDefaultMessage: "Drag and drop your file here or click to browse",
-      dictRemoveFile: "Remove",
-    });
+  // useEffect(() => {
+  //   // Khởi tạo Dropzone
+  //   var myDropzone = new Dropzone("#my-dropzone", {
+  //     url: "/exam/submission/create",
+  //     uploadMultiple: true,
+  //     maxFiles: 1,
+  //     acceptedFiles: ".pdf,.doc,.docx,.txt",
+  //     addRemoveLinks: true,
+  //     dictDefaultMessage: "Drag and drop your file here or click to browse",
+  //     dictRemoveFile: "Remove",
+  //   });
 
-    myDropzone.on("addedfile", function (file) {
-      // Tạo tham chiếu lưu trữ Firebase cho tệp
-      let fileRef = ref(storage, file.name);
+  //   myDropzone.on("addedfile", function (file) {
+  //     // Tạo tham chiếu lưu trữ Firebase cho tệp
+  //     let fileRef = ref(storage, file.name);
     
-      // Tải tệp lên Firebase Storage
-      var uploadTask = uploadBytesResumable(fileRef, file);
+  //     // Tải tệp lên Firebase Storage
+  //     var uploadTask = uploadBytesResumable(fileRef, file);
     
-      // Đăng ký sự kiện khi tải lên hoàn thành
-      uploadTask.on('state_changed', (snapshot) => {
-        const process = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + process + "% done");
-      },
-      (err) => console.log(err),
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log(url);
-          localStorage.setItem("url",url);
-        })
-      });
-    });
-  })
+  //     // Đăng ký sự kiện khi tải lên hoàn thành
+  //     uploadTask.on('state_changed', (snapshot) => {
+  //       const process = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //       console.log("Upload is " + process + "% done");
+  //     },
+  //     (err) => console.log(err),
+  //     () => {
+  //       getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+  //         console.log(url);
+  //         localStorage.setItem("url",url);
+  //       })
+  //     });
+  //   });
+  // })
 
   const onInputChange = (e) => {
     let file = e.target.files[0];
@@ -76,15 +85,18 @@ const ExamSubmissionCreate = () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           console.log(url);
           localStorage.setItem("url",url);
+          setFile(url);
         })
       }
     )
+
+    
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const examData = { title, subject, type, content, status };
-    console.log({ title, subject, type, status });
+    const examData = { title, subject, type, content,file, status };
+    console.log({ title, subject, type,file, status });
     toast.promise(
       fetch("http://localhost:8000/exams", {
         method: "POST",

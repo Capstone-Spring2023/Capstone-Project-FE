@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Badge, Button, Descriptions, Modal } from "antd";
+import './GoogleButton.css';
 import { InfoOutlined } from "@ant-design/icons";
 
 const ModalAnt = ({ title }) => {
@@ -42,6 +43,16 @@ const ModalAnt = ({ title }) => {
             <Badge status="success" text="Active" />
           </Descriptions.Item>
           <Descriptions.Item label="Type">By computer</Descriptions.Item>
+          <Descriptions.Item label="File">
+          <a class="container">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                {/* <img src="https://banner2.cleanpng.com/20180611/wc/kisspng-computer-icons-file-explorer-internet-explorer-5b1e670f8e8603.7503591815287191195838.jpg" class="img-thumbnail rounded img-size" alt="Responsive image" /> */}
+                <img src="https://www.pngitem.com/pimgs/m/179-1793019_windows-10-file-explorer-icon-hd-png-download.png" class="img-thumbnail rounded img-size" alt="Responsive image" />
+              </div>
+            </div>
+          </a>
+          </Descriptions.Item>
         </Descriptions>
       </Modal>
     </>

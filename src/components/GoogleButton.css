@@ -30,3 +30,8 @@
     text-transform: uppercase;
     color: blue; /* thêm thuộc tính này để đặt màu chữ của nút */
   }
+
+  .img-size {
+    width: 40px;
+    height: auto;
+  }
