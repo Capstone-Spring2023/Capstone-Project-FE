@@ -39,7 +39,7 @@ const ModalAnt = ({ title }) => {
           </Descriptions.Item>
           <Descriptions.Item label="Type">By computer</Descriptions.Item>
           <Descriptions.Item label="File">
-          <a className="container">
+          <a className="container" src="">
             <div className="row align-items-center">
               <div className="col-auto">
                 {/* <img src="https://banner2.cleanpng.com/20180611/wc/kisspng-computer-icons-file-explorer-internet-explorer-5b1e670f8e8603.7503591815287191195838.jpg" class="img-thumbnail rounded img-size" alt="Responsive image" /> */}

@@ -28,7 +28,8 @@ const FormAnt = () => {
   const [file, setFile] = useState(null);
 
   const handleSubmit = () => {
-    const examData = { title, subject, status };
+    const examData = { title, subject, status ,file};
+    setFile(localStorage.setItem("url"));
     console.log({ title, subject, status });
     toast.promise(
       fetch("http://localhost:8000/exams", {
@@ -136,8 +137,8 @@ const FormAnt = () => {
       </Row>
       <Row justify="center" align="center">
         <Col span={20} offset={6}>
-          <Form.Item name="file">
-            <UploadAnt />
+          <Form.Item name="file" >
+            <UploadAnt/>
           </Form.Item>
         </Col>
       </Row>
