@@ -66,38 +66,119 @@
       "id": 10
     },
     {
-      "title": "phat",
-      "subject": "MAE103",
-      "type": "By hand",
+      "title": "PRF exam",
+      "subject": "PRF",
+      "type": "By computer",
       "content": "This is content",
       "status": true,
       "id": 11
     },
     {
-      "title": "PE nfd",
-      "subject": "PRM",
-      "type": "By computer",
+      "title": "New test",
+      "subject": "",
+      "status": true,
+      "id": 12
+    }
+  ],
+  "exams-schedule": [
+    {
+      "id": 2,
+      "title": "PRE PE exam",
+      "subject": "PRE",
+      "assignee": "HoaDNT",
+      "deadline": "2023-02-22",
+      "status": false
+    },
+    {
+      "id": 3,
+      "assignee": "HoaDNT",
+      "subject": "CSD",
+      "deadline": "2023-07-23",
+      "title": "CSD PE exam",
+      "content": "This is PE exam",
+      "status": true
+    },
+    {
+      "id": 4,
+      "title": "ADF PE exam",
+      "assignee": "HoaDNT",
+      "subject": "ADFgf",
+      "deadline": "2023-03-05",
+      "content": "This is PE exam",
+      "status": false
+    },
+    {
+      "id": 6,
+      "assignee": "HoaDNT",
+      "subject": "SVW",
+      "deadline": "2023-05-15",
+      "title": "SVW PE exam",
+      "content": "This is PE exam",
+      "status": true
+    },
+    {
+      "id": 7,
+      "title": "PRF exam",
+      "subject": "FGW",
+      "assignee": "HoangNT",
+      "deadline": "2023-03-13",
+      "status": true
+    },
+    {
+      "id": 8,
+      "title": "DQV PE exam",
+      "assignee": "HoaDNT",
+      "subject": "DQV",
+      "deadline": "2023-01-02",
+      "content": "This is PE exam",
+      "status": false
+    },
+    {
+      "title": "test",
+      "assignee": "HoaDNT",
+      "subject": "test",
+      "deadline": "2023-03-12",
       "content": "This is content",
+      "status": true,
+      "id": 10
+    },
+    {
+      "title": "Exam for PRJ",
+      "subject": "PRJ",
+      "assignee": "HoangNT",
+      "deadline": "2023-02-24",
+      "status": true,
+      "id": 11
+    },
+    {
+      "title": "PRF exam submission",
+      "subject": "PRJ",
+      "assignee": "HoaDNT",
+      "deadline": "2023-02-25",
       "status": true,
       "id": 12
     },
     {
-      "title": "PEKF",
-      "subject": "PRM",
-      "type": "By computer",
-      "content": "This is content",
-      "file": "https://firebasestorage.googleapis.com/v0/b/capstone-cft.appspot.com/o/PRM391.docx?alt=media&token=ddb56f2b-bd53-41f9-a1e9-d8d9eb128bcc",
-      "status": true,
-      "id": 13
-    },
-    {
-      "title": "THG",
-      "subject": "POP",
-      "type": "By hand",
-      "content": "This is content",
-      "file": null,
+      "title": "test",
+      "subject": "",
+      "deadline": "2023-03-03",
       "status": true,
       "id": 14
+    },
+    {
+      "title": "test",
+      "subject": "PRF",
+      "deadline": "2023-03-03",
+      "status": true,
+      "id": 15
+    },
+    {
+      "title": "Test",
+      "subject": "ASC",
+      "assignee": "HoaDNT",
+      "deadline": "2023-03-04",
+      "status": true,
+      "id": 16
     }
   ],
   "lecturers": [
@@ -182,7 +263,7 @@
       "subject": "BUE201",
       "slot": "3",
       "dateTime": "Monday-Thursday",
-      "processnote": "...",
+      "processNote": "...",
       "status": true,
       "createDate": "22/02/2023"
     },
