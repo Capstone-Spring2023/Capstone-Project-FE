@@ -72,6 +72,32 @@
       "content": "This is content",
       "status": true,
       "id": 11
+    },
+    {
+      "title": "PE nfd",
+      "subject": "PRM",
+      "type": "By computer",
+      "content": "This is content",
+      "status": true,
+      "id": 12
+    },
+    {
+      "title": "PEKF",
+      "subject": "PRM",
+      "type": "By computer",
+      "content": "This is content",
+      "file": "https://firebasestorage.googleapis.com/v0/b/capstone-cft.appspot.com/o/PRM391.docx?alt=media&token=ddb56f2b-bd53-41f9-a1e9-d8d9eb128bcc",
+      "status": true,
+      "id": 13
+    },
+    {
+      "title": "THG",
+      "subject": "POP",
+      "type": "By hand",
+      "content": "This is content",
+      "file": null,
+      "status": true,
+      "id": 14
     }
   ],
   "lecturers": [
