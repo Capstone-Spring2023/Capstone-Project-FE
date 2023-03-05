@@ -7,9 +7,9 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import axios from "axios";
 import "./GoogleButton.css";
 import Button from "react-bootstrap/Button";
-import { firebaseLoginConfig } from "../utils/constants";
+import { firebaseConfig } from "../utils/constants";
 
-const app = initializeApp(firebaseLoginConfig);
+const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
@@ -27,13 +27,11 @@ const Login = () => {
           },
         })
           .then((value) => {
-            console.log("VALUE", value);
             setIsLoginPage(false);
             setActiveMenu(true);
             localStorage.setItem("isLogin", "false");
             localStorage.setItem("isActiveMenu", "true");
             navigate("/overview");
-            console.log(result);
           })
           .catch((error) => {
             console.log(error);

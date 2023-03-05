@@ -13,7 +13,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { initializeApp } from "firebase/app";
-import { firebaseLoginConfig } from "../../utils/constants";
+import { firebaseConfig } from "../../utils/constants";
 import FormAnt from "./components/FormAnt";
 
 const ExamScheduleCreate = () => {
@@ -23,7 +23,7 @@ const ExamScheduleCreate = () => {
   const [status, setStatus] = useState(true);
   const [assignee, setAssignee] = useState("");
   const navigate = useNavigate();
-  const app = initializeApp(firebaseLoginConfig);
+  const app = initializeApp(firebaseConfig);
   const dropzoneRef = useRef(null);
   const storage = getStorage(app);
 

@@ -1,22 +1,12 @@
-import React, { useRef, useState, useDispatch } from "react";
-import {
-  Button,
-  Col,
-  DatePicker,
-  DatePickerProps,
-  Form,
-  Input,
-  Row,
-} from "antd";
+import React, { useRef, useState } from "react";
+import { Button, Col, Form, Input, message, Row } from "antd";
 import SelectAnt from "./SelectAnt";
 import UploadAnt from "./UploadAnt";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import SelectType from "./SelectType";
-import { message, Upload } from "antd";
-import { getDownloadURL, getStorage } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../firebase/firebase";
-import { ref, uploadBytesResumable } from "firebase/storage";
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -55,24 +45,32 @@ const FormAnt = (props) => {
     );
   };
 
-  const upLoadFileF = (e) => {
-    let file = e.target.files[0];
+  const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
     let fileRef = ref(storage, file.name);
     const uploadTask = uploadBytesResumable(fileRef, file);
-    uploadTask.on('state_changed', (snapshot) => {
-      const process = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log("Upload is" + process + "%done");
-    },
-      (err) => console.log(err),
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log(url);
-          localStorage.setItem("url",url);
-          setFile(url);
-        })
+    uploadTask.on(
+      "state_changed",
+      function progress(snapshot) {
+        onProgress(
+          {
+            percent:
+              Math.floor(
+                snapshot.bytesTransferred / snapshot.totalBytes
+              ).toFixed(2) * 100,
+          },
+          file
+        );
+      },
+      function error(err) {
+        onError(err, file);
+        message.error(`${file.name} file uploaded failed.`);
+      },
+      function complete() {
+        onSuccess(file);
+        message.success(`${file.name} file uploaded successfully.`);
       }
-    )
-        };
+    );
+  };
 
   const handleSubject = (value) => {
     setSubject(value);
@@ -94,7 +92,7 @@ const FormAnt = (props) => {
       }}
       initialValues={{
         remember: true,
-        myField: 'default value'
+        myField: "default value",
       }}
       onFinish={handleSubmit}
       onFinishFailed={onFinishFailed}
@@ -161,8 +159,8 @@ const FormAnt = (props) => {
       </Row>
       <Row justify="center" align="center">
         <Col span={20} offset={6}>
-          <Form.Item name="file" onChange={upLoadFileF}>
-            <UploadAnt />
+          <Form.Item name="file">
+            <UploadAnt uploadFile={upLoadFile} />
           </Form.Item>
         </Col>
       </Row>

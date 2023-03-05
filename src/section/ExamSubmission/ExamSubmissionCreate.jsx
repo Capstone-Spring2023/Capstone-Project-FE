@@ -11,11 +11,11 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import Dropzone from "dropzone";
 import "dropzone/dist/dropzone.css";
 import { useDropzone } from 'react-dropzone';
-import {firebaseLoginConfig} from "../../utils/constants";
+import {firebaseConfig} from "../../utils/constants";
 import FormAnt from "./components/FormAnt";
 // import axios from "axios";
 
-const app = initializeApp(firebaseLoginConfig);
+const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const storage = getStorage(app);
