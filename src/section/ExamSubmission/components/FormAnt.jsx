@@ -1,17 +1,27 @@
-import React, { useRef, useState } from "react";
-import { Button, Col, Form, Input, Row } from "antd";
+import React, { useRef, useState, useDispatch } from "react";
+import {
+  Button,
+  Col,
+  DatePicker,
+  DatePickerProps,
+  Form,
+  Input,
+  Row,
+} from "antd";
 import SelectAnt from "./SelectAnt";
 import UploadAnt from "./UploadAnt";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import SelectType from "./SelectType";
-import { ref, uploadBytesResumable } from "firebase/storage";
+import { message, Upload } from "antd";
+import { getDownloadURL, getStorage } from 'firebase/storage';
 import { storage } from "../../../firebase/firebase";
+import { ref, uploadBytesResumable } from "firebase/storage";
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
-const FormAnt = () => {
+const FormAnt = (props) => {
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("");
   const [type, setType] = useState("");
@@ -19,13 +29,11 @@ const FormAnt = () => {
   const [content, setContent] = useState("This is content");
   const navigate = useNavigate();
   const dropzoneRef = useRef(null);
-  const [file, setFile] = useState(null);
-  const [progress, setProgress] = useState(0);
+  const [file, setFile] = useState("");
 
-  const handleSubmit = (e) => {
-    console.log("FILE", e);
-    const examData = { title, subject, status };
-    console.log({ title, subject, status });
+  const handleSubmit = () => {
+    const examData = { title, subject, status, file };
+    console.log({ title, subject, status, file });
     toast.promise(
       fetch("http://localhost:8000/exams", {
         method: "POST",
@@ -46,19 +54,25 @@ const FormAnt = () => {
       }
     );
   };
-  const upLoadFile = (file) => {
-    if (!file) return;
-    const storageRef = ref(storage, `/files/${file.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
 
-    uploadTask.on("state_changed", (snapshot) => {
-      const prog = Math.round(
-        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-      );
-
-      setProgress(prog);
-    });
-  };
+  const upLoadFileF = (e) => {
+    let file = e.target.files[0];
+    let fileRef = ref(storage, file.name);
+    const uploadTask = uploadBytesResumable(fileRef, file);
+    uploadTask.on('state_changed', (snapshot) => {
+      const process = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log("Upload is" + process + "%done");
+    },
+      (err) => console.log(err),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          console.log(url);
+          localStorage.setItem("url",url);
+          setFile(url);
+        })
+      }
+    )
+        };
 
   const handleSubject = (value) => {
     setSubject(value);
@@ -80,6 +94,7 @@ const FormAnt = () => {
       }}
       initialValues={{
         remember: true,
+        myField: 'default value'
       }}
       onFinish={handleSubmit}
       onFinishFailed={onFinishFailed}
@@ -146,7 +161,7 @@ const FormAnt = () => {
       </Row>
       <Row justify="center" align="center">
         <Col span={20} offset={6}>
-          <Form.Item name="file">
+          <Form.Item name="file" onChange={upLoadFileF}>
             <UploadAnt />
           </Form.Item>
         </Col>
