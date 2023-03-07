@@ -126,12 +126,12 @@ const App = () => {
                         <NotiFirebase />
                         <DashboardLazy />
                         {show ? (
-                          <NotiPopup
-                            title={notification.title}
-                            body={notification.body}
-                          />
+                            <NotiPopup
+                                title={notification.title}
+                                body={notification.body}
+                            />
                         ) : (
-                          <></>
+                            <></>
                         )}
                       </>
                     }

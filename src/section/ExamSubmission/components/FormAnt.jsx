@@ -7,11 +7,12 @@ import { toast } from "react-hot-toast";
 import SelectType from "./SelectType";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../firebase/firebase";
+import { unrar } from "unrar-js";
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
-const FormAnt = (props) => {
+const FormAnt = () => {
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("");
   const [type, setType] = useState("");

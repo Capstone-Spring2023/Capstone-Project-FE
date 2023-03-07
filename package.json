@@ -43,6 +43,7 @@
     "react-toastify": "^9.1.1",
     "reactjs-popup": "^2.0.5",
     "redux": "^4.2.1",
+    "unrar-js": "^0.2.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
