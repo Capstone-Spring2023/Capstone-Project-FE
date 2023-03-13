@@ -5,9 +5,8 @@ import UploadAnt from "./UploadAnt";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import SelectType from "./SelectType";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import {getStorage,listAll,uploadBytes, getDownloadURL, ref, uploadBytesResumable, getMetadata, getBlob } from "firebase/storage";
 import { storage } from "../../../firebase/firebase";
-import { unrar } from "unrar-js";
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -46,8 +45,9 @@ const FormAnt = () => {
     );
   };
 
-  const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
-    let fileRef = ref(storage, file.name);
+  const upLoadFile =async ({ onSuccess, onProgress, onError, file }) => {
+    // let fileRef = ref(storage, file.name);
+    let fileRef = ref(storage, `/${sessionStorage.getItem("email")}/PE1/${file.name}`);
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(
       "state_changed",
@@ -68,6 +68,78 @@ const FormAnt = () => {
       },
       function complete() {
         onSuccess(file);
+        // getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+        //   console.log(url);
+        //   localStorage.setItem("url", url);
+        //   setFile(url);
+        // })
+        setFile(`gs://capstone-cft.appspot.com/${sessionStorage.getItem("email")}/PE1`);
+        message.success(`${file.name} file uploaded successfully.`);
+      }
+    );
+  };
+
+  const upLoadFile2 =async ({ onSuccess, onProgress, onError, file }) => {
+    // let fileRef = ref(storage, file.name);
+    let fileRef = ref(storage, `/${sessionStorage.getItem("email")}/PE1/Given/${file.name}`);
+    const uploadTask = uploadBytesResumable(fileRef, file);
+    uploadTask.on(
+      "state_changed",
+      function progress(snapshot) {
+        onProgress(
+          {
+            percent:
+              Math.floor(
+                snapshot.bytesTransferred / snapshot.totalBytes
+              ).toFixed(2) * 100,
+          },
+          file
+        );
+      },
+      function error(err) {
+        onError(err, file);
+        message.error(`${file.name} file uploaded failed.`);
+      },
+      function complete() {
+        onSuccess(file);
+        // getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+        //   console.log(url);
+        //   localStorage.setItem("url", url);
+        //   setFile(url);
+        // })
+        message.success(`${file.name} file uploaded successfully.`);
+      }
+    );
+  };
+
+  const upLoadFile3 =async ({ onSuccess, onProgress, onError, file }) => {
+    // let fileRef = ref(storage, file.name);
+    let fileRef = ref(storage, `/${sessionStorage.getItem("email")}/PE1/Testcase/${file.name}`);
+    const uploadTask = uploadBytesResumable(fileRef, file);
+    uploadTask.on(
+      "state_changed",
+      function progress(snapshot) {
+        onProgress(
+          {
+            percent:
+              Math.floor(
+                snapshot.bytesTransferred / snapshot.totalBytes
+              ).toFixed(2) * 100,
+          },
+          file
+        );
+      },
+      function error(err) {
+        onError(err, file);
+        message.error(`${file.name} file uploaded failed.`);
+      },
+      function complete() {
+        onSuccess(file);
+        // getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+        //   console.log(url);
+        //   localStorage.setItem("url", url);
+        //   setFile(url);
+        // })
         message.success(`${file.name} file uploaded successfully.`);
       }
     );
@@ -158,10 +230,27 @@ const FormAnt = () => {
           </Form.Item>
         </Col>
       </Row>
+      <Row justify="center" align="center"><h1>Upload .docx</h1></Row>
+      <Row justify="center" align="center">
+        <Col span={20} offset={6}>
+          <Form.Item name="file" accept=".docx">
+            <UploadAnt uploadFile={upLoadFile} />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row justify="center" align="center"><h1>Upload .pdf</h1></Row>
+      <Row justify="center" align="center">
+        <Col span={20} offset={6}>
+          <Form.Item name="file" accept="application/pdf">
+            <UploadAnt uploadFile={upLoadFile2} />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row justify="center" align="center"><h1>Upload .txt</h1></Row>
       <Row justify="center" align="center">
         <Col span={20} offset={6}>
           <Form.Item name="file">
-            <UploadAnt uploadFile={upLoadFile} />
+            <UploadAnt uploadFile={upLoadFile3} accept=".txt"/>
           </Form.Item>
         </Col>
       </Row>

@@ -45,7 +45,7 @@ const ExamSchedule = () => {
   }, []);
 
   const fetchTable = () => {
-    fetch("http://localhost:8000/exams-schedule")
+    fetch("https://fpt-cft.azurewebsites.net/api/leader/examSchedule/getAllExamSchedule")
       .then((res) => {
         return res.json();
       })
@@ -109,9 +109,9 @@ const ExamSchedule = () => {
                   </div>
                   <div className="text-sm">
                     <div className="font-medium text-gray-700">
-                      Assign: {item.assignee}
+                      Assign: {item.userId}
                     </div>
-                    <div className="text-gray-400">Subject: {item.subject}</div>
+                    <div className="text-gray-400">Subject: {item.subjectId}</div>
                   </div>
                 </td>
                 <td className="px-3 py-3">{item.title}</td>

@@ -27,8 +27,10 @@
     "bootstrap": "^5.2.3",
     "bootstrap-css-only": "^4.4.1",
     "dropzone": "^6.0.0-beta.2",
+    "file-saver": "^2.0.5",
     "firebase": "^9.17.1",
     "gapi-script": "^1.2.0",
+    "jszip": "^3.10.1",
     "mdb-react-ui-kit": "^5.1.0",
     "mdbreact": "^5.2.0",
     "react": "^18.2.0",
@@ -43,7 +45,6 @@
     "react-toastify": "^9.1.1",
     "reactjs-popup": "^2.0.5",
     "redux": "^4.2.1",
-    "unrar-js": "^0.2.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

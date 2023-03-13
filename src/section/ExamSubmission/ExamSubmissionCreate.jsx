@@ -65,24 +65,24 @@ const ExamSubmissionCreate = () => {
   //   });
   // })
 
-  const onInputChange = (e) => {
-    let file = e.target.files[0];
-    let fileRef = ref(storage, file.name);
-    const uploadTask = uploadBytesResumable(fileRef, file);
-    uploadTask.on('state_changed', (snapshot) => {
-      const process = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log("Upload is" + process + "%done");
-    },
-      (err) => console.log(err),
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log(url);
-          localStorage.setItem("url",url);
-          setFile(url);
-        })
-      }
-    )
-  };
+  // const onInputChange = (e) => {
+  //   let file = e.target.files[0];
+  //   let fileRef = ref(storage, file.name);
+  //   const uploadTask = uploadBytesResumable(fileRef, file);
+  //   uploadTask.on('state_changed', (snapshot) => {
+  //     const process = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //     console.log("Upload is" + process + "%done");
+  //   },
+  //     (err) => console.log(err),
+  //     () => {
+  //       getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+  //         console.log(url);
+  //         localStorage.setItem("url",url);
+  //         setFile(url);
+  //       })
+  //     }
+  //   )
+  // };
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">

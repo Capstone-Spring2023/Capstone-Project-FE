@@ -20,10 +20,9 @@ const ExamSubmission = () => {
   const handleDelete = (id) => {
     if (window.confirm("Do you want to delete?")) {
       toast.promise(
-        fetch("http://localhost:8000/exams/" + id, {
+        fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/" + id, {
           method: "DELETE",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(examData),
+          headers: { "content-type": "application/json" }
         })
           .then((res) => {
             fetchTable();
@@ -45,7 +44,7 @@ const ExamSubmission = () => {
   }, []);
 
   const fetchTable = () => {
-    fetch("http://localhost:8000/exams")
+    fetch("https://fpt-cft.azurewebsites.net/v1/api/exams?pageIndex=1")
       .then((res) => {
         return res.json();
       })
@@ -84,7 +83,7 @@ const ExamSubmission = () => {
               <th scope="col" className="px-3 py-3 font-medium text-gray-900">
                 Title
               </th>
-              <th scope="col" className="px-3 py-3 font-medium text-gray-900">
+              <th scope="col"className="px-3 py-3 font-medium text-gray-900">
                 Content
               </th>
               <th scope="col" className="px-3 py-3 font-medium text-gray-900">
@@ -112,30 +111,30 @@ const ExamSubmission = () => {
                   </div>
                   <div className="text-sm">
                     <div className="font-medium text-gray-700">
-                      ID: {item.id}
+                      ID: {item.examId}
                     </div>
                     <div className="text-gray-400">Subject: {item.subject}</div>
                   </div>
                 </td>
                 <td className="px-3 py-3">{item.title}</td>
-                <td className="px-3 py-3">{item.content}</td>
+                <td className="px-3 py-3">{item.examContent}</td>
                 <td className="px-3 py-3">
                   <span
                     className={`inline-flex items-center gap-1 rounded-full ${
-                      item.status
+                      item.isApproved
                         ? "bg-green-50 text-green-600"
                         : "bg-red-50 text-red-600"
                     }  px-2 py-1 text-xs font-semibold`}
                   >
                     <span
                       className={`h-1.5 w-1.5 rounded-full ${
-                        item.status ? "bg-green-600" : "bg-red-600"
+                        item.isApproved ? "bg-green-600" : "bg-red-600"
                       }`}
                     ></span>
-                    {item.status ? "Approved" : "Rejected"}
+                    {item.isApproved ? "Approved" : "Rejected"}
                   </span>
                 </td>
-                <td className="px-3 py-3">{item.type}</td>
+                <td className="px-3 py-3">{item.typeName}</td>
                 <td className="px-6 py-4">
                   <div className="flex justify-start gap-4">
                     <TooltipComponent content="Edit" position="BottomCenter">
