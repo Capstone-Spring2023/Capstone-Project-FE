@@ -86,7 +86,6 @@ const ModalAnt = ({ title }) => {
     saveAs(zipBlob, "PE1.zip");
     setIsDownloading(false);
   };
-
   
   return (
     <>
