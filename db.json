@@ -78,6 +78,41 @@
       "subject": "",
       "status": true,
       "id": 12
+    },
+    {
+      "title": "PLM",
+      "subject": "",
+      "status": true,
+      "file": "",
+      "id": 13
+    },
+    {
+      "title": "PLOK",
+      "subject": "",
+      "status": true,
+      "file": "https://firebasestorage.googleapis.com/v0/b/capstone-cft.appspot.com/o/Assi2_Practice_Chap4_LMS.pdf?alt=media&token=80deea85-5be6-4b86-b2c5-d3d595df2331",
+      "id": 14
+    },
+    {
+      "title": "TestPLM",
+      "subject": "",
+      "status": true,
+      "file": "",
+      "id": 15
+    },
+    {
+      "title": "Test2PLK",
+      "subject": "",
+      "status": true,
+      "file": "gs://capstone-cft.appspot.com/${sessionStorage.getItem(\"email\")}/PE1",
+      "id": 16
+    },
+    {
+      "title": "Test3PLO",
+      "subject": "",
+      "status": true,
+      "file": "gs://capstone-cft.appspot.com/phatntse140192@fpt.edu.vn/PE1",
+      "id": 17
     }
   ],
   "exams-schedule": [

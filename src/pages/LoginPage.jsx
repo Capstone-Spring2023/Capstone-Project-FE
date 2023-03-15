@@ -27,6 +27,9 @@ const Login = () => {
           },
         })
           .then((value) => {
+            console.log(result);
+            sessionStorage.setItem("email",result.user.email);
+            console.log(sessionStorage.getItem("email"));
             setIsLoginPage(false);
             setActiveMenu(true);
             localStorage.setItem("isLogin", "false");

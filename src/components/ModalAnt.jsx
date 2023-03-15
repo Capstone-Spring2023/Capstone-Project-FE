@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Badge, Button, Descriptions, Modal } from "antd";
 import "./GoogleButton.css";
 import { InfoOutlined } from "@ant-design/icons";
-import JSZip from "jszip";
-import { saveAs } from "file-saver";
 import {
   getDownloadURL,
   getMetadata,
@@ -11,6 +9,8 @@ import {
   listAll,
   ref,
 } from "firebase/storage";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 
 const ModalAnt = ({ title }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,8 +20,11 @@ const ModalAnt = ({ title }) => {
   const handleOk = () => {
     setIsModalOpen(false);
   };
+  const [isZipping, setIsZipping] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const downloadFolderAsZip = async () => {
+    setIsZipping(true);
     const jszip = new JSZip();
     const storage = getStorage();
     const folderRef = ref(storage, "baopgse140382@fpt.edu.vn/PE1");
@@ -34,11 +37,17 @@ const ModalAnt = ({ title }) => {
       .map(async (item) => {
         const file = await getMetadata(item);
         const fileRef = ref(storage, item.fullPath);
+        console.log("FILE", file);
+        console.log("FILEREF", fileRef);
         const fileBlob = await getDownloadURL(fileRef).then((url) => {
           return fetch(`https://gentle-temple-68806.herokuapp.com/${url}`).then(
             (response) => response.blob()
           );
         });
+        console.log("FILEBLOB", fileBlob);
+        console.log("FOLDER", folder.prefixes[0]._location.path);
+        jszip.folder("Given/");
+        jszip.folder("Test_Case/");
         jszip.file(file.name, fileBlob);
       })
       .reduce((acc, curr) => acc.then(() => curr), Promise.resolve());
@@ -71,10 +80,13 @@ const ModalAnt = ({ title }) => {
       })
       .reduce((acc, curr) => acc.then(() => curr), Promise.resolve());
     await promises3;
+    setIsZipping(false);
+    setIsDownloading(true);
     const zipBlob = await jszip.generateAsync({ type: "blob" });
-    saveAs(zipBlob, "download.zip");
+    saveAs(zipBlob, "PE1.zip");
+    setIsDownloading(false);
   };
-
+  
   return (
     <>
       <InfoOutlined
@@ -101,17 +113,14 @@ const ModalAnt = ({ title }) => {
           </Descriptions.Item>
           <Descriptions.Item label="Type">By computer</Descriptions.Item>
           <Descriptions.Item label="File">
-            <a onClick={downloadFolderAsZip} className="container">
-              <div className="row align-items-center">
-                <div className="col-auto">
-                  <img
-                    src="https://banner2.cleanpng.com/20180611/wc/kisspng-computer-icons-file-explorer-internet-explorer-5b1e670f8e8603.7503591815287191195838.jpg"
-                    className="img-thumbnail rounded img-size"
-                    alt="Responsive image"
-                  />
-                </div>
+          <a className="container" onClick={downloadFolderAsZip}>
+            <div className="row align-items-center">
+              <div className="col-auto">
+                <img src="https://banner2.cleanpng.com/20180611/wc/kisspng-computer-icons-file-explorer-internet-explorer-5b1e670f8e8603.7503591815287191195838.jpg" class="img-thumbnail rounded img-size" alt="Responsive image" />
               </div>
-            </a>
+            </div>
+            {isZipping && <div>Đang tải file...</div>}
+          </a>
           </Descriptions.Item>
         </Descriptions>
       </Modal>
