@@ -46,6 +46,7 @@ const App = () => {
   } = useStateContext();
   const ExamsSubmission = lazy(() => import("./pages/ExamSubmission"));
   const ExamsSchedule = lazy(() => import("./pages/ExamSchedule"));
+  const ExamsScheduleView = lazy(() => import("./pages/ExamScheduleView"));
   const ExamsSubmissionView = lazy(() => import("./pages/ExamSubmissionView"));
   const DashboardLazy = lazy(() => import("./pages/Dashboard"));
   const [notification, setNotification] = useState({ title: "", body: "" });
@@ -143,6 +144,7 @@ const App = () => {
                     element={<ExamsSubmission />}
                   />
                   <Route path="/exam-schedule" element={<ExamsSchedule />} />
+                  <Route path="/exam-schedule-view" element={<ExamsScheduleView />} />
                   <Route
                     path="/exam-submission-view"
                     element={<ExamSubmissionView />}

@@ -41,6 +41,10 @@ export const links = [
         icon: <BiNotepad />,
       },
       {
+        name: "exam-schedule-view",
+        icon: <BiNotepad />,
+      },
+      {
         name: "exam-submission",
         icon: <GiNotebook />,
       },
