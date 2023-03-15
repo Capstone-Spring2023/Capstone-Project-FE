@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { Badge, Button, Descriptions, Modal } from "antd";
-import './GoogleButton.css';
+import "./GoogleButton.css";
 import { InfoOutlined } from "@ant-design/icons";
-import {getStorage,listAll, getDownloadURL, ref, getMetadata } from "firebase/storage";
+import {
+  getDownloadURL,
+  getMetadata,
+  getStorage,
+  listAll,
+  ref,
+} from "firebase/storage";
 import JSZip from "jszip";
-import {saveAs} from "file-saver";
+import { saveAs } from "file-saver";
 
 const ModalAnt = ({ title }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,11 +37,17 @@ const ModalAnt = ({ title }) => {
       .map(async (item) => {
         const file = await getMetadata(item);
         const fileRef = ref(storage, item.fullPath);
+        console.log("FILE", file);
+        console.log("FILEREF", fileRef);
         const fileBlob = await getDownloadURL(fileRef).then((url) => {
           return fetch(`https://gentle-temple-68806.herokuapp.com/${url}`).then(
             (response) => response.blob()
           );
         });
+        console.log("FILEBLOB", fileBlob);
+        console.log("FOLDER", folder.prefixes[0]._location.path);
+        jszip.folder("Given/");
+        jszip.folder("Test_Case/");
         jszip.file(file.name, fileBlob);
       })
       .reduce((acc, curr) => acc.then(() => curr), Promise.resolve());
