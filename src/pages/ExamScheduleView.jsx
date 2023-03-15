@@ -56,9 +56,6 @@ const ExamScheduleView = () => {
                 Status
               </th>
               <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                Sample Topic 
-              </th>
-              <th scope="col" className="px-3 py-3 font-medium text-gray-900">
                 Deadline
               </th>
               <th scope="col" className="px-6 py-4 font-medium text-gray-900">
@@ -102,10 +99,9 @@ const ExamScheduleView = () => {
                     {item.status ? "Active" : "Inactive"}
                   </span>
                 </td>
-                <td className="px-3 py-3">{item.sTopic}</td>
                 <td className="px-3 py-3">{item.deadline}</td>
                 <td className="px-6 py-4">
-                  <div className="flex justify-start gap-4 content-center items-center">
+                  <div className="flex justify-center gap-4 content-center items-center">
                     <Tooltip title="Info">
                       <ConfigProvider
                         theme={{

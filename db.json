@@ -5,6 +5,7 @@
       "title": "PRE PE exam",
       "subject": "PRE",
       "type": "By computer",
+      "comment": "Do again",
       "content": "This is PE exam",
       "file": "type",
       "status": false
@@ -22,6 +23,7 @@
       "title": "ADF PE exam",
       "subject": "ADF",
       "type": "By computer",
+      "comment": "Do again",
       "content": "This is PE exam",
       "status": false
     },
@@ -30,6 +32,7 @@
       "subject": "FSD",
       "type": "By computer",
       "title": "FSD PE exam",
+      "comment": "Do again",
       "content": "This is PE exam",
       "status": false
     },
@@ -54,6 +57,7 @@
       "title": "DQV PE exam",
       "subject": "DQV",
       "type": "By computer",
+      "comment": "Do again",
       "content": "This is PE exam",
       "status": false
     },
@@ -113,6 +117,13 @@
       "status": true,
       "file": "gs://capstone-cft.appspot.com/phatntse140192@fpt.edu.vn/PE1",
       "id": 17
+    },
+    {
+      "title": "Ttile",
+      "subject": "",
+      "status": true,
+      "file": "gs://capstone-cft.appspot.com/baopgse140382@fpt.edu.vn/PE1",
+      "id": 18
     }
   ],
   "exams-schedule": [
@@ -216,15 +227,15 @@
       "id": 16
     }
   ],
-  "exams-schedule-view":[
+  "exams-schedule-view": [
     {
-      "id": 2,
+      "id": 1,
       "title": "PRE PE exam",
       "subject": "PRE",
       "assignee": "HoaDNT",
       "deadline": "2023-02-22",
-      "sTopic":"de mau",
-      "status": false
+      "sTopic": "de mau",
+      "status": true
     }
   ],
   "lecturers": [

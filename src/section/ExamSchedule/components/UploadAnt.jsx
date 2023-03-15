@@ -1,7 +1,7 @@
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
-import {ref, uploadBytesResumable} from "firebase/storage";
-import {storage} from "../../../firebase/firebase";
+import { ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../../firebase/firebase";
 
 const { Dragger } = Upload;
 
@@ -11,26 +11,26 @@ const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
   const uploadTask = uploadBytesResumable(storageRef, file);
 
   uploadTask.on(
-      "state_changed",
-      function progress(snapshot) {
-        onProgress(
-            {
-              percent:
-                  Math.floor(snapshot.bytesTransferred / snapshot.totalBytes).toFixed(
-                      2
-                  ) * 100,
-            },
-            file
-        );
-      },
-      function error(err) {
-        onError(err, file);
-        message.error(`${file.name} file uploaded failed.`);
-      },
-      function complete() {
-        onSuccess(file);
-        message.success(`${file.name} file uploaded successfully.`);
-      }
+    "state_changed",
+    function progress(snapshot) {
+      onProgress(
+        {
+          percent:
+            Math.floor(snapshot.bytesTransferred / snapshot.totalBytes).toFixed(
+              2
+            ) * 100,
+        },
+        file
+      );
+    },
+    function error(err) {
+      onError(err, file);
+      message.error(`${file.name} file uploaded failed.`);
+    },
+    function complete() {
+      onSuccess(file);
+      message.success(`${file.name} file uploaded successfully.`);
+    }
   );
 };
 
