@@ -216,6 +216,17 @@
       "id": 16
     }
   ],
+  "exams-schedule-view":[
+    {
+      "id": 2,
+      "title": "PRE PE exam",
+      "subject": "PRE",
+      "assignee": "HoaDNT",
+      "deadline": "2023-02-22",
+      "sTopic":"de mau",
+      "status": false
+    }
+  ],
   "lecturers": [
     {
       "fullName": "Nguyen Tan Phat",
