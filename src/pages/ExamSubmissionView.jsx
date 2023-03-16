@@ -13,13 +13,14 @@ const ExamSubmissionView = () => {
   const [page, setPage] = useState(1);
   const [examData, setExamData] = useState([{}]);
   const { slice, range } = useTable(examData, page, 5);
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     fetchTable();
   }, []);
 
   const fetchTable = () => {
-    fetch("http://localhost:8000/exams")
+    fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/leader/2?pageIndex=1")
       .then((res) => {
         return res.json();
       })
@@ -29,6 +30,48 @@ const ExamSubmissionView = () => {
       .catch((err) => {
         console.log(err.message);
       });
+  };
+
+  const approve = (id) => {
+    // fetch(`https://fpt-cft.azurewebsites.net/v1/api/exams/review-exam/${id}`, {
+      fetch(`https://fpt-cft.azurewebsites.net/v1/api/exams/review-exam/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ approved: true })
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Cập nhật trạng thái của items sau khi approve thành công
+      setItems(items.map(item => {
+        if (item.id === id) {
+          return { ...item, approved: true };
+        } else {
+          return item;
+        }
+      }));
+    })
+    .catch(error => console.log(error));
+  };
+
+  // Hàm gọi API reject
+  const reject = (id) => {
+    fetch(`/api/reject/${id}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ approved: false })
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Cập nhật trạng thái của items sau khi reject thành công
+      setItems(items.map(item => {
+        if (item.id === id) {
+          return { ...item, approved: false };
+        } else {
+          return item;
+        }
+      }));
+    })
+    .catch(error => console.log(error));
   };
 
   return (
@@ -51,10 +94,10 @@ const ExamSubmissionView = () => {
                 Title
               </th>
               <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                Status
+                Type
               </th>
               <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                Type
+                Status
               </th>
               <th scope="col" className="px-6 py-4 font-medium text-gray-900">
                 Actions
@@ -75,12 +118,13 @@ const ExamSubmissionView = () => {
                   </div>
                   <div className="text-sm">
                     <div className="font-medium text-gray-700">
-                      ID: {item.id}
+                      Lecturer: {item.examPaperId}
                     </div>
-                    <div className="text-gray-400">Subject: {item.subject}</div>
+                    <div className="text-gray-400">Subject: {item.registerSubjectId}</div>
                   </div>
                 </td>
-                <td className="px-3 py-3">{item.title}</td>
+                <td className="px-3 py-3" title="{item.examContent}">{item.examContent?.substring(0,5)}...</td>
+                <td className="px-3 py-3">{item.type}</td>
                 <td className="px-3 py-3">
                   <span
                     className={`inline-flex items-center gap-1 rounded-full ${item.status
@@ -95,11 +139,11 @@ const ExamSubmissionView = () => {
                     {item.status ? "Active" : "Inactive"}
                   </span>
                 </td>
-                <td className="px-3 py-3">{item.type}</td>
                 <td className="px-6 py-4">
                   <div className="flex justify-start gap-4 content-center items-center">
                     <TooltipComponent content="Approve" position="BottomCenter">
-                      <a>
+                      {/* <a onClick={() => approve(item.id)}> */}
+                      <a onClick={() => approve(2)}>
                         <svg
                           className="svg-icon"
                           viewBox="0 0 20 20"

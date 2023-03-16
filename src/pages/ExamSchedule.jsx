@@ -45,12 +45,12 @@ const ExamSchedule = () => {
   }, []);
 
   const fetchTable = () => {
-    fetch("https://fpt-cft.azurewebsites.net/api/leader/examSchedule/getAllExamSchedule")
+    fetch("https://fpt-cft.azurewebsites.net/api/leader/examSchedule/getAllExamSchedule?leaderId=2")
       .then((res) => {
         return res.json();
       })
       .then((resp) => {
-        setExamScheduleData(resp);
+        setExamScheduleData(resp.data);
       })
       .catch((err) => {
         console.log(err.message);
@@ -111,10 +111,10 @@ const ExamSchedule = () => {
                     <div className="font-medium text-gray-700">
                       Assign: {item.userId}
                     </div>
-                    <div className="text-gray-400">Subject: {item.subjectId}</div>
+                    <div className="text-gray-400">Subject: {item.registerSubjectId}</div>
                   </div>
                 </td>
-                <td className="px-3 py-3">{item.title}</td>
+                <td className="px-3 py-3">{item.tittle}</td>
                 <td className="px-3 py-3">
                   <span
                     className={`inline-flex items-center gap-1 rounded-full ${

@@ -25,7 +25,7 @@ const FormAnt = () => {
     const examData = { title, subject, status, file };
     console.log({ title, subject, status, file });
     toast.promise(
-      fetch("http://localhost:8000/exams", {
+      fetch("https://fpt-cft.azurewebsites.net/v1/api/exams", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(examData),
