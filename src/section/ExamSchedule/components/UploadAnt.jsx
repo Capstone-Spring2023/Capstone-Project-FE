@@ -1,37 +1,47 @@
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
-import { ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../firebase/firebase";
-
+import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import {getDownloadURL } from 'firebase/storage';
 const { Dragger } = Upload;
 
 const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
   if (!file) return;
-  const storageRef = ref(storage, `/sample/${file.name}`);
-  const uploadTask = uploadBytesResumable(storageRef, file);
-
-  uploadTask.on(
-    "state_changed",
-    function progress(snapshot) {
-      onProgress(
-        {
-          percent:
-            Math.floor(snapshot.bytesTransferred / snapshot.totalBytes).toFixed(
-              2
-            ) * 100,
-        },
-        file
-      );
-    },
-    function error(err) {
-      onError(err, file);
-      message.error(`${file.name} file uploaded failed.`);
-    },
-    function complete() {
-      onSuccess(file);
-      message.success(`${file.name} file uploaded successfully.`);
-    }
-  );
+  const storage = getStorage();
+    let fileRef = ref(
+      storage,
+      `/${sessionStorage.getItem("email")}/ExamSchedule/${file.name}`
+    );
+    const uploadTask = uploadBytesResumable(fileRef, file);
+    uploadTask.on(
+      "state_changed",
+      function progress(snapshot) {
+        onProgress(
+          {
+            percent:
+              Math.floor(snapshot.bytesTransferred / snapshot.totalBytes).toFixed(
+                2
+              ) * 100,
+          },
+          file
+        );
+      },
+      function error(err) {
+        onError(err, file);
+        message.error(`${file.name} file uploaded failed.`);
+      },
+      function complete() {
+        onSuccess(file);
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          console.log(url);
+          localStorage.setItem('url', url);
+          message.success(`${file.name} file uploaded successfully.`);
+        }).catch((error) => {
+          console.log(error);
+          message.error(`${file.name} file uploaded failed.`);
+        });
+      }
+    );
 };
 
 const UploadAnt = () => (
