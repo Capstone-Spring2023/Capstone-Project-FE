@@ -8,15 +8,31 @@ import { toast } from "react-hot-toast";
 
 const Popup = ({ title, fetchTable, id }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [commentContent, setCommentContent] = useState("");
+const handleCommentChange = (event) => {
+  setCommentContent(event.target.value);
+};
   const showModal = () => {
     setIsModalOpen(true);
   };
   const handleOk = () => {
     setIsModalOpen(false);
+    const data = {
+      commentModel: {
+        leaderId: 2,
+        examPaperId: id,
+        // commentContent: commentContent
+        commentContent: "string"
+      },
+      examUpdateApproveModel: {
+        isApproved: false
+      }
+    };
     toast.promise(
-      fetch("http://localhost:8000/exams/" + id, {
-        method: "DELETE",
-        headers: { "content-type": "application/json" },
+      fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/review-exam", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
       })
         .then((resp) => {
           fetchTable();
@@ -25,7 +41,7 @@ const Popup = ({ title, fetchTable, id }) => {
           console.log(err.message);
         }),
       {
-        loading: "Rejecting...",
+        loading: "Approving...",
         success: <b>Reject successfully</b>,
         error: <b>Reject fail</b>,
       }
@@ -60,7 +76,7 @@ const Popup = ({ title, fetchTable, id }) => {
           </Button>,
         ]}
       >
-        <TextArea rows={4} />
+        <TextArea rows={4} value={commentContent} onChange={handleCommentChange}/>
       </Modal>
     </>
   );

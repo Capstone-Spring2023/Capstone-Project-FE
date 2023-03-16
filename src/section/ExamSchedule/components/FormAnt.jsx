@@ -7,28 +7,33 @@ import {
   Form,
   Input,
   Row,
+  message
 } from "antd";
 import SelectAnt from "./SelectAnt";
 import UploadAnt from "./UploadAnt";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import { getDownloadURL } from 'firebase/storage';
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 const FormAnt = () => {
-  const [title, setTitle] = useState("");
+  const [tittle, setTitle] = useState("");
   const [subject, setSubject] = useState("");
   const [deadline, setDeadline] = useState("");
   const [status, setStatus] = useState(true);
   const [assignee, setAssignee] = useState("HoaDNT");
+  const [examLink, setExamLink] = useState(null);
+  const [typeId, setTypeID] = useState("1");
   const navigate = useNavigate();
-
   const onFinish = () => {
-    const examScheduleData = { title, subject, assignee, deadline, status };
+    // const examScheduleData = { tittle, subject, assignee, deadline, examLink };
+    const examScheduleData = { tittle, deadline, examLink, typeId };
     console.log("Data", examScheduleData);
     toast.promise(
-      fetch("http://localhost:8000/exams-schedule", {
+      fetch("https://fpt-cft.azurewebsites.net/api/leader/exams-schedule?availableId=" + subject, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(examScheduleData),
@@ -52,6 +57,7 @@ const FormAnt = () => {
   const handleSubject = (value) => {
     setSubject(value);
   };
+
   return (
     <Form
       name="basic"
@@ -122,8 +128,8 @@ const FormAnt = () => {
       </Row>
       <Row justify="center" align="center">
         <Col span={20} offset={6}>
-          <Form.Item name="file">
-            <UploadAnt />
+          <Form.Item name="file" accept=".docx">
+            <UploadAnt description="Please only upload file with type docx" />
           </Form.Item>
         </Col>
       </Row>

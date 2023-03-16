@@ -19,12 +19,45 @@ const ExamSubmissionView = () => {
     fetchTable();
   }, []);
 
+  // const handleApprove = (id) => {
+  //   if (window.confirm("Do you want to approve this exam?")) {
+  //     toast.promise(
+  //       fetch("" + id, {
+  //         method: "DELETE",
+  //         headers: { "content-type": "application/json" },
+  //       })
+  //         .then((resp) => {
+  //           fetchTable();
+  //         })
+  //         .catch((err) => {
+  //           console.log(err.message);
+  //         }),
+  //       {
+  //         loading: "Approving...",
+  //         success: <b>Approve successfully</b>,
+  //         error: <b>Approve fail</b>,
+  //       }
+  //     );
+  //   }
+  // };
+
   const handleApprove = (id) => {
     if (window.confirm("Do you want to approve this exam?")) {
+      const data = {
+        commentModel: {
+          leaderId: 2,
+          examPaperId: id,
+          commentContent: "string"
+        },
+        examUpdateApproveModel: {
+          isApproved: true
+        }
+      };
       toast.promise(
-        fetch("http://localhost:8000/exams/" + id, {
-          method: "DELETE",
-          headers: { "content-type": "application/json" },
+        fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/review-exam", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
         })
           .then((resp) => {
             fetchTable();
@@ -41,6 +74,37 @@ const ExamSubmissionView = () => {
     }
   };
 
+  const handleReject = (id) => {
+      const data = {
+        commentModel: {
+          leaderId: 2,
+          examPaperId: id,
+          commentContent: "string"
+        },
+        examUpdateApproveModel: {
+          isApproved: false
+        }
+      };
+      toast.promise(
+        fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/review-exam", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        })
+          .then((resp) => {
+            fetchTable();
+          })
+          .catch((err) => {
+            console.log(err.message);
+          }),
+        {
+          loading: "Approving...",
+          success: <b>Approve successfully</b>,
+          error: <b>Approve fail</b>,
+        }
+      );
+  };
+
   const fetchTable = () => {
     fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/leader/2?pageIndex=1")
       .then((res) => {
@@ -52,48 +116,6 @@ const ExamSubmissionView = () => {
       .catch((err) => {
         console.log(err.message);
       });
-  };
-
-  const approve = (id) => {
-    // fetch(`https://fpt-cft.azurewebsites.net/v1/api/exams/review-exam/${id}`, {
-      fetch(`https://fpt-cft.azurewebsites.net/v1/api/exams/review-exam/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ approved: true })
-    })
-    .then(response => response.json())
-    .then(data => {
-      // Cập nhật trạng thái của items sau khi approve thành công
-      setItems(items.map(item => {
-        if (item.id === id) {
-          return { ...item, approved: true };
-        } else {
-          return item;
-        }
-      }));
-    })
-    .catch(error => console.log(error));
-  };
-
-  // Hàm gọi API reject
-  const reject = (id) => {
-    fetch(`/api/reject/${id}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ approved: false })
-    })
-    .then(response => response.json())
-    .then(data => {
-      // Cập nhật trạng thái của items sau khi reject thành công
-      setItems(items.map(item => {
-        if (item.id === id) {
-          return { ...item, approved: false };
-        } else {
-          return item;
-        }
-      }));
-    })
-    .catch(error => console.log(error));
   };
 
   return (
@@ -150,23 +172,23 @@ const ExamSubmissionView = () => {
                 <td className="px-3 py-3">
                   <span
                     className={`inline-flex items-center gap-1 rounded-full ${
-                      item.status
+                      item.isApproved
                         ? "bg-green-50 text-green-600"
                         : "bg-red-50 text-red-600"
                     }  px-2 py-1 text-xs font-semibold`}
                   >
                     <span
                       className={`h-1.5 w-1.5 rounded-full ${
-                        item.status ? "bg-green-600" : "bg-red-600"
+                        item.isApproved ? "bg-green-600" : "bg-red-600"
                       }`}
                     ></span>
-                    {item.status ? "Active" : "Inactive"}
+                    {item.isApproved ? "Active" : "Inactive"}
                   </span>
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex justify-start gap-4 content-center items-center">
                     <TooltipComponent content="Approve" position="BottomCenter">
-                      <a onClick={() => handleApprove(item.id)}>
+                      <a onClick={() => handleApprove(item.examPaperId)}>
                         <svg
                           className="svg-icon"
                           viewBox="0 0 20 20"
@@ -194,7 +216,7 @@ const ExamSubmissionView = () => {
                           <Popup
                             title="Comment"
                             fetchTable={fetchTable}
-                            id={item.id}
+                            id={item.examPaperId}
                           />
                         </StyleProvider>
                       </ConfigProvider>

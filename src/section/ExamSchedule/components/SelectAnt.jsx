@@ -7,12 +7,12 @@ const { Option } = Select;
 const SelectAnt = ({ onChange }) => {
   const [subject, setSubject] = useState([{}]);
   const fetchSubject = () => {
-    fetch(`${BASE_URL_API}available-subjects?pageIndex=1`)
+    fetch(`${BASE_URL_API}available-subjects/api/availableSubject/getAllAvailableSubjectByLeaderId/2`)
       .then((res) => {
         return res.json();
       })
       .then((resp) => {
-        setSubject(resp);
+        setSubject(resp.data);
         console.log(resp);
       })
       .catch((err) => {
@@ -35,7 +35,7 @@ const SelectAnt = ({ onChange }) => {
       {subject?.map((item, index) => (
         <Option
           key={index}
-          value={`${item?.subjectName}`}
+          value={`${item?.subjectId}`}
           label={`${item?.subjectName}`}
         >
           <Space>{item?.subjectName}</Space>
