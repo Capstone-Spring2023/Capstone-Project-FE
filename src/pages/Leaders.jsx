@@ -6,44 +6,48 @@ import { Link, useNavigate } from "react-router-dom";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 
 const Leaders = () => {
-  const [page, setPage] = useState(1);
-  const [lecturersData, setLecturersData] = useState([{}]);
-  const { slice, range } = useTable(lecturersData, page, 5);
+  const [page, setPage] = useState(5);
+  const [leaderData, setLeaderData] = useState([{}]);
+  const { slice, range } = useTable(leaderData, page, 5);
   const navigate = useNavigate();
 
   const handleEdit = (id) => {
-    navigate("/lecturers/edit/" + id);
+    // navigate("/lecturers/edit/" + id);
   };
 
   const handleDelete = (id) => {
-    if (window.confirm("Do you want to delete?")) {
-      fetch("http://localhost:8000/lecturers/" + id, {
-        method: "DELETE",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(lecturersData),
-      })
-        .then((res) => {
-          alert("Delete successfully");
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    }
+    // if (window.confirm("Do you want to delete?")) {
+    //   fetch("http://localhost:8000/lecturers/" + id, {
+    //     method: "DELETE",
+    //     headers: { "content-type": "application/json" },
+    //     body: JSON.stringify(leaderData),
+    //   })
+    //     .then((res) => {
+    //       alert("Delete successfully");
+    //       window.location.reload();
+    //     })
+    //     .catch((err) => {
+    //       console.log(err.message);
+    //     });
+    // }
   };
 
   useEffect(() => {
-    fetch("http://localhost:8000/lecturers")
+    fetch("https://fpt-cft.azurewebsites.net/api/header/leaderManagement/getAllLeaders")
       .then((res) => {
         return res.json();
       })
       .then((resp) => {
-        setLecturersData(resp);
+        setLeaderData(resp.data);
       })
       .catch((err) => {
         console.log(err.message);
       });
   }, []);
+
+  useEffect(()=>{
+    console.log("dff",leaderData);
+  })
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -93,7 +97,7 @@ const Leaders = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-            {slice.map((item, index) => (
+          {slice.map((item, index) => (
               <tr key={index} className="hover:bg-gray-50">
                 <td className="flex gap-3 font-normal px-3 py-3 text-gray-900 items-center">
                   <div className="relative h-10 w-10">
@@ -109,10 +113,11 @@ const Leaders = () => {
                     <div className="font-medium text-gray-700">
                       ID: {item.id}
                     </div>
-                    <div className="text-gray-400">Subject: {item.subject}</div>
+                    <div className="text-gray-400">Subject: {item.address}</div>
                   </div>
                 </td>
                 <td className="px-3 py-3">{item.fullName}</td>
+                <td className="px-3 py-3">{item.phone}</td>
                 <td className="px-3 py-3">{item.email}</td>
                 <td className="px-3 py-3">
                   <span
@@ -179,7 +184,7 @@ const Leaders = () => {
         </table>
       </div>
       <TableFooter
-        total={lecturersData}
+        total={leaderData}
         range={range}
         slice={slice}
         setPage={setPage}

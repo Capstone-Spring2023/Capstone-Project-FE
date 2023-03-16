@@ -44,7 +44,7 @@ const ExamSubmission = () => {
   }, []);
 
   const fetchTable = () => {
-    fetch("http://localhost:8000/exams")
+    fetch("")
       .then((res) => {
         return res.json();
       })
@@ -112,12 +112,13 @@ const ExamSubmission = () => {
                   </div>
                   <div className="text-sm">
                     <div className="font-medium text-gray-700">
-                      ID: {item.examId}
+                      ID: {item.examPaperId}
                     </div>
                     <div className="text-gray-400">Subject: {item.subject}</div>
                   </div>
                 </td>
-                <td className="px-3 py-3">{item.title}</td>
+                <td className="px-3 py-3">{item.examLink}</td>
+                {/* <td className="px-3 py-3" title="{item.examContent}">{item.examContent?.substring(0, 3)}...</td> */}
                 <td className="px-3 py-3">
                   <span
                     className={`inline-flex items-center gap-1 rounded-full ${
