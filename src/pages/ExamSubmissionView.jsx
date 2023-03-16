@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useTable from "../hooks/useTable";
-import { Toaster } from "react-hot-toast";
-import { Header, ModalAnt } from "../components";
+import { toast, Toaster } from "react-hot-toast";
+import { Header, ModalAnt, Popup } from "../components";
 import avatar from "../assets/banner.jpg";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import TableFooter from "../components/Table/TableFooter";
@@ -18,6 +18,28 @@ const ExamSubmissionView = () => {
   useEffect(() => {
     fetchTable();
   }, []);
+
+  const handleApprove = (id) => {
+    if (window.confirm("Do you want to approve this exam?")) {
+      toast.promise(
+        fetch("http://localhost:8000/exams/" + id, {
+          method: "DELETE",
+          headers: { "content-type": "application/json" },
+        })
+          .then((resp) => {
+            fetchTable();
+          })
+          .catch((err) => {
+            console.log(err.message);
+          }),
+        {
+          loading: "Approving...",
+          success: <b>Approve successfully</b>,
+          error: <b>Approve fail</b>,
+        }
+      );
+    }
+  };
 
   const fetchTable = () => {
     fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/leader/2?pageIndex=1")
@@ -127,14 +149,16 @@ const ExamSubmissionView = () => {
                 <td className="px-3 py-3">{item.type}</td>
                 <td className="px-3 py-3">
                   <span
-                    className={`inline-flex items-center gap-1 rounded-full ${item.status
-                      ? "bg-green-50 text-green-600"
-                      : "bg-red-50 text-red-600"
-                      }  px-2 py-1 text-xs font-semibold`}
+                    className={`inline-flex items-center gap-1 rounded-full ${
+                      item.status
+                        ? "bg-green-50 text-green-600"
+                        : "bg-red-50 text-red-600"
+                    }  px-2 py-1 text-xs font-semibold`}
                   >
                     <span
-                      className={`h-1.5 w-1.5 rounded-full ${item.status ? "bg-green-600" : "bg-red-600"
-                        }`}
+                      className={`h-1.5 w-1.5 rounded-full ${
+                        item.status ? "bg-green-600" : "bg-red-600"
+                      }`}
                     ></span>
                     {item.status ? "Active" : "Inactive"}
                   </span>
@@ -142,8 +166,7 @@ const ExamSubmissionView = () => {
                 <td className="px-6 py-4">
                   <div className="flex justify-start gap-4 content-center items-center">
                     <TooltipComponent content="Approve" position="BottomCenter">
-                      {/* <a onClick={() => approve(item.id)}> */}
-                      <a onClick={() => approve(2)}>
+                      <a onClick={() => handleApprove(item.id)}>
                         <svg
                           className="svg-icon"
                           viewBox="0 0 20 20"
@@ -159,24 +182,24 @@ const ExamSubmissionView = () => {
                         </svg>
                       </a>
                     </TooltipComponent>
-                    <TooltipComponent content="Reject" position="BottomCenter">
-                      <a>
-                        <svg
-                          className="svg-icon"
-                          viewBox="0 0 20 20"
-                          width={15}
-                          height={15}
-                        >
-                          <path
-                            fill={`${RED}`}
-                            d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08
-							c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469
-							c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304
-							c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"
-                          ></path>
-                        </svg>
-                      </a>
-                    </TooltipComponent>
+                    <Tooltip title="Reject">
+                      <ConfigProvider
+                        theme={{
+                          token: {
+                            colorPrimary: "#ea1c1c",
+                          },
+                        }}
+                      >
+                        <StyleProvider hashPriority="high">
+                          <Popup
+                            title="Comment"
+                            fetchTable={fetchTable}
+                            id={item.id}
+                          />
+                        </StyleProvider>
+                      </ConfigProvider>
+                    </Tooltip>
+
                     <Tooltip title="Info">
                       <ConfigProvider
                         theme={{

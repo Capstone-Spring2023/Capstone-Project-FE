@@ -5,7 +5,7 @@ import UploadAnt from "./UploadAnt";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import SelectType from "./SelectType";
-import {getStorage,listAll,uploadBytes, getDownloadURL, ref, uploadBytesResumable, getMetadata, getBlob } from "firebase/storage";
+import { ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../firebase/firebase";
 
 const onFinishFailed = (errorInfo) => {
@@ -45,9 +45,12 @@ const FormAnt = () => {
     );
   };
 
-  const upLoadFile =async ({ onSuccess, onProgress, onError, file }) => {
+  const upLoadFile = async ({ onSuccess, onProgress, onError, file }) => {
     // let fileRef = ref(storage, file.name);
-    let fileRef = ref(storage, `/${sessionStorage.getItem("email")}/PE1/${file.name}`);
+    let fileRef = ref(
+      storage,
+      `/${sessionStorage.getItem("email")}/PE1/${file.name}`
+    );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(
       "state_changed",
@@ -73,15 +76,20 @@ const FormAnt = () => {
         //   localStorage.setItem("url", url);
         //   setFile(url);
         // })
-        setFile(`gs://capstone-cft.appspot.com/${sessionStorage.getItem("email")}/PE1`);
+        setFile(
+          `gs://capstone-cft.appspot.com/${sessionStorage.getItem("email")}/PE1`
+        );
         message.success(`${file.name} file uploaded successfully.`);
       }
     );
   };
 
-  const upLoadFile2 =async ({ onSuccess, onProgress, onError, file }) => {
+  const upLoadFile2 = async ({ onSuccess, onProgress, onError, file }) => {
     // let fileRef = ref(storage, file.name);
-    let fileRef = ref(storage, `/${sessionStorage.getItem("email")}/PE1/Given/${file.name}`);
+    let fileRef = ref(
+      storage,
+      `/${sessionStorage.getItem("email")}/PE1/Given/${file.name}`
+    );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(
       "state_changed",
@@ -112,9 +120,12 @@ const FormAnt = () => {
     );
   };
 
-  const upLoadFile3 =async ({ onSuccess, onProgress, onError, file }) => {
+  const upLoadFile3 = async ({ onSuccess, onProgress, onError, file }) => {
     // let fileRef = ref(storage, file.name);
-    let fileRef = ref(storage, `/${sessionStorage.getItem("email")}/PE1/Testcase/${file.name}`);
+    let fileRef = ref(
+      storage,
+      `/${sessionStorage.getItem("email")}/PE1/Testcase/${file.name}`
+    );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(
       "state_changed",
@@ -159,9 +170,6 @@ const FormAnt = () => {
       }}
       wrapperCol={{
         span: 16,
-      }}
-      style={{
-        maxWidth: 1500,
       }}
       initialValues={{
         remember: true,
@@ -230,27 +238,24 @@ const FormAnt = () => {
           </Form.Item>
         </Col>
       </Row>
-      <Row justify="center" align="center"><h1>Upload .docx</h1></Row>
       <Row justify="center" align="center">
         <Col span={20} offset={6}>
           <Form.Item name="file" accept=".docx">
-            <UploadAnt uploadFile={upLoadFile} />
+            <UploadAnt uploadFile={upLoadFile} description="Please only upload file with type docx"/>
           </Form.Item>
         </Col>
       </Row>
-      <Row justify="center" align="center"><h1>Upload .pdf</h1></Row>
       <Row justify="center" align="center">
         <Col span={20} offset={6}>
           <Form.Item name="file" accept="application/pdf">
-            <UploadAnt uploadFile={upLoadFile2} />
+            <UploadAnt uploadFile={upLoadFile2} description="Please only upload file in your Given folder"/>
           </Form.Item>
         </Col>
       </Row>
-      <Row justify="center" align="center"><h1>Upload .txt</h1></Row>
       <Row justify="center" align="center">
         <Col span={20} offset={6}>
           <Form.Item name="file">
-            <UploadAnt uploadFile={upLoadFile3} accept=".txt"/>
+            <UploadAnt uploadFile={upLoadFile3} accept=".txt" description="Please only upload file in your TestCase folder"/>
           </Form.Item>
         </Col>
       </Row>

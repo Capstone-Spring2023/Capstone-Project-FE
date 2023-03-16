@@ -14,3 +14,5 @@ export const firebaseConfig = {
   appId: "1:240001179952:web:a47e364ed5086f3848e8f5",
   measurementId: "G-Q1YQBVJXWP",
 };
+
+export const BASE_URL_API = "https://fpt-cft.azurewebsites.net/v1/api/";

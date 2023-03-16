@@ -20,7 +20,7 @@ const ExamSubmission = () => {
   const handleDelete = (id) => {
     if (window.confirm("Do you want to delete?")) {
       toast.promise(
-        fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/" + id, {
+        fetch("http://localhost:8000/exams/" + id, {
           method: "DELETE",
           headers: { "content-type": "application/json" }
         })
@@ -50,6 +50,7 @@ const ExamSubmission = () => {
       })
       .then((resp) => {
         setExamData(resp);
+        console.log("RES", resp)
       })
       .catch((err) => {
         console.log(err.message);
@@ -83,11 +84,11 @@ const ExamSubmission = () => {
               <th scope="col" className="px-3 py-3 font-medium text-gray-900">
                 Title
               </th>
-              <th scope="col"className="px-3 py-3 font-medium text-gray-900">
-                Content
-              </th>
               <th scope="col" className="px-3 py-3 font-medium text-gray-900">
                 Status
+              </th>
+              <th scope="col" className="px-3 py-3 font-medium text-gray-900">
+                Comment
               </th>
               <th scope="col" className="px-3 py-3 font-medium text-gray-900">
                 Type
@@ -121,20 +122,21 @@ const ExamSubmission = () => {
                 <td className="px-3 py-3">
                   <span
                     className={`inline-flex items-center gap-1 rounded-full ${
-                      item.isApproved
+                      item.status
                         ? "bg-green-50 text-green-600"
                         : "bg-red-50 text-red-600"
                     }  px-2 py-1 text-xs font-semibold`}
                   >
                     <span
                       className={`h-1.5 w-1.5 rounded-full ${
-                        item.isApproved ? "bg-green-600" : "bg-red-600"
+                        item.status ? "bg-green-600" : "bg-red-600"
                       }`}
                     ></span>
-                    {item.isApproved ? "Approved" : "Rejected"}
+                    {item.status ? "Approved" : "Rejected"}
                   </span>
                 </td>
-                <td className="px-3 py-3">{item.typeName}</td>
+                <td className="px-3 py-3">{item.comment}</td>
+                <td className="px-3 py-3">{item.type}</td>
                 <td className="px-6 py-4">
                   <div className="flex justify-start gap-4">
                     <TooltipComponent content="Edit" position="BottomCenter">

@@ -109,7 +109,7 @@ const ExamSchedule = () => {
                   </div>
                   <div className="text-sm">
                     <div className="font-medium text-gray-700">
-                      Assign: {item.userId}
+                      Assign: HoaDNT
                     </div>
                     <div className="text-gray-400">Subject: {item.registerSubjectId}</div>
                   </div>

@@ -3,17 +3,15 @@ import {
   Button,
   Col,
   DatePicker,
-  Divider,
+  DatePickerProps,
   Form,
   Input,
   Row,
-  Space,
 } from "antd";
 import SelectAnt from "./SelectAnt";
 import UploadAnt from "./UploadAnt";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { DatePickerProps } from "antd";
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -124,9 +122,7 @@ const FormAnt = () => {
       </Row>
       <Row justify="center" align="center">
         <Col span={20} offset={6}>
-          <Form.Item
-            name="file"
-          >
+          <Form.Item name="file">
             <UploadAnt />
           </Form.Item>
         </Col>
@@ -136,7 +132,9 @@ const FormAnt = () => {
           <Button htmlType="submit">Submit</Button>
         </Col>
         <Col offset={18}>
-          <Button danger onClick={() => navigate("/exam-schedule")}>Cancel</Button>
+          <Button danger onClick={() => navigate("/exam-schedule")}>
+            Cancel
+          </Button>
         </Col>
       </Row>
     </Form>
