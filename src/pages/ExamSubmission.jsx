@@ -44,13 +44,12 @@ const ExamSubmission = () => {
   }, []);
 
   const fetchTable = () => {
-    fetch("")
+    fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/leader/4?pageIndex=1")
       .then((res) => {
         return res.json();
       })
       .then((resp) => {
         setExamData(resp);
-        console.log("RES", resp)
       })
       .catch((err) => {
         console.log(err.message);
