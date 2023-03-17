@@ -67,6 +67,9 @@ const FormAnt = () => {
       wrapperCol={{
         span: 16,
       }}
+      style={{
+        maxWidth: 1500,
+      }}
       initialValues={{
         remember: true,
       }}

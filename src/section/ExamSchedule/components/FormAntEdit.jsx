@@ -29,12 +29,12 @@ const FormAntEdit = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:8000/exams-schedule/" + examid)
+    fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/" + examid)
       .then((res) => {
         return res.json();
       })
       .then((resp) => {
-        setId(resp.id);
+        setId(resp.examPaperId);
         setTitle(resp.title);
         setSubject(resp.subject);
         setAssignee(resp.assignee);
