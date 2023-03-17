@@ -139,7 +139,7 @@ const ExamSubmission = () => {
                 <td className="px-6 py-4">
                   <div className="flex justify-start gap-4">
                     <TooltipComponent content="Edit" position="BottomCenter">
-                      <a onClick={() => handleEdit(item.id)}>
+                      <a onClick={() => handleEdit(item.examPaperId)}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
