@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Header } from "../components";
+import { Header, ModalAnt3 } from "../components";
 import TableFooter from "../components/Table/TableFooter";
 import useTable from "../hooks/useTable";
-import { Link, useNavigate } from "react-router-dom";
 import avatar from "../assets/banner.jpg";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { toast, Toaster } from "react-hot-toast";
+import { StyleProvider } from "@ant-design/cssinjs";
+import { ConfigProvider, Tooltip } from "antd";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const ExamSubmission = () => {
+  const { examPaperId } = useParams();
   const [page, setPage] = useState(1);
   const [examData, setExamData] = useState([{}]);
   const { slice, range } = useTable(examData, page, 5);
@@ -44,7 +47,7 @@ const ExamSubmission = () => {
   }, []);
 
   const fetchTable = () => {
-    fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/leader/4?pageIndex=1")
+    fetch("https://fpt-cft.azurewebsites.net/user/1/exam-submission")
       .then((res) => {
         return res.json();
       })
@@ -111,30 +114,38 @@ const ExamSubmission = () => {
                   </div>
                   <div className="text-sm">
                     <div className="font-medium text-gray-700">
-                      ID: {item.examPaperId}
+                      examPaperId: {item.examPaperId}
                     </div>
-                    <div className="text-gray-400">Subject: {item.subject}</div>
+                    <div className="text-gray-400">Subject: {item.subjectName}</div>
                   </div>
                 </td>
                 <td className="px-3 py-3">{item.examLink}</td>
                 {/* <td className="px-3 py-3" title="{item.examContent}">{item.examContent?.substring(0, 3)}...</td> */}
                 <td className="px-3 py-3">
                   <span
-                    className={`inline-flex items-center gap-1 rounded-full ${
-                      item.status
+                    className={`inline-flex items-center gap-1 rounded-full ${item.status === "Approved"
                         ? "bg-green-50 text-green-600"
-                        : "bg-red-50 text-red-600"
-                    }  px-2 py-1 text-xs font-semibold`}
+                        : item.status === "Rejected"
+                          ? "bg-red-50 text-red-600"
+                          : item.status === "Pending"
+                            ? "bg-yellow-50 text-yellow-600"
+                            : "bg-gray-50 text-gray-600"
+                      }  px-2 py-1 text-xs font-semibold`}
                   >
                     <span
-                      className={`h-1.5 w-1.5 rounded-full ${
-                        item.status ? "bg-green-600" : "bg-red-600"
-                      }`}
+                      className={`h-1.5 w-1.5 rounded-full ${item.status === "Approved"
+                          ? "bg-green-600"
+                          : item.status === "Rejected"
+                            ? "bg-red-600"
+                            : item.status === "Pending"
+                              ? "bg-yellow-600"
+                              : "bg-gray-600"
+                        }`}
                     ></span>
-                    {item.status ? "Approved" : "Rejected"}
+                    {item.status}
                   </span>
                 </td>
-                <td className="px-3 py-3">{item.comment}</td>
+                <td className="px-3 py-3" title="{item.comment}" >{item.comment?.length > 5 ? item.comment?.slice(0, 5) + "..." : item.comment}</td>
                 <td className="px-3 py-3">{item.type}</td>
                 <td className="px-6 py-4">
                   <div className="flex justify-start gap-4">
@@ -176,6 +187,21 @@ const ExamSubmission = () => {
                         </svg>
                       </a>
                     </TooltipComponent>
+                    {item.status === "Approved" ? (
+                    <Tooltip title="Info">
+                      <ConfigProvider
+                        theme={{
+                          token: {
+                            colorPrimary: "#ea1c1c",
+                          },
+                        }}
+                      >
+                        <StyleProvider hashPriority="high">
+                          <ModalAnt3 title="Exam instruction" />
+                        </StyleProvider>
+                      </ConfigProvider>
+                    </Tooltip>
+                    ) : null}
                   </div>
                 </td>
               </tr>
