@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Modal } from "antd";
+import { Button, Modal, Tooltip } from "antd";
 import "./GoogleButton.css";
 import { CloseOutlined } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
@@ -28,6 +28,9 @@ const Popup = ({ title, fetchTable, id }) => {
         isApproved: false,
       },
     };
+    // const myPromise = () => {
+    //
+    // }
     toast.promise(
       fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/review-exam", {
         method: "PUT",
@@ -35,15 +38,15 @@ const Popup = ({ title, fetchTable, id }) => {
         body: JSON.stringify(data),
       })
         .then((resp) => {
-          fetchTable();
+          return resp;
         })
         .catch((err) => {
           console.log(err.message);
         }),
       {
         loading: "Rejecting...",
-        success: <b>Reject successfully</b>,
-        error: <b>Reject fail</b>,
+        success: (data) => `Reject successfully ${data}`,
+        error: (err) => `Reject fail ${err}`,
       }
     );
   };
@@ -54,34 +57,36 @@ const Popup = ({ title, fetchTable, id }) => {
 
   return (
     <>
-      <CloseOutlined
-        onClick={showModal}
-        style={{ fontSize: 17, color: "red" }}
-        height={55}
-      />
-      <Modal
-        centered={true}
-        open={isModalOpen}
-        title={`${title}`}
-        onOk={handleOk}
-        onCancel={handleClose}
-        footer={[
-          <Button
-            key="submit"
-            type="default"
-            onClick={handleOk}
-            style={{ color: "green" }}
-          >
-            Submit
-          </Button>,
-        ]}
-      >
-        <TextArea
-          rows={4}
-          value={commentContent}
-          onChange={handleCommentChange}
+      <Tooltip title="Reject">
+        <CloseOutlined
+          onClick={showModal}
+          style={{ fontSize: 17, color: "red" }}
+          height={55}
         />
-      </Modal>
+        <Modal
+          centered={true}
+          open={isModalOpen}
+          title={`${title}`}
+          onOk={handleOk}
+          onCancel={handleClose}
+          footer={[
+            <Button
+              key="submit"
+              type="default"
+              onClick={handleOk}
+              style={{ color: "green" }}
+            >
+              Submit
+            </Button>,
+          ]}
+        >
+          <TextArea
+            rows={4}
+            value={commentContent}
+            onChange={handleCommentChange}
+          />
+        </Modal>
+      </Tooltip>
     </>
   );
 };
