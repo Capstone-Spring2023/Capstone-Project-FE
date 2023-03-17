@@ -9,9 +9,9 @@ import { toast } from "react-hot-toast";
 const Popup = ({ title, fetchTable, id }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentContent, setCommentContent] = useState("");
-const handleCommentChange = (event) => {
-  setCommentContent(event.target.value);
-};
+  const handleCommentChange = (event) => {
+    setCommentContent(event.target.value);
+  };
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -20,19 +20,19 @@ const handleCommentChange = (event) => {
     const data = {
       commentModel: {
         leaderId: 2,
-        examPaperId: id,
-        // commentContent: commentContent
-        commentContent: "string"
+        examPaperId: 3123,
+        commentContent: commentContent,
+        // commentContent: "string",
       },
       examUpdateApproveModel: {
-        isApproved: false
-      }
+        isApproved: false,
+      },
     };
     toast.promise(
       fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/review-exam", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       })
         .then((resp) => {
           fetchTable();
@@ -41,7 +41,7 @@ const handleCommentChange = (event) => {
           console.log(err.message);
         }),
       {
-        loading: "Approving...",
+        loading: "Rejecting...",
         success: <b>Reject successfully</b>,
         error: <b>Reject fail</b>,
       }
@@ -76,7 +76,11 @@ const handleCommentChange = (event) => {
           </Button>,
         ]}
       >
-        <TextArea rows={4} value={commentContent} onChange={handleCommentChange}/>
+        <TextArea
+          rows={4}
+          value={commentContent}
+          onChange={handleCommentChange}
+        />
       </Modal>
     </>
   );

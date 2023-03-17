@@ -16,3 +16,4 @@ export const firebaseConfig = {
 };
 
 export const BASE_URL_API = "https://fpt-cft.azurewebsites.net/v1/api/";
+export const BASE_URL = "https://fpt-cft.azurewebsites.net/api/";

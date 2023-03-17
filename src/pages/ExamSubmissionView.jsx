@@ -19,28 +19,6 @@ const ExamSubmissionView = () => {
     fetchTable();
   }, []);
 
-  // const handleApprove = (id) => {
-  //   if (window.confirm("Do you want to approve this exam?")) {
-  //     toast.promise(
-  //       fetch("" + id, {
-  //         method: "DELETE",
-  //         headers: { "content-type": "application/json" },
-  //       })
-  //         .then((resp) => {
-  //           fetchTable();
-  //         })
-  //         .catch((err) => {
-  //           console.log(err.message);
-  //         }),
-  //       {
-  //         loading: "Approving...",
-  //         success: <b>Approve successfully</b>,
-  //         error: <b>Approve fail</b>,
-  //       }
-  //     );
-  //   }
-  // };
-
   const handleApprove = (id) => {
     if (window.confirm("Do you want to approve this exam?")) {
       const data = {
@@ -74,39 +52,8 @@ const ExamSubmissionView = () => {
     }
   };
 
-  const handleReject = (id) => {
-      const data = {
-        commentModel: {
-          leaderId: 2,
-          examPaperId: id,
-          commentContent: "string"
-        },
-        examUpdateApproveModel: {
-          isApproved: false
-        }
-      };
-      toast.promise(
-        fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/review-exam", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        })
-          .then((resp) => {
-            fetchTable();
-          })
-          .catch((err) => {
-            console.log(err.message);
-          }),
-        {
-          loading: "Approving...",
-          success: <b>Approve successfully</b>,
-          error: <b>Approve fail</b>,
-        }
-      );
-  };
-
   const fetchTable = () => {
-    fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/leader/2?pageIndex=1")
+    fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/leader/4?pageIndex=1")
       .then((res) => {
         return res.json();
       })
@@ -167,7 +114,7 @@ const ExamSubmissionView = () => {
                     <div className="text-gray-400">Subject: {item.registerSubjectId}</div>
                   </div>
                 </td>
-                <td className="px-3 py-3" title="{item.examContent}">{item.examContent?.substring(0,5)}...</td>
+                <td className="px-3 py-3">{item.examContent}</td>
                 <td className="px-3 py-3">{item.type}</td>
                 <td className="px-3 py-3">
                   <span
