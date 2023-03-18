@@ -18,6 +18,8 @@ const ModalAnt = ({ title, id }) => {
   const [examTitle, setExamTitle] = useState("");
   const [lecturerName, setLecturerName] = useState("");
   const [subjectName, setSubjectName] = useState("");
+  const [examScheduleID,setExamScheduleID]=useState("");
+  const [examLink,setExamLink]=useState("");
   const [status, setStatus] = useState(false);
   const showModal = () => {
     getDetail();
@@ -43,6 +45,8 @@ const ModalAnt = ({ title, id }) => {
         setLecturerName(resp.lecturerName);
         setSubjectName(resp.subjectName);
         setStatus(resp.status);
+        setExamScheduleID(resp.examScheduleId);
+        setExamLink(resp.examLink);
       })
       .catch((err) => {
         console.log(err.message);
@@ -53,9 +57,12 @@ const ModalAnt = ({ title, id }) => {
     setIsZipping(true);
     const jszip = new JSZip();
     const storage = getStorage();
-    const folderRef = ref(storage, "baopgse140382@fpt.edu.vn/PE1");
-    const folderRef2 = ref(storage, "baopgse140382@fpt.edu.vn/PE1/Given");
-    const folderRef3 = ref(storage, "baopgse140382@fpt.edu.vn/PE1/TestCases");
+    const folderRef = ref(storage,sessionStorage.getItem("email") + "/" + examScheduleID + "/PE1");
+    const folderRef2 = ref(storage, sessionStorage.getItem("email") + "/" + examScheduleID + "/PE1/Given");
+    const folderRef3 = ref(storage,sessionStorage.getItem("email") + "/"+ examScheduleID + "/PE1/TestCases");
+    // const folderRef = ref(storage,examLink + "/" + examScheduleID + "/PE1");
+    // const folderRef2 = ref(storage, examLink + "/" + examScheduleID +"/PE1/Given");
+    // const folderRef3 = ref(storage, examLink  + "/" + examScheduleID +"/PE1/TestCases");
     const folder = await listAll(folderRef);
     const folder2 = await listAll(folderRef2);
     const folder3 = await listAll(folderRef3);
@@ -159,7 +166,7 @@ const ModalAnt = ({ title, id }) => {
                     />
                   </div>
                 </div>
-                {isZipping && <div>Đang tải file...</div>}
+                {isZipping && <div>Loading file...</div>}
               </a>
             </Descriptions.Item>
           </Descriptions>

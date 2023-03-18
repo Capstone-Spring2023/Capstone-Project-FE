@@ -30,11 +30,12 @@ const FormAntEdit = (editID) => {
   const [deadline, setDeadline] = useState("");
   const [status, setStatus] = useState(true);
   const [assignee, setAssignee] = useState("HoaDNT");
+  const [examScheduleID,setExamScheduleID]=useState("");
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
 
   useEffect(() => {
-    fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/" + examid)
+    fetch("https://fpt-cft.azurewebsites.net/api/exam-submission/" + examid)
       .then((res) => {
         return res.json();
       })
@@ -42,9 +43,10 @@ const FormAntEdit = (editID) => {
         setId(resp.examPaperId);
         setTitle(resp.examContent);
         setSubject(resp.subject);
-        setAssignee(resp.assignee);
+        setAssignee(resp.examLink);
         setDeadline(resp.deadline);
         setStatus(resp.status);
+        setExamScheduleID(resp.examScheduleId);
         console.log("TITLE", resp);
       })
       .catch((err) => {
@@ -52,6 +54,7 @@ const FormAntEdit = (editID) => {
       });
     console.log("ID", id);
     console.log("EXAMID", examid);
+    console.log("idSchedule",examScheduleID);
     // console.log("TITLE", title.toString());
   }, []);
   const handleUpdate = () => {
@@ -82,11 +85,11 @@ const FormAntEdit = (editID) => {
   const upLoadFile = async ({ onSuccess, onProgress, onError, file }) => {
     let folderRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/PE1`
+      `/`+assignee+`/${examScheduleID}/PE1`
     );
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/PE1/${file.name}`
+      `/`+assignee+`/${examScheduleID}/PE1/${file.name}`
     );
     listAll(folderRef).then((res) => {
       if (res.items.length > 0) {
@@ -117,9 +120,7 @@ const FormAntEdit = (editID) => {
               function complete() {
                 onSuccess(file);
                 setFile(
-                  `gs://capstone-cft.appspot.com/${sessionStorage.getItem(
-                    "email"
-                  )}/PE1`
+                  `gs://capstone-cft.appspot.com/${assignee}/${examScheduleID}/PE1`
                 );
                 message.success(`${file.name} file uploaded successfully.`);
               }
@@ -149,10 +150,9 @@ const FormAntEdit = (editID) => {
           function complete() {
             onSuccess(file);
             setFile(
-              `gs://capstone-cft.appspot.com/${sessionStorage.getItem(
-                "email"
-              )}/PE1`
+              `gs://capstone-cft.appspot.com/${assignee}/${examScheduleID}/PE1`
             );
+            console.log(file);
             message.success(`${file.name} file uploaded successfully.`);
           }
         );
@@ -162,11 +162,11 @@ const FormAntEdit = (editID) => {
   const upLoadFile2 = async ({ onSuccess, onProgress, onError, file }) => {
     let folderRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/PE1/Given`
+      `/`+assignee+`/${examScheduleID}/PE1/Given`
     );
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/PE1/Given/${file.name}`
+      `/`+assignee+`/${examScheduleID}/PE1/Given/${file.name}`
     );
     listAll(folderRef).then((res) => {
       if (res.items.length > 0) {
@@ -199,7 +199,7 @@ const FormAntEdit = (editID) => {
                 setFile(
                   `gs://capstone-cft.appspot.com/${sessionStorage.getItem(
                     "email"
-                  )}/PE1`
+                  )}/${examScheduleID}/PE1`
                 );
                 message.success(`${file.name} file uploaded successfully.`);
               }
@@ -229,9 +229,7 @@ const FormAntEdit = (editID) => {
           function complete() {
             onSuccess(file);
             setFile(
-              `gs://capstone-cft.appspot.com/${sessionStorage.getItem(
-                "email"
-              )}/PE1`
+              `gs://capstone-cft.appspot.com/${assignee}/${examScheduleID}/PE1`
             );
             message.success(`${file.name} file uploaded successfully.`);
           }
@@ -242,11 +240,11 @@ const FormAntEdit = (editID) => {
   const upLoadFile3 = async ({ onSuccess, onProgress, onError, file }) => {
     let folderRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/PE1/TestCases`
+      `/`+assignee+`/${examScheduleID}/PE1/TestCases`
     );
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/PE1/TestCases/${file.name}`
+      `/`+assignee+`/${examScheduleID}/PE1/TestCases/${file.name}`
     );
     listAll(folderRef).then((res) => {
       if (res.items.length > 0) {
@@ -277,9 +275,7 @@ const FormAntEdit = (editID) => {
               function complete() {
                 onSuccess(file);
                 setFile(
-                  `gs://capstone-cft.appspot.com/${sessionStorage.getItem(
-                    "email"
-                  )}/PE1`
+                  `gs://capstone-cft.appspot.com/${assignee}/${examScheduleID}/PE1`
                 );
                 message.success(`${file.name} file uploaded successfully.`);
               }
@@ -309,9 +305,7 @@ const FormAntEdit = (editID) => {
           function complete() {
             onSuccess(file);
             setFile(
-              `gs://capstone-cft.appspot.com/${sessionStorage.getItem(
-                "email"
-              )}/PE1`
+              `gs://capstone-cft.appspot.com/${assignee}/${examScheduleID}/PE1`
             );
             message.success(`${file.name} file uploaded successfully.`);
           }
