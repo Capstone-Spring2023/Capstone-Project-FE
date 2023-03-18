@@ -7,25 +7,26 @@ import { toast } from "react-hot-toast";
 import SelectType from "./SelectType";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../firebase/firebase";
+import {BASE_URL_API} from "../../../utils/constants";
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 const FormAnt = () => {
-  const [title, setTitle] = useState("");
-  const [subject, setSubject] = useState("");
+  const [examContent, setExamContent] = useState("ESH201 Exam PE");
+  const [availableSubjectId, setAvailableSubjectId] = useState(21);
   const [type, setType] = useState("");
   const [status, setStatus] = useState(true);
-  const [content, setContent] = useState("This is content");
+  const [examLink, setExamLink] = useState("");
   const navigate = useNavigate();
   const dropzoneRef = useRef(null);
   const [file, setFile] = useState("");
 
   const handleSubmit = () => {
-    const examData = { title, subject, status, file };
-    console.log({ title, subject, status, file });
+    const examData = { availableSubjectId, examContent, examLink };
+    console.log({ examContent, examLink });
     toast.promise(
-      fetch("https://fpt-cft.azurewebsites.net/v1/api/exams", {
+      fetch(`${BASE_URL_API}/exam-submission/` + availableSubjectId, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(examData),
@@ -79,6 +80,7 @@ const FormAnt = () => {
         setFile(
           `gs://capstone-cft.appspot.com/${sessionStorage.getItem("email")}/PE1`
         );
+        setExamLink(sessionStorage.getItem("email"));
         message.success(`${file.name} file uploaded successfully.`);
       }
     );
@@ -124,7 +126,7 @@ const FormAnt = () => {
     // let fileRef = ref(storage, file.name);
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/PE1/Testcase/${file.name}`
+      `/${sessionStorage.getItem("email")}/PE1/TestCases/${file.name}`
     );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(
@@ -156,12 +158,6 @@ const FormAnt = () => {
     );
   };
 
-  const handleSubject = (value) => {
-    setSubject(value);
-  };
-  const handleType = (value) => {
-    setType(value);
-  };
   return (
     <Form
       name="basic"
@@ -182,44 +178,6 @@ const FormAnt = () => {
       <Row>
         <Col span={12}>
           <Form.Item
-            label="Exam title"
-            name="title"
-            rules={[
-              {
-                required: true,
-                message: "Please input your title!",
-              },
-            ]}
-          >
-            <Input
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter title here"
-            />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item
-            label="Subject"
-            name="subject"
-            initialValue="PRF"
-            rules={[
-              {
-                required: true,
-                message: "Please input your subject!",
-              },
-            ]}
-          >
-            <SelectAnt
-              defaultValue="PRF"
-              disabled={true}
-              onChange={handleSubject}
-            />
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={12}>
-          <Form.Item
             label="Type"
             name="type"
             initialValue="By computer"
@@ -230,32 +188,53 @@ const FormAnt = () => {
               },
             ]}
           >
-            <SelectType
-              defaultValue="By computer"
-              disabled={true}
-              onChange={handleType}
-            />
+            <SelectType defaultValue="By computer" disabled={true} />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            label="Subject"
+            name="subject"
+            initialValue="ESH201"
+            rules={[
+              {
+                required: true,
+                message: "Please input your subject!",
+              },
+            ]}
+          >
+            <SelectAnt defaultValue="ESH201" disabled={true} />
           </Form.Item>
         </Col>
       </Row>
       <Row justify="center" align="center">
         <Col span={20} offset={6}>
           <Form.Item name="file" accept=".docx">
-            <UploadAnt uploadFile={upLoadFile} description="Please only upload file with type docx"/>
+            <UploadAnt
+              uploadFile={upLoadFile}
+              description="Please only upload file with type docx"
+            />
           </Form.Item>
         </Col>
       </Row>
       <Row justify="center" align="center">
         <Col span={20} offset={6}>
           <Form.Item name="file" accept="application/pdf">
-            <UploadAnt uploadFile={upLoadFile2} description="Please only upload file in your Given folder"/>
+            <UploadAnt
+              uploadFile={upLoadFile2}
+              description="Please only upload file in your Given folder"
+            />
           </Form.Item>
         </Col>
       </Row>
       <Row justify="center" align="center">
         <Col span={20} offset={6}>
           <Form.Item name="file">
-            <UploadAnt uploadFile={upLoadFile3} accept=".txt" description="Please only upload file in your TestCase folder"/>
+            <UploadAnt
+              uploadFile={upLoadFile3}
+              accept=".txt"
+              description="Please only upload file in your TestCases folder"
+            />
           </Form.Item>
         </Col>
       </Row>

@@ -7,7 +7,7 @@ const { Option } = Select;
 const SelectAnt = ({ onChange }) => {
   const [subject, setSubject] = useState([{}]);
   const fetchSubject = () => {
-    fetch(`${BASE_URL_API}available-subjects/api/availableSubject/getAllAvailableSubjectByLeaderId/2`)
+    fetch(`${BASE_URL_API}/leader/5/available-subject`)
       .then((res) => {
         return res.json();
       })
@@ -35,7 +35,7 @@ const SelectAnt = ({ onChange }) => {
       {subject?.map((item, index) => (
         <Option
           key={index}
-          value={`${item?.subjectId}`}
+          value={`${item?.availableSubjectId}`}
           label={`${item?.subjectName}`}
         >
           <Space>{item?.subjectName}</Space>

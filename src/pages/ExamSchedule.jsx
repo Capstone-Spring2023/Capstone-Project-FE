@@ -6,6 +6,8 @@ import { Header } from "../components";
 import avatar from "../assets/banner.jpg";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import TableFooter from "../components/Table/TableFooter";
+import {BASE_URL_API} from "../utils/constants";
+import moment from 'moment';
 
 const ExamSchedule = () => {
   const [page, setPage] = useState(1);
@@ -46,7 +48,7 @@ const ExamSchedule = () => {
 
   const fetchTable = () => {
     fetch(
-      "https://fpt-cft.azurewebsites.net/api/leader/4/exam-schedule"
+      `${BASE_URL_API}/leader/5/exam-schedule`
     )
       .then((res) => {
         return res.json();
@@ -111,7 +113,7 @@ const ExamSchedule = () => {
                   </div>
                   <div className="text-sm">
                     <div className="font-medium text-gray-700">
-                      Assign: HoaDNT
+                      Assign: {item.leaderId}
                     </div>
                     <div className="text-gray-400">
                       Subject: {item.registerSubjectId}
@@ -135,7 +137,7 @@ const ExamSchedule = () => {
                     {item.status ? "Active" : "Inactive"}
                   </span>
                 </td>
-                <td className="px-3 py-3">{item.deadline}</td>
+                <td className="px-3 py-3">{moment(item.deadline).format("YYYY/MM/DD hh:mm:ss")}</td>
                 <td className="px-6 py-4">
                   <div className="flex justify-start gap-4">
                     <TooltipComponent content="Edit" position="BottomCenter">

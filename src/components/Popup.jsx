@@ -5,8 +5,9 @@ import { CloseOutlined } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
 import { hover } from "@syncfusion/ej2-react-schedule";
 import { toast } from "react-hot-toast";
+import {BASE_URL_API} from "../utils/constants";
 
-const Popup = ({ title, fetchTable, id }) => {
+const Popup = ({ title, fetchTable, examPaperId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentContent, setCommentContent] = useState("");
   const handleCommentChange = (event) => {
@@ -19,8 +20,8 @@ const Popup = ({ title, fetchTable, id }) => {
     setIsModalOpen(false);
     const data = {
       commentModel: {
-        leaderId: 2,
-        examPaperId: 3123,
+        leaderId: 5,
+        examPaperId: examPaperId,
         commentContent: commentContent,
         // commentContent: "string",
       },
@@ -28,11 +29,8 @@ const Popup = ({ title, fetchTable, id }) => {
         isApproved: false,
       },
     };
-    // const myPromise = () => {
-    //
-    // }
     toast.promise(
-      fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/review-exam", {
+      fetch(`${BASE_URL_API}/exam-submission-view/review-exam`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
