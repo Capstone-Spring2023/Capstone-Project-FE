@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Select, Space } from "antd";
+import { BASE_URL_API } from "../../../utils/constants";
 
 const { Option } = Select;
 
-const SelectAnt = ({ onChange, disabled, defaultValue }) => {
+const SelectAnt = ({ onChange ,setAvailableSubjectId }) => {
+  const [subject, setSubject] = useState([{}]);
+  const fetchSubject = () => {
+    fetch(`https://fpt-cft.azurewebsites.net/api/user/28/exam-schedule/available-subject`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((resp) => {
+        setSubject(resp);
+        setAvailableSubjectId(resp.availableSubjectId);
+        console.log(resp);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+      console.log("as",subject);
+  };
+
+  useEffect(() => {
+    fetchSubject();
+  }, []);
   return (
     <Select
       style={{
@@ -12,21 +33,16 @@ const SelectAnt = ({ onChange, disabled, defaultValue }) => {
       placeholder="Select subjects"
       onChange={onChange}
       optionLabelProp="label"
-      disabled={disabled}
-      defaultValue={`${defaultValue}`}
     >
-      <Option value="PRF" label="PRF">
-        <Space>PRF (Programing)</Space>
-      </Option>
-      <Option value="ASC" label="ASC">
-        <Space>ASC (Account)</Space>
-      </Option>
-      <Option value="JPD" label="JPD">
-        <Space>JPD (Japan)</Space>
-      </Option>
-      <Option value="MAE" label="MAE">
-        <Space>MAE (Math)</Space>
-      </Option>
+      {subject?.map((item, index) => (
+        <Option
+          key={index}
+          value={`${item?.availableSubjectId}`}
+          label={`${item?.subjectName}`}
+        >
+          <Space>{item?.subjectName}</Space>
+        </Option>
+      ))}
     </Select>
   );
 };
