@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Button, Col, Form, Input, message, Row } from "antd";
+import { Button, Col, Form, message, Row } from "antd";
 import SelectAnt from "./SelectAnt";
 import UploadAnt from "./UploadAnt";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +7,7 @@ import { toast } from "react-hot-toast";
 import SelectType from "./SelectType";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../firebase/firebase";
-import {BASE_URL_API} from "../../../utils/constants";
+import { BASE_URL_API } from "../../../utils/constants";
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -15,17 +15,19 @@ const onFinishFailed = (errorInfo) => {
 const FormAnt = () => {
   const [examContent, setExamContent] = useState("ESH201 Exam PE");
   const [availableSubjectId, setAvailableSubjectId] = useState("");
-  const [availableSubjectName, setAvailableSubjectName] = useState("ESH201");
+  const [availableSubjectName, setAvailableSubjectName] = useState("");
   const [type, setType] = useState("");
   const [status, setStatus] = useState(true);
   const [examLink, setExamLink] = useState("");
   const navigate = useNavigate();
-  const dropzoneRef = useRef(null);
   const [file, setFile] = useState("");
-  console.log(availableSubjectId);
+  const handleSubject = (value) => {
+    setAvailableSubjectId(value.split(",")[0]);
+    setAvailableSubjectName(value.split(",")[1]);
+  };
+
   const handleSubmit = () => {
     const examData = { availableSubjectId, examContent, examLink };
-    console.log({ examContent, examLink });
     toast.promise(
       fetch(`${BASE_URL_API}/exam-submission/` + availableSubjectId, {
         method: "POST",
@@ -48,10 +50,13 @@ const FormAnt = () => {
   };
 
   const upLoadFile = async ({ onSuccess, onProgress, onError, file }) => {
+    console.log("SUBJECTNAME", availableSubjectName);
     // let fileRef = ref(storage, file.name);
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/${availableSubjectName}/PE1/${file.name}`
+      `/${sessionStorage.getItem("email")}/${availableSubjectName}/PE1/${
+        file.name
+      }`
     );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(
@@ -79,7 +84,9 @@ const FormAnt = () => {
         //   setFile(url);
         // })
         setFile(
-          `gs://capstone-cft.appspot.com/${sessionStorage.getItem("email")}/${availableSubjectName}/PE1`
+          `gs://capstone-cft.appspot.com/${sessionStorage.getItem(
+            "email"
+          )}/${availableSubjectName}/PE1`
         );
         setExamLink(sessionStorage.getItem("email"));
         message.success(`${file.name} file uploaded successfully.`);
@@ -91,7 +98,9 @@ const FormAnt = () => {
     // let fileRef = ref(storage, file.name);
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/${availableSubjectName}/PE1/Given/${file.name}`
+      `/${sessionStorage.getItem("email")}/${availableSubjectName}/PE1/Given/${
+        file.name
+      }`
     );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(
@@ -127,7 +136,9 @@ const FormAnt = () => {
     // let fileRef = ref(storage, file.name);
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/${availableSubjectName}/PE1/TestCases/${file.name}`
+      `/${sessionStorage.getItem(
+        "email"
+      )}/${availableSubjectName}/PE1/TestCases/${file.name}`
     );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(
@@ -203,7 +214,7 @@ const FormAnt = () => {
               },
             ]}
           >
-            <SelectAnt setAvailableSubjectId={setAvailableSubjectId} disabled={true} />
+            <SelectAnt onChange={handleSubject} />
           </Form.Item>
         </Col>
       </Row>

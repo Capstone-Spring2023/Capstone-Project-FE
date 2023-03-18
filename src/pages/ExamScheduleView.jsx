@@ -6,9 +6,10 @@ import { Header, ModalAnt2 } from "../components";
 import avatar from "../assets/banner.jpg";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import TableFooter from "../components/Table/TableFooter";
-import { ACTIVE_GREEN, RED } from "../utils/constants";
+import { ACTIVE_GREEN, BASE_URL_API, RED } from "../utils/constants";
 import { StyleProvider } from "@ant-design/cssinjs";
 import { ConfigProvider, Tooltip } from "antd";
+import moment from "moment/moment";
 
 const ExamScheduleView = () => {
   const [page, setPage] = useState(1);
@@ -21,7 +22,7 @@ const ExamScheduleView = () => {
   }, []);
 
   const fetchTable = () => {
-    fetch("http://localhost:8000/exams-schedule-view")
+    fetch(`${BASE_URL_API}/user/28/exam-schedule`)
       .then((res) => {
         return res.json();
       })
@@ -82,7 +83,7 @@ const ExamScheduleView = () => {
                     <div className="text-gray-400">Subject: {item.subject}</div>
                   </div>
                 </td>
-                <td className="px-3 py-3">{item.title}</td>
+                <td className="px-3 py-3">{item.tittle}</td>
                 <td className="px-3 py-3">
                   <span
                     className={`inline-flex items-center gap-1 rounded-full ${
@@ -99,7 +100,9 @@ const ExamScheduleView = () => {
                     {item.status ? "Active" : "Inactive"}
                   </span>
                 </td>
-                <td className="px-3 py-3">{item.deadline}</td>
+                <td className="px-3 py-3">
+                  {moment(item.deadline).format("YYYY/MM/DD hh:mm:ss")}
+                </td>
                 <td className="px-6 py-4">
                   <div className="flex justify-center gap-4 content-center items-center">
                     <Tooltip title="Info">
@@ -116,7 +119,7 @@ const ExamScheduleView = () => {
                       </ConfigProvider>
                     </Tooltip>
                   </div>
-                  </td>
+                </td>
               </tr>
             ))}
           </tbody>

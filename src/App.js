@@ -198,7 +198,7 @@ const App = () => {
                       element={<ExamScheduleCreate />}
                     />
                     <Route
-                      path="/exam/schedule/edit/:examid"
+                      path="/exam/schedule/edit/:examScheduleId"
                       element={<ExamScheduleEdit />}
                     />
 

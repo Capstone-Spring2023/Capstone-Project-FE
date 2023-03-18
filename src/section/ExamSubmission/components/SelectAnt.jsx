@@ -4,22 +4,19 @@ import { BASE_URL_API } from "../../../utils/constants";
 
 const { Option } = Select;
 
-const SelectAnt = ({ onChange ,setAvailableSubjectId }) => {
+const SelectAnt = ({ onChange }) => {
   const [subject, setSubject] = useState([{}]);
   const fetchSubject = () => {
-    fetch(`https://fpt-cft.azurewebsites.net/api/user/28/exam-schedule/available-subject`)
+    fetch(`${BASE_URL_API}/user/28/exam-schedule/available-subject`)
       .then((res) => {
         return res.json();
       })
       .then((resp) => {
         setSubject(resp);
-        setAvailableSubjectId(resp.availableSubjectId);
-        console.log(resp);
       })
       .catch((err) => {
         console.log(err.message);
       });
-      console.log("as",subject);
   };
 
   useEffect(() => {
@@ -37,7 +34,7 @@ const SelectAnt = ({ onChange ,setAvailableSubjectId }) => {
       {subject?.map((item, index) => (
         <Option
           key={index}
-          value={`${item?.availableSubjectId}`}
+          value={`${item?.availableSubjectId}, ${item?.subjectName}`}
           label={`${item?.subjectName}`}
         >
           <Space>{item?.subjectName}</Space>

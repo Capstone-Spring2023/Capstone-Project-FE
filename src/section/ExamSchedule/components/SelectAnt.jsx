@@ -4,8 +4,9 @@ import { BASE_URL_API } from "../../../utils/constants";
 
 const { Option } = Select;
 
-const SelectAnt = ({ onChange }) => {
+const SelectAnt = ({ onChange, defaultValue }) => {
   const [subject, setSubject] = useState([{}]);
+  console.log("DEFAULT", defaultValue);
   const fetchSubject = () => {
     fetch(`${BASE_URL_API}/leader/5/available-subject`)
       .then((res) => {
@@ -13,7 +14,6 @@ const SelectAnt = ({ onChange }) => {
       })
       .then((resp) => {
         setSubject(resp.data);
-        console.log(resp);
       })
       .catch((err) => {
         console.log(err.message);
@@ -31,6 +31,7 @@ const SelectAnt = ({ onChange }) => {
       placeholder="Select subjects"
       onChange={onChange}
       optionLabelProp="label"
+      defaultValue="fsdfsdfsdf"
     >
       {subject?.map((item, index) => (
         <Option

@@ -3,23 +3,21 @@ import {
   Button,
   Col,
   DatePicker,
-  Divider,
+  DatePickerProps,
   Form,
   Input,
   Row,
-  Space,
 } from "antd";
 import SelectAnt from "./SelectAnt";
 import UploadAnt from "./UploadAnt";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { DatePickerProps } from "antd";
+import { BASE_URL_API } from "../../../utils/constants";
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
-const FormAntEdit = () => {
-  const { examid } = useParams();
+const FormAntEdit = ({ examScheduleId }) => {
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("");
@@ -29,29 +27,28 @@ const FormAntEdit = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/" + examid)
+    fetch(`${BASE_URL_API}/exam-schedule/${examScheduleId}`)
       .then((res) => {
         return res.json();
       })
       .then((resp) => {
-        setId(resp.examPaperId);
-        setTitle(resp.title);
-        setSubject(resp.subject);
-        setAssignee(resp.assignee);
-        setDeadline(resp.deadline);
-        setStatus(resp.status);
+        const data = resp.data;
+        console.log("DATA", data)
+        setId(data.examPaperId);
+        setTitle(data.tittle);
+        setSubject(data.tittle);
+        setAssignee(data.assignee);
+        setDeadline(data.deadline);
+        setStatus(data.status);
       })
       .catch((err) => {
         console.log(err.message);
       });
-    console.log("ID", id);
-    console.log("EXAMID", examid);
-    console.log("TITLE", title.toString());
   }, []);
   const handleUpdate = () => {
     const examData = { id, title, subject, assignee, deadline, status };
     toast.promise(
-      fetch("http://localhost:8000/exams-schedule/" + examid, {
+      fetch("http://localhost:8000/exams-schedule/" + examScheduleId, {
         method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(examData),
@@ -88,19 +85,25 @@ const FormAntEdit = () => {
       style={{
         maxWidth: 1500,
       }}
-      initialValues={{
-        remember: true,
-      }}
+      fields={[
+        {
+          name: ["examTitle"],
+          value: title,
+        },
+        {
+          name: ["examSubject"],
+          value: subject,
+        },
+      ]}
       onFinish={handleUpdate}
       onFinishFailed={onFinishFailed}
-      autoComplete="off"
+      autoComplete="on"
     >
       <Row>
         <Col span={12}>
           <Form.Item
             label="Exam title"
-            name="title"
-            initialValue={title.toString()}
+            name="examTitle"
             rules={[
               {
                 required: true,
@@ -117,7 +120,7 @@ const FormAntEdit = () => {
         <Col span={12}>
           <Form.Item
             label="Subject"
-            name="subject"
+            name="examSubject"
             rules={[
               {
                 required: true,
@@ -125,7 +128,7 @@ const FormAntEdit = () => {
               },
             ]}
           >
-            <SelectAnt defaultValue={`${subject}`} onChange={handleSubject} />
+            <SelectAnt onChange={handleSubject} defaultValue={subject} />
           </Form.Item>
         </Col>
       </Row>

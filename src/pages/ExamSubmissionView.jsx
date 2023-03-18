@@ -50,7 +50,7 @@ const ExamSubmissionView = () => {
   };
 
   const fetchTable = () => {
-    fetch(`${BASE_URL_API}/exam-submission-view/leader/5`)
+    fetch(`${BASE_URL_API}/leader/5/exam-submission`)
       .then((res) => {
         return res.json();
       })
@@ -106,10 +106,10 @@ const ExamSubmissionView = () => {
                   </div>
                   <div className="text-sm">
                     <div className="font-medium text-gray-700">
-                      Lecturer: {item.examPaperId}
+                      Lecturer: {item.lecturerName}
                     </div>
                     <div className="text-gray-400">
-                      Subject: {item.registerSubjectId}
+                      Subject: {item.subjectName}
                     </div>
                   </div>
                 </td>
@@ -147,6 +147,7 @@ const ExamSubmissionView = () => {
                         description="Are you sure to approve this exam?"
                         onConfirm={() => handleApprove(item.examPaperId)}
                         okText="Yes"
+                        okType="default"
                         cancelText="No"
                       >
                         <CheckOutlined
