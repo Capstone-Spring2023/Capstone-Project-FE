@@ -154,7 +154,7 @@ const ExamSubmission = () => {
                   <div className="flex justify-start gap-4">
                     <Tooltip title="Edit">
                       <EditOutlined
-                        onClick={() => handleEdit(item.id)}
+                        onClick={() => handleEdit(item.examPaperId)}
                         style={{ fontSize: 17, color: "lightblue" }}
                         height={55}
                       />

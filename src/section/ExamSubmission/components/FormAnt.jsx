@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
 import { Button, Col, Form, message, Row } from "antd";
 import SelectAnt from "./SelectAnt";
 import UploadAnt from "./UploadAnt";
@@ -20,16 +20,36 @@ const FormAnt = () => {
   const [status, setStatus] = useState(true);
   const [examLink, setExamLink] = useState("");
   const navigate = useNavigate();
+  const [examScheduleId,setExamScheduleId]=useState("");
   const [file, setFile] = useState("");
   const handleSubject = (value) => {
-    setAvailableSubjectId(value.split(",")[0]);
+    setAvailableSubjectId(parseInt(value.split(",")[0]));
     setAvailableSubjectName(value.split(",")[1]);
   };
 
+  const fetchSubject = () => {
+    fetch(`https://fpt-cft.azurewebsites.net/api/user/28/exam-schedule`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((resp) => {
+        setExamScheduleId(resp[0].examScheduleId);
+        console.log("escde",resp[0].examScheduleId);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
+  useEffect(() => {
+    fetchSubject();
+    console.log("exsc",examScheduleId);
+  }, []);
+
   const handleSubmit = () => {
-    const examData = { availableSubjectId, examContent, examLink };
+    const examData = { examScheduleId, examContent, examLink };
     toast.promise(
-      fetch(`${BASE_URL_API}/exam-submission/` + availableSubjectId, {
+      fetch(`${BASE_URL_API}/exam-submission/` + examScheduleId, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(examData),
@@ -89,6 +109,7 @@ const FormAnt = () => {
           )}/${availableSubjectName}/PE1`
         );
         setExamLink(sessionStorage.getItem("email"));
+        console.log(examLink);
         message.success(`${file.name} file uploaded successfully.`);
       }
     );
