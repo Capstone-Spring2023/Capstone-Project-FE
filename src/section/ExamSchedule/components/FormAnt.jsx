@@ -7,14 +7,12 @@ import {
   Form,
   Input,
   Row,
-  message
 } from "antd";
 import SelectAnt from "./SelectAnt";
 import UploadAnt from "./UploadAnt";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
-import { getDownloadURL } from 'firebase/storage';
+import { BASE_URL_API } from "../../../utils/constants";
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -25,15 +23,15 @@ const FormAnt = () => {
   const [deadline, setDeadline] = useState("");
   const [status, setStatus] = useState(true);
   const [assignee, setAssignee] = useState("HoaDNT");
-  const [examLink, setExamLink] = useState(null);
-  const [typeId, setTypeID] = useState("1");
+  const [examLink, setExamLink] = useState("");
+  const [typeId, setTypeID] = useState(1);
   const navigate = useNavigate();
   const onFinish = () => {
-    // const examScheduleData = { tittle, subject, assignee, deadline, examLink };
+    const examLink = localStorage.getItem("examUrl");
     const examScheduleData = { tittle, deadline, examLink, typeId };
     console.log("Data", examScheduleData);
     toast.promise(
-      fetch("https://fpt-cft.azurewebsites.net/api/leader/exams-schedule?availableId=" + subject, {
+      fetch(`${BASE_URL_API}/exam-schedule?availableId=` + subject, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(examScheduleData),

@@ -242,11 +242,11 @@ const FormAntEdit = (editID) => {
   const upLoadFile3 = async ({ onSuccess, onProgress, onError, file }) => {
     let folderRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/PE1/TestCase`
+      `/${sessionStorage.getItem("email")}/PE1/TestCases`
     );
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/PE1/TestCase/${file.name}`
+      `/${sessionStorage.getItem("email")}/PE1/TestCases/${file.name}`
     );
     listAll(folderRef).then((res) => {
       if (res.items.length > 0) {
@@ -256,7 +256,7 @@ const FormAntEdit = (editID) => {
         });
         Promise.all(promises)
           .then(() => {
-            console.log("All files TestCase deleted successfully");
+            console.log("All files TestCases deleted successfully");
             const uploadTask = uploadBytesResumable(fileRef, file);
             uploadTask.on(
               "state_changed",
@@ -390,7 +390,7 @@ const FormAntEdit = (editID) => {
       <Row justify="center" align="center">
         <Col span={20} offset={6}>
           <Form.Item name="file">
-            <UploadAnt uploadFile={upLoadFile3} accept=".txt" description="Please only upload file in your TestCase folder" />
+            <UploadAnt uploadFile={upLoadFile3} accept=".txt" description="Please only upload file in your TestCases folder" />
           </Form.Item>
         </Col>
       </Row>

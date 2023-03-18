@@ -34,7 +34,7 @@ const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
         onSuccess(file);
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           console.log(url);
-          localStorage.setItem('url', url);
+          localStorage.setItem('examUrl', url);
           message.success(`${file.name} file uploaded successfully.`);
         }).catch((error) => {
           console.log(error);

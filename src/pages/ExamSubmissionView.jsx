@@ -4,7 +4,7 @@ import { toast, Toaster } from "react-hot-toast";
 import { Header, ModalAnt, Popup } from "../components";
 import avatar from "../assets/banner.jpg";
 import TableFooter from "../components/Table/TableFooter";
-import { ACTIVE_GREEN } from "../utils/constants";
+import {ACTIVE_GREEN, BASE_URL_API} from "../utils/constants";
 import { Popconfirm, Tooltip } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 
@@ -50,7 +50,7 @@ const ExamSubmissionView = () => {
   };
 
   const fetchTable = () => {
-    fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/leader/4?pageIndex=1")
+    fetch(`${BASE_URL_API}/exam-submission-view/leader/5`)
       .then((res) => {
         return res.json();
       })
@@ -76,7 +76,7 @@ const ExamSubmissionView = () => {
           <thead className="bg-gray-50">
             <tr>
               <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                Avatar
+                Basic Info
               </th>
               <th scope="col" className="px-3 py-3 font-medium text-gray-900">
                 Title
@@ -117,18 +117,26 @@ const ExamSubmissionView = () => {
                 <td className="px-3 py-3">{item.type}</td>
                 <td className="px-3 py-3">
                   <span
-                    className={`inline-flex items-center gap-1 rounded-full ${
-                      item.isApproved
-                        ? "bg-green-50 text-green-600"
-                        : "bg-red-50 text-red-600"
-                    }  px-2 py-1 text-xs font-semibold`}
+                      className={`inline-flex items-center gap-1 rounded-full ${item.status === "Approved"
+                          ? "bg-green-50 text-green-600"
+                          : item.status === "Rejected"
+                              ? "bg-red-50 text-red-600"
+                              : item.status === "Pending"
+                                  ? "bg-yellow-50 text-yellow-600"
+                                  : "bg-gray-50 text-gray-600"
+                      }  px-2 py-1 text-xs font-semibold`}
                   >
                     <span
-                      className={`h-1.5 w-1.5 rounded-full ${
-                        item.isApproved ? "bg-green-600" : "bg-red-600"
-                      }`}
+                        className={`h-1.5 w-1.5 rounded-full ${item.status === "Approved"
+                            ? "bg-green-600"
+                            : item.status === "Rejected"
+                                ? "bg-red-600"
+                                : item.status === "Pending"
+                                    ? "bg-yellow-600"
+                                    : "bg-gray-600"
+                        }`}
                     ></span>
-                    {item.isApproved ? "Active" : "Inactive"}
+                    {item.status}
                   </span>
                 </td>
                 <td className="px-6 py-4">
@@ -147,13 +155,11 @@ const ExamSubmissionView = () => {
                         />
                       </Popconfirm>
                     </Tooltip>
-                    <Tooltip title="Reject">
-                      <Popup
-                        title="Comment"
-                        fetchTable={fetchTable}
-                        id={item.examPaperId}
-                      />
-                    </Tooltip>
+                    <Popup
+                      title="Comment"
+                      fetchTable={fetchTable}
+                      examPaperId={item.examPaperId}
+                    />
                     <ModalAnt
                       title="Exam submission detail"
                       id={item.examPaperId}

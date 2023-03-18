@@ -8,6 +8,7 @@ import { toast, Toaster } from "react-hot-toast";
 import { StyleProvider } from "@ant-design/cssinjs";
 import { ConfigProvider, Tooltip } from "antd";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import {BASE_URL_API} from "../utils/constants";
 
 const ExamSubmission = () => {
   const { examPaperId } = useParams();
@@ -47,7 +48,7 @@ const ExamSubmission = () => {
   }, []);
 
   const fetchTable = () => {
-    fetch("https://fpt-cft.azurewebsites.net/user/1/exam-submission")
+    fetch(`${BASE_URL_API}/exam-submission/user/28/exam-submission`)
       .then((res) => {
         return res.json();
       })
@@ -81,10 +82,7 @@ const ExamSubmission = () => {
           <thead className="bg-gray-50">
             <tr>
               <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                Avatar
-              </th>
-              <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                Title
+                Basic Info
               </th>
               <th scope="col" className="px-3 py-3 font-medium text-gray-900">
                 Status
@@ -114,13 +112,11 @@ const ExamSubmission = () => {
                   </div>
                   <div className="text-sm">
                     <div className="font-medium text-gray-700">
-                      examPaperId: {item.examPaperId}
+                      Lecturer: {item.lecturerName}
                     </div>
                     <div className="text-gray-400">Subject: {item.subjectName}</div>
                   </div>
                 </td>
-                <td className="px-3 py-3">{item.examLink}</td>
-                {/* <td className="px-3 py-3" title="{item.examContent}">{item.examContent?.substring(0, 3)}...</td> */}
                 <td className="px-3 py-3">
                   <span
                     className={`inline-flex items-center gap-1 rounded-full ${item.status === "Approved"
@@ -145,7 +141,7 @@ const ExamSubmission = () => {
                     {item.status}
                   </span>
                 </td>
-                <td className="px-3 py-3" title="{item.comment}" >{item.comment?.length > 5 ? item.comment?.slice(0, 5) + "..." : item.comment}</td>
+                <td className="px-3 py-3" title="{item.comment}" >{item.comment?.length > 5 ? item.comment?.slice(0, 10) + "..." : item.comment}</td>
                 <td className="px-3 py-3">{item.type}</td>
                 <td className="px-6 py-4">
                   <div className="flex justify-start gap-4">
