@@ -24,6 +24,7 @@ const UserProfile = () => {
     setIsClicked(initialState);
     setIsLoginPage(true);
     setActiveMenu(false);
+    sessionStorage.removeItem("email");
     localStorage.setItem("isLogin", "true");
     localStorage.setItem("isActiveMenu", "false");
     navigate("/");

@@ -46,7 +46,7 @@ const FormAntEdit = (editID) => {
         setAssignee(resp.examLink);
         setDeadline(resp.deadline);
         setStatus(resp.status);
-        setExamScheduleID(resp.examScheduleId);
+        setExamScheduleID(resp.subjectName);
         console.log("TITLE", resp);
       })
       .catch((err) => {
