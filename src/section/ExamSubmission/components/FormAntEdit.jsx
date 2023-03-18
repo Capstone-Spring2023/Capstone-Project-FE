@@ -85,11 +85,11 @@ const FormAntEdit = (editID) => {
   const upLoadFile = async ({ onSuccess, onProgress, onError, file }) => {
     let folderRef = ref(
       storage,
-      `/`+assignee+`/${examScheduleID}/PE1`
+      `/${sessionStorage.getItem("email")}/${examScheduleID}/PE1`
     );
     let fileRef = ref(
       storage,
-      `/`+assignee+`/${examScheduleID}/PE1/${file.name}`
+      `/${sessionStorage.getItem("email")}/${examScheduleID}/PE1/${file.name}`
     );
     listAll(folderRef).then((res) => {
       if (res.items.length > 0) {

@@ -24,7 +24,7 @@ const FormAnt = () => {
   const [file, setFile] = useState("");
   const handleSubject = (value) => {
     setAvailableSubjectId(parseInt(value.split(",")[0]));
-    setAvailableSubjectName(value.split(",")[1]);
+    setAvailableSubjectName(value.trim().split(",")[1]);
   };
 
   const fetchSubject = () => {
@@ -74,9 +74,7 @@ const FormAnt = () => {
     // let fileRef = ref(storage, file.name);
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/${availableSubjectName}/PE1/${
-        file.name
-      }`
+      `/${sessionStorage.getItem("email")}/${availableSubjectName.trim()}/PE1/${file.name}`
     );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(
@@ -106,7 +104,7 @@ const FormAnt = () => {
         setFile(
           `gs://capstone-cft.appspot.com/${sessionStorage.getItem(
             "email"
-          )}/${availableSubjectName}/PE1`
+          )}/${availableSubjectName.trim()}/PE1`
         );
         setExamLink(sessionStorage.getItem("email"));
         console.log(examLink);
@@ -119,7 +117,7 @@ const FormAnt = () => {
     // let fileRef = ref(storage, file.name);
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/${availableSubjectName}/PE1/Given/${
+      `/${sessionStorage.getItem("email")}/${availableSubjectName.trim()}/PE1/Given/${
         file.name
       }`
     );
@@ -159,7 +157,7 @@ const FormAnt = () => {
       storage,
       `/${sessionStorage.getItem(
         "email"
-      )}/${availableSubjectName}/PE1/TestCases/${file.name}`
+      )}/${availableSubjectName.trim()}/PE1/TestCases/${file.name}`
     );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(
