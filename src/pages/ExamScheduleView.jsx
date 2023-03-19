@@ -116,7 +116,16 @@ const ExamScheduleView = () => {
                         }}
                       >
                         <StyleProvider hashPriority="high">
-                          <ModalAnt2 title="Exam Schedule detail" />
+                          <ModalAnt2 
+                          examScheduleId={item.examScheduleId}
+                          tittle={item.tittle}
+                          deadline={item.deadline}
+                          leaderName={item.leaderName}
+                          subjectName={item.subjectName}
+                          examLink={item.examLink}
+                          type={item.typeId}
+                          status={item.status}
+                          title="Exam Schedule detail" />
                         </StyleProvider>
                       </ConfigProvider>
                     </Tooltip>
