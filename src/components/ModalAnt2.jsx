@@ -3,7 +3,7 @@ import { Badge, Button, Descriptions, Modal } from "antd";
 import "./GoogleButton.css";
 import { InfoOutlined } from "@ant-design/icons";
 
-const ModalAnt2 = ({ title }) => {
+const ModalAnt2 = ({ title ,examScheduleId,tittle,deadline,leaderName,subjectName,examLink,type,status}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -30,16 +30,34 @@ const ModalAnt2 = ({ title }) => {
         ]}
       >
         <Descriptions layout="vertical">
-          <Descriptions.Item label="Assign">HoaDNT</Descriptions.Item>
-          <Descriptions.Item label="Title">PRF exam</Descriptions.Item>
-          <Descriptions.Item label="Status">
-            <Badge status="success" text="Active" />
+        <Descriptions.Item label="Subject">{subjectName}</Descriptions.Item>
+          <Descriptions.Item label="Assign">{examScheduleId}</Descriptions.Item>
+          <Descriptions.Item label="Title">{tittle}</Descriptions.Item>
+          <Descriptions.Item label="Leader">{leaderName}</Descriptions.Item>
+          <Descriptions.Item label="Type">
+          {type ? "By Computer" : "By Hand"}
           </Descriptions.Item>
-          <Descriptions.Item label="Deadline">2023-02-22</Descriptions.Item>
+          <Descriptions.Item label="Status">
+                  <span
+                    className={`inline-flex items-center gap-1 rounded-full ${
+                      status
+                        ? "bg-green-50 text-green-600"
+                        : "bg-red-50 text-red-600"
+                    }  px-2 py-1 text-xs font-semibold`}
+                  >
+                    <span
+                      className={`h-1.5 w-1.5 rounded-full ${
+                        status ? "bg-green-600" : "bg-red-600"
+                      }`}
+                    ></span>
+                    {status ? "Active" : "Inactive"}
+                  </span>
+          </Descriptions.Item>
+          <Descriptions.Item label="Deadline">{deadline}</Descriptions.Item>
           <Descriptions.Item label="Sample Exam Paper">
             <a
               className="container"
-              href="https://firebasestorage.googleapis.com/v0/b/capstone-cft.appspot.com/o/H%C6%AF%E1%BB%9ANG-D%E1%BA%AAN-T%E1%BA%A0O-%C4%90%E1%BB%80-THI-PE-M%C3%94N-PRJ301.docx?alt=media&token=ca12d3f1-4e06-414b-b13f-1a7724144a2c"
+              href={examLink}
             >
               <div className="row align-items-center">
                 <div className="col-auto">

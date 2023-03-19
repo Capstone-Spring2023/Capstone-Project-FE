@@ -152,6 +152,7 @@ const ExamSubmission = () => {
                 <td className="px-3 py-3">{item.type}</td>
                 <td className="px-6 py-4">
                   <div className="flex justify-start gap-4">
+                  {item.status === "Pending" ? (
                     <Tooltip title="Edit">
                       <EditOutlined
                         onClick={() => handleEdit(item.examPaperId)}
@@ -159,6 +160,8 @@ const ExamSubmission = () => {
                         height={55}
                       />
                     </Tooltip>
+                    ) : null}
+                    {item.status === "Pending" ? (
                     <Tooltip title="Delete">
                       <Popconfirm
                         title="Delete the exam-submission"
@@ -174,6 +177,7 @@ const ExamSubmission = () => {
                         />
                       </Popconfirm>
                     </Tooltip>
+                    ) : null}
                     {item.status === "Waiting-Instruction" ? (
                       <Tooltip title="Info">
                         <ModalAnt3 examInstructionId={item.examPaperId} title="Exam instruction" />

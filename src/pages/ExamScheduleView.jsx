@@ -80,7 +80,7 @@ const ExamScheduleView = () => {
                     <div className="font-medium text-gray-700">
                       Assign: {item.assignee}
                     </div>
-                    <div className="text-gray-400">Subject: {item.subject}</div>
+                    <div className="text-gray-400">Subject: {item.subjectId}</div>
                   </div>
                 </td>
                 <td className="px-3 py-3">{item.tittle}</td>
@@ -114,7 +114,16 @@ const ExamScheduleView = () => {
                         }}
                       >
                         <StyleProvider hashPriority="high">
-                          <ModalAnt2 title="Exam Schedule detail" />
+                          <ModalAnt2 
+                          examScheduleId={item.examScheduleId}
+                          tittle={item.tittle}
+                          deadline={item.deadline}
+                          leaderName={item.leaderName}
+                          subjectName={item.subjectName}
+                          examLink={item.examLink}
+                          type={item.typeId}
+                          status={item.status}
+                          title="Exam Schedule detail" />
                         </StyleProvider>
                       </ConfigProvider>
                     </Tooltip>
