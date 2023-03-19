@@ -21,13 +21,11 @@ const FormAnt = () => {
   const [tittle, setTitle] = useState("");
   const [subject, setSubject] = useState("");
   const [deadline, setDeadline] = useState("");
-  const [status, setStatus] = useState(true);
-  const [assignee, setAssignee] = useState("HoaDNT");
   const [examLink, setExamLink] = useState("");
   const [typeId, setTypeID] = useState(1);
   const navigate = useNavigate();
   const onFinish = () => {
-    const examLink = localStorage.getItem("examUrl");
+    setExamLink(localStorage.getItem("examUrl"));
     const examScheduleData = { tittle, deadline, examLink, typeId };
     console.log("Data", examScheduleData);
     toast.promise(

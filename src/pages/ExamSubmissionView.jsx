@@ -4,7 +4,7 @@ import { toast, Toaster } from "react-hot-toast";
 import { Header, ModalAnt, Popup } from "../components";
 import avatar from "../assets/banner.jpg";
 import TableFooter from "../components/Table/TableFooter";
-import {ACTIVE_GREEN, BASE_URL_API} from "../utils/constants";
+import {ACTIVE_GREEN, BASE_URL_API, WAITING_INSTRUCTION} from "../utils/constants";
 import { Popconfirm, Tooltip } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 
@@ -23,14 +23,13 @@ const ExamSubmissionView = () => {
       commentModel: {
         leaderId: 5,
         examPaperId: id,
-        commentContent: "string",
       },
       examUpdateApproveModel: {
-        status: "Waiting-Instruction",
+        status: WAITING_INSTRUCTION,
       },
     };
     toast.promise(
-      fetch("https://fpt-cft.azurewebsites.net/api/exam-submission-view/review-exam", {
+      fetch(`${BASE_URL_API}/exam-submission-view/review-exam`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
