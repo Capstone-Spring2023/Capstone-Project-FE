@@ -51,7 +51,11 @@ const ExamSchedule = () => {
         return res.json();
       })
       .then((resp) => {
-        setExamScheduleData(resp?.data);
+        if (resp.length > 0) {
+          setExamScheduleData(resp.data);
+        } else {
+          setExamScheduleData(resp);
+        }
       })
       .catch((err) => {
         console.log(err.message);
