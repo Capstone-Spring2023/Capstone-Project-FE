@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Select, Space } from "antd";
+import { ConfigProvider, Select, Space } from "antd";
 import { BASE_URL_API } from "../../../utils/constants";
+import { SmileOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
@@ -23,26 +24,43 @@ const SelectAnt = ({ onChange, defaultValue }) => {
   useEffect(() => {
     fetchSubject();
   }, []);
-  return (
-    <Select
+  const customizeRenderEmpty = () => (
+    <div
       style={{
-        width: "100%",
+        textAlign: "center",
       }}
-      placeholder="Select subjects"
-      onChange={onChange}
-      optionLabelProp="label"
-      defaultValue=""
     >
-      {subject?.map((item, index) => (
-        <Option
-          key={index}
-          value={`${item?.availableSubjectId}`}
-          label={`${item?.subjectName}`}
-        >
-          <Space>{item?.subjectName}</Space>
-        </Option>
-      ))}
-    </Select>
+      <SmileOutlined
+        style={{
+          fontSize: 20,
+        }}
+      />
+      <p>Data Not Found</p>
+    </div>
+  );
+  const style = {
+    width: 200,
+  };
+  return (
+    <ConfigProvider renderEmpty={customizeRenderEmpty}>
+      <Select
+        style={style}
+        placeholder="Select subjects"
+        onChange={onChange}
+        optionLabelProp="label"
+        defaultValue=""
+      >
+        {subject?.map((item, index) => (
+          <Option
+            key={index}
+            value={`${item?.availableSubjectId}`}
+            label={`${item?.subjectName}`}
+          >
+            <Space>{item?.subjectName}</Space>
+          </Option>
+        ))}
+      </Select>
+    </ConfigProvider>
   );
 };
 
