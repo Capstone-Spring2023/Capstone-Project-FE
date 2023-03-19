@@ -1,4 +1,4 @@
-import React, { useRef, useState,useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Form, message, Row } from "antd";
 import SelectAnt from "./SelectAnt";
 import UploadAnt from "./UploadAnt";
@@ -14,17 +14,13 @@ const onFinishFailed = (errorInfo) => {
 };
 const FormAnt = () => {
   const [examContent, setExamContent] = useState("ESH201 Exam PE");
-  const [availableSubjectId, setAvailableSubjectId] = useState("");
   const [availableSubjectName, setAvailableSubjectName] = useState("");
-  const [type, setType] = useState("");
-  const [status, setStatus] = useState(true);
   const [examLink, setExamLink] = useState("");
   const navigate = useNavigate();
   const [examScheduleId,setExamScheduleId]=useState("");
   const [file, setFile] = useState("");
   const handleSubject = (value) => {
-    setAvailableSubjectId(parseInt(value.split(",")[0]));
-    setAvailableSubjectName(value.trim().split(",")[1]);
+    setAvailableSubjectName(value);
   };
 
   const fetchSubject = () => {

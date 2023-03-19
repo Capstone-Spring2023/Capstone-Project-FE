@@ -188,7 +188,7 @@ const App = () => {
                       element={<ExamSubmissionCreate />}
                     />
                     <Route
-                      path="/exam/submission/edit/:examid"
+                      path="/exam/submission/edit/:examPaperId"
                       element={<ExamSubmissionEdit />}
                     />
 

@@ -15,3 +15,7 @@ export const firebaseConfig = {
   measurementId: "G-Q1YQBVJXWP",
 };
 export const BASE_URL_API = "https://fpt-cft.azurewebsites.net/api";
+export const APPROVED = "Approve";
+export const REJECTED = "Reject";
+export const PENDING = "Pending";
+export const WAITING_INSTRUCTION = "Waiting-Instruction";

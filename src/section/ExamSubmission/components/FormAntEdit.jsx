@@ -8,16 +8,23 @@ import {
   Input,
   Row,
   Space,
-  message
+  message,
 } from "antd";
 import SelectAnt from "./SelectAnt";
 import UploadAnt from "./UploadAnt";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { DatePickerProps } from "antd";
-import { getStorage, ref, uploadBytesResumable, listAll, deleteObject } from "firebase/storage";
-import { getDownloadURL } from 'firebase/storage';
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  listAll,
+  deleteObject,
+} from "firebase/storage";
+import { getDownloadURL } from "firebase/storage";
 import { storage } from "../../../firebase/firebase";
+import { BASE_URL_API } from "../../../utils/constants";
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -30,12 +37,12 @@ const FormAntEdit = (editID) => {
   const [deadline, setDeadline] = useState("");
   const [status, setStatus] = useState(true);
   const [assignee, setAssignee] = useState("HoaDNT");
-  const [examScheduleID,setExamScheduleID]=useState("");
+  const [examScheduleID, setExamScheduleID] = useState("");
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
 
   useEffect(() => {
-    fetch("https://fpt-cft.azurewebsites.net/api/exam-submission/" + examid)
+    fetch(`${BASE_URL_API}/exam-submission/` + examid)
       .then((res) => {
         return res.json();
       })
@@ -52,10 +59,6 @@ const FormAntEdit = (editID) => {
       .catch((err) => {
         console.log(err.message);
       });
-    console.log("ID", id);
-    console.log("EXAMID", examid);
-    console.log("idSchedule",examScheduleID);
-    // console.log("TITLE", title.toString());
   }, []);
   const handleUpdate = () => {
     const examData = { id, title, subject, assignee, deadline, status };
@@ -162,11 +165,11 @@ const FormAntEdit = (editID) => {
   const upLoadFile2 = async ({ onSuccess, onProgress, onError, file }) => {
     let folderRef = ref(
       storage,
-      `/`+assignee+`/${examScheduleID}/PE1/Given`
+      `/` + assignee + `/${examScheduleID}/PE1/Given`
     );
     let fileRef = ref(
       storage,
-      `/`+assignee+`/${examScheduleID}/PE1/Given/${file.name}`
+      `/` + assignee + `/${examScheduleID}/PE1/Given/${file.name}`
     );
     listAll(folderRef).then((res) => {
       if (res.items.length > 0) {
@@ -240,11 +243,11 @@ const FormAntEdit = (editID) => {
   const upLoadFile3 = async ({ onSuccess, onProgress, onError, file }) => {
     let folderRef = ref(
       storage,
-      `/`+assignee+`/${examScheduleID}/PE1/TestCases`
+      `/` + assignee + `/${examScheduleID}/PE1/TestCases`
     );
     let fileRef = ref(
       storage,
-      `/`+assignee+`/${examScheduleID}/PE1/TestCases/${file.name}`
+      `/` + assignee + `/${examScheduleID}/PE1/TestCases/${file.name}`
     );
     listAll(folderRef).then((res) => {
       if (res.items.length > 0) {
@@ -313,7 +316,7 @@ const FormAntEdit = (editID) => {
       }
     });
   };
-  
+
   return (
     <Form
       name="basic"
@@ -370,21 +373,31 @@ const FormAntEdit = (editID) => {
       <Row justify="center" align="center">
         <Col span={20} offset={6}>
           <Form.Item name="file" accept=".docx">
-            <UploadAnt uploadFile={upLoadFile} description="Please only upload file with type docx" />
+            <UploadAnt
+              uploadFile={upLoadFile}
+              description="Please only upload file with type docx"
+            />
           </Form.Item>
         </Col>
       </Row>
       <Row justify="center" align="center">
         <Col span={20} offset={6}>
           <Form.Item name="file" accept="application/pdf">
-            <UploadAnt uploadFile={upLoadFile2} description="Please only upload file in your Given folder" />
+            <UploadAnt
+              uploadFile={upLoadFile2}
+              description="Please only upload file in your Given folder"
+            />
           </Form.Item>
         </Col>
       </Row>
       <Row justify="center" align="center">
         <Col span={20} offset={6}>
           <Form.Item name="file">
-            <UploadAnt uploadFile={upLoadFile3} accept=".txt" description="Please only upload file in your TestCases folder" />
+            <UploadAnt
+              uploadFile={upLoadFile3}
+              accept=".txt"
+              description="Please only upload file in your TestCases folder"
+            />
           </Form.Item>
         </Col>
       </Row>

@@ -78,9 +78,11 @@ const ExamScheduleView = () => {
                   </div>
                   <div className="text-sm">
                     <div className="font-medium text-gray-700">
-                      Assign: {item.assignee}
+                      Assign: {item.leaderName}
                     </div>
-                    <div className="text-gray-400">Subject: {item.subjectId}</div>
+                    <div className="text-gray-400">
+                      Subject: {item.subjectName}
+                    </div>
                   </div>
                 </td>
                 <td className="px-3 py-3">{item.tittle}</td>

@@ -8,7 +8,7 @@ import TableFooter from "../components/Table/TableFooter";
 import { BASE_URL_API } from "../utils/constants";
 import moment from "moment";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Popconfirm, Tooltip } from "antd";
+import { Empty, Popconfirm, Tooltip } from "antd";
 
 const ExamSchedule = () => {
   const [page, setPage] = useState(1);
@@ -51,7 +51,7 @@ const ExamSchedule = () => {
         return res.json();
       })
       .then((resp) => {
-        setExamScheduleData(resp.data);
+        setExamScheduleData(resp?.data);
       })
       .catch((err) => {
         console.log(err.message);
@@ -74,100 +74,104 @@ const ExamSchedule = () => {
           </Link>
         </div>
       </div>
-
-      <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
-        <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
-          <thead className="bg-gray-50">
-            <tr>
-              <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                Basic Info
-              </th>
-              <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                Title
-              </th>
-              <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                Status
-              </th>
-              <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                Deadline
-              </th>
-              <th scope="col" className="px-6 py-4 font-medium text-gray-900">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-            {slice.map((item, index) => (
-              <tr key={index} className="hover:bg-gray-50">
-                <td className="flex gap-3 px-3 py-3 font-normal text-gray-900 items-center">
-                  <div className="relative h-10 w-10">
-                    <img
-                      className="h-full w-full rounded-full object-cover object-center"
-                      src={avatar}
-                      alt=""
-                    />
-                    <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
-                  </div>
-                  <div className="text-sm">
-                    <div className="font-medium text-gray-700">
-                      Assign: {item.leaderId}
-                    </div>
-                    <div className="text-gray-400">
-                      Subject: {item.subjectId}
-                    </div>
-                  </div>
-                </td>
-                <td className="px-3 py-3">{item.tittle}</td>
-                <td className="px-3 py-3">
-                  <span
-                    className={`inline-flex items-center gap-1 rounded-full ${
-                      item.status
-                        ? "bg-green-50 text-green-600"
-                        : "bg-red-50 text-red-600"
-                    }  px-2 py-1 text-xs font-semibold`}
-                  >
-                    <span
-                      className={`h-1.5 w-1.5 rounded-full ${
-                        item.status ? "bg-green-600" : "bg-red-600"
-                      }`}
-                    ></span>
-                    {item.status ? "Active" : "Inactive"}
-                  </span>
-                </td>
-                <td className="px-3 py-3">
-                  {moment(item.deadline).format("YYYY/MM/DD hh:mm:ss")}
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex justify-start gap-4">
-                    <Tooltip title="Edit">
-                      <EditOutlined
-                        onClick={() => handleEdit(item.examScheduleId)}
-                        style={{ fontSize: 17, color: "lightblue" }}
-                        height={55}
+      {slice?.length > 0 ? (
+        <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
+          <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
+            <thead className="bg-gray-50">
+              <tr>
+                <th scope="col" className="px-3 py-3 font-medium text-gray-900">
+                  Basic Info
+                </th>
+                <th scope="col" className="px-3 py-3 font-medium text-gray-900">
+                  Title
+                </th>
+                <th scope="col" className="px-3 py-3 font-medium text-gray-900">
+                  Status
+                </th>
+                <th scope="col" className="px-3 py-3 font-medium text-gray-900">
+                  Deadline
+                </th>
+                <th scope="col" className="px-6 py-4 font-medium text-gray-900">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100 border-t border-gray-100">
+              {slice.map((item, index) => (
+                <tr key={index} className="hover:bg-gray-50">
+                  <td className="flex gap-3 px-3 py-3 font-normal text-gray-900 items-center">
+                    <div className="relative h-10 w-10">
+                      <img
+                        className="h-full w-full rounded-full object-cover object-center"
+                        src={avatar}
+                        alt=""
                       />
-                    </Tooltip>
-                    <Tooltip title="Delete">
-                      <Popconfirm
-                        title="Delete the exam-schedule"
-                        description="Are you sure to delete this?"
-                        onConfirm={() => handleDelete(item.examScheduleId)}
-                        okText="Yes"
-                        okType="default"
-                        cancelText="No"
-                      >
-                        <DeleteOutlined
-                          style={{ fontSize: 17, color: "red" }}
+                      <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
+                    </div>
+                    <div className="text-sm">
+                      <div className="font-medium text-gray-700">
+                        Assign: {item.leaderId}
+                      </div>
+                      <div className="text-gray-400">
+                        Subject: {item.registerSubjectId}
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-3 py-3">{item.tittle}</td>
+                  <td className="px-3 py-3">
+                    <span
+                      className={`inline-flex items-center gap-1 rounded-full ${
+                        item.status
+                          ? "bg-green-50 text-green-600"
+                          : "bg-red-50 text-red-600"
+                      }  px-2 py-1 text-xs font-semibold`}
+                    >
+                      <span
+                        className={`h-1.5 w-1.5 rounded-full ${
+                          item.status ? "bg-green-600" : "bg-red-600"
+                        }`}
+                      ></span>
+                      {item.status ? "Active" : "Inactive"}
+                    </span>
+                  </td>
+                  <td className="px-3 py-3">
+                    {moment(item.deadline).format("YYYY/MM/DD hh:mm:ss")}
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex justify-start gap-4">
+                      <Tooltip title="Edit">
+                        <EditOutlined
+                          onClick={() => handleEdit(item.examScheduleId)}
+                          style={{ fontSize: 17, color: "lightblue" }}
                           height={55}
                         />
-                      </Popconfirm>
-                    </Tooltip>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                      </Tooltip>
+                      <Tooltip title="Delete">
+                        <Popconfirm
+                          title="Delete the exam-schedule"
+                          description="Are you sure to delete this?"
+                          onConfirm={() => handleDelete(item.examScheduleId)}
+                          okText="Yes"
+                          okType="default"
+                          cancelText="No"
+                        >
+                          <DeleteOutlined
+                            style={{ fontSize: 17, color: "red" }}
+                            height={55}
+                          />
+                        </Popconfirm>
+                      </Tooltip>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <Empty />
+      )}
+
       <TableFooter
         total={examScheduleData}
         range={range}
