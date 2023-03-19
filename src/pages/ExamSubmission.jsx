@@ -176,7 +176,7 @@ const ExamSubmission = () => {
                       </Tooltip>
                       {item.status === "Approved" ? (
                         <Tooltip title="Info">
-                          <ModalAnt3 title="Exam instruction" />
+                          <ModalAnt3 examInstructionId={item.examPaperId} title="Exam instruction" />
                         </Tooltip>
                       ) : null}
                     </div>
