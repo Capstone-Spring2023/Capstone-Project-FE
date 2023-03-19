@@ -34,7 +34,7 @@ const SelectAnt = ({ onChange }) => {
           fontSize: 20,
         }}
       />
-      <p>Data Not Found</p>
+      <p>There are no request</p>
     </div>
   );
   const style = {
@@ -51,7 +51,7 @@ const SelectAnt = ({ onChange }) => {
         {subject?.map((item, index) => (
           <Option
             key={index}
-            value={`${item?.availableSubjectId}, ${item?.subjectName}`}
+            value={`${item?.availableSubjectId}`}
             label={`${item?.subjectName}`}
           >
             <Space>{item?.subjectName}</Space>
