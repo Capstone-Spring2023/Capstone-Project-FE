@@ -4,7 +4,7 @@ import { toast, Toaster } from "react-hot-toast";
 import { Header, ModalAnt, Popup } from "../components";
 import avatar from "../assets/banner.jpg";
 import TableFooter from "../components/Table/TableFooter";
-import { BASE_URL_API, WAITING_INSTRUCTION } from "../utils/constants";
+import { BASE_URL_API, WAITING_INSTRUCTION ,APPROVED} from "../utils/constants";
 import { Empty, Popconfirm, Tooltip } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 
@@ -25,7 +25,7 @@ const ExamSubmissionView = () => {
         examPaperId: id,
       },
       examUpdateApproveModel: {
-        status: WAITING_INSTRUCTION,
+        status: APPROVED,
       },
     };
     toast.promise(
