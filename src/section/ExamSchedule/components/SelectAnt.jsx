@@ -31,7 +31,7 @@ const SelectAnt = ({ onChange, defaultValue }) => {
       placeholder="Select subjects"
       onChange={onChange}
       optionLabelProp="label"
-      defaultValue="fsdfsdfsdf"
+      defaultValue=""
     >
       {subject?.map((item, index) => (
         <Option

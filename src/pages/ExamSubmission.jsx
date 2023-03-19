@@ -174,9 +174,9 @@ const ExamSubmission = () => {
                         />
                       </Popconfirm>
                     </Tooltip>
-                    {item.status === "Approved" ? (
+                    {item.status === "Waiting-Instruction" ? (
                       <Tooltip title="Info">
-                        <ModalAnt3 title="Exam instruction" />
+                        <ModalAnt3 examInstructionId={item.examPaperId} title="Exam instruction" />
                       </Tooltip>
                     ) : null}
                   </div>

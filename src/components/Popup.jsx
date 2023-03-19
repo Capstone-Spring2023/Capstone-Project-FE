@@ -26,11 +26,11 @@ const Popup = ({ title, fetchTable, examPaperId }) => {
         // commentContent: "string",
       },
       examUpdateApproveModel: {
-        isApproved: false,
+        isApproved: "Reject",
       },
     };
     toast.promise(
-      fetch(`${BASE_URL_API}/exam-submission-view/review-exam`, {
+      fetch(`https://fpt-cft.azurewebsites.net/api/exam-submission-view/review-exam`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
