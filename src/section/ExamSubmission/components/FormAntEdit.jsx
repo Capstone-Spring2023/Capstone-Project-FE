@@ -29,20 +29,19 @@ import { BASE_URL_API } from "../../../utils/constants";
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
-const FormAntEdit = (editID) => {
-  const { examid } = useParams(editID);
+const FormAntEdit = ({editID}) => {
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("");
   const [deadline, setDeadline] = useState("");
   const [status, setStatus] = useState(true);
-  const [assignee, setAssignee] = useState("HoaDNT");
+  const [assignee, setAssignee] = useState("");
   const [examScheduleID, setExamScheduleID] = useState("");
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
 
   useEffect(() => {
-    fetch(`${BASE_URL_API}/exam-submission/` + examid)
+    fetch(`${BASE_URL_API}/exam-submission/` + editID)
       .then((res) => {
         return res.json();
       })
@@ -59,11 +58,16 @@ const FormAntEdit = (editID) => {
       .catch((err) => {
         console.log(err.message);
       });
+      console.log("ass",assignee)
   }, []);
   const handleUpdate = () => {
-    const examData = { id, title, subject, assignee, deadline, status };
+    const examData = {
+      examContent: title,
+      examLink: assignee
+    }
+    
     toast.promise(
-      fetch("http://localhost:8000/exams-schedule/" + examid, {
+      fetch(`${BASE_URL_API}/exam-submission/` + id ,{
         method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(examData),
@@ -88,11 +92,11 @@ const FormAntEdit = (editID) => {
   const upLoadFile = async ({ onSuccess, onProgress, onError, file }) => {
     let folderRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/${examScheduleID}/PE1`
+      `/` + assignee + `/${examScheduleID}/PE1`
     );
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/${examScheduleID}/PE1/${file.name}`
+      `/` + assignee + `/${examScheduleID}/PE1/${file.name}`
     );
     listAll(folderRef).then((res) => {
       if (res.items.length > 0) {

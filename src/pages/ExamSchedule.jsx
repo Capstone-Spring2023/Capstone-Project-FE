@@ -90,9 +90,6 @@ const ExamSchedule = () => {
                   Title
                 </th>
                 <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                  Status
-                </th>
-                <th scope="col" className="px-3 py-3 font-medium text-gray-900">
                   Deadline
                 </th>
                 <th scope="col" className="px-6 py-4 font-medium text-gray-900">
@@ -122,22 +119,6 @@ const ExamSchedule = () => {
                     </div>
                   </td>
                   <td className="px-3 py-3">{item.tittle}</td>
-                  <td className="px-3 py-3">
-                    <span
-                      className={`inline-flex items-center gap-1 rounded-full ${
-                        item.status
-                          ? "bg-green-50 text-green-600"
-                          : "bg-red-50 text-red-600"
-                      }  px-2 py-1 text-xs font-semibold`}
-                    >
-                      <span
-                        className={`h-1.5 w-1.5 rounded-full ${
-                          item.status ? "bg-green-600" : "bg-red-600"
-                        }`}
-                      ></span>
-                      {item.status ? "Active" : "Inactive"}
-                    </span>
-                  </td>
                   <td className="px-3 py-3">
                     {moment(item.deadline).format("YYYY/MM/DD hh:mm:ss")}
                   </td>

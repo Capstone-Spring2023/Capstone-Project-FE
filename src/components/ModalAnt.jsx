@@ -21,6 +21,7 @@ const ModalAnt = ({ title, id }) => {
   const [examScheduleID,setExamScheduleID]=useState("");
   const [examLink,setExamLink]=useState("");
   const [status, setStatus] = useState(false);
+  const [examInstruction,setExamInstruction]=useState("");
   const showModal = () => {
     getDetail();
     setIsModalOpen(true);
@@ -45,6 +46,7 @@ const ModalAnt = ({ title, id }) => {
         setLecturerName(resp.lecturerName);
         setSubjectName(resp.subjectName);
         setStatus(resp.status);
+        setExamInstruction(resp.examInstruction);
         setExamScheduleID(resp.examScheduleId);
         setExamLink(resp.examLink);
       })
@@ -166,6 +168,21 @@ const ModalAnt = ({ title, id }) => {
                 {isZipping && <div>Loading file...</div>}
               </a>
             </Descriptions.Item>
+            {status === "Approve" ? (
+            <Descriptions.Item label="File Instruction">
+              <a className="container" onClick={examInstruction}>
+                <div className="row align-items-center">
+                  <div className="col-auto">
+                    <img
+                      src="https://e7.pngegg.com/pngimages/887/195/png-clipart-yellow-blue-and-red-files-blue-angle-area-material-system-explorer-blue-angle.png"
+                      className="img-thumbnail rounded img-size"
+                      alt="Responsive image"
+                    />
+                  </div>
+                </div>
+              </a>
+            </Descriptions.Item>
+            ) : null}
           </Descriptions>
         </Modal>
       </Tooltip>
