@@ -21,16 +21,16 @@ const ExamSubmissionView = () => {
   const handleApprove = (id) => {
     const data = {
       commentModel: {
-        leaderId: 2,
+        leaderId: 5,
         examPaperId: id,
         commentContent: "string",
       },
       examUpdateApproveModel: {
-        isApproved: true,
+        status: "Waiting-Instruction",
       },
     };
     toast.promise(
-      fetch("https://fpt-cft.azurewebsites.net/v1/api/exams/review-exam", {
+      fetch("https://fpt-cft.azurewebsites.net/api/exam-submission-view/review-exam", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
