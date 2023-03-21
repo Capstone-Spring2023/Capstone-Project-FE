@@ -410,7 +410,7 @@ const FormAntEdit = ({editID}) => {
           <Button htmlType="submit">Submit</Button>
         </Col>
         <Col offset={18}>
-          <Button danger onClick={() => navigate("/exam-schedule")}>
+          <Button danger onClick={() => navigate("/exam-submission")}>
             Cancel
           </Button>
         </Col>
