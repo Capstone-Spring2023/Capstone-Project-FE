@@ -7,6 +7,7 @@ import avatar from "../assets/avatar.jpg";
 import avatar2 from "../assets/avatar2.jpg";
 import avatar3 from "../assets/avatar3.png";
 import avatar4 from "../assets/avatar4.jpg";
+import { ModalAnt3 } from "../components";
 
 export const colorMappingData = [
   [
@@ -145,7 +146,7 @@ export const userProfileData = [
     desc: 'To-do and Daily Tasks',
     iconColor: 'rgb(255, 244, 229)',
     iconBg: 'rgb(254, 201, 15)',
-  },
+  }
 ];
 export const customersData = [
   {
