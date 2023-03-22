@@ -3,6 +3,8 @@ import { Header } from "../../components";
 import InputField from "../../components/InputField";
 import { MdCategory, MdOutlineSubtitles, MdSubject } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
+import { read, utils, write } from 'xlsx';
+const { sheet_to_json } = utils;
 
 const SubjectCreate = () => {
     const [departmentId, setDepartmentId] = useState("");
@@ -11,6 +13,18 @@ const SubjectCreate = () => {
     const [status, setStatus] = useState(true);
     const [subjectName, setSubjectName] = useState("");
     const navigate = useNavigate();
+    const handleFile = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const workbook = read(event.target.result, { type: 'binary' });
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+          const data = utils.sheet_to_json(sheet);
+          console.log(data); // In dữ liệu JSON ra console
+        };
+        reader.readAsBinaryString(file);
+      };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -35,6 +49,9 @@ const SubjectCreate = () => {
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
             <Header category="Subjects" title="Create Subjects" />
             <form onSubmit={handleSubmit}>
+                <div>
+                    <input type="file" onChange={handleFile} />
+                </div>
                 <div className="grid gap-6 mb-6 md:grid-cols-2">
                     <InputField
                         label="Subject Name"
