@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import {LIGHT_BLUE} from "../utils/constants";
+import { LIGHT_BLUE } from "../utils/constants";
 
 const StateContext = createContext();
 
@@ -18,6 +18,7 @@ export const ContextProvider = ({ children }) => {
   const [activeMenu, setActiveMenu] = useState(false);
   const [isClicked, setIsClicked] = useState(initialState);
   const [isLoginPage, setIsLoginPage] = useState(true);
+  const [isShowNoti, setIsShowNoti] = useState(false);
 
   const setMode = (e) => {
     setCurrentMode(e.target.value);
@@ -45,6 +46,8 @@ export const ContextProvider = ({ children }) => {
         isClicked,
         initialState,
         isLoginPage,
+        isShowNoti,
+        setIsShowNoti,
         setIsClicked,
         setActiveMenu,
         setCurrentColor,

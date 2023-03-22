@@ -5,8 +5,9 @@ import { Button } from "./index";
 import { chatData } from "../data/dummy";
 import { onMessageListener, requestForToken } from "../firebase/firebase";
 import { toast, Toaster } from "react-hot-toast";
+import { BASE_URL_API } from "../utils/constants";
 
-const Notification = () => {
+const Notification = ({ notiData }) => {
   const { currentColor } = useStateContext();
 
   return (
@@ -34,21 +35,21 @@ const Notification = () => {
         />
       </div>
       <div className="mt-5 ">
-        {chatData?.map((item, index) => (
+        {notiData?.map((item, index) => (
           <div
             key={index}
             className="flex items-center leading-8 gap-5 border-b-1 border-color p-3"
           >
-            <img
-              className="rounded-full h-10 w-10"
-              src={item.image}
-              alt={item.message}
-            />
+            {/*<img*/}
+            {/*  className="rounded-full h-10 w-10"*/}
+            {/*  src={item.image}*/}
+            {/*  alt={item.message}*/}
+            {/*/>*/}
             <div>
-              <p className="font-semibold dark:text-gray-200">{item.message}</p>
+              <p className="font-semibold dark:text-gray-200">{item.text}</p>
               <p className="text-gray-500 text-sm dark:text-gray-400">
-                {" "}
-                {item.desc}{" "}
+                {"from "}
+                {item.name}{" "}
               </p>
             </div>
           </div>

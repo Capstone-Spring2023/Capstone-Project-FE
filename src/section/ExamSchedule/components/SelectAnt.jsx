@@ -44,11 +44,11 @@ const SelectAnt = ({ onChange, defaultValue }) => {
   return (
     <ConfigProvider renderEmpty={customizeRenderEmpty}>
       <Select
+        showSearch
         style={style}
         placeholder="Select subjects"
         onChange={onChange}
         optionLabelProp="label"
-        defaultValue=""
       >
         {subject?.map((item, index) => (
           <Option
