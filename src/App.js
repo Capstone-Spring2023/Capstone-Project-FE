@@ -26,6 +26,7 @@ import NotiPopup from "./components/NotiPopup";
 import ExamScheduleCreate from "./section/ExamSchedule/ExamScheduleCreate";
 import ExamScheduleEdit from "./section/ExamSchedule/ExamScheduleEdit";
 import ExamSubmissionView from "./pages/ExamSubmissionView";
+import Schedule from "./pages/Schedule";
 
 import RegisterClass_Register from "./section/RegisterClass/RegisterClass_Register";
 
@@ -170,7 +171,7 @@ const App = () => {
                     element={<ExamSubmissionView />}
                   />
                   <Route path="/leaders" element={<Leaders />} />
-                  <Route path="/schedules" element="Schedule" />
+                  <Route path="/schedules" element={<Schedule />} />
                   <Route path="/subjects" element={<Subjects />} />
 
                     {/*Apps*/}

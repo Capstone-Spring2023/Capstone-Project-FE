@@ -7,3 +7,4 @@ export { default as ColorMapping } from "./ColorMapping";
 export { default as LoginPage } from "./LoginPage";
 export { default as RegisterClass } from "./RegisterClass"
 export {default as ExamScheduleView} from "./ExamScheduleView"
+export {default as Schedule} from "./Schedule"
