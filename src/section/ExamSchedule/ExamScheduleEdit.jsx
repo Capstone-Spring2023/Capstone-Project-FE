@@ -5,13 +5,13 @@ import { Header } from "../../components";
 import FormAntEdit from "./components/FormAntEdit";
 
 const ExamScheduleEdit = () => {
-  const { examScheduleId } = useParams();
+  const { availableSubjectId } = useParams();
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Toaster />
       <Header category="Exam Schedule" title="Update Exam Schedule" />
-      <FormAntEdit examScheduleId={examScheduleId} />
+      <FormAntEdit availableSubjectId={availableSubjectId} />
     </div>
   );
 };

@@ -43,6 +43,7 @@ const SelectAnt = ({ onChange }) => {
   return (
     <ConfigProvider renderEmpty={customizeRenderEmpty}>
       <Select
+        showSearch
         style={style}
         placeholder="Select subjects"
         onChange={onChange}

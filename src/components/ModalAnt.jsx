@@ -11,7 +11,7 @@ import {
 } from "firebase/storage";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
-import { BASE_URL_API } from "../utils/constants";
+import {BASE_URL_API, NO_CORS_URL} from "../utils/constants";
 
 const ModalAnt = ({ title, id }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -72,7 +72,7 @@ const ModalAnt = ({ title, id }) => {
         console.log("FILE", file);
         console.log("FILEREF", fileRef);
         const fileBlob = await getDownloadURL(fileRef).then((url) => {
-          return fetch(`https://gentle-temple-68806.herokuapp.com/${url}`).then(
+          return fetch(`${NO_CORS_URL}/${url}`).then(
             (response) => response.blob()
           );
         });
@@ -90,7 +90,7 @@ const ModalAnt = ({ title, id }) => {
         const file = await getMetadata(item);
         const fileRef = ref(storage, item.fullPath);
         const fileBlob = await getDownloadURL(fileRef).then((url) => {
-          return fetch(`https://gentle-temple-68806.herokuapp.com/${url}`).then(
+          return fetch(`${NO_CORS_URL}/${url}`).then(
             (response) => response.blob()
           );
         });
@@ -104,7 +104,7 @@ const ModalAnt = ({ title, id }) => {
         const file = await getMetadata(item);
         const fileRef = ref(storage, item.fullPath);
         const fileBlob = await getDownloadURL(fileRef).then((url) => {
-          return fetch(`https://gentle-temple-68806.herokuapp.com/${url}`).then(
+          return fetch(`${NO_CORS_URL}/${url}`).then(
             (response) => response.blob()
           );
         });

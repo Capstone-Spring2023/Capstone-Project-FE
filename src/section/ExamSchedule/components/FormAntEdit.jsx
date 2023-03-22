@@ -17,7 +17,7 @@ import { BASE_URL_API } from "../../../utils/constants";
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
-const FormAntEdit = ({ examScheduleId }) => {
+const FormAntEdit = ({ availableSubjectId }) => {
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("");
@@ -27,13 +27,13 @@ const FormAntEdit = ({ examScheduleId }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${BASE_URL_API}/exam-schedule/${examScheduleId}`)
+    fetch(`${BASE_URL_API}/exam-schedule/available-subject/${availableSubjectId}`)
       .then((res) => {
         return res.json();
       })
       .then((resp) => {
         const data = resp.data;
-        console.log("DATA", data)
+        console.log("DATA", data);
         setId(data.examPaperId);
         setTitle(data.tittle);
         setSubject(data.tittle);
@@ -48,7 +48,7 @@ const FormAntEdit = ({ examScheduleId }) => {
   const handleUpdate = () => {
     const examData = { id, title, subject, assignee, deadline, status };
     toast.promise(
-      fetch("http://localhost:8000/exams-schedule/" + examScheduleId, {
+      fetch("http://localhost:8000/exams-schedule/" + availableSubjectId, {
         method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(examData),

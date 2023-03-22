@@ -15,6 +15,9 @@ export const firebaseConfig = {
   measurementId: "G-Q1YQBVJXWP",
 };
 export const BASE_URL_API = "https://fpt-cft.azurewebsites.net/api";
+
+export const NO_CORS_URL = "https://gentle-temple-68806.herokuapp.com";
+export const SOCKET_URL = "https://cft-socket.onrender.com";
 export const APPROVED = "Approve";
 export const REJECTED = "Reject";
 export const PENDING = "Pending";

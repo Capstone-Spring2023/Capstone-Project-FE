@@ -16,8 +16,8 @@ const ExamSchedule = () => {
   const { slice, range } = useTable(examScheduleData, page, 5);
   const navigate = useNavigate();
 
-  const handleEdit = (examScheduleId) => {
-    navigate("/exam/schedule/edit/" + examScheduleId);
+  const handleEdit = (availableSubjectId) => {
+    navigate("/exam/schedule/edit/" + availableSubjectId);
   };
 
   const handleDelete = (examScheduleId) => {
@@ -126,7 +126,7 @@ const ExamSchedule = () => {
                     <div className="flex justify-start gap-4">
                       <Tooltip title="Edit">
                         <EditOutlined
-                          onClick={() => handleEdit(item.examScheduleId)}
+                          onClick={() => handleEdit(item.availableSubjectId)}
                           style={{ fontSize: 17, color: "lightblue" }}
                           height={55}
                         />
