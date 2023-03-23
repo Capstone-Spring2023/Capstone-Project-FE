@@ -9,6 +9,7 @@ import { initializeApp } from "firebase/app";
 import "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import Button2 from "react-bootstrap/Button";
+import "./GoogleButton.css"
 import { firebaseConfig } from "../utils/constants";
 import { BASE_URL_API } from "../utils/constants";
 import { Badge, Descriptions, Modal } from "antd";
@@ -71,7 +72,7 @@ const UserProfile = () => {
         },
         {
           label: 'No',
-          onClick: () => {}
+          onClick: () => { }
         }
       ]
     });
@@ -134,94 +135,42 @@ const UserProfile = () => {
         </div>
       </div>
       <div>
-        {/* {userProfileData.map((item, index) => (
-          <div
-            key={index}
-            className="flex gap-5 border-b-1 border-color p-4 hover:bg-light-gray cursor-pointer dark:hover:bg-[#42464D]"
-          >
-            <button
-              type="button"
-              style={{ color: item.iconColor, backgroundColor: item.iconBg }}
-              className="text-xl rounded-lg p-3 hover:bg-light-gray"
-            >
-              {item.icon}
-            </button>
-            <div>
-              <p className="font-semibold dark:text-gray-200">{item.title}</p>
-              <p className="text-gray-500 text-sm dark:text-gray-400">
-                {item.desc}
-              </p>
-            </div>
-          </div>
-        ))} */}
-        <div className="flex gap-5 border-b-1 border-color p-4 hover:bg-light-gray cursor-pointer dark:hover:bg-[#42464D]">
-          <button
-            onClick={showModal}
-            className="hover:text-white hover:bg-blue-500"
-            style={{
-              color: "#03C9D7",
-              backgroundColor: '#E5FAFB',
-              border: "none",
-              padding: "8px 16px",
-              borderRadius: "4px",
-              fontSize: "14px",
-              fontWeight: "bold",
-              cursor: "pointer",
-              transition: "all 0.2s ease-in-out",
-            }}
-          >My Profile</button>
-
-          <Modal
-            centered={true}
-            open={isModalOpen}
-            title={`${fullName}`}
-            onOk={handleOk}
-            footer={[
-              <button key="submit"
-                type="default"
-                onClick={handleOk}
-                style={{
-                  float: "left",
-                  backgroundColor: "#fff",
-                  color: "green",
-                  padding: "8px 16px",
-                  border: "2px solid #03c9d7",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)"
-                }}>
-                Update Profile
-              </button>,
-              <button type="default"
-                onClick={handleOk2}
-                style={{
-                  backgroundColor: "#fff",
-                  color: "#03c9d7",
-                  padding: "8px 16px",
-                  border: "2px solid #03c9d7",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)"
-                }}>Ok</button>
-            ]}
-          >
-            <Descriptions layout="vertical">
-              <Descriptions.Item label="Full Name">
-                <input type="text" value={fullName} onChange={handleFullNameChange} />
-              </Descriptions.Item>
-              <Descriptions.Item label="Phone">
-                <input type="text" value={phone} onChange={handlePhoneChange} />
-              </Descriptions.Item>
-              <Descriptions.Item label="Address">
-                <input type="text" value={address} onChange={handleAddressChange} />
-              </Descriptions.Item>
-            </Descriptions>
-          </Modal>
-        </div>
+        <Descriptions layout="vertical">
+          <Descriptions.Item label="Full Name">
+            <input type="text" value={fullName} onChange={handleFullNameChange} />
+          </Descriptions.Item>
+        </Descriptions>
+        <Descriptions layout="vertical">
+          <Descriptions.Item label="Phone">
+            <input type="text" value={phone} onChange={handlePhoneChange} />
+          </Descriptions.Item>
+        </Descriptions>
+        <Descriptions layout="vertical">
+          <Descriptions.Item label="Address">
+            <input type="text" value={address} onChange={handleAddressChange} />
+          </Descriptions.Item>
+        </Descriptions>
+      </div >
+      <div className="my-5 py-3">
+        <button key="submit"
+          type="default"
+          onClick={handleOk}
+          style={{
+            float: "right",
+            backgroundColor: "#fff",
+            color: "#000000",
+            padding: "6px 12px",
+            border: "2px solid #03c9d7",
+            borderRadius: "4px",
+            cursor: "pointer",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+          }}>
+          Update Profile
+        </button>
       </div>
-      <div className="mt-5">
+      <div className="user-profile absolute right-1 dark:bg-[#42464D] p-5 rounded-lg w-96">
         <Button2
-          className="google-btn"
+          className="google-btn button-wrapper"
           variant="primary"
           size="lg"
           onClick={onSuccess2}
@@ -236,7 +185,7 @@ const UserProfile = () => {
           <h4 className="btn-text">Sign Out</h4>
         </Button2>
       </div>
-    </div>
+    </div >
   );
 };
 
