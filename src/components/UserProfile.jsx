@@ -9,21 +9,20 @@ import { initializeApp } from "firebase/app";
 import "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import Button2 from "react-bootstrap/Button";
-import "./GoogleButton.css"
+import "./GoogleButton.css";
 import { firebaseConfig } from "../utils/constants";
 import { BASE_URL_API } from "../utils/constants";
 import { Badge, Descriptions, Modal } from "antd";
 import { toast } from "react-hot-toast";
-import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 const UserProfile = () => {
   const navigate = useNavigate();
 
-  const { setIsClicked, initialState, setIsLoginPage, setActiveMenu } =
-    useStateContext();
+  const { setIsClicked, initialState, setIsLoginPage, setActiveMenu } = useStateContext();
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
@@ -34,21 +33,21 @@ const UserProfile = () => {
   };
   const handleOk2 = () => {
     setIsModalOpen(false);
-  };
+  }
   const handleOk = () => {
     setIsModalOpen(false);
     confirmAlert({
-      title: "Confirm",
-      message: "Are you sure you want to update your profile?",
+      title: 'Confirm',
+      message: 'Are you sure you want to update your profile?',
       buttons: [
         {
-          label: "Yes",
+          label: 'Yes',
           onClick: () => {
             const examData = {
               fullName: fullName,
               phone: phone,
               address: address,
-              roldId: roleId,
+              roldId: roleId
             };
             toast.promise(
               fetch(`${BASE_URL_API}/leader/profile/updateLeader/5`, {
@@ -69,13 +68,13 @@ const UserProfile = () => {
                 error: <b>Could not save.</b>,
               }
             );
-          },
+          }
         },
         {
-          label: "No",
-          onClick: () => {},
-        },
-      ],
+          label: 'No',
+          onClick: () => { }
+        }
+      ]
     });
   };
   const handleFullNameChange = (event) => {
@@ -125,58 +124,69 @@ const UserProfile = () => {
           </p>
         </div>
       </div>
-      <div>
-        <Descriptions layout="vertical">
-          <Descriptions.Item label="Full Name">
-            <input type="text" value={fullName} onChange={handleFullNameChange} />
-          </Descriptions.Item>
-        </Descriptions>
-        <Descriptions layout="vertical">
-          <Descriptions.Item label="Phone">
-            <input type="text" value={phone} onChange={handlePhoneChange} />
-          </Descriptions.Item>
-        </Descriptions>
-        <Descriptions layout="vertical">
-          <Descriptions.Item label="Address">
-            <input type="text" value={address} onChange={handleAddressChange} />
-          </Descriptions.Item>
-        </Descriptions>
-      </div >
-      <div className="my-5 py-3">
-        <button key="submit"
-          type="default"
-          onClick={handleOk}
-          style={{
-            float: "right",
-            backgroundColor: "#fff",
-            color: "#000000",
-            padding: "6px 12px",
-            border: "2px solid #03c9d7",
-            borderRadius: "4px",
-            cursor: "pointer",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-          }}>
-          Update Profile
-        </button>
+      <div >
+        <div>
+          <label htmlFor="fullName" className="text-sm font-medium mb-1">Full Name</label>
+          <input id="fullName" type="text" value={fullName} onChange={handleFullNameChange} className="border rounded-md px-3 py-2 w-full" />
+        </div>
+
+        <div>
+          <label htmlFor="phone" className="text-sm font-medium mb-1">Phone</label>
+          <input id="phone" type="text" value={phone} onChange={handlePhoneChange} className="border rounded-md px-3 py-2 w-full" />
+        </div>
+
+        <div>
+          <label htmlFor="address" className="text-sm font-medium mb-1">Address</label>
+          <input id="address" type="text" value={address} onChange={handleAddressChange} className="border rounded-md px-3 py-2 w-full" />
+        </div>
       </div>
-      <div className="user-profile absolute right-1 dark:bg-[#42464D] p-5 rounded-lg w-96">
-        <Button2
-          className="google-btn button-wrapper"
-          variant="primary"
-          size="lg"
-          onClick={onSuccess2}
-        >
-          <div className="google-icon-wrapper">
-            <img
-              className="google-icon"
-              src="./logoGoogle.png"
-              alt="Google Icon"
-            />
-          </div>
-          <h4 className="btn-text">Sign Out</h4>
-        </Button2>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center"}}>
+        <div className="my-5">
+          <button key="submit"
+            type="default"
+            onClick={handleOk}
+            style={{
+              backgroundColor: "#fff",
+              color: "#000000",
+              padding: "6px 8px",
+              border: "2px solid ",
+              borderRadius: "4px",
+              cursor: "pointer",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+            }}><span>
+            Update Profile
+          </span>
+          </button>
+        </div>
+        <hr className="mb-5" style={{ height: "1px", width: "300px", backgroundColor: "black" }} />
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <Button2
+            className="google-btn"
+            variant="primary"
+            size="sm"
+            onClick={onSuccess2}
+            style={{
+              backgroundColor: "#fff",
+              color: "#000000",
+              border: "2px solid ",
+              borderRadius: "4px",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+              height: "40px",
+              width: "200px"
+            }}
+          >
+            <div className="google-icon-wrapper">
+              <img
+                className="google-icon"
+                src="./logoGoogle.png"
+                alt="Google Icon"
+              />
+            </div>
+            <h4 className="btn-text" style={{ color: "#000000" }}>Sign Out</h4>
+          </Button2>
+        </div>
       </div>
-    </div >
+    </>
   );
 };
 
