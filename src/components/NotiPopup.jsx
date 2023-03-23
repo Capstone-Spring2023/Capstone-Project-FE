@@ -3,7 +3,6 @@ import { toast, ToastContainer } from "react-toastify";
 import { useStateContext } from "../contexts/ContextProvider";
 
 const NotiPopup = ({ title, body }) => {
-  const { setIsShowNoti } = useStateContext();
   let hideNoti = title === "";
 
   if (!hideNoti) {
