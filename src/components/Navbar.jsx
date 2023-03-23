@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
-import { RiNotification3Line } from "react-icons/ri";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 
@@ -8,7 +7,8 @@ import avatar from "../assets/avatar.jpg";
 import { Notification, UserProfile } from ".";
 import { useStateContext } from "../contexts/ContextProvider";
 import { SOCKET_URL } from "../utils/constants";
-import { Badge } from "antd";
+import { Badge, Popover } from "antd";
+import { BellOutlined } from "@ant-design/icons";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position="BottomCenter">
@@ -29,6 +29,8 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
 
 const Navbar = () => {
   const [notiData, setNotiData] = useState([{}]);
+  const [openNoti, setOpenNoti] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
   const {
     currentColor,
     activeMenu,
@@ -38,7 +40,7 @@ const Navbar = () => {
     screenSize,
     setScreenSize,
     isShowNoti,
-    setIsShowNoti
+    setIsShowNoti,
   } = useStateContext();
 
   useEffect(() => {
@@ -61,7 +63,6 @@ const Navbar = () => {
 
   useEffect(() => {
     fetchNoti();
-    setIsShowNoti(true);
   }, [notiData]);
 
   const fetchNoti = () => {
@@ -71,11 +72,23 @@ const Navbar = () => {
       })
       .then((resp) => {
         setNotiData(resp.noti);
+        setIsShowNoti(true);
       })
       .catch((err) => {
         console.log(err.message);
       });
   };
+  const hide = () => {
+    setOpenNoti(false);
+  };
+  const handleOpenNotiChange = (newOpen) => {
+    setOpenNoti(newOpen);
+  };
+
+  const handleOpenProfileChange = (open) => {
+    setOpenProfile(open);
+  };
+
   const handleActiveMenu = () => {
     setActiveMenu(!activeMenu);
     console.log("MENU", activeMenu);
@@ -88,20 +101,26 @@ const Navbar = () => {
         color={currentColor}
         icon={<AiOutlineMenu />}
       />
-      <div className="flex">
-        <Badge count={notiData.length} offset={["-15", "1"]} size="small">
-          <NavButton
-            title="Notification"
-            customFunc={() => handleClick("notification")}
-            color={currentColor}
-            icon={<RiNotification3Line />}
-          />
-        </Badge>
-        <TooltipComponent content="Profile" position="BottomCenter">
-          <div
-            className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
-            onClick={() => handleClick("userProfile")}
+      <div className="flex items-center gap-3">
+        <Badge count={notiData.length} size="small">
+          <Popover
+            content={<Notification notiData={notiData} />}
+            trigger="click"
+            open={openNoti}
+            onOpenChange={handleOpenNotiChange}
+            placement="bottomRight"
           >
+            <BellOutlined style={{ fontSize: 17, color: "cadetblue" }} />
+          </Popover>
+        </Badge>
+        <Popover
+          content={<UserProfile />}
+          trigger="click"
+          open={openProfile}
+          onOpenChange={handleOpenProfileChange}
+          placement="bottomRight"
+        >
+          <div className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg">
             <img src={avatar} className="rounded-full w-8 h-8" alt="Avatar" />
             <p>
               <span className="text-gray-400 text-14">Hi, </span>{" "}
@@ -111,10 +130,7 @@ const Navbar = () => {
             </p>
             <MdKeyboardArrowDown className="text-gray-400 text-14" />
           </div>
-        </TooltipComponent>
-
-        {isClicked.notification && <Notification notiData={notiData} />}
-        {isClicked.userProfile && <UserProfile />}
+        </Popover>
       </div>
     </div>
   );

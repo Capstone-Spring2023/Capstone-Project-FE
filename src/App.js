@@ -61,6 +61,7 @@ const App = () => {
       setActiveMenu(isActiveMenu);
     }
   }, [isLoginPage, activeMenu]);
+  console.log("RENDER");
 
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
@@ -114,12 +115,12 @@ const App = () => {
                       <>
                         {/*<NotiFirebase />*/}
                         <DashboardLazy />
-                        {isShowNoti && (
-                          <NotiPopup
-                            title="You have exam schedule request from"
-                            body="Hoa DNT"
-                          />
-                        )}
+                        {/*{isShowNoti && (*/}
+                        {/*  <NotiPopup*/}
+                        {/*    title="You have exam schedule request from"*/}
+                        {/*    body="Hoa DNT"*/}
+                        {/*  />*/}
+                        {/*)}*/}
                       </>
                     }
                   />

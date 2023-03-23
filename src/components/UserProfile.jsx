@@ -14,15 +14,16 @@ import { firebaseConfig } from "../utils/constants";
 import { BASE_URL_API } from "../utils/constants";
 import { Badge, Descriptions, Modal } from "antd";
 import { toast } from "react-hot-toast";
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 const UserProfile = () => {
   const navigate = useNavigate();
 
-  const { setIsClicked, initialState, setIsLoginPage, setActiveMenu } = useStateContext();
+  const { setIsClicked, initialState, setIsLoginPage, setActiveMenu } =
+    useStateContext();
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
@@ -33,21 +34,21 @@ const UserProfile = () => {
   };
   const handleOk2 = () => {
     setIsModalOpen(false);
-  }
+  };
   const handleOk = () => {
     setIsModalOpen(false);
     confirmAlert({
-      title: 'Confirm',
-      message: 'Are you sure you want to update your profile?',
+      title: "Confirm",
+      message: "Are you sure you want to update your profile?",
       buttons: [
         {
-          label: 'Yes',
+          label: "Yes",
           onClick: () => {
             const examData = {
               fullName: fullName,
               phone: phone,
               address: address,
-              roldId: roleId
+              roldId: roleId,
             };
             toast.promise(
               fetch(`${BASE_URL_API}/leader/profile/updateLeader/5`, {
@@ -68,13 +69,13 @@ const UserProfile = () => {
                 error: <b>Could not save.</b>,
               }
             );
-          }
+          },
         },
         {
-          label: 'No',
-          onClick: () => { }
-        }
-      ]
+          label: "No",
+          onClick: () => {},
+        },
+      ],
     });
   };
   const handleFullNameChange = (event) => {
@@ -113,17 +114,7 @@ const UserProfile = () => {
     navigate("/");
   };
   return (
-    <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
-      <div className="flex justify-between items-center">
-        <p className="font-semibold text-lg dark:text-gray-200">User Profile</p>
-        <Button
-          icon={<MdOutlineCancel />}
-          color="rgb(153,171,180)"
-          bgHoverColor="light-gray"
-          size="2xl"
-          borderRadius="50%"
-        />
-      </div>
+    <>
       <div className="flex gap-5 items-center mt-6 border-color border-b-1 pb-6">
         <img className="rounded-full h-24 w-24" src={avatar} alt="Avatar" />
         <div>

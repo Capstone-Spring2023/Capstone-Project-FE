@@ -20,12 +20,11 @@ const ExamSchedule = () => {
     navigate("/exam/schedule/edit/" + availableSubjectId);
   };
 
-  const handleDelete = (examScheduleId) => {
+  const handleDelete = (availableSubjectId) => {
     toast.promise(
-      fetch("http://localhost:8000/exams-schedule/" + examScheduleId, {
+      fetch(`${BASE_URL_API}/exam-schedule/` + availableSubjectId, {
         method: "DELETE",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(examScheduleData),
       })
         .then((res) => {
           fetchTable();
@@ -135,7 +134,7 @@ const ExamSchedule = () => {
                         <Popconfirm
                           title="Delete the exam-schedule"
                           description="Are you sure to delete this?"
-                          onConfirm={() => handleDelete(item.examScheduleId)}
+                          onConfirm={() => handleDelete(item.availableSubjectId)}
                           okText="Yes"
                           okType="default"
                           cancelText="No"
