@@ -1,37 +1,31 @@
 .google-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    border: none;
-    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
-    width: 240px;
-    height: 50px;
-    cursor: pointer;
-  }
-  
-  .google-icon-wrapper {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-  }
-  
-  .google-icon {
-    width: 100%;
-    height: 100%;
-  }
-  
-  ..btn-text {
-    margin: 0;
-    padding: 0;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    color: blue; /* thêm thuộc tính này để đặt màu chữ của nút */
-  }
+  background-color: #fff;
+  border: none;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+  color: #757575;
+  padding: 0.6rem 2rem;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+}
 
-  .img-size {
-    width: 40px;
-    height: auto;
-  }
+.google-btn:hover {
+  background-color: #fafafa;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+  color: #212121;
+}
+
+.google-icon-wrapper {
+  width: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.google-icon {
+  width: 100%;
+  height: auto;
+}
+
+.btn-text {
+  font-size: 1.2rem;
+  text-align: center;
+}
