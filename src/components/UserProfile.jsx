@@ -28,6 +28,7 @@ const UserProfile = () => {
   const [address, setAddress] = useState("");
   const [roleId, setRoleId] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isInputDisabled, setIsInputDisabled] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -36,6 +37,7 @@ const UserProfile = () => {
   }
   const handleOk = () => {
     setIsModalOpen(false);
+    setIsInputDisabled(true);
     confirmAlert({
       title: 'Confirm',
       message: 'Are you sure you want to update your profile?',
@@ -127,37 +129,39 @@ const UserProfile = () => {
       <div >
         <div>
           <label htmlFor="fullName" className="text-sm font-medium mb-1">Full Name</label>
-          <input id="fullName" type="text" value={fullName} onChange={handleFullNameChange} className="border rounded-md px-3 py-2 w-full" />
+          <input id="fullName" type="text" value={fullName} onChange={handleFullNameChange} className="border rounded-md px-3 py-2 w-full" disabled={isInputDisabled} />
         </div>
 
         <div>
           <label htmlFor="phone" className="text-sm font-medium mb-1">Phone</label>
-          <input id="phone" type="text" value={phone} onChange={handlePhoneChange} className="border rounded-md px-3 py-2 w-full" />
+          <input id="phone" type="text" value={phone} onChange={handlePhoneChange} className="border rounded-md px-3 py-2 w-full" disabled={isInputDisabled} />
         </div>
 
         <div>
           <label htmlFor="address" className="text-sm font-medium mb-1">Address</label>
-          <input id="address" type="text" value={address} onChange={handleAddressChange} className="border rounded-md px-3 py-2 w-full" />
+          <input id="address" type="text" value={address} onChange={handleAddressChange} className="border rounded-md px-3 py-2 w-full" disabled={isInputDisabled} />
         </div>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center"}}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         <div className="my-5">
-          <button key="submit"
+          <button
+            key="submit"
             type="default"
             onClick={handleOk}
             style={{
               backgroundColor: "#fff",
-              color: "#000000",
+              color: "#A9A9A9",
               padding: "6px 8px",
-              border: "2px solid ",
+              border: "2px solid #A9A9A9",
               borderRadius: "4px",
               cursor: "pointer",
               boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-            }}><span>
-            Update Profile
-          </span>
+            }}
+          >
+            <span>Update Profile</span>
           </button>
         </div>
+
         <hr className="mb-5" style={{ height: "1px", width: "300px", backgroundColor: "black" }} />
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <Button2
@@ -168,7 +172,7 @@ const UserProfile = () => {
             style={{
               backgroundColor: "#fff",
               color: "#000000",
-              border: "2px solid ",
+              border: "2px solid #000000",
               borderRadius: "4px",
               boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
               height: "40px",
@@ -184,8 +188,10 @@ const UserProfile = () => {
             </div>
             <h4 className="btn-text" style={{ color: "#000000" }}>Sign Out</h4>
           </Button2>
+
         </div>
       </div>
+
     </>
   );
 };
