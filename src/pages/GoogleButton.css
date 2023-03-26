@@ -30,3 +30,150 @@
     text-transform: uppercase;
     color: #00BFFF; /* thêm thuộc tính này để đặt màu chữ của nút */
   }
+
+  /* schedule */
+  // styles.css
+  // styles.css
+  .app-container .container {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.app-container .header {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.app-container .header h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+
+.app-container .table {
+  border-collapse: collapse;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.app-container .table th,
+.app-container .table td {
+  padding: 10px;
+  text-align: center;
+}
+
+.app-container .table th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.app-container .table td {
+  border: 1px solid #ccc;
+  vertical-align: top;
+}
+
+.app-container .day-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  padding: 5px;
+}
+
+.app-container .day-container .day {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.app-container .class-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.app-container .class-container .class {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.app-container .slot-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.app-container .slot-container::before {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 6px;
+  background-color: #000;
+  border-radius: 50%;
+}
+.app-container .td-style {
+  background-color: #f0f0f0;
+  border: none;
+  padding: 10px;
+}
+.app-container td.slot:empty {
+  display: none;
+}
+.app-container .date-picker {
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  color: #000;
+  font-size: 16px;
+  padding: 10px;
+  width: 130px;
+}
+
+.app-container .date-picker::-webkit-calendar-picker-indicator {
+  filter: invert(1) saturate(0) brightness(1.3);
+}
+
+.app-container .date-picker::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.app-container .date-picker::-webkit-clear-button {
+  display: none;
+}
+.app-container .td .slot {
+  background-color: #CCCCCC;
+}
+.login-container {
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+.login-container .border {
+  transition: all 0.3s ease;
+}
+
+.login-container .border:hover {
+  border-color: #ffa500;
+  box-shadow: 0px 0px 10px #ffa500;
+}
+.login-container {
+  background-color: #ffd4a8;
+  background-image: linear-gradient(90deg, #ffd4a8, #f7bb60);
+  animation: gradient-bg 10s ease infinite;
+}
+
+@keyframes gradient-bg {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

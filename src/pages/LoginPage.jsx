@@ -28,7 +28,7 @@ const Login = () => {
         })
           .then((value) => {
             console.log(result);
-            sessionStorage.setItem("email",result.user.email);
+            sessionStorage.setItem("email", result.user.email);
             console.log(sessionStorage.getItem("email"));
             setIsLoginPage(false);
             setActiveMenu(true);
@@ -45,11 +45,11 @@ const Login = () => {
       });
   };
   return (
-    <div className="bg-[#f7bb60] h-[100vh] flex flex-nowrap">
-      <div className="m-auto items-center bg-[#FFFFFF] shadow-md">
+    <div className="bg-[#f7bb60] h-[100vh] flex flex-nowrap login-container">
+      <div className="m-auto items-center bg-[#FFFFFF] shadow-md rounded-lg">
         <div className="flex flex-row flex-wrap items-center">
           <div>
-            <div>
+            <div style={{ borderRadius: '8px 0 0 8px', overflow: 'hidden' }}>
               <img
                 className="rounded-r-3xl w-780"
                 src={process.env.PUBLIC_URL + "./FPTU.jpg"}
@@ -57,7 +57,7 @@ const Login = () => {
               />
             </div>
           </div>
-          <div className="pl-20 pr-20 flex flex-col items-center">
+          <div className="pl-20 pr-20 flex flex-col items-center border border-#FFA500 rounded-lg">
             <img
               className="rounded d-block"
               src={process.env.PUBLIC_URL + "./logoFPT.png"}
@@ -68,7 +68,7 @@ const Login = () => {
             <h5 className="text-center text-l font-bold tracking-tight text-gray-900 dark:text-white">
               Welcome back
             </h5>
-            <div className="p-1 pt-3 bg-danger text-white text-center">
+            <div className="p-1 pt-3 bg-danger text-white text-center rounded-lg">
               <Button
                 className="google-btn"
                 variant="primary"
