@@ -61,8 +61,6 @@ const Schedule = () => {
                 <div>
                     <input type="file" onChange={handleFile} />
                 </div>
-            </div>
-            <div>
                 <div className="app-container">
                     <div className="container">
                         <div className="header">
