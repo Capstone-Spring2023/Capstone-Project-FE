@@ -24,7 +24,7 @@ const Dashboard = () => {
                 Welcome back Mr.Lecturer
               </p>
               <p className="text-gray-600">
-                Hope you have a good day to teach and add something here
+                Hope you have a good day to teach and add something
               </p>
             </div>
           </div>
