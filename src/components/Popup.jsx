@@ -5,8 +5,10 @@ import { CloseOutlined } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
 import { toast } from "react-hot-toast";
 import { BASE_URL_API, REJECTED } from "../utils/constants";
+import { ref, deleteObject, listAll } from '@firebase/storage';
+import { storage } from "../firebase/firebase";
 
-const Popup = ({ title, fetchTable, examPaperId }) => {
+const Popup = ({ title, fetchTable, examPaperId,examLink,subjectName }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentContent, setCommentContent] = useState("");
   const handleCommentChange = (event) => {
@@ -15,7 +17,78 @@ const Popup = ({ title, fetchTable, examPaperId }) => {
   const showModal = () => {
     setIsModalOpen(true);
   };
+  
+  const deleteFile= () => {
+    let folderRef = ref(
+      storage,
+      `/${examLink}/${subjectName.trim()}/PE1`
+    );
+    listAll(folderRef).then((res) => {
+      if (res.items.length > 0) {
+        const promises = [];
+        res.items.forEach((itemRef) => {
+          promises.push(deleteObject(itemRef));
+        });
+        Promise.all(promises)
+          .then(() => {
+            console.log("All files deleted successfully");
+          })
+          .catch((error) => {
+            console.error("Error deleting files:", error);
+          });
+      } else {
+      }
+    });
+  };
+  const deleteFile2= () => {
+    let folderRef = ref(
+      storage,
+      `/${examLink}/${subjectName.trim()}/PE1/Given`
+    );
+    listAll(folderRef).then((res) => {
+      if (res.items.length > 0) {
+        const promises = [];
+        res.items.forEach((itemRef) => {
+          promises.push(deleteObject(itemRef));
+        });
+        Promise.all(promises)
+          .then(() => {
+            console.log("All files Given deleted successfully");
+          })
+          .catch((error) => {
+            console.error("Error deleting files:", error);
+          });
+      } else {
+      }
+    });
+  };
+  const deleteFile3= () => {
+    let folderRef = ref(
+      storage,
+      `/${examLink}/${subjectName.trim()}/PE1/TestCases`
+    );
+    listAll(folderRef).then((res) => {
+      if (res.items.length > 0) {
+        const promises = [];
+        res.items.forEach((itemRef) => {
+          promises.push(deleteObject(itemRef));
+        });
+        Promise.all(promises)
+          .then(() => {
+            console.log("All files TestCases deleted successfully");
+          })
+          .catch((error) => {
+            console.error("Error deleting files:", error);
+          });
+      } else {
+      }
+    });
+  };
+
   const handleOk = () => {
+    deleteFile();
+    deleteFile2();
+    deleteFile3();
     setIsModalOpen(false);
     const data = {
       commentModel: {

@@ -55,6 +55,7 @@ const ExamSubmissionView = () => {
       })
       .then((resp) => {
         setExamData(resp);
+        console.log("re",resp);
       })
       .catch((err) => {
         console.log(err.message);
@@ -161,6 +162,8 @@ const ExamSubmissionView = () => {
                         title="Comment"
                         fetchTable={fetchTable}
                         examPaperId={item.examPaperId}
+                        examLink={item.examLink}
+                        subjectName={item.subjectName}
                       />
                       <ModalAnt
                         title="Exam submission detail"
