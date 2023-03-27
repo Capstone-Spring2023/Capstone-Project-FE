@@ -74,7 +74,18 @@ const FormAnt = ({ socket }) => {
   const handleSubject = (value) => {
     setSubject(value);
   };
+  
+  // const checkFileExtension = (file) => {
+  //   const fileExtension = file.name.split(".").pop().toLowerCase();
+  //   if (fileExtension !== "docx") {
+  //     message.error("Invalid file type. Please select a .docx file.");
+  //     return false;
+  //   }
+  //   return true;
+  // };
+  
   const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
+    // if (checkFileExtension(file)) {
     if (!file) return;
     const storage = getStorage();
     let fileRef = ref(
@@ -113,6 +124,7 @@ const FormAnt = ({ socket }) => {
           });
       }
     );
+    // }
   };
 
   return (
@@ -184,22 +196,23 @@ const FormAnt = ({ socket }) => {
         </Col>
       </Row>
       <Row justify="center" align="center">
-        <Col span={20} offset={6}>
-          <Form.Item name="file" accept=".docx">
-            <Dragger customRequest={(e) => upLoadFile(e)}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">
-                Click or drag file to this area to upload
-              </p>
-              <p className="ant-upload-hint">
-                Only support for docx and rar file
-              </p>
-            </Dragger>
-          </Form.Item>
-        </Col>
-      </Row>
+  <Col span={20} offset={6}>
+    <Form.Item name="file" accept=".docx">
+      <Dragger customRequest={(e) => upLoadFile(e)}>
+        <p className="ant-upload-drag-icon">
+          <InboxOutlined />
+        </p>
+        <p className="ant-upload-text">
+          Click or drag file to this area to upload
+        </p>
+        <p className="ant-upload-hint">
+          Only support for .docx file
+        </p>
+      </Dragger>
+    </Form.Item>
+  </Col>
+</Row>
+
       <Row>
         <Col>
           <Button htmlType="submit">Submit</Button>

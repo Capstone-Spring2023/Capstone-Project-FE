@@ -57,7 +57,7 @@ const Login = () => {
               />
             </div>
           </div>
-          <div className="pl-20 pr-20 flex flex-col items-center border border-#FFA500 rounded-lg">
+          <div className="pl-20 pr-20 flex flex-col items-center rounded-lg">
             <img
               className="rounded d-block"
               src={process.env.PUBLIC_URL + "./logoFPT.png"}
