@@ -48,30 +48,30 @@ const Sidebar = () => {
             </TooltipComponent>
           </div>
           <div>
-            {links.map((item) => (
-              <div
-                key={item.title}
-                className="text-gray-400 m-3 mt-4 uppercase"
-              >
-                <p>{item.title}</p>
-                {item.links.map((Link) => (
-                  <NavLink
-                    to={`/${Link.name}`}
-                    key={Link.name}
-                    onClick={handleCloseSideBar}
-                    style={({ isActive }) => ({
-                      backgroundColor: isActive ? currentColor : "",
-                    })}
-                    className={({ isActive }) =>
-                      isActive ? activeLink : normalLink
-                    }
-                  >
-                    {Link.icon}
-                    <span className="capitalize">{Link.name}</span>
-                  </NavLink>
-                ))}
-              </div>
-            ))}
+            {
+              links.map((item) => (
+                <div key={item.title} className="text-gray-400 m-3 mt-4 uppercase">
+                  <p>{item.title}</p>
+                  {(item.links ?? []).map((Link) => (
+                    Link && Link.name && (
+                      <NavLink
+                        to={`/${Link.name}`}
+                        key={Link.name}
+                        onClick={handleCloseSideBar}
+                        style={({ isActive }) => ({
+                          backgroundColor: isActive ? currentColor : "",
+                        })}
+                        className={({ isActive }) =>
+                          isActive ? activeLink : normalLink
+                        }
+                      >
+                        {Link.icon}
+                        <span className="capitalize">{Link.name}</span>
+                      </NavLink>
+                    )
+                  ))}
+                </div>
+              ))}
           </div>
         </>
       )}

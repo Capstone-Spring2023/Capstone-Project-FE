@@ -47,7 +47,7 @@ const ExamSubmission = () => {
   }, []);
 
   const fetchTable = () => {
-    fetch(`${BASE_URL_API}/exam-submission/user/28/exam-submission`)
+    fetch(`${BASE_URL_API}/exam-submission/user/${sessionStorage.getItem("userId")}/exam-submission`)
       .then((res) => {
         return res.json();
       })

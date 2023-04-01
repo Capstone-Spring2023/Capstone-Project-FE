@@ -126,19 +126,27 @@ const App = () => {
                   />
 
                   {/*Pages*/}
+                  {sessionStorage.getItem("roleName") === "Teacher" ? (
                   <Route
                     path="/exam-submission"
                     element={<ExamsSubmission />}
                   />
+                  ) : null}
+                  {sessionStorage.getItem("roleName") === "Leader" ? (
                   <Route path="/exam-schedule" element={<ExamsSchedule />} />
+                  ) : null}
+                  {sessionStorage.getItem("roleName") === "Teacher" ? (
                   <Route
                     path="/exam-schedule-view"
                     element={<ExamsScheduleView />}
                   />
+                  ) : null}
+                  {sessionStorage.getItem("roleName") === "Leader" ? (
                   <Route
                     path="/exam-submission-view"
                     element={<ExamSubmissionView />}
                   />
+                  ) : null}
                   <Route path="/leaders" element={<Leaders />} />
                   <Route path="/schedules" element={<Schedule />} />
                   <Route path="/subjects" element={<Subjects />} />

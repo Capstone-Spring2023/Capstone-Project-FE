@@ -110,6 +110,7 @@ const UserProfile = () => {
     setIsLoginPage(true);
     setActiveMenu(false);
     sessionStorage.removeItem("email");
+    sessionStorage.removeItem("roleName");
     localStorage.setItem("isLogin", "true");
     localStorage.setItem("isActiveMenu", "false");
     navigate("/");
