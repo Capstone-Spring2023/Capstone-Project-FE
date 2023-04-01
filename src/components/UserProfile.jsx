@@ -89,7 +89,7 @@ const UserProfile = () => {
     setAddress(event.target.value);
   };
   useEffect(() => {
-    fetch(`${BASE_URL_API}/leader/profile/getLeader/5`)
+    fetch(`${BASE_URL_API}/leader/profile/getLeader/${sessionStorage.getItem("userId")}`)
       .then((res) => {
         return res.json();
       })
@@ -110,6 +110,7 @@ const UserProfile = () => {
     setIsLoginPage(true);
     setActiveMenu(false);
     sessionStorage.removeItem("email");
+    sessionStorage.removeItem("userId");
     sessionStorage.removeItem("roleName");
     localStorage.setItem("isLogin", "true");
     localStorage.setItem("isActiveMenu", "false");

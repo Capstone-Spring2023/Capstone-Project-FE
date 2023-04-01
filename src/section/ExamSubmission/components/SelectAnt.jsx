@@ -8,7 +8,7 @@ const { Option } = Select;
 const SelectAnt = ({ onChange }) => {
   const [subject, setSubject] = useState([{}]);
   const fetchSubject = () => {
-    fetch(`${BASE_URL_API}/user/28/exam-schedule/available-subject`)
+    fetch(`${BASE_URL_API}/user/${sessionStorage.getItem("userId")}/exam-schedule/available-subject`)
       .then((res) => {
         return res.json();
       })
