@@ -49,7 +49,7 @@ const ExamSubmissionView = () => {
   };
 
   const fetchTable = () => {
-    fetch(`${BASE_URL_API}/leader/5/exam-submission`)
+    fetch(`${BASE_URL_API}/leader/${sessionStorage.getItem("userId")}/exam-submission`)
       .then((res) => {
         return res.json();
       })

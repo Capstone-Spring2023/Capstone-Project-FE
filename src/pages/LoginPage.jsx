@@ -39,7 +39,7 @@ const Login = () => {
             localStorage.setItem("isLogin", "false");
             localStorage.setItem("isActiveMenu", "true");
             navigate("/overview");
-            // window.location.reload();
+            window.location.reload();
           })
           .catch((error) => {
             console.log(error);

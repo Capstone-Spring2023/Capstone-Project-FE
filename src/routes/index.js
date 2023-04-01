@@ -5,6 +5,29 @@ import { BsPeople } from "react-icons/bs";
 import { MdClass, MdDashboard, MdOutlineSubject } from "react-icons/md";
 import { GiNotebook, GiStabbedNote } from "react-icons/gi";
 
+const role = sessionStorage.getItem("roleName");
+const leaderApps = [
+  {
+    name: "exam-schedule",
+    icon: <BiNotepad />,
+  },
+  {
+    name: "exam-submission-view",
+    icon: <GiStabbedNote />,
+  },
+];
+
+const teacherApps = [
+  {
+    name: "exam-schedule-view",
+    icon: <BiNotepad />,
+  },
+  {
+    name: "exam-submission",
+    icon: <GiNotebook />,
+  },
+];
+
 export const links = [
   {
     title: "Dashboard",
@@ -15,7 +38,6 @@ export const links = [
       },
     ],
   },
-
   {
     title: "Managements",
     links: [
@@ -36,38 +58,8 @@ export const links = [
   {
     title: "Apps",
     links: [
-      sessionStorage.getItem("roleName") === "Leader"
-        ? 
-        {
-          name: "exam-schedule",
-          icon: <BiNotepad />,
-        }
-        : null
-      ,
-      sessionStorage.getItem("roleName") === "Teacher"
-        ?
-        {
-          name: "exam-schedule-view",
-          icon: <BiNotepad />,
-        }
-        : null
-      ,
-      sessionStorage.getItem("roleName") === "Teacher"
-        ?
-        {
-          name: "exam-submission",
-          icon: <GiNotebook />,
-        }
-        : null
-      ,
-      sessionStorage.getItem("roleName") === "Leader"
-        ?
-        {
-          name: "exam-submission-view",
-          icon: <GiStabbedNote />,
-        }
-        : null
-        ,
+      ...(role === "Leader" ? leaderApps : []),
+      ...(role === "Teacher" ? teacherApps : []),
       {
         name: "calendar",
         icon: <AiOutlineCalendar />,

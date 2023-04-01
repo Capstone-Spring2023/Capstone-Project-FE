@@ -72,6 +72,7 @@ const Sidebar = () => {
                   ))}
                 </div>
               ))}
+
           </div>
         </>
       )}
@@ -79,4 +80,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+                export default Sidebar;

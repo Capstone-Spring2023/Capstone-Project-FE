@@ -13,7 +13,7 @@ const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 const FormAnt = () => {
-  const [examContent, setExamContent] = useState("ESH201 Exam PE");
+  const [examContent, setExamContent] = useState("Exam PE");
   const [availableSubjectName, setAvailableSubjectName] = useState("");
   const [examLink, setExamLink] = useState("");
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const FormAnt = () => {
   };
 
   const fetchSubject = () => {
-    fetch(`https://fpt-cft.azurewebsites.net/api/user/28/exam-schedule`)
+    fetch(`https://fpt-cft.azurewebsites.net/api/user/${sessionStorage.getItem("userId")}/exam-schedule`)
       .then((res) => {
         return res.json();
       })
