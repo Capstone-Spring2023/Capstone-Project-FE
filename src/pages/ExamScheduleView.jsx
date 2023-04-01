@@ -22,7 +22,7 @@ const ExamScheduleView = () => {
   }, []);
 
   const fetchTable = () => {
-    fetch(`${BASE_URL_API}/user/28/exam-schedule`)
+    fetch(`${BASE_URL_API}/user/${sessionStorage.getItem("userId")}/exam-schedule`)
       .then((res) => {
         return res.json();
       })

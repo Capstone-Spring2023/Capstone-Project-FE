@@ -21,7 +21,7 @@ const ExamSubmissionView = () => {
   const handleApprove = (id) => {
     const data = {
       commentModel: {
-        leaderId: 5,
+        leaderId: sessionStorage.getItem("userId"),
         examPaperId: id,
       },
       examUpdateApproveModel: {

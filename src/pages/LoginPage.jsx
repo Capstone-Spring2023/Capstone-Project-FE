@@ -27,6 +27,10 @@ const Login = () => {
           },
         })
           .then((value) => {
+            console.log(value);
+            console.log("roleName",value.data.data.roleName);
+            sessionStorage.setItem("roleName",value.data.data.roleName);
+            sessionStorage.setItem("userId",value.data.data.userId);
             console.log(result);
             sessionStorage.setItem("email", result.user.email);
             console.log(sessionStorage.getItem("email"));
@@ -35,6 +39,7 @@ const Login = () => {
             localStorage.setItem("isLogin", "false");
             localStorage.setItem("isActiveMenu", "true");
             navigate("/overview");
+            // window.location.reload();
           })
           .catch((error) => {
             console.log(error);

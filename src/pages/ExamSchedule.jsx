@@ -45,7 +45,7 @@ const ExamSchedule = () => {
   }, []);
 
   const fetchTable = () => {
-    fetch(`${BASE_URL_API}/leader/5/exam-schedule`)
+    fetch(`${BASE_URL_API}/leader/${sessionStorage.getItem("userId")}/exam-schedule`)
       .then((res) => {
         return res.json();
       })
