@@ -23,6 +23,7 @@ const SelectAnt = ({ onChange }) => {
   useEffect(() => {
     fetchSubject();
   }, []);
+  
   const customizeRenderEmpty = () => (
     <div
       style={{
@@ -52,7 +53,7 @@ const SelectAnt = ({ onChange }) => {
         {subject?.map((item, index) => (
           <Option
             key={index}
-            value={`${item?.subjectName}`}
+            value={`${item?.examScheduleId}`}
             label={`${item?.subjectName}`}
           >
             <Space>{item?.subjectName}</Space>

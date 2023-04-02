@@ -29,8 +29,9 @@ const FormAnt = () => {
         return res.json();
       })
       .then((resp) => {
-        setExamScheduleId(resp[0].examScheduleId);
+        // setExamScheduleId(resp[0].examScheduleId);
         console.log("escde",resp[0].examScheduleId);
+        console.log(resp);
       })
       .catch((err) => {
         console.log(err.message);
@@ -43,9 +44,9 @@ const FormAnt = () => {
   }, []);
 
   const handleSubmit = () => {
-    const examData = { examScheduleId, examContent, examLink };
+    const examData = { availableSubjectName, examContent, examLink };
     toast.promise(
-      fetch(`${BASE_URL_API}/exam-submission/` + examScheduleId, {
+      fetch(`${BASE_URL_API}/exam-submission/` + availableSubjectName, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(examData),
