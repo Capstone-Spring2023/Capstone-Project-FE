@@ -29,10 +29,10 @@ import { BASE_URL_API } from "../../../utils/constants";
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
-const FormAntEdit = ({editID}) => {
+const FormAntEdit = ({ editID }) => {
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
-  const [subject, setSubject] = useState("");
+  const [subjectName, setSubjectName] = useState("");
   const [deadline, setDeadline] = useState("");
   const [status, setStatus] = useState(true);
   const [assignee, setAssignee] = useState("");
@@ -48,7 +48,8 @@ const FormAntEdit = ({editID}) => {
       .then((resp) => {
         setId(resp.examPaperId);
         setTitle(resp.examContent);
-        setSubject(resp.subject);
+        setSubjectName(resp.subjectName);
+        console.log("name", resp.subjectName);
         setAssignee(resp.examLink);
         setDeadline(resp.deadline);
         setStatus(resp.status);
@@ -58,23 +59,23 @@ const FormAntEdit = ({editID}) => {
       .catch((err) => {
         console.log(err.message);
       });
-      console.log("ass",assignee)
+    console.log("ass", assignee)
   }, []);
   const handleUpdate = () => {
     const examData = {
       examContent: title,
       examLink: assignee
     }
-    
+
     toast.promise(
-      fetch(`${BASE_URL_API}/exam-submission/` + id ,{
+      fetch(`${BASE_URL_API}/exam-submission/` + id, {
         method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(examData),
       })
         .then((res) => {
           console.log("RES", res);
-          navigate("/exam-schedule");
+          navigate("/exam-submission");
         })
         .catch((err) => {
           console.log(err.message);
@@ -87,7 +88,7 @@ const FormAntEdit = ({editID}) => {
     );
   };
   const handleSubject = (value) => {
-    setSubject(value);
+    setSubjectName(value);
   };
   const upLoadFile = async ({ onSuccess, onProgress, onError, file }) => {
     let folderRef = ref(
@@ -344,7 +345,7 @@ const FormAntEdit = ({editID}) => {
         <Col span={12}>
           <Form.Item
             label="Exam title"
-            name="title"
+            // name="title"
             rules={[
               {
                 required: true,
@@ -353,16 +354,16 @@ const FormAntEdit = ({editID}) => {
             ]}
           >
             <Input
+              style={{ backgroundColor: "#fff", color: "#000", border: "1px solid #ccc" }}
+              value={title}
               onChange={(e) => setTitle(e.target.value)}
-              initialValues="scf"
-              placeholder="Enter title here"
+              // placeholder="Enter title here"
             />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
             label="Subject"
-            name="subject"
             rules={[
               {
                 required: true,
@@ -370,7 +371,8 @@ const FormAntEdit = ({editID}) => {
               },
             ]}
           >
-            <SelectAnt defaultValue={`${subject}`} onChange={handleSubject} />
+            {/* <SelectAnt defaultValue={subjectName} onChange={handleSubject} /> */}
+            {subjectName}
           </Form.Item>
         </Col>
       </Row>
