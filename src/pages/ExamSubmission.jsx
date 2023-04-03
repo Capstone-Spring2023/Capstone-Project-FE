@@ -24,7 +24,7 @@ const ExamSubmission = () => {
 
   const handleDelete = (id) => {
     toast.promise(
-      fetch("http://localhost:8000/exams/" + id, {
+      fetch(`${BASE_URL_API}/exam-submission/` + id, {
         method: "DELETE",
         headers: { "content-type": "application/json" },
       })
@@ -166,7 +166,7 @@ const ExamSubmission = () => {
                         <Popconfirm
                           title="Delete the exam-submission"
                           description="Are you sure to delete this?"
-                          onConfirm={() => handleDelete(item.id)}
+                          onConfirm={() => handleDelete(item.examPaperId)}
                           okText="Yes"
                           okType="default"
                           cancelText="No"
