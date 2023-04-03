@@ -8,6 +8,7 @@ import axios from "axios";
 import "./GoogleButton.css";
 import Button from "react-bootstrap/Button";
 import { firebaseConfig } from "../utils/constants";
+import { useState } from "react";
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
@@ -38,6 +39,7 @@ const Login = () => {
             setActiveMenu(true);
             localStorage.setItem("isLogin", "false");
             localStorage.setItem("isActiveMenu", "true");
+            localStorage.setItem('SidebarReset', "true");
             navigate("/overview");
           })
           .catch((error) => {
