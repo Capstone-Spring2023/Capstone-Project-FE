@@ -9,6 +9,7 @@ import "./GoogleButton.css";
 import Button from "react-bootstrap/Button";
 import { firebaseConfig } from "../utils/constants";
 import { useState } from "react";
+import Modal from 'react-modal';
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
@@ -44,6 +45,7 @@ const Login = () => {
             window.location.reload();
           })
           .catch((error) => {
+            window.alert('please login with FPT account');
             console.log(error);
           });
       })

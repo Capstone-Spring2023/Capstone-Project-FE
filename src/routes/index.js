@@ -59,7 +59,7 @@ export const links = [
     title: "Apps",
     links: [
       ...(role === "Leader" ? leaderApps : []),
-      ...(role === "Teacher" ? teacherApps : []),
+      ...(role === "Lecturer" ? teacherApps : []),
       {
         name: "calendar",
         icon: <AiOutlineCalendar />,
@@ -72,6 +72,10 @@ export const links = [
         name: "register-class",
         icon: <MdClass />,
       },
+      {
+        name:"available-subject",
+        icon:<GiNotebook/>
+      }
     ],
   },
 ];

@@ -3,7 +3,8 @@ import { Button, Col, DatePicker, DatePickerProps, Form, Row } from "antd";
 import SelectAnt from "./SelectAnt";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-
+import { Select } from 'antd';
+const { Option } = Select;
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
@@ -18,7 +19,8 @@ const RegisterClassForm = () => {
   const semesterItems = ["Spring", "Summer", "Fall"];
   const departmentItems = ["SE", "CN", "JP"];
   const subjectItems = ["PRF", "PRN", "MAE"];
-  const slotItems = ["1", "2", "3"];
+  const slotItems = ["A1", "A2", "A3", "A4", "A5", "A6","P1", "P2", "P3", "P4", "P5", "P6"];
+  const [selectedSlots, setSelectedSlots] = useState([]);
   const navigate = useNavigate();
 
   const handleSubmit = () => {
@@ -67,6 +69,9 @@ const RegisterClassForm = () => {
   const handleSlot = (value) => {
     setSlot(value);
   };
+  const handleDate = (value) => {
+    setDate(value);
+  };
   return (
     <Form
       name="basic"
@@ -88,7 +93,7 @@ const RegisterClassForm = () => {
     >
       <Row>
         <Col span={16}>
-          <Form.Item label="Semester" name="semester">
+          {/* <Form.Item label="Semester" name="semester">
             <SelectAnt
               placeholder="Select semester"
               items={semesterItems}
@@ -96,8 +101,8 @@ const RegisterClassForm = () => {
               disabled={true}
               defaultValue="SPRING"
             />
-          </Form.Item>
-          <Form.Item
+          </Form.Item> */}
+          {/* <Form.Item
             label="Department"
             name="department"
             rules={[
@@ -113,9 +118,9 @@ const RegisterClassForm = () => {
               items={departmentItems}
               onChange={handleDepartment}
             />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
-            label="Subject"
+            label="Available Subject"
             name="subject"
             rules={[
               {
@@ -141,14 +146,21 @@ const RegisterClassForm = () => {
               },
             ]}
           >
-            <SelectAnt
+            <Select
+              mode="multiple"
               placeholder="Select your Slot"
-              defaultValue="Select your Slot"
-              items={slotItems}
+              // defaultValue="Select your Slot"
               onChange={handleSlot}
-            />
+              value={selectedSlots}
+            >
+              {slotItems.map((item) => (
+                <Option key={item} value={item}>
+                  {item}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             label="Date"
             name="date"
             rules={[
@@ -159,7 +171,7 @@ const RegisterClassForm = () => {
             ]}
           >
             <DatePicker onChange={onChange} />
-          </Form.Item>
+          </Form.Item> */}
         </Col>
       </Row>
       <Row>

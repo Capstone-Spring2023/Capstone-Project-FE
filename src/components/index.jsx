@@ -11,4 +11,5 @@ export { default as DateTimePicker } from "./DateTimePicker";
 export { default as ModalAnt } from "./ModalAnt";
 export { default as ModalAnt2 } from "./ModalAnt2";
 export { default as ModalAnt3 } from "./ModalAnt3";
+export { default as ModalAnt4 } from "./ModalAnt4";
 export { default as Popup } from "./Popup";
