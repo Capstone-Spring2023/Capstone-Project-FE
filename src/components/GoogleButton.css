@@ -1,45 +1,49 @@
 .google-btn {
-  background-color: #fff;
-  border: none;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
-  color: #757575;
-  padding: 0.6rem 2rem;
-  display: flex;
-  align-items: center;
-  transition: all 0.2s ease-in-out;
+    background-color: #fff;
+    border: none;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+    color: #757575;
+    padding: 0.6rem 2rem;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
 }
 
 .google-btn:hover {
-  background-color: #fafafa;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
-  color: #212121;
+    background-color: #fafafa;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    color: #212121;
 }
 
 .google-icon-wrapper {
-  width: 1.5rem;
-  margin-right: 1.5rem;
+    width: 1.5rem;
+    margin-right: 1.5rem;
 }
 
 .google-icon {
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
 }
 
 .btn-text {
-  font-size: 1.2rem;
-  text-align: center;
+    font-size: 1.2rem;
+    text-align: center;
 }
+
 .img-size {
-  max-width: 50px;
-  max-height: 50px;
+    max-width: 50px;
+    max-height: 50px;
 }
+
 input:hover {
-  border: 2px solid #ADD8E6;
+    border: 2px solid #ADD8E6;
 }
+
 button:hover {
-  border-color: #ADD8E6;
+    border-color: #ADD8E6;
 }
+
 button:hover {
-  border-color: #ADD8E6;
-  color: #ADD8E6;
+    border-color: #ADD8E6;
+    color: #ADD8E6;
 }

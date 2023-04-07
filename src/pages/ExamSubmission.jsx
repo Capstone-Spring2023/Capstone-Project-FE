@@ -3,10 +3,8 @@ import { Header, ModalAnt3 } from "../components";
 import TableFooter from "../components/Table/TableFooter";
 import useTable from "../hooks/useTable";
 import avatar from "../assets/banner.jpg";
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { toast, Toaster } from "react-hot-toast";
-import { StyleProvider } from "@ant-design/cssinjs";
-import { ConfigProvider, Empty, Popconfirm, Tooltip } from "antd";
+import { Empty, Popconfirm, Tooltip } from "antd";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BASE_URL_API } from "../utils/constants";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
@@ -178,7 +176,7 @@ const ExamSubmission = () => {
                         </Popconfirm>
                       </Tooltip>
                       ) : null}
-                      {item.status === "Approved" ? (
+                      {item.status === "Waiting-Instruction" ? (
                         <Tooltip title="Info">
                           <ModalAnt3 examInstructionId={item.examPaperId} title="Exam instruction" />
                         </Tooltip>
@@ -191,7 +189,7 @@ const ExamSubmission = () => {
           </table>
         </div>
       ) : (
-        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        <Empty />
       )}
       <TableFooter
         total={examData}
