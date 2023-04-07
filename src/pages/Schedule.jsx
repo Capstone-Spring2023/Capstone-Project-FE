@@ -49,30 +49,6 @@ const Schedule = () => {
         };
         reader.readAsBinaryString(file);
     };
-    const [startDate, setStartDate] = useState(new Date());
-    const startOfWeekDate = startOfWeek(startDate);
-    const endOfWeekDate = endOfWeek(startDate);
-
-    const handleStartDateChange = (e) => {
-        setStartDate(new Date(e.target.value));
-    };
-
-    const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    const daysOfMonth = [];
-    for (let i = 0; i < 7; i++) {
-        const day = addDays(startOfWeekDate, i + 1);
-        daysOfMonth.push(format(day, "dd/MM/yyyy"));
-    }
-    const slots = [];
-
-    // Thêm các slot vào danh sách `slots`
-    for (let i = 0; i < 8; i++) {
-        slots.push(
-            <td key={`slot-${i}`}>
-                <div className="slot">Slot {i + 1}</div>
-            </td>
-        );
-    }
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [file, setFile] = useState("");
     const showModal = () => {
@@ -154,46 +130,91 @@ const Schedule = () => {
         );
     };
 
+    //Schedule
+    const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const [startDate, setStartDate] = useState(new Date());
+    const startOfWeekDate = startOfWeek(startDate);
+    const endOfWeekDate = endOfWeek(startDate);
+
+    const handleStartDateChange = (e) => {
+        setStartDate(new Date(e.target.value));
+    };
+
+    const daysOfMonth = [];
+    for (let i = 0; i < 7; i++) {
+        const day = addDays(startOfWeekDate, i);
+        daysOfMonth.push(moment(day).format("YYYY-MM-DD"));
+    }
+
+    const timetable = new Array(8).fill(null).map(() => new Array(7).fill(null));
+    const slots = [];
+
+    // Thêm các slot vào danh sách `slots`
+    for (let i = 0; i < 8; i++) {
+        slots.push(
+            <td key={`slot-${i}`}>
+                <div className="slot">Slot {i + 1}</div>
+            </td>
+        );
+    }
+
+    const [schedule, setSchedule] = useState([]);
+
     useEffect(() => {
         fetchSchedule();
     }, []);
 
-    const [schedule, setSchedule] = useState("");
     const fetchSchedule = () => {
         fetch(`${BASE_URL_API}/schedule/lecturer/2/schedule`)
             .then((res) => {
                 return res.json();
             })
             .then((resp) => {
-                setSchedule(resp);
                 console.log(resp);
+                const formattedSchedule = resp.map((scheduleItem) => {
+                    const scheduleDate = moment(scheduleItem.scheduleDate, "YYYY-MM-DDTHH:mm:ss").format("YYYY-MM-DD HH:mm:ss");
+                    const slotIndex = scheduleItem.slot - 1;
+                    const dayIndex = daysOfMonth.indexOf(scheduleDate);
+                    timetable[slotIndex] = timetable[slotIndex] || [];
+                    timetable[slotIndex][dayIndex] = {
+                        scheduleId: scheduleItem.scheduleId,
+                        classCode: scheduleItem.classCode,
+                        classId: scheduleItem.classId,
+                        slot: scheduleItem.slot,
+                        scheduleDate: scheduleDate,
+                    };
+                    console.log(timetable);
+                });
+                setSchedule(formattedSchedule);
             })
             .catch((err) => {
                 console.log(err.message);
             });
     };
 
-    const timetable = [];
-    if (schedule && schedule.length > 0) {
-        for (let i = 0; i < schedule.length; i++) {
-            const scheduleItem = schedule[i];
-            const scheduleDate = moment(scheduleItem.scheduleDate).format("dd/MM/yyyy");
-            const slotIndex = scheduleItem.slot - 1;
-            const dayIndex = daysOfMonth.indexOf(scheduleDate);
-            timetable[slotIndex] = timetable[slotIndex] || [];
-            timetable[slotIndex][dayIndex] = (
-                <td key={`schedule-${scheduleItem.scheduleId}`}>
-                    <div className="schedule-item">
-                        <div className="schedule-time">
-                            {moment(scheduleItem.scheduleDate).format("HH:mm")}
+
+    for (let i = 0; i < timetable.length; i++) {
+        for (let j = 0; j < timetable[i].length; j++) {
+            const lesson = timetable[i][j];
+            // console.log(lesson);
+            if (lesson !== null) {
+                timetable[i][j] = (
+                    <td key={`${daysOfMonth[j]}-${lesson.slot}`}>
+                        <div className="schedule-item">
+                            <div className="schedule-time">{`Slot ${lesson.slot} - ${moment(
+                                lesson.scheduleDate
+                            ).format("HH:mm")}`}</div>
+                            <div className="schedule-class">{lesson.classCode}</div>
                         </div>
-                        <div className="schedule-class">{scheduleItem.classCode}</div>
-                    </div>
-                </td>
-            );
+                    </td>
+                );
+            } else {
+                timetable[i][j] = <td key={`${daysOfMonth[j]}-null`} />;
+            }
+
+            // console.log(`timetable[${i}][${j}] = ${timetable[i][j]}`);
         }
     }
-
 
     return (
         <>
@@ -206,17 +227,19 @@ const Schedule = () => {
                         <table className="table">
                             <thead>
                                 <tr>
-                                    <input
-                                        type="date"
-                                        value={format(startDate, "yyyy-MM-dd")}
-                                        onChange={handleStartDateChange}
-                                        className="date-picker"
-                                    />
-                                    {daysOfWeek.map((day, index) => (
-                                        <th key={`${day}-${daysOfMonth[index]}`} className="text-center">
+                                    <th>
+                                        <input
+                                            type="date"
+                                            value={format(startDate, "yyyy-MM-dd")}
+                                            onChange={handleStartDateChange}
+                                            className="date-picker"
+                                        />
+                                    </th>
+                                    {daysOfMonth.map((day, index) => (
+                                        <th key={`${day}-${daysOfWeek[index]}`} className="text-center">
                                             <div className="day-container">
-                                                <div className="day">{day}</div>
-                                                <div className="date">{daysOfMonth[index]}</div>
+                                                <div className="day">{daysOfWeek[index]}</div>
+                                                <div className="date">{day}</div>
                                             </div>
                                         </th>
                                     ))}
@@ -226,20 +249,24 @@ const Schedule = () => {
                                 {slots.map((slot, index) => (
                                     <tr key={`slot-row-${index}`}>
                                         {slot}
-                                        <td className="td-style"></td>
-                                        <td className="td-style"></td>
-                                        <td className="td-style"></td>
-                                        <td className="td-style"></td>
-                                        <td className="td-style"></td>
-                                        <td className="td-style"></td>
-                                        <td className="td-style"></td>
+                                        {daysOfMonth.map((day, dayIndex) => {
+                                            const lesson = timetable[index][dayIndex];
+                                            return (
+                                                <td
+                                                    key={`slot-${index}-day-${dayIndex}`}
+                                                    className={`td-style ${lesson ? "bg-gray-100" : "bg-white"}`}
+                                                >
+                                                    {lesson && (
+                                                        <div className="lesson">
+                                                            <div className="lesson-code">{lesson.classCode || lesson.classId}</div>
+                                                        </div>
+                                                    )}
+                                                </td>
+                                            );
+                                        })}
                                     </tr>
                                 ))}
-                                {timetable.map((row, index) => (
-                                    <tr key={`schedule-row-${index}`}>{row}</tr>
-                                ))}
                             </tbody>
-
                         </table>
                     </div>
                 </div>
