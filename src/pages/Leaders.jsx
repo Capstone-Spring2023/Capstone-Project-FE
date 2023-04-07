@@ -74,7 +74,7 @@ const Leaders = () => {
                 FullName
               </th>
               <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                Email
+                Phone
               </th>
               <th
                 scope="col"
@@ -118,7 +118,6 @@ const Leaders = () => {
                 </td>
                 <td className="px-3 py-3">{item.fullName}</td>
                 <td className="px-3 py-3">{item.phone}</td>
-                <td className="px-3 py-3">{item.email}</td>
                 <td className="px-3 py-3">
                   <span
                     className={`inline-flex items-center gap-1 rounded-full ${

@@ -52,7 +52,7 @@ const UserProfile = () => {
               roldId: roleId
             };
             toast.promise(
-              fetch(`${BASE_URL_API}/leader/profile/updateLeader/5`, {
+              fetch(`${BASE_URL_API}/leader/profile/updateLeader/`+sessionStorage.getItem("userId"), {
                 method: "PUT",
                 headers: { "content-type": "application/json" },
                 body: JSON.stringify(examData),

@@ -23,6 +23,7 @@ import ExamScheduleCreate from "./section/ExamSchedule/ExamScheduleCreate";
 import ExamScheduleEdit from "./section/ExamSchedule/ExamScheduleEdit";
 import ExamSubmissionView from "./pages/ExamSubmissionView";
 import Schedule from "./pages/Schedule";
+import LeaderSubject from "./pages/LeaderSubject";
 
 import RegisterClass_Register from "./section/RegisterClass/RegisterClass_Register";
 
@@ -126,7 +127,7 @@ const App = () => {
                   />
 
                   {/*Pages*/}
-                  {sessionStorage.getItem("roleName") === "Teacher" ? (
+                  {sessionStorage.getItem("roleName") === "Lecturer" ? (
                   <Route
                     path="/exam-submission"
                     element={<ExamsSubmission />}
@@ -135,7 +136,7 @@ const App = () => {
                   {sessionStorage.getItem("roleName") === "Leader" ? (
                   <Route path="/exam-schedule" element={<ExamsSchedule />} />
                   ) : null}
-                  {sessionStorage.getItem("roleName") === "Teacher" ? (
+                  {sessionStorage.getItem("roleName") === "Lecturer" ? (
                   <Route
                     path="/exam-schedule-view"
                     element={<ExamsScheduleView />}
@@ -159,6 +160,7 @@ const App = () => {
                     path="/register-class/register"
                     element={<RegisterClass_Register />}
                   />
+                  <Route path="/available-subject" element={<LeaderSubject />} />
 
                   {/*Exams Submission*/}
                   <Route
