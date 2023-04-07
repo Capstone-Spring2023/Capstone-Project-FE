@@ -42,7 +42,6 @@ const Login = () => {
             localStorage.setItem("isActiveMenu", "true");
             localStorage.setItem('SidebarReset', "true");
             navigate("/overview");
-            window.location.reload();
           })
           .catch((error) => {
             window.alert('please login with FPT account');

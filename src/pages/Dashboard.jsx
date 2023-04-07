@@ -6,7 +6,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 const Dashboard = () => {
   const { currentColor } = useStateContext();
   return (
-    <div className="mt-12">
+    <div className="mt-12 flex flex-col items-center">
       <div className="flex flex-wrap lg:flex-nowrap justify-center">
         <div
           className="shadow-md dark:text-gray-200 dark:bg-secondary-dark-bg rounded-xl w-800 p-3 m-3 bg-no-repeat bg-cover bg-center"
@@ -24,14 +24,13 @@ const Dashboard = () => {
                 Welcome back Mr.Lecturer
               </p>
               <p className="text-gray-600">
-                Hope you have a good day to teach and add something here
+                Hope you have a good day to teach and add something
               </p>
             </div>
           </div>
         </div>
       </div>
-
-      <div className="text-lg font-bold text-start">Summary</div>
+      <div className="text-lg font-bold">Summary</div>
 
       <div className="flex m-3 flex-wrap justify-center gap-14 items-center">
         {overviewData.map((item) => (
@@ -55,14 +54,6 @@ const Dashboard = () => {
             <p className="text-sm text-gray-400 mt-1">{item.title}</p>
           </div>
         ))}
-      </div>
-
-      <div className="flex gap-10 flex-wrap justify-center">
-        <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl md:w-780">
-          <div className="flex justify-between">
-            <p>Schedule</p>
-          </div>
-        </div>
       </div>
     </div>
   );

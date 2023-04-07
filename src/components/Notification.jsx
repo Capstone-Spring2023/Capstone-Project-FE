@@ -2,9 +2,11 @@ import React from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import { Button } from "./index";
 import avatar4 from "../assets/avatar4.jpg";
+import { useNavigate } from "react-router-dom";
 
 const Notification = ({ notiData }) => {
   const { currentColor } = useStateContext();
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -12,6 +14,7 @@ const Notification = ({ notiData }) => {
         <div
           key={index}
           className="flex items-center leading-8 gap-5 border-b-1 border-color p-3"
+          onClick={() => navigate("/exam-schedule-view")}
         >
           <img
             className="rounded-full h-10 w-10"

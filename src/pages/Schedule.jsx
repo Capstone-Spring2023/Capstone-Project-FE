@@ -183,7 +183,6 @@ const Schedule = () => {
                         slot: scheduleItem.slot,
                         scheduleDate: scheduleDate,
                     };
-                    console.log(timetable);
                 });
                 setSchedule(formattedSchedule);
             })

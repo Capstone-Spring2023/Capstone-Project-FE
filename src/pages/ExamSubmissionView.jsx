@@ -113,7 +113,7 @@ const ExamSubmissionView = () => {
                       </div>
                     </div>
                   </td>
-                  <td className="px-3 py-3">{item.examContent}</td>
+                  <td className="px-3 py-3">{item.tittle}</td>
                   <td className="px-3 py-3">{item.type}</td>
                   <td className="px-3 py-3">
                     <span

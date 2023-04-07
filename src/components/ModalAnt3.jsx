@@ -89,10 +89,6 @@ const ModalAnt3 = ({ title, id, examInstructionId }) => {
         })
     );
   };
-  // const handleOk2 = () => {
-  //   setIsModalOpen(false);
-
-  // };
   const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
     if (!file) return;
     const storage = getStorage();

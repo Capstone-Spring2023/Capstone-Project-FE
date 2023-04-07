@@ -113,7 +113,7 @@ const ExamSchedule = () => {
                         Assign: {item.leaderId}
                       </div>
                       <div className="text-gray-400">
-                        Subject: {item.registerSubjectId}
+                        Subject: {item.subjectName}
                       </div>
                     </div>
                   </td>

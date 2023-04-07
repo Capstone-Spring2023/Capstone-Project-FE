@@ -63,7 +63,7 @@ export const ColorMappingPrimaryYAxis = {
 export const overviewData = [
   {
     icon: <MdOutlineSupervisorAccount />,
-    amount: '39,354',
+    amount: '45',
     percentage: '-4%',
     title: 'Class available',
     iconColor: '#03C9D7',
@@ -72,7 +72,7 @@ export const overviewData = [
   },
   {
     icon: <BsBoxSeam />,
-    amount: '4,396',
+    amount: '23',
     percentage: '+23%',
     title: 'Class in progress',
     iconColor: 'rgb(255, 244, 229)',
@@ -90,7 +90,7 @@ export const overviewData = [
   // },
   {
     icon: <HiOutlineRefresh />,
-    amount: '39,354',
+    amount: '132',
     percentage: '-12%',
     title: 'ExamSubmission',
     iconColor: 'rgb(0, 194, 146)',
