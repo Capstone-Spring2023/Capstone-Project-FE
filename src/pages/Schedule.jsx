@@ -58,13 +58,11 @@ const Schedule = () => {
     };
 
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    const courseList = ['Math', 'History', 'Physics', 'Biology', 'Chemistry', 'English', 'Geography', 'Art'];
     const daysOfMonth = [];
     for (let i = 0; i < 7; i++) {
         const day = addDays(startOfWeekDate, i + 1);
         daysOfMonth.push(format(day, "dd/MM/yyyy"));
     }
-    const timetable = [];
     const slots = [];
 
     // Thêm các slot vào danh sách `slots`
@@ -155,12 +153,51 @@ const Schedule = () => {
             }
         );
     };
+
+    useEffect(() => {
+        fetchSchedule();
+    }, []);
+
+    const [schedule, setSchedule] = useState("");
+    const fetchSchedule = () => {
+        fetch(`${BASE_URL_API}/schedule/lecturer/2/schedule`)
+            .then((res) => {
+                return res.json();
+            })
+            .then((resp) => {
+                setSchedule(resp);
+                console.log(resp);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+    };
+
+    const timetable = [];
+    if (schedule && schedule.length > 0) {
+        for (let i = 0; i < schedule.length; i++) {
+            const scheduleItem = schedule[i];
+            const scheduleDate = moment(scheduleItem.scheduleDate).format("dd/MM/yyyy");
+            const slotIndex = scheduleItem.slot - 1;
+            const dayIndex = daysOfMonth.indexOf(scheduleDate);
+            timetable[slotIndex] = timetable[slotIndex] || [];
+            timetable[slotIndex][dayIndex] = (
+                <td key={`schedule-${scheduleItem.scheduleId}`}>
+                    <div className="schedule-item">
+                        <div className="schedule-time">
+                            {moment(scheduleItem.scheduleDate).format("HH:mm")}
+                        </div>
+                        <div className="schedule-class">{scheduleItem.classCode}</div>
+                    </div>
+                </td>
+            );
+        }
+    }
+
+
     return (
         <>
             <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-                <div>
-                    <input type="file" onChange={handleFile} />
-                </div>
                 <div className="app-container">
                     <div className="container">
                         <div className="header">
@@ -198,31 +235,39 @@ const Schedule = () => {
                                         <td className="td-style"></td>
                                     </tr>
                                 ))}
-                                <tr>{timetable}</tr>
+                                {timetable.map((row, index) => (
+                                    <tr key={`schedule-row-${index}`}>{row}</tr>
+                                ))}
                             </tbody>
+
                         </table>
                     </div>
                 </div>
-                </div>
-                <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+            </div>
+            <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
                 <>
-                        <Form.Item name="file" accept=".docx">
-                            <Dragger customRequest={(e) => upLoadFile(e)}>
-                                <p className="ant-upload-drag-icon">
-                                    <InboxOutlined />
-                                </p>
-                                <p className="ant-upload-text">
-                                    Click or drag file to this area to upload
-                                </p>
-                                <p className="ant-upload-hint">
-                                    Only support for excel file
-                                </p>
-                            </Dragger>
-                        </Form.Item>
-                        <Button key="submit" type="default" onClick={handleOk2}>
-                                Submit
-                            </Button>
+                    Import file schedule
+                    <Form.Item name="file" accept=".docx">
+                        <Dragger customRequest={(e) => upLoadFile(e)}>
+                            <p className="ant-upload-drag-icon">
+                                <InboxOutlined />
+                            </p>
+                            <p className="ant-upload-text">
+                                Click or drag file to this area to upload
+                            </p>
+                            <p className="ant-upload-hint">
+                                Only support for excel file
+                            </p>
+                        </Dragger>
+                    </Form.Item>
+                    <Button key="submit" type="default" onClick={handleOk2}>
+                        Submit
+                    </Button>
                 </>
+                Import file excel
+                <div>
+                    <input type="file" onChange={handleFile} />
+                </div>
             </div>
         </>
     );

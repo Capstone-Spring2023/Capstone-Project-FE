@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import useTable from "../hooks/useTable";
 import { useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
@@ -10,8 +10,12 @@ import { StyleProvider } from "@ant-design/cssinjs";
 import { ConfigProvider, Empty, Tooltip } from "antd";
 import { Select, Space } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
+import { Table, Input } from 'antd';
+import { Button } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
+const { Column } = Table;
 const LeaderSubject = () => {
     const [page, setPage] = useState(1);
     const [examAvailableSubjectData, setAvailableSubjectData] = useState([{}]);
@@ -21,11 +25,16 @@ const LeaderSubject = () => {
 
     useEffect(() => {
         fetchSubject();
-        fetchTable2();
+        // fetchTable2();
     }, []);
 
     const handleSubjectSelect = (value) => {
         fetchTable(value);
+        const filteredData = examAvailableSubjectData.filter(
+            (item) => item.subjectName.toLowerCase().indexOf(value.toLowerCase()) >= 0
+        );
+        // Cập nhật lại state để hiển thị dữ liệu đã lọc trên bảng
+        setAvailableSubjectData(filteredData);
     };
 
     const fetchSubject = () => {
@@ -69,6 +78,9 @@ const LeaderSubject = () => {
             });
     };
 
+    //test
+    const [data, setData] = useState(examAvailableSubjectData);
+    const [filters, setFilters] = useState([]);
 
     const customizeRenderEmpty = () => (
         <div
@@ -96,25 +108,32 @@ const LeaderSubject = () => {
             <div className="flex justify-between items-center">
                 <Header category="App" title="Available Subject" />
             </div>
-            <ConfigProvider renderEmpty={customizeRenderEmpty}>
-                <Select
-                    showSearch
-                    style={style}
-                    placeholder="Select subjects"
-                    onSelect={handleSubjectSelect}
-                    optionLabelProp="label"
-                >
-                    {subject?.map((item, index) => (
-                        <Option
-                            key={index}
-                            value={`${item?.availableSubjectId}`}
-                            label={`${item?.subjectName}`}
-                        >
-                            <Space>{item?.subjectName}</Space>
-                        </Option>
-                    ))}
-                </Select>
-            </ConfigProvider>
+            <div className="flex justify-center items-center">
+                <ConfigProvider renderEmpty={customizeRenderEmpty}>
+                    Choose subject :
+                    <Select
+                        showSearch
+                        style={style}
+                        placeholder="Select subjects"
+                        onSelect={handleSubjectSelect}
+                        optionLabelProp="label"
+                        filterOption={(input, option) =>
+                            option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        }
+                        optionFilterProp="label"
+                    >
+                        {subject?.map((item, index) => (
+                            <Option
+                                key={index}
+                                value={`${item?.availableSubjectId}`}
+                                label={`${item?.subjectName}`}
+                            >
+                                <Space>{item?.subjectName}</Space>
+                            </Option>
+                        ))}
+                    </Select>
+                </ConfigProvider>
+            </div>
             {slice.length > 0 ? (
                 <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
                     <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
@@ -191,5 +210,145 @@ const LeaderSubject = () => {
         </div>
     );
 };
+// const LeaderSubject = () => {
+//     const [examAvailableSubjectData, setAvailableSubjectData] = useState([]);
+//     const [ setSubject] = useState([]);
+//     const [page, setPage] = useState(1);
+//         const { slice, range } = useTable(examAvailableSubjectData, page, 5);
+//         const navigate = useNavigate();
+//         const [isLoading, setIsLoading] = useState(false);
+//         const [selectedSubjectId, setSelectedSubjectId] = useState(null);
 
+//         const handleTableChange = (pagination) => {
+//           setPage(pagination.current);
+//         };
+
+//         const fetchTable = () => {
+//           setIsLoading(true);
+//           fetch(
+//             `${BASE_URL_API}/header/GetLecturersHaveRegisterSubjectByAvailableSubjectId/${selectedSubjectId}`
+//           )
+//             .then((res) => res.json())
+//             .then((resp) => {
+//               setAvailableSubjectData(resp.data);
+//               setIsLoading(false);
+//             })
+//             .catch((err) => {
+//               console.log(err.message);
+//               setIsLoading(false);
+//             });
+//         };
+
+//         const fetchSubject = () => {
+//           fetch(
+//             `${BASE_URL_API}/leader/${sessionStorage.getItem(
+//               "userId"
+//             )}/available-subject`
+//           )
+//             .then((res) => res.json())
+//             .then((resp) => {
+//               setSubject(resp.data);
+//             })
+//             .catch((err) => {
+//               console.log(err.message);
+//             });
+//         };
+
+//         const handleFilterClick = () => {
+//           if (selectedSubjectId) {
+//             fetchTable();
+//           } else {
+//             fetchSubject();
+//           }
+//         };
+
+//         const handleSubjectSelect = (value) => {
+//           setSelectedSubjectId(value);
+//         };
+
+//         const { subject } = props;
+//     return (
+//         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+//             <div>
+//                 <Toaster />
+//             </div>
+//             <div className="flex justify-between items-center">
+//                 <Header category="App" title="Available Subject" />
+//             </div>
+//             <Table
+//                 dataSource={examAvailableSubjectData}
+//                 pagination={{ pageSize: 5, current: page, onChange: setPage }}
+//                 rowKey="id"
+//                 onChange={handleSubjectClick}
+//                 footer={() => (
+//                     <TableFooter
+//                         total={examAvailableSubjectData}
+//                         range={range}
+//                         slice={slice}
+//                         setPage={setPage}
+//                         page={page}
+//                     />
+//                 )}
+//             >
+//                 <Column
+//   title="Full Name"
+//   dataIndex="fullName"
+//   key="fullName"
+//   filterDropdown={(props) => (
+//     <div style={{ padding: 8 }}>
+//       <Input
+//         placeholder="Search name"
+//         value={props.selectedKeys[0]}
+//         onChange={(e) => props.setSelectedKeys(e.target.value ? [e.target.value] : [])}
+//         onPressEnter={() => props.confirm()}
+//         style={{ width: 188, marginBottom: 8, display: "block" }}
+//       />
+//       <Button
+//         type="primary"
+//         onClick={() => props.confirm()}
+//         icon={<SearchOutlined />}
+//         size="small"
+//         style={{ width: 90, marginRight: 8 }}
+//       >
+//         Search
+//       </Button>
+//       <Button onClick={() => props.clearFilters()} size="small" style={{ width: 90 }}>
+//         Reset
+//       </Button>
+//     </div>
+//   )}
+//   filterIcon={(filtered) => (
+//     <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+//   )}
+// />
+
+//                 <Column title="Full Name" dataIndex="fullName" key="fullName" />
+//                 <Column title="Semester" dataIndex="semester" key="semester" />
+//                 <Column
+//                     title="Action"
+//                     key="action"
+//                     render={(text, record) => (
+//                         <Space size="middle">
+//                             <ModalAnt4
+//                                 subjectName={record.subjectName}
+//                                 fullName={record.fullName}
+//                                 semester={record.semester}
+//                                 title="Lecturer detail"
+//                             />
+//                         </Space>
+//                     )}
+//                 />
+//             </Table>
+
+//             <TableFooter
+//                 total={examAvailableSubjectData}
+//                 range={range}
+//                 slice={slice}
+//                 setPage={setPage}
+//                 page={page}
+//             />
+//         </div>
+//     );
+
+// }
 export default LeaderSubject;
