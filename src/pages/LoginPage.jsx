@@ -29,9 +29,13 @@ const Login = () => {
           },
         })
           .then((value) => {
-            sessionStorage.setItem("roleName", value.data.data.roleName);
-            sessionStorage.setItem("userId", value.data.data.userId);
+            console.log(value);
+            console.log("roleName",value.data.data.roleName);
+            sessionStorage.setItem("roleName",value.data.data.roleName);
+            sessionStorage.setItem("userId",value.data.data.userId);
+            console.log(result);
             sessionStorage.setItem("email", result.user.email);
+            console.log(sessionStorage.getItem("email"));
             setIsLoginPage(false);
             setActiveMenu(true);
             localStorage.setItem("isLogin", "false");
@@ -53,7 +57,7 @@ const Login = () => {
       <div className="m-auto items-center bg-[#FFFFFF] shadow-md rounded-lg">
         <div className="flex flex-row flex-wrap items-center">
           <div>
-            <div style={{ borderRadius: "8px 0 0 8px", overflow: "hidden" }}>
+            <div style={{ borderRadius: '8px 0 0 8px', overflow: 'hidden' }}>
               <img
                 className="rounded-r-3xl w-780"
                 src={process.env.PUBLIC_URL + "./FPTU.jpg"}

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { AiOutlineCalendar, AiOutlineSchedule } from "react-icons/ai";
 import { BiColorFill, BiNotepad } from "react-icons/bi";
 import { BsPeople } from "react-icons/bs";
@@ -41,7 +41,7 @@ export const links = [
   {
     title: "Managements",
     links: [
-      role === "Leader" ?? {
+      {
         name: "leaders",
         icon: <BsPeople />,
       },
