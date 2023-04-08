@@ -1,28 +1,17 @@
-import { read, utils, write } from "xlsx";
-import { Header } from "../components";
-import React, { useState, useEffect } from "react";
-import Select from "react-select";
+import { read, utils } from "xlsx";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
-import { startOfWeek, endOfWeek, format, addDays } from "date-fns";
-import { Badge, Button, Descriptions, Modal } from "antd";
+import { addDays, endOfWeek, format, startOfWeek } from "date-fns";
+import { Button, Form, message, Upload } from "antd";
 import "./GoogleButton.css";
-import { InfoOutlined } from "@ant-design/icons";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  Col,
-  DatePicker,
-  Divider,
-  Form,
-  Input,
-  Row,
-  Space,
-  message,
-} from "antd";
 import { InboxOutlined } from "@ant-design/icons";
-import { Upload } from "antd";
-import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
-import { getDownloadURL } from "firebase/storage";
-import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { BASE_URL_API } from "../utils/constants";
 
 const { sheet_to_json } = utils;
@@ -140,7 +129,7 @@ const Schedule = () => {
     "Saturday",
     "Sunday",
   ];
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date("2023-07-16"));
   const startOfWeekDate = startOfWeek(startDate);
   const endOfWeekDate = endOfWeek(startDate);
 
@@ -166,11 +155,15 @@ const Schedule = () => {
     );
   }
 
-  const [schedule, setSchedule] = useState([]);
+  const [schedule, setSchedule] = useState(
+    Array(8)
+      .fill(null)
+      .map(() => new Array(7).fill(null))
+  );
 
   useEffect(() => {
     fetchSchedule();
-  }, []);
+  }, [daysOfMonth]);
 
   const fetchSchedule = () => {
     fetch(`${BASE_URL_API}/schedule/lecturer/2/schedule`)
@@ -179,15 +172,16 @@ const Schedule = () => {
       })
       .then((resp) => {
         console.log("RESP", resp);
-        const formattedSchedule = resp.map((scheduleItem) => {
+        resp.map((scheduleItem) => {
           const scheduleDate = moment(
             scheduleItem.scheduleDate,
             "YYYY-MM-DDTHH:mm:ss"
-          ).format("YYYY-MM-DD HH:mm:ss");
+          ).format("YYYY-MM-DD");
           console.log("DATE", scheduleDate);
-          const slotIndex = scheduleItem.slot - 1;
+          const slotIndex = scheduleItem.slot;
           const dayIndex = daysOfMonth.indexOf(scheduleDate);
           timetable[slotIndex] = timetable[slotIndex] || [];
+          setSchedule(timetable);
           timetable[slotIndex][dayIndex] = {
             scheduleId: scheduleItem.scheduleId,
             classCode: scheduleItem.classCode,
@@ -196,7 +190,6 @@ const Schedule = () => {
             scheduleDate: scheduleDate,
           };
         });
-        setSchedule(formattedSchedule);
       })
       .catch((err) => {
         console.log(err.message);
@@ -263,11 +256,7 @@ const Schedule = () => {
                   <tr key={`slot-row-${index}`}>
                     {slot}
                     {daysOfMonth.map((day, dayIndex) => {
-                      console.log("DAY", day);
-                      console.log("DAYINDEX", dayIndex);
-                      console.log("SLOT", slot);
-                      const lesson = timetable[index][dayIndex];
-                      console.log("lesson", lesson);
+                      const lesson = schedule[index][dayIndex];
                       return (
                         <td
                           key={`slot-${index}-day-${dayIndex}`}
@@ -276,12 +265,13 @@ const Schedule = () => {
                           }`}
                         >
                           {lesson &&
-                            "2023-04-12" === day &&
-                            "slot-6" === slot.key && (
+                            lesson?.scheduleDate === day &&
+                            `slot-${lesson?.slot}` === slot.key && (
                               <div className="lesson">
-                                <div className="lesson-code">{lesson.key}</div>
+                                <div className="lesson-code">{lesson?.key}</div>
                               </div>
                             )}
+                          {lesson?.classCode}
                         </td>
                       );
                     })}
