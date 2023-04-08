@@ -6,7 +6,7 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import avatar from "../assets/avatar.jpg";
 import { Notification, UserProfile } from ".";
 import { useStateContext } from "../contexts/ContextProvider";
-import { SOCKET_URL } from "../utils/constants";
+import {BASE_URL_API, SOCKET_URL} from "../utils/constants";
 import { Badge, Popover } from "antd";
 import { BellOutlined } from "@ant-design/icons";
 
@@ -66,12 +66,12 @@ const Navbar = () => {
   }, [notiData]);
 
   const fetchNoti = () => {
-    fetch(`${SOCKET_URL}/noti`)
+    fetch(`${BASE_URL_API}/Notifications/` + sessionStorage.getItem("userId"))
       .then((res) => {
         return res.json();
       })
       .then((resp) => {
-        setNotiData(resp.noti);
+        setNotiData(resp.data);
         setIsShowNoti(true);
       })
       .catch((err) => {
@@ -102,7 +102,7 @@ const Navbar = () => {
         icon={<AiOutlineMenu />}
       />
       <div className="flex items-center gap-3">
-        <Badge count={notiData.length} size="small">
+        <Badge count={notiData?.length} size="small">
           <Popover
             content={<Notification notiData={notiData} />}
             trigger="click"

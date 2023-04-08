@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { SiShopware } from "react-icons/si";
 import { MdOutlineCancel } from "react-icons/md";
@@ -11,6 +11,7 @@ import avatar from "../assets/avatar.jpg";
 const Sidebar = () => {
   const { currentColor, activeMenu, setActiveMenu, screenSize } =
     useStateContext();
+  const isLogin = localStorage.getItem("SidebarReset");
 
   const handleCloseSideBar = () => {
     if (activeMenu && screenSize <= 900) {
@@ -18,15 +19,13 @@ const Sidebar = () => {
     }
   };
 
-  const isLogin = localStorage.getItem('SidebarReset');
-
   const activeLink =
     "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-white text-md m-2";
   const normalLink =
     "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2";
 
   return (
-    <div className="ml-3 h-screen md:overflow-hidden overflow-auto md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10">
+    <div className="ml-3 h-screen md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10">
       {activeMenu && (
         <>
           <div className="flex items-center justify-center mb-10 mt-5">
@@ -49,33 +48,38 @@ const Sidebar = () => {
             </TooltipComponent>
           </div>
           <div>
-          {isLogin && (
-    <>
+            {isLogin && (
+              <>
                 {links.map((item) => (
-                  <div key={item.title} className="text-gray-400 m-3 mt-4 uppercase">
+                  <div
+                    key={item.title}
+                    className="text-gray-400 m-3 mt-4 uppercase"
+                  >
                     <p>{item.title}</p>
-                    {(item.links ?? []).map((Link) => (
-                      Link && Link.name && (
-                        <NavLink
-                          to={`/${Link.name}`}
-                          key={Link.name}
-                          onClick={handleCloseSideBar}
-                          style={({ isActive }) => ({
-                            backgroundColor: isActive ? currentColor : "",
-                          })}
-                          className={({ isActive }) =>
-                            isActive ? activeLink : normalLink
-                          }
-                        >
-                          {Link.icon}
-                          <span className="capitalize">{Link.name}</span>
-                        </NavLink>
-                      )
-                    ))}
+                    {(item.links ?? []).map(
+                      (Link) =>
+                        Link &&
+                        Link.name && (
+                          <NavLink
+                            to={`/${Link.name}`}
+                            key={Link.name}
+                            onClick={handleCloseSideBar}
+                            style={({ isActive }) => ({
+                              backgroundColor: isActive ? currentColor : "",
+                            })}
+                            className={({ isActive }) =>
+                              isActive ? activeLink : normalLink
+                            }
+                          >
+                            {Link.icon}
+                            <span className="capitalize">{Link.name}</span>
+                          </NavLink>
+                        )
+                    )}
                   </div>
                 ))}
-                </>
-  )}
+              </>
+            )}
           </div>
         </>
       )}
