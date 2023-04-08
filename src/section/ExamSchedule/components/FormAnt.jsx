@@ -46,14 +46,14 @@ const FormAnt = ({ socket }) => {
         body: JSON.stringify(examScheduleData),
       })
         .then((res) => {
-          if (noti.trim() && sessionStorage.getItem("userId")) {
+          if (noti.trim() && sessionStorage.getItem("email")) {
             socket.emit("message", {
-              type: "Schedule",
-              message: noti,
-              id: sessionStorage.getItem("userId"),
+              text: noti,
+              name: sessionStorage.getItem("email"),
+              id: `${socket.id}${Math.random()}`,
             });
             //Here it is 👇🏻
-            checkPageStatus(noti, sessionStorage.getItem("userId"));
+            checkPageStatus(noti, sessionStorage.getItem("email"));
           }
           setNoti("");
           navigate("/exam-schedule");
@@ -74,7 +74,7 @@ const FormAnt = ({ socket }) => {
   const handleSubject = (value) => {
     setSubject(value);
   };
-
+  
   // const checkFileExtension = (file) => {
   //   const fileExtension = file.name.split(".").pop().toLowerCase();
   //   if (fileExtension !== "docx") {
@@ -83,7 +83,7 @@ const FormAnt = ({ socket }) => {
   //   }
   //   return true;
   // };
-
+  
   const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
     // if (checkFileExtension(file)) {
     if (!file) return;
@@ -196,20 +196,22 @@ const FormAnt = ({ socket }) => {
         </Col>
       </Row>
       <Row justify="center" align="center">
-        <Col span={20} offset={6}>
-          <Form.Item name="file" accept=".docx">
-            <Dragger customRequest={(e) => upLoadFile(e)}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">
-                Click or drag file to this area to upload
-              </p>
-              <p className="ant-upload-hint">Only support for .docx file</p>
-            </Dragger>
-          </Form.Item>
-        </Col>
-      </Row>
+  <Col span={20} offset={6}>
+    <Form.Item name="file" accept=".docx">
+      <Dragger customRequest={(e) => upLoadFile(e)}>
+        <p className="ant-upload-drag-icon">
+          <InboxOutlined />
+        </p>
+        <p className="ant-upload-text">
+          Click or drag file to this area to upload
+        </p>
+        <p className="ant-upload-hint">
+          Only support for .docx file
+        </p>
+      </Dragger>
+    </Form.Item>
+  </Col>
+</Row>
 
       <Row>
         <Col>

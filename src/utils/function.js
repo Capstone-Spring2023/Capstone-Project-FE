@@ -13,7 +13,7 @@ function sendNotification(message, user) {
 }
 
 export default function checkPageStatus(message, user) {
-    if(user === sessionStorage.getItem("userId")) {
+    if(user === sessionStorage.getItem("email")) {
         if(!("Notification" in window)) {
             alert("This browser does not support system notifications!")
         } else if(Notification.permission === "granted") {
