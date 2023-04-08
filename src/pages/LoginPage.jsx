@@ -8,8 +8,6 @@ import axios from "axios";
 import "./GoogleButton.css";
 import Button from "react-bootstrap/Button";
 import { firebaseConfig } from "../utils/constants";
-import { useState } from "react";
-import Modal from 'react-modal';
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
@@ -22,7 +20,7 @@ const Login = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         axios({
-          url: "https://fpt-cft.azurewebsites.net/v1/api/authentication/login-google",
+          url: "https://cft-api.onrender.com/v1/api/authentication/login-google",
           method: "POST",
           data: {
             tokenId: result._tokenResponse.oauthIdToken,
@@ -36,11 +34,11 @@ const Login = () => {
             setActiveMenu(true);
             localStorage.setItem("isLogin", "false");
             localStorage.setItem("isActiveMenu", "true");
-            localStorage.setItem('SidebarReset', "true");
+            localStorage.setItem("SidebarReset", "true");
             navigate("/overview");
           })
           .catch((error) => {
-            window.alert('please login with FPT account');
+            window.alert("please login with FPT account");
             console.log(error);
           });
       })
