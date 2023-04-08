@@ -13,6 +13,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { BASE_URL_API } from "../utils/constants";
+import ModalAnt5 from "../components/ModalAnt5";
 
 const { sheet_to_json } = utils;
 const Schedule = () => {
@@ -129,18 +130,34 @@ const Schedule = () => {
     "Saturday",
     "Sunday",
   ];
-  const [startDate, setStartDate] = useState(new Date("2023-07-16"));
+  const [startDate, setStartDate] = useState(new Date());
   const startOfWeekDate = startOfWeek(startDate);
   const endOfWeekDate = endOfWeek(startDate);
+  const [selectedLesson, setSelectedLesson] = useState(null);
+  const [showModal2, setShowModal] = useState(false);
 
+  const handleLessonClick = (lesson) => {
+    if (lesson) {
+      setSelectedLesson({
+        scheduleId: lesson.scheduleId,
+        slot: lesson.slot,
+        scheduleDate: lesson.scheduleDate,
+        classCode: lesson.classCode,
+        classId: lesson.classId,
+      });
+      setIsModalOpen(true); // Mở Modal
+    } else {
+    }
+  };
   const handleStartDateChange = (e) => {
     setStartDate(new Date(e.target.value));
+    setShouldFetchSchedule(true);
   };
 
   const daysOfMonth = [];
   for (let i = 0; i < 7; i++) {
     const day = addDays(startOfWeekDate, i);
-    daysOfMonth.push(moment(day).format("YYYY-MM-DD"));
+    daysOfMonth.push(moment(day).format("DD-MM-YYYY"));
   }
 
   const timetable = new Array(8).fill(null).map(() => new Array(7).fill(null));
@@ -161,9 +178,14 @@ const Schedule = () => {
       .map(() => new Array(7).fill(null))
   );
 
+  const [shouldFetchSchedule, setShouldFetchSchedule] = useState(false);
+
   useEffect(() => {
-    fetchSchedule();
-  }, [daysOfMonth]);
+    if (shouldFetchSchedule) {
+      fetchSchedule();
+      setShouldFetchSchedule(false);
+    }
+  }, [shouldFetchSchedule]);
 
   const fetchSchedule = () => {
     fetch(`${BASE_URL_API}/schedule/lecturer/2/schedule`)
@@ -176,7 +198,7 @@ const Schedule = () => {
           const scheduleDate = moment(
             scheduleItem.scheduleDate,
             "YYYY-MM-DDTHH:mm:ss"
-          ).format("YYYY-MM-DD");
+          ).format("DD-MM-YYYY");
           console.log("DATE", scheduleDate);
           const slotIndex = scheduleItem.slot;
           const dayIndex = daysOfMonth.indexOf(scheduleDate);
@@ -218,7 +240,6 @@ const Schedule = () => {
       // console.log(`timetable[${i}][${j}] = ${timetable[i][j]}`);
     }
   }
-
   return (
     <>
       <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -260,18 +281,25 @@ const Schedule = () => {
                       return (
                         <td
                           key={`slot-${index}-day-${dayIndex}`}
-                          className={`td-style ${
-                            lesson ? "bg-gray-100" : "bg-white"
-                          }`}
+                          className={`td-style ${lesson ? "bg-gray-100" : "bg-white"
+                            }`}
+                          onClick={() => handleLessonClick(lesson)} // Gọi hàm xử lý khi người dùng click
                         >
                           {lesson &&
                             lesson?.scheduleDate === day &&
                             `slot-${lesson?.slot}` === slot.key && (
                               <div className="lesson">
-                                <div className="lesson-code">{lesson?.key}</div>
+                                <div className="lesson-code">
+                                  <a
+                                    style={{ color: "#0066FF",textDecoration: "none" }}
+                                    onMouseEnter={(e) => (e.target.style.color = "#0000ff",e.target.style.textDecoration = "underline")}
+                                    onMouseLeave={(e) => (e.target.style.color = "#0066FF",e.target.style.textDecoration = "none")}
+                                  >
+                                    {lesson?.classCode}
+                                  </a>
+                                </div>
                               </div>
                             )}
-                          {lesson?.classCode}
                         </td>
                       );
                     })}
@@ -279,6 +307,18 @@ const Schedule = () => {
                 ))}
               </tbody>
             </table>
+            {selectedLesson?.scheduleId && (
+              <ModalAnt5
+                scheduleId={selectedLesson?.scheduleId}
+                slot={selectedLesson?.slot + 1}
+                scheduleDate={selectedLesson?.scheduleDate}
+                classCode={selectedLesson?.classCode}
+                classId={selectedLesson?.classId}
+                title={"Schedule Information"}
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
+              />
+            )}
           </div>
         </div>
       </div>
