@@ -130,7 +130,7 @@ const Schedule = () => {
     "Saturday",
     "Sunday",
   ];
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date("05-08-2023"));
   const startOfWeekDate = startOfWeek(startDate);
   const endOfWeekDate = endOfWeek(startDate);
   const [selectedLesson, setSelectedLesson] = useState(null);
@@ -181,8 +181,8 @@ const Schedule = () => {
   const [shouldFetchSchedule, setShouldFetchSchedule] = useState(false);
 
   useEffect(() => {
+    fetchSchedule();
     if (shouldFetchSchedule) {
-      fetchSchedule();
       setShouldFetchSchedule(false);
     }
   }, [shouldFetchSchedule]);
@@ -317,6 +317,7 @@ const Schedule = () => {
                 title={"Schedule Information"}
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
+                fetchSchedule={fetchSchedule}
               />
             )}
           </div>

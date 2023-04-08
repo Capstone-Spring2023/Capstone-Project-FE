@@ -13,4 +13,5 @@ export { default as ModalAnt2 } from "./ModalAnt2";
 export { default as ModalAnt3 } from "./ModalAnt3";
 export { default as ModalAnt4 } from "./ModalAnt4";
 export { default as ModalAnt5 } from "./ModalAnt5";
+export { default as ModalAnt6 } from "./ModalAnt6";
 export { default as Popup } from "./Popup";
