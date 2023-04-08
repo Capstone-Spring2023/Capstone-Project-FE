@@ -143,7 +143,7 @@ const Schedule = () => {
     const daysOfMonth = [];
     for (let i = 0; i < 7; i++) {
         const day = addDays(startOfWeekDate, i);
-        daysOfMonth.push(moment(day).format("YYYY-MM-DD"));
+        daysOfMonth.push(moment(day).format("DD-MM-YYYY"));
     }
 
     const timetable = new Array(8).fill(null).map(() => new Array(7).fill(null));
@@ -170,50 +170,55 @@ const Schedule = () => {
                 return res.json();
             })
             .then((resp) => {
-                console.log(resp);
-                const formattedSchedule = resp.map((scheduleItem) => {
-                    const scheduleDate = moment(scheduleItem.scheduleDate, "YYYY-MM-DDTHH:mm:ss").format("YYYY-MM-DD HH:mm:ss");
-                    const slotIndex = scheduleItem.slot - 1;
+                const timetable = new Array(8).fill(null).map(() => new Array(7).fill(null));
+                const daysOfMonth = [];
+                const startOfWeekDate = startOfWeek(new Date(), { weekStartsOn: 1 });
+                for (let i = 0; i < 7; i++) {
+                    const day = addDays(startOfWeekDate, i);
+                    daysOfMonth.push(moment(day).format("DD-MM-YYYY"));
+                }
+                for (const scheduleItem of resp) {
+                    const scheduleDate = moment(scheduleItem.scheduleDate, "YYYY-MM-DDTHH:mm:ss").format("DD-MM-YYYY");
                     const dayIndex = daysOfMonth.indexOf(scheduleDate);
-                    timetable[slotIndex] = timetable[slotIndex] || [];
-                    timetable[slotIndex][dayIndex] = {
-                        scheduleId: scheduleItem.scheduleId,
-                        classCode: scheduleItem.classCode,
-                        classId: scheduleItem.classId,
-                        slot: scheduleItem.slot,
-                        scheduleDate: scheduleDate,
-                    };
-                });
-                setSchedule(formattedSchedule);
+                    if (dayIndex >= 0) {
+                        const slotIndex = scheduleItem.slot - 1;
+                        timetable[slotIndex][dayIndex] = {
+                            scheduleId: scheduleItem.scheduleId,
+                            classCode: scheduleItem.classCode,
+                            classId: scheduleItem.classId,
+                            slot: scheduleItem.slot,
+                            scheduleDate: scheduleDate,
+                        };
+                    }
+                }
+                setSchedule(timetable);
             })
             .catch((err) => {
                 console.log(err.message);
             });
     };
 
-
     for (let i = 0; i < timetable.length; i++) {
         for (let j = 0; j < timetable[i].length; j++) {
             const lesson = timetable[i][j];
-            // console.log(lesson);
             if (lesson !== null) {
                 timetable[i][j] = (
                     <td key={`${daysOfMonth[j]}-${lesson.slot}`}>
                         <div className="schedule-item">
-                            <div className="schedule-time">{`Slot ${lesson.slot} - ${moment(
-                                lesson.scheduleDate
-                            ).format("HH:mm")}`}</div>
-                            <div className="schedule-class">{lesson.classCode}</div>
+                            <div className="schedule-time">{moment(lesson.scheduleDate).format("HH:mm")}</div>
+                            {daysOfMonth[j] === moment(lesson.scheduleDate).format("DD-MM-YYYY") && (
+                                <div className="schedule-class">{lesson.classCode}</div>
+                            )}
                         </div>
                     </td>
                 );
             } else {
                 timetable[i][j] = <td key={`${daysOfMonth[j]}-null`} />;
             }
-
-            // console.log(`timetable[${i}][${j}] = ${timetable[i][j]}`);
         }
     }
+
+
 
     return (
         <>
@@ -251,21 +256,23 @@ const Schedule = () => {
                                         {daysOfMonth.map((day, dayIndex) => {
                                             const lesson = timetable[index][dayIndex];
                                             return (
-                                                <td
-                                                    key={`slot-${index}-day-${dayIndex}`}
-                                                    className={`td-style ${lesson ? "bg-gray-100" : "bg-white"}`}
-                                                >
+                                                <td key={`slot-${index}-day-${dayIndex}`}
+                                                className={`td-style ${lesson ? "bg-gray-100" :"bg-white"}`}>
                                                     {lesson && (
                                                         <div className="lesson">
-                                                            <div className="lesson-code">{lesson.classCode || lesson.classId}</div>
+                                                            {/* <div className='lesson-code'>
+                                                                {lesson.classCode||lesson.classId}
+                                                            </div> */}
                                                         </div>
                                                     )}
                                                 </td>
                                             );
                                         })}
+
                                     </tr>
                                 ))}
                             </tbody>
+
                         </table>
                     </div>
                 </div>
@@ -278,12 +285,8 @@ const Schedule = () => {
                             <p className="ant-upload-drag-icon">
                                 <InboxOutlined />
                             </p>
-                            <p className="ant-upload-text">
-                                Click or drag file to this area to upload
-                            </p>
-                            <p className="ant-upload-hint">
-                                Only support for excel file
-                            </p>
+                            <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                            <p className="ant-upload-hint">Only support for excel file</p>
                         </Dragger>
                     </Form.Item>
                     <Button key="submit" type="default" onClick={handleOk2}>
@@ -297,5 +300,6 @@ const Schedule = () => {
             </div>
         </>
     );
+
 };
 export default Schedule
