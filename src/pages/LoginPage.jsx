@@ -20,7 +20,7 @@ const Login = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         axios({
-          url: "https://cft-api.onrender.com/v1/api/authentication/login-google",
+          url: "https://cft-api-19oa.onrender.com/v1/api/authentication/login-google",
           method: "POST",
           data: {
             tokenId: result._tokenResponse.oauthIdToken,
