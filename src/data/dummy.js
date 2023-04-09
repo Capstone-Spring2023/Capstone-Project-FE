@@ -79,15 +79,6 @@ export const overviewData = [
     iconBg: 'rgb(254, 201, 15)',
     pcColor: 'green-600',
   },
-  // {
-  //   icon: <FiBarChart />,
-  //   amount: '423,39',
-  //   percentage: '+38%',
-  //   title: 'Schedule available',
-  //   iconColor: 'rgb(228, 106, 118)',
-  //   iconBg: 'rgb(255, 244, 229)',
-  //   pcColor: 'green-600',
-  // },
   {
     icon: <HiOutlineRefresh />,
     amount: '132',

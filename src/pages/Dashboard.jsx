@@ -5,6 +5,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 
 const Dashboard = () => {
   const { currentColor } = useStateContext();
+  const fullName = sessionStorage.getItem("fullName");
   return (
     <div className="mt-12 flex flex-col items-center">
       <div className="flex flex-wrap lg:flex-nowrap justify-center">
@@ -21,10 +22,10 @@ const Dashboard = () => {
             />
             <div>
               <p className="font-bold text-black-400 text-2xl">
-                Welcome back Mr.Lecturer
+                Welcome back {fullName}
               </p>
               <p className="text-gray-600">
-                Hope you have a good day to teach and add something
+                Hope you have a wonderfully day with your class
               </p>
             </div>
           </div>
