@@ -1,41 +1,55 @@
-import React, { useState } from "react";
-import { Button, Col, DatePicker, DatePickerProps, Form, Row } from "antd";
-import SelectAnt from "./SelectAnt";
+import React, { useEffect, useState } from "react";
+import { Button, Col, Form, Row, Select } from "antd";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { Select } from 'antd';
+import { BASE_URL_API } from "../../../utils/constants";
+
 const { Option } = Select;
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 const RegisterClassForm = () => {
-  const [semester, setSemester] = useState("");
-  const [department, setDepartment] = useState("");
-  const [subject, setSubject] = useState("");
-  const [slot, setSlot] = useState("");
-  const [status, setStatus] = useState(true);
-  const [date, setDate] = useState("");
-  const [createdDate, setCreatedDate] = useState("");
-  const semesterItems = ["Spring", "Summer", "Fall"];
-  const departmentItems = ["SE", "CN", "JP"];
-  const subjectItems = ["PRF", "PRN", "MAE"];
-  const slotItems = ["A1", "A2", "A3", "A4", "A5", "A6","P1", "P2", "P3", "P4", "P5", "P6"];
-  const [selectedSlots, setSelectedSlots] = useState([]);
+  const slotItems = [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5",
+    "P6",
+  ];
+  const [availableSubjectIds, setAvailableSubjectIds] = useState([]);
+  const [registerSlots, setRegisterSlots] = useState([]);
+  const [subjectItems, setSubjectItems] = useState([]);
+  const userId = sessionStorage.getItem("userId");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(`${BASE_URL_API}/AvailableSubject`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((resp) => {
+        setSubjectItems(resp);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
 
   const handleSubmit = () => {
     const registerData = {
-      department,
-      semester,
-      subject,
-      status,
-      slot,
-      date,
-      createdDate,
+      userId,
+      availableSubjectIds,
+      registerSlots,
     };
-    console.log("DATA", registerData);
     toast.promise(
-      fetch("http://localhost:8000/register-class", {
+      fetch(`${BASE_URL_API}/schedule/register-subject-slot`, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(registerData),
@@ -54,23 +68,11 @@ const RegisterClassForm = () => {
       }
     );
   };
-  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-    setDate(dateString);
-  };
   const handleSubject = (value) => {
-    setSubject(value);
-  };
-  const handleSemester = (value) => {
-    setSemester(value);
-  };
-  const handleDepartment = (value) => {
-    setDepartment(value);
+    setAvailableSubjectIds(value);
   };
   const handleSlot = (value) => {
-    setSlot(value);
-  };
-  const handleDate = (value) => {
-    setDate(value);
+    setRegisterSlots(value);
   };
   return (
     <Form
@@ -93,32 +95,6 @@ const RegisterClassForm = () => {
     >
       <Row>
         <Col span={16}>
-          {/* <Form.Item label="Semester" name="semester">
-            <SelectAnt
-              placeholder="Select semester"
-              items={semesterItems}
-              onChange={handleSemester}
-              disabled={true}
-              defaultValue="SPRING"
-            />
-          </Form.Item> */}
-          {/* <Form.Item
-            label="Department"
-            name="department"
-            rules={[
-              {
-                required: true,
-                message: "Please input your department!",
-              },
-            ]}
-          >
-            <SelectAnt
-              placeholder="Select department"
-              defaultValue="Select department"
-              items={departmentItems}
-              onChange={handleDepartment}
-            />
-          </Form.Item> */}
           <Form.Item
             label="Available Subject"
             name="subject"
@@ -129,12 +105,18 @@ const RegisterClassForm = () => {
               },
             ]}
           >
-            <SelectAnt
+            <Select
+              mode="multiple"
               placeholder="Select your subject"
-              defaultValue="Select your subject"
-              items={subjectItems}
+              value={availableSubjectIds}
               onChange={handleSubject}
-            />
+            >
+              {subjectItems.map((item, index) => (
+                <Option key={index} value={item.availableSubjectId}>
+                  {item.subjectName}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item
             label="Slot"
@@ -149,29 +131,16 @@ const RegisterClassForm = () => {
             <Select
               mode="multiple"
               placeholder="Select your Slot"
-              // defaultValue="Select your Slot"
               onChange={handleSlot}
-              value={selectedSlots}
+              value={registerSlots}
             >
-              {slotItems.map((item) => (
-                <Option key={item} value={item}>
+              {slotItems.map((item, index) => (
+                <Option key={index} value={item}>
                   {item}
                 </Option>
               ))}
             </Select>
           </Form.Item>
-          {/* <Form.Item
-            label="Date"
-            name="date"
-            rules={[
-              {
-                required: true,
-                message: "Please input your date!",
-              },
-            ]}
-          >
-            <DatePicker onChange={onChange} />
-          </Form.Item> */}
         </Col>
       </Row>
       <Row>

@@ -6,9 +6,12 @@ import avatar from "../assets/banner.jpg";
 import { BASE_URL_API } from "../utils/constants";
 import { Table } from "antd";
 import moment from "moment/moment";
+import { useLocation, useParams } from "react-router-dom";
 
 const ExamScheduleView = () => {
   const [examScheduleViewData, setExamScheduleViewData] = useState([{}]);
+  const { state } = useLocation();
+  console.log("SUBJECT", state?.subject);
 
   useEffect(() => {
     fetchTable();
@@ -53,13 +56,14 @@ const ExamScheduleView = () => {
       ),
       filters: [
         {
-          text: "HCM",
-          value: "HCM",
+          text: "VNR",
+          value: "VNR",
         },
       ],
+      defaultFilteredValue: [`${state?.subject}`],
       filterMode: "tree",
       filterSearch: true,
-      onFilter: (value, record) => record.subjectName.indexOf(value) === 0,
+      onFilter: (value, record) => record.subjectName?.indexOf(value) === 0,
       width: "30%",
     },
     {
