@@ -130,7 +130,7 @@ const Schedule = () => {
     "Saturday",
     "Sunday",
   ];
-  const [startDate, setStartDate] = useState(new Date("05-08-2023"));
+  const [startDate, setStartDate] = useState(new Date());
   const startOfWeekDate = startOfWeek(startDate);
   const endOfWeekDate = endOfWeek(startDate);
   const [selectedLesson, setSelectedLesson] = useState(null);
@@ -146,7 +146,6 @@ const Schedule = () => {
         classId: lesson.classId,
       });
       setIsModalOpen(true); // Mở Modal
-    } else {
     }
   };
   const handleStartDateChange = (e) => {
@@ -157,7 +156,7 @@ const Schedule = () => {
   const daysOfMonth = [];
   for (let i = 0; i < 7; i++) {
     const day = addDays(startOfWeekDate, i);
-    daysOfMonth.push(moment(day).format("DD-MM-YYYY"));
+    daysOfMonth.push(moment(day).format("YYYY-MM-DD"));
   }
 
   const timetable = new Array(8).fill(null).map(() => new Array(7).fill(null));
@@ -193,13 +192,11 @@ const Schedule = () => {
         return res.json();
       })
       .then((resp) => {
-        console.log("RESP", resp);
         resp.map((scheduleItem) => {
           const scheduleDate = moment(
             scheduleItem.scheduleDate,
             "YYYY-MM-DDTHH:mm:ss"
-          ).format("DD-MM-YYYY");
-          console.log("DATE", scheduleDate);
+          ).format("YYYY-MM-DD");
           const slotIndex = scheduleItem.slot;
           const dayIndex = daysOfMonth.indexOf(scheduleDate);
           timetable[slotIndex] = timetable[slotIndex] || [];
@@ -281,8 +278,9 @@ const Schedule = () => {
                       return (
                         <td
                           key={`slot-${index}-day-${dayIndex}`}
-                          className={`td-style ${lesson ? "bg-gray-100" : "bg-white"
-                            }`}
+                          className={`td-style ${
+                            lesson ? "bg-gray-100" : "bg-white"
+                          }`}
                           onClick={() => handleLessonClick(lesson)} // Gọi hàm xử lý khi người dùng click
                         >
                           {lesson &&
@@ -291,9 +289,19 @@ const Schedule = () => {
                               <div className="lesson">
                                 <div className="lesson-code">
                                   <a
-                                    style={{ color: "#0066FF",textDecoration: "none" }}
-                                    onMouseEnter={(e) => (e.target.style.color = "#0000ff",e.target.style.textDecoration = "underline")}
-                                    onMouseLeave={(e) => (e.target.style.color = "#0066FF",e.target.style.textDecoration = "none")}
+                                    style={{
+                                      color: "#0066FF",
+                                      textDecoration: "none",
+                                    }}
+                                    onMouseEnter={(e) => (
+                                      (e.target.style.color = "#0000ff"),
+                                      (e.target.style.textDecoration =
+                                        "underline")
+                                    )}
+                                    onMouseLeave={(e) => (
+                                      (e.target.style.color = "#0066FF"),
+                                      (e.target.style.textDecoration = "none")
+                                    )}
                                   >
                                     {lesson?.classCode}
                                   </a>
