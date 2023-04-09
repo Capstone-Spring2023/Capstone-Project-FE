@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
-import { Button, ModalAnt3 } from "./index";
-import { MdOutlineCancel } from "react-icons/md";
 import avatar from "../assets/avatar.jpg";
-import { userProfileData } from "../data/dummy";
 import { useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import Button2 from "react-bootstrap/Button";
 import "./GoogleButton.css";
-import { firebaseConfig } from "../utils/constants";
-import { BASE_URL_API } from "../utils/constants";
-import { Badge, Descriptions, Modal } from "antd";
+import { BASE_URL_API, firebaseConfig } from "../utils/constants";
 import { toast } from "react-hot-toast";
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
@@ -27,6 +22,7 @@ const UserProfile = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [roleId, setRoleId] = useState("");
+  const [roleName, setRoleName] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isInputDisabled, setIsInputDisabled] = useState(false);
   const showModal = () => {
@@ -98,6 +94,7 @@ const UserProfile = () => {
         setPhone(resp.data.phone);
         setAddress(resp.data.address);
         setRoleId(resp.data.roldId);
+        setRoleName(resp.data.roleName);
         console.log(resp);
       })
       .catch((err) => {
@@ -112,6 +109,7 @@ const UserProfile = () => {
     sessionStorage.removeItem("email");
     sessionStorage.removeItem("userId");
     sessionStorage.removeItem("roleName");
+    sessionStorage.removeItem("fullName");
     localStorage.setItem("isLogin", "true");
     localStorage.setItem("isActiveMenu", "false");
     localStorage.setItem("SidebarReset", "false");
@@ -122,11 +120,10 @@ const UserProfile = () => {
       <div className="flex gap-5 items-center mt-6 border-color border-b-1 pb-6">
         <img className="rounded-full h-24 w-24" src={avatar} alt="Avatar" />
         <div>
-          <p className="font-semibold text-xl dark:text-gray-200">{fullName}</p>
-          <p className="text-gray-500 text-sm dark:text-gray-400">Admin</p>
           <p className="text-gray-500 text-sm font-semibold dark:text-gray-400">
-            {sessionStorage.getItem("email")}
+            Email: {sessionStorage.getItem("email")}
           </p>
+          <p className="text-gray-500 text-sm dark:text-gray-400">Role: {roleName}</p>
         </div>
       </div>
       <div >

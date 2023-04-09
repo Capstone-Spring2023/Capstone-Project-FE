@@ -151,15 +151,15 @@ const App = () => {
                 <Route path="/schedules" element={<Schedule />} />
                 <Route path="/subjects" element={<Subjects />} />
 
-                  {/*Apps*/}
-                  <Route path="/calendar" element={<Calendar />} />
-                  <Route path="/color-picker" element={<ColorPicker />} />
-                  <Route path="/register-class" element={<RegisterClass />} />
-                  <Route
-                    path="/register-class/register"
-                    element={<RegisterClass_Register />}
-                  />
-                  <Route path="/available-subject" element={<LeaderSubject />} />
+                {/*Apps*/}
+                <Route path="/calendar" element={<Calendar />} />
+                <Route path="/color-picker" element={<ColorPicker />} />
+                <Route path="/register-class" element={<RegisterClass />} />
+                <Route
+                  path="/register-class/register"
+                  element={<RegisterClass_Register />}
+                />
+                <Route path="/available-subject" element={<LeaderSubject />} />
 
                 {/*Exams Submission*/}
                 <Route

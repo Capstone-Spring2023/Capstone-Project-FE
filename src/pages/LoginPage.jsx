@@ -29,7 +29,8 @@ const Login = () => {
           .then((value) => {
             sessionStorage.setItem("roleName", value.data.data.roleName);
             sessionStorage.setItem("userId", value.data.data.userId);
-            sessionStorage.setItem("email", result.user.email);
+            sessionStorage.setItem("email", value.data.data.email);
+            sessionStorage.setItem("fullName", value.data.data.fullName)
             setIsLoginPage(false);
             setActiveMenu(true);
             localStorage.setItem("isLogin", "false");

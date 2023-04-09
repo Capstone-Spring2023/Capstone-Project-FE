@@ -6,7 +6,7 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import avatar from "../assets/avatar.jpg";
 import { Notification, UserProfile } from ".";
 import { useStateContext } from "../contexts/ContextProvider";
-import {BASE_URL_API, SOCKET_URL} from "../utils/constants";
+import { BASE_URL_API } from "../utils/constants";
 import { Badge, Popover } from "antd";
 import { BellOutlined } from "@ant-design/icons";
 
@@ -42,6 +42,7 @@ const Navbar = () => {
     isShowNoti,
     setIsShowNoti,
   } = useStateContext();
+  const fullName = sessionStorage.getItem("fullName");
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
@@ -125,7 +126,7 @@ const Navbar = () => {
             <p>
               <span className="text-gray-400 text-14">Hi, </span>{" "}
               <span className="text-gray-400 font-bold ml-1 text-14">
-                Lecturer
+                {fullName}
               </span>
             </p>
             <MdKeyboardArrowDown className="text-gray-400 text-14" />

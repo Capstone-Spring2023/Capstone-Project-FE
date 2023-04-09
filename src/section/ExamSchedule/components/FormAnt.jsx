@@ -8,21 +8,19 @@ import {
   Input,
   Row,
   Upload,
-  message,
 } from "antd";
 import SelectAnt from "./SelectAnt";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { InboxOutlined } from "@ant-design/icons";
 import {
+  getDownloadURL,
   getStorage,
   ref,
   uploadBytesResumable,
-  getDownloadURL,
 } from "firebase/storage";
 import { BASE_URL_API } from "../../../utils/constants";
 import checkPageStatus from "../../../utils/function";
-import { useStateContext } from "../../../contexts/ContextProvider";
 
 const { Dragger } = Upload;
 const onFinishFailed = (errorInfo) => {
@@ -33,11 +31,20 @@ const FormAnt = ({ socket }) => {
   const [subject, setSubject] = useState("");
   const [deadline, setDeadline] = useState("");
   const [examLink, setExamLink] = useState("");
-  const [typeId, setTypeID] = useState(1);
   const [noti, setNoti] = useState("You have new exam request");
+  const [type, setType] = useState("Schedule");
+  const [message, setMessage] = useState("You have new Schedule request");
+  const userId = sessionStorage.getItem("userId");
   const navigate = useNavigate();
   const onFinish = () => {
-    const examScheduleData = { tittle, deadline, examLink, typeId };
+    const examScheduleData = {
+      tittle,
+      deadline,
+      examLink,
+      type,
+      message,
+      userId,
+    };
     console.log("Data", examScheduleData);
     toast.promise(
       fetch(`${BASE_URL_API}/exam-schedule?availableId=` + subject, {

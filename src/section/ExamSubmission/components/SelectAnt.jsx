@@ -53,7 +53,7 @@ const SelectAnt = ({ onChange }) => {
         {subject?.map((item, index) => (
           <Option
             key={index}
-            value={`${item?.examScheduleId}`}
+            value={`${item?.examScheduleId},${item?.typeName}`}
             label={`${item?.subjectName}`}
           >
             <Space>{item?.subjectName}</Space>

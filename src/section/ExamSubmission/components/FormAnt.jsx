@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, message, Row } from "antd";
+import { Button, Col, Form, Input, message, Row } from "antd";
 import SelectAnt from "./SelectAnt";
 import UploadAnt from "./UploadAnt";
 import { useNavigate } from "react-router-dom";
@@ -17,20 +17,25 @@ const FormAnt = () => {
   const [availableSubjectName, setAvailableSubjectName] = useState("");
   const [examLink, setExamLink] = useState("");
   const navigate = useNavigate();
-  const [examScheduleId,setExamScheduleId]=useState("");
+  const [examScheduleId, setExamScheduleId] = useState("");
   const [file, setFile] = useState("");
+  const [subjectType, setSubjectType] = useState("");
   const handleSubject = (value) => {
-    setAvailableSubjectName(value);
+    setAvailableSubjectName(value.split(",")[0]);
+    setSubjectType(value.split(",")[1]);
   };
 
   const fetchSubject = () => {
-    fetch(`https://fpt-cft.azurewebsites.net/api/user/${sessionStorage.getItem("userId")}/exam-schedule`)
+    fetch(
+      `https://fpt-cft.azurewebsites.net/api/user/${sessionStorage.getItem(
+        "userId"
+      )}/exam-schedule`
+    )
       .then((res) => {
         return res.json();
       })
       .then((resp) => {
         // setExamScheduleId(resp[0].examScheduleId);
-        console.log("escde",resp[0].examScheduleId);
         console.log(resp);
       })
       .catch((err) => {
@@ -40,7 +45,6 @@ const FormAnt = () => {
 
   useEffect(() => {
     fetchSubject();
-    console.log("exsc",examScheduleId);
   }, []);
 
   const handleSubmit = () => {
@@ -71,7 +75,9 @@ const FormAnt = () => {
     // let fileRef = ref(storage, file.name);
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/${availableSubjectName.trim()}/PE1/${file.name}`
+      `/${sessionStorage.getItem("email")}/${availableSubjectName.trim()}/PE1/${
+        file.name
+      }`
     );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(
@@ -114,9 +120,9 @@ const FormAnt = () => {
     // let fileRef = ref(storage, file.name);
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/${availableSubjectName.trim()}/PE1/Given/${
-        file.name
-      }`
+      `/${sessionStorage.getItem(
+        "email"
+      )}/${availableSubjectName.trim()}/PE1/Given/${file.name}`
     );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(
@@ -185,6 +191,7 @@ const FormAnt = () => {
       }
     );
   };
+  console.log("SubjectType", subjectType);
 
   return (
     <Form
@@ -206,31 +213,21 @@ const FormAnt = () => {
       <Row>
         <Col span={12}>
           <Form.Item
-            label="Type"
-            name="type"
-            initialValue="By computer"
-            rules={[
-              {
-                required: true,
-                message: "Please input your type!",
-              },
-            ]}
+              label="Subject"
+              name="subject"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your subject!",
+                },
+              ]}
           >
-            <SelectType defaultValue="By computer" disabled={true} />
+            <SelectAnt onChange={handleSubject} />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item
-            label="Subject"
-            name="subject"
-            rules={[
-              {
-                required: true,
-                message: "Please input your subject!",
-              },
-            ]}
-          >
-            <SelectAnt onChange={handleSubject} />
+          <Form.Item label="Type" name="type">
+            {subjectType}
           </Form.Item>
         </Col>
       </Row>
