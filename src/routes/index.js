@@ -1,32 +1,9 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { AiOutlineCalendar, AiOutlineSchedule } from "react-icons/ai";
 import { BiColorFill, BiNotepad } from "react-icons/bi";
 import { BsPeople } from "react-icons/bs";
 import { MdClass, MdDashboard, MdOutlineSubject } from "react-icons/md";
 import { GiNotebook, GiStabbedNote } from "react-icons/gi";
-
-const role = sessionStorage.getItem("roleName");
-const leaderApps = [
-  {
-    name: "exam-schedule",
-    icon: <BiNotepad />,
-  },
-  {
-    name: "exam-submission-view",
-    icon: <GiStabbedNote />,
-  },
-];
-
-const teacherApps = [
-  {
-    name: "exam-schedule-view",
-    icon: <BiNotepad />,
-  },
-  {
-    name: "exam-submission",
-    icon: <GiNotebook />,
-  },
-];
 
 export const links = [
   {
@@ -35,47 +12,58 @@ export const links = [
       {
         name: "overview",
         icon: <MdDashboard />,
+        role: "General",
       },
     ],
   },
   {
     title: "Managements",
     links: [
-      role === "Leader" ?? {
+      {
         name: "leaders",
         icon: <BsPeople />,
+        role: "Leader",
       },
       {
         name: "schedules",
         icon: <AiOutlineSchedule />,
+        role: "General",
       },
       {
-        name: "subjects",
-        icon: <MdOutlineSubject />,
+        name: "available-subject",
+        icon: <GiNotebook />,
+        role: "Header",
       },
     ],
   },
   {
     title: "Apps",
     links: [
-      ...(role === "Leader" ? leaderApps : []),
-      ...(role === "Lecturer" ? teacherApps : []),
       {
-        name: "calendar",
-        icon: <AiOutlineCalendar />,
+        name: "exam-schedule",
+        icon: <BiNotepad />,
+        role: "Leader",
       },
       {
-        name: "color-picker",
-        icon: <BiColorFill />,
+        name: "exam-submission-view",
+        icon: <GiStabbedNote />,
+        role: "Leader",
+      },
+      {
+        name: "exam-submission",
+        icon: <GiNotebook />,
+        role: "Lecturer",
+      },
+      {
+        name: "exam-schedule-view",
+        icon: <BiNotepad />,
+        role: "Lecturer",
       },
       {
         name: "register-class",
         icon: <MdClass />,
+        role: "General",
       },
-      {
-        name:"available-subject",
-        icon:<GiNotebook/>
-      }
     ],
   },
 ];

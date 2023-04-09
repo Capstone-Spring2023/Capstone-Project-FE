@@ -20,7 +20,7 @@ const ModalAnt5 = ({
         <>
             <Modal
                 centered={true}
-                visible={isModalOpen}
+                open={isModalOpen}
                 title={`${title}`}
                 onCancel={handleOk}
                 footer={[
