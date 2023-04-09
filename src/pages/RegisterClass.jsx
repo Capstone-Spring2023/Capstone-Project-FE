@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Button, Header } from "../components";
 import TableFooter from "../components/Table/TableFooter";
@@ -6,6 +5,11 @@ import { customersData, employeesData } from "../data/dummy";
 import useTable from "../hooks/useTable";
 import { MdOutlineCancel } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
+import avatar from "../assets/banner.jpg";
+import moment from "moment/moment";
+import { Popconfirm, Table, Tooltip } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { BASE_URL_API } from "../utils/constants";
 
 const RegisterClass = () => {
   const [page, setPage] = useState(1);
@@ -13,19 +17,88 @@ const RegisterClass = () => {
   const { slice, range } = useTable(registerData, page, 5);
   const navigate = useNavigate();
 
-
   useEffect(() => {
-    fetch("http://localhost:8000/register-class")
+    fetch(
+      `${BASE_URL_API}/user/${sessionStorage.getItem(
+        "userId"
+      )}/register-subject-slot`
+    )
       .then((res) => {
         return res.json();
       })
       .then((resp) => {
-        setRegisterData(resp);
+        setRegisterData(resp.registerSubjects);
       })
       .catch((err) => {
         console.log(err.message);
       });
   }, []);
+
+  const columns = [
+    {
+      title: "Basic Info",
+      dataIndex: "subjectName",
+      render: (_, record) => (
+        <div className="flex gap-3 font-normal text-gray-900 items-center">
+          <div className="relative h-10 w-10">
+            <img
+              className="h-full w-full rounded-full object-cover object-center"
+              src={avatar}
+              alt=""
+            />
+            <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
+          </div>
+          <div className="text-sm">
+            <div className="font-medium text-gray-700">
+              Register Date:{" "}
+              {moment(record.registerDate, "YYYY-MM-DDTHH:mm:ss").format(
+                "YYYY-MM-DD"
+              )}
+            </div>
+            <div className="text-gray-400">Subject: {record.subjectName}</div>
+          </div>
+        </div>
+      ),
+      filters: [
+        {
+          text: "HCM",
+          value: "HCM",
+        },
+        {
+          text: "VNR",
+          value: "VNR",
+        },
+      ],
+      filterMode: "tree",
+      filterSearch: true,
+      onFilter: (value, record) => record.subjectName?.indexOf(value) === 0,
+      width: "40%",
+    },
+    {
+      title: "Slot",
+      dataIndex: "slot",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      render: (_, record) => (
+        <span
+          className={`inline-flex items-center gap-1 rounded-full ${
+            record.status
+              ? "bg-green-50 text-green-600"
+              : "bg-red-50 text-red-600"
+          }  px-2 py-1 text-xs font-semibold`}
+        >
+          <span
+            className={`h-1.5 w-1.5 rounded-full ${
+              record.status ? "bg-green-600" : "bg-red-600"
+            }`}
+          ></span>
+          {record.status ? "Active" : "Inactive"}
+        </span>
+      ),
+    },
+  ];
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -40,86 +113,10 @@ const RegisterClass = () => {
           </Link>
         </div>
       </div>
-
-      <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
-        <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
-          <thead className="bg-gray-50">
-            <tr>
-              <th
-                scope="col"
-                className="px-3 py-2 font-medium text-gray-900"
-              >Basic info</th>
-              <th scope="col" className="px-3 py-2 font-medium text-gray-900">
-                Semester
-              </th>
-              <th scope="col" className="px-3 py-2 font-medium text-gray-900">
-                Department
-              </th>
-              <th scope="col" className="px-3 py-2 font-medium text-gray-900">
-                Slot
-              </th>
-              <th scope="col" className="px-3 py-2 font-medium text-gray-900">
-                Date time
-              </th>
-              <th scope="col" className="px-3 py-2 font-medium text-gray-900">
-                PROCESSNOTE
-              </th>
-              <th scope="col" className="px-3 py-2 font-medium text-gray-900">
-                Status
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-            {slice.map((item, index) => (
-              <tr key={index} className="hover:bg-gray-50">
-                <th className="flex gap-3 px-6 py-4 font-normal text-gray-900 items-center">
-                  <div className="relative h-10 w-10">
-                    <img
-                      className="h-full w-full rounded-full object-cover object-center"
-                      src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                    />
-                    <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
-                  </div>
-                  <div className="text-sm">
-                    <div className="font-medium text-gray-700">
-                    Subject: {item.subject}
-                    </div>
-                    <div className="text-gray-400">Created Date: {item.createdDate}</div>
-                  </div>
-                </th>
-                <td className="px-3 py-2">{item.semester}</td>
-                <td className="px-3 py-2">{item.department}</td>
-                <td className="px-3 py-2">{item.slot}</td>
-                <td className="px-3 py-2">{item.date}</td>
-                <td className="px-3 py-2">{item.processNote}</td>
-                <td className="px-3 py-2">
-                  <span
-                    className={`inline-flex items-center gap-1 rounded-full ${
-                      item.status
-                        ? "bg-green-50 text-green-600"
-                        : "bg-red-50 text-red-600" 
-                    }  px-2 py-1 text-xs font-semibold`}
-                  >
-                    <span
-                      className={`h-1.5 w-1.5 rounded-full ${
-                        item.status ? "bg-green-600" : "bg-red-600"
-                      }`}
-                    ></span>
-                    {item.status ? "Approved" : "Rejected" }
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <TableFooter
-        total={registerData}
-        range={range}
-        slice={slice}
-        setPage={setPage}
-        page={page}
+      <Table
+        columns={columns}
+        dataSource={registerData}
+        pagination={{ pageSize: 5 }}
       />
     </div>
   );

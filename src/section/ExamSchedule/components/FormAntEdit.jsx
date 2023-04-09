@@ -6,30 +6,31 @@ import {
   DatePickerProps,
   Form,
   Input,
+  message,
   Row,
+  Upload,
 } from "antd";
-import SelectAnt from "./SelectAnt";
-import UploadAnt from "./UploadAnt";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { BASE_URL_API } from "../../../utils/constants";
 import { InboxOutlined } from "@ant-design/icons";
-import { message, Upload } from "antd";
-import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
-import {getDownloadURL } from 'firebase/storage';
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+
 const { Dragger } = Upload;
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 const FormAntEdit = ({ availableSubjectId }) => {
-  const [id, setId] = useState("");
   const [tittle, setTitle] = useState("");
   const [subject, setSubject] = useState("");
   const [deadline, setDeadline] = useState("");
   const [examLink,setFile]=useState("");
-  const [status, setStatus] = useState(true);
-  const [assignee, setAssignee] = useState("HoaDNT");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,12 +41,9 @@ const FormAntEdit = ({ availableSubjectId }) => {
       .then((resp) => {
         const data = resp.data;
         console.log("DATA", data);
-        setId(data.examPaperId);
         setTitle(data.tittle);
         setSubject(data.subjectName);
-        setAssignee(data.assignee);
         setDeadline(data.deadline);
-        setStatus(data.status);
       })
       .catch((err) => {
         console.log(err.message);

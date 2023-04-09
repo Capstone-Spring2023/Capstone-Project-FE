@@ -86,10 +86,14 @@ const ExamSchedule = () => {
           text: "HCM",
           value: "HCM",
         },
+        {
+          text: "VNR",
+          value: "VNR",
+        },
       ],
       filterMode: "tree",
       filterSearch: true,
-      onFilter: (value, record) => record.subjectName.indexOf("HCM") === 0,
+      onFilter: (value, record) => record.subjectName?.indexOf(value) === 0,
       width: "30%",
     },
     {

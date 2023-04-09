@@ -3,8 +3,10 @@ import useTable from "../hooks/useTable";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../components";
 import { BASE_URL_API } from "../utils/constants";
-import { ConfigProvider, Select, Space, Table } from "antd";
+import { Checkbox, ConfigProvider, Select, Space, Table } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
+import { toast } from "react-hot-toast";
+import { CheckboxValueType } from "antd/es/checkbox/Group";
 
 const { Option } = Select;
 const { Column } = Table;
@@ -37,6 +39,36 @@ const LeaderSubject = () => {
       .catch((err) => {
         console.log(err.message);
       });
+  };
+  const onChange = (checkedValues: CheckboxValueType[]) => {
+    console.log("checked = ", checkedValues.target.value.split(",")[0]);
+    const availableSubjectId = checkedValues.target.value.split(",")[0];
+    const userId = checkedValues.target.value.split(",")[1];
+    handleLeader(availableSubjectId, userId);
+  };
+  const handleLeader = (availableSubjectId, userId) => {
+    const leaderData = {
+      availableSubjectId,
+      userId,
+    };
+    toast.promise(
+      fetch(`${BASE_URL_API}/leader`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(leaderData),
+      })
+        .then((res) => {
+          fetchTable();
+        })
+        .catch((err) => {
+          console.log(err.message);
+        }),
+      {
+        loading: "Updating...",
+        success: <b>Updated successfully</b>,
+        error: <b>Could not update.</b>,
+      }
+    );
   };
 
   const fetchTable = (availableSubjectId) => {
@@ -90,7 +122,20 @@ const LeaderSubject = () => {
       ],
       onFilter: (value, record) => record.address.startsWith(value),
       filterSearch: true,
-      width: "40%",
+      width: "20%",
+    },
+    {
+      title: "isLeader",
+      dataIndex: "isLeader",
+      render: (_, record) => (
+        <Checkbox
+          onChange={onChange}
+          value={`${record.availableSubjectId},${record.userId}`}
+          checked={record?.isLeader}
+        >
+          isLeader
+        </Checkbox>
+      ),
     },
   ];
   const customizeRenderEmpty = () => (
@@ -143,7 +188,9 @@ const LeaderSubject = () => {
       </div>
       <Table
         columns={columns}
-        dataSource={examAvailableSubjectData.length > 1 ? examAvailableSubjectData : null}
+        dataSource={
+          examAvailableSubjectData?.length > 1 ? examAvailableSubjectData : null
+        }
         pagination={{ pageSize: 5 }}
       />
     </div>
