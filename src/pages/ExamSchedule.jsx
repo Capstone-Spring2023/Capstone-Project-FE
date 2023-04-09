@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
-import useTable from "../hooks/useTable";
 import { Link, useNavigate } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
 import { Header } from "../components";
 import avatar from "../assets/banner.jpg";
-import TableFooter from "../components/Table/TableFooter";
 import { BASE_URL_API } from "../utils/constants";
 import moment from "moment";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Empty, Popconfirm, Tooltip } from "antd";
+import { Popconfirm, Table, Tooltip } from "antd";
 
 const ExamSchedule = () => {
-  const [page, setPage] = useState(1);
   const [examScheduleData, setExamScheduleData] = useState([{}]);
-  const { slice, range } = useTable(examScheduleData, page, 5);
   const navigate = useNavigate();
 
   const handleEdit = (availableSubjectId) => {
@@ -45,7 +41,9 @@ const ExamSchedule = () => {
   }, []);
 
   const fetchTable = () => {
-    fetch(`${BASE_URL_API}/leader/${sessionStorage.getItem("userId")}/exam-schedule`)
+    fetch(
+      `${BASE_URL_API}/leader/${sessionStorage.getItem("userId")}/exam-schedule`
+    )
       .then((res) => {
         return res.json();
       })
@@ -60,6 +58,81 @@ const ExamSchedule = () => {
         console.log(err.message);
       });
   };
+
+  const columns = [
+    {
+      title: "Basic Info",
+      dataIndex: "subjectName",
+      render: (_, record) => (
+        <div className="flex gap-3 font-normal text-gray-900 items-center">
+          <div className="relative h-10 w-10">
+            <img
+              className="h-full w-full rounded-full object-cover object-center"
+              src={avatar}
+              alt=""
+            />
+            <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
+          </div>
+          <div className="text-sm">
+            <div className="font-medium text-gray-700">
+              Assign: {record.leaderName}
+            </div>
+            <div className="text-gray-400">Subject: {record.subjectName}</div>
+          </div>
+        </div>
+      ),
+      filters: [
+        {
+          text: "HCM",
+          value: "HCM",
+        },
+      ],
+      filterMode: "tree",
+      filterSearch: true,
+      onFilter: (value, record) => record.subjectName.indexOf(value) === 0,
+      width: "30%",
+    },
+    {
+      title: "Title",
+      dataIndex: "tittle",
+    },
+    {
+      title: "Deadline",
+      dataIndex: "deadline",
+      render: (_, record) =>
+        moment(record.deadline).format("YYYY/MM/DD hh:mm:ss"),
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <div className="flex justify-start gap-4">
+          <Tooltip title="Edit">
+            <EditOutlined
+              onClick={() => handleEdit(record.availableSubjectId)}
+              style={{ fontSize: 17, color: "lightblue" }}
+              height={55}
+            />
+          </Tooltip>
+          <Tooltip title="Delete">
+            <Popconfirm
+              title="Delete the exam-schedule"
+              description="Are you sure to delete this?"
+              onConfirm={() => handleDelete(record.availableSubjectId)}
+              okText="Yes"
+              okType="default"
+              cancelText="No"
+            >
+              <DeleteOutlined
+                style={{ fontSize: 17, color: "red" }}
+                height={55}
+              />
+            </Popconfirm>
+          </Tooltip>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -77,91 +150,10 @@ const ExamSchedule = () => {
           </Link>
         </div>
       </div>
-      {slice?.length > 0 ? (
-        <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
-          <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
-            <thead className="bg-gray-50">
-              <tr>
-                <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                  Basic Info
-                </th>
-                <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                  Title
-                </th>
-                <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                  Deadline
-                </th>
-                <th scope="col" className="px-6 py-4 font-medium text-gray-900">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-              {slice.map((item, index) => (
-                <tr key={index} className="hover:bg-gray-50">
-                  <td className="flex gap-3 px-3 py-3 font-normal text-gray-900 items-center">
-                    <div className="relative h-10 w-10">
-                      <img
-                        className="h-full w-full rounded-full object-cover object-center"
-                        src={avatar}
-                        alt=""
-                      />
-                      <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
-                    </div>
-                    <div className="text-sm">
-                      <div className="font-medium text-gray-700">
-                        Assign: {item.leaderId}
-                      </div>
-                      <div className="text-gray-400">
-                        Subject: {item.subjectName}
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-3 py-3">{item.tittle}</td>
-                  <td className="px-3 py-3">
-                    {moment(item.deadline).format("YYYY/MM/DD hh:mm:ss")}
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex justify-start gap-4">
-                      <Tooltip title="Edit">
-                        <EditOutlined
-                          onClick={() => handleEdit(item.availableSubjectId)}
-                          style={{ fontSize: 17, color: "lightblue" }}
-                          height={55}
-                        />
-                      </Tooltip>
-                      <Tooltip title="Delete">
-                        <Popconfirm
-                          title="Delete the exam-schedule"
-                          description="Are you sure to delete this?"
-                          onConfirm={() => handleDelete(item.availableSubjectId)}
-                          okText="Yes"
-                          okType="default"
-                          cancelText="No"
-                        >
-                          <DeleteOutlined
-                            style={{ fontSize: 17, color: "red" }}
-                            height={55}
-                          />
-                        </Popconfirm>
-                      </Tooltip>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <Empty />
-      )}
-
-      <TableFooter
-        total={examScheduleData}
-        range={range}
-        slice={slice}
-        setPage={setPage}
-        page={page}
+      <Table
+        columns={columns}
+        dataSource={examScheduleData}
+        pagination={{ pageSize: 5 }}
       />
     </div>
   );
