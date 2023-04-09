@@ -6,6 +6,7 @@ import {
   DatePickerProps,
   Form,
   Input,
+  message as messageAnt,
   Row,
   Upload,
 } from "antd";
@@ -34,7 +35,7 @@ const FormAnt = ({ socket }) => {
   const [noti, setNoti] = useState("You have new exam request");
   const [type, setType] = useState("Schedule");
   const [message, setMessage] = useState("You have new Schedule request");
-  const userId = sessionStorage.getItem("userId");
+  const leaderId = sessionStorage.getItem("userId");
   const navigate = useNavigate();
   const onFinish = () => {
     const examScheduleData = {
@@ -43,9 +44,8 @@ const FormAnt = ({ socket }) => {
       examLink,
       type,
       message,
-      userId,
+      leaderId,
     };
-    console.log("Data", examScheduleData);
     toast.promise(
       fetch(`${BASE_URL_API}/exam-schedule?availableId=` + subject, {
         method: "POST",
@@ -82,17 +82,7 @@ const FormAnt = ({ socket }) => {
     setSubject(value);
   };
 
-  // const checkFileExtension = (file) => {
-  //   const fileExtension = file.name.split(".").pop().toLowerCase();
-  //   if (fileExtension !== "docx") {
-  //     message.error("Invalid file type. Please select a .docx file.");
-  //     return false;
-  //   }
-  //   return true;
-  // };
-
   const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
-    // if (checkFileExtension(file)) {
     if (!file) return;
     const storage = getStorage();
     let fileRef = ref(
@@ -115,7 +105,7 @@ const FormAnt = ({ socket }) => {
       },
       function error(err) {
         onError(err, file);
-        message.error(`${file.name} file uploaded failed.`);
+        messageAnt.error(`${file.name} file uploaded failed.`);
       },
       function complete() {
         onSuccess(file);
@@ -123,11 +113,11 @@ const FormAnt = ({ socket }) => {
           .then((url) => {
             console.log(url);
             setExamLink(url);
-            message.success(`${file.name} file uploaded successfully.`);
+            messageAnt.success(`${file.name} file uploaded successfully.`);
           })
           .catch((error) => {
             console.log(error);
-            message.error(`${file.name} file uploaded failed.`);
+            messageAnt.error(`${file.name} file uploaded failed.`);
           });
       }
     );

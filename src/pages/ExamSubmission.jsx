@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Header, ModalAnt3 } from "../components";
-import TableFooter from "../components/Table/TableFooter";
-import useTable from "../hooks/useTable";
 import avatar from "../assets/banner.jpg";
 import { toast, Toaster } from "react-hot-toast";
-import { Empty, Popconfirm, Tooltip } from "antd";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Popconfirm, Table, Tooltip } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL_API } from "../utils/constants";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 const ExamSubmission = () => {
-  const { examPaperId } = useParams();
-  const [page, setPage] = useState(1);
   const [examData, setExamData] = useState([{}]);
-  const { slice, range } = useTable(examData, page, 5);
   const navigate = useNavigate();
 
   const handleEdit = (id) => {
@@ -45,7 +40,11 @@ const ExamSubmission = () => {
   }, []);
 
   const fetchTable = () => {
-    fetch(`${BASE_URL_API}/exam-submission/user/${sessionStorage.getItem("userId")}/exam-submission`)
+    fetch(
+      `${BASE_URL_API}/exam-submission/user/${sessionStorage.getItem(
+        "userId"
+      )}/exam-submission`
+    )
       .then((res) => {
         return res.json();
       })
@@ -56,6 +55,121 @@ const ExamSubmission = () => {
         console.log(err.message);
       });
   };
+
+  const columns = [
+    {
+      title: "Basic Info",
+      dataIndex: "subjectName",
+      render: (_, record) => (
+        <div className="flex gap-3 font-normal text-gray-900 items-center">
+          <div className="relative h-10 w-10">
+            <img
+              className="h-full w-full rounded-full object-cover object-center"
+              src={avatar}
+              alt=""
+            />
+            <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
+          </div>
+          <div className="text-sm">
+            <div className="font-medium text-gray-700">
+              Assign: {record.leaderName}
+            </div>
+            <div className="text-gray-400">Subject: {record.subjectName}</div>
+          </div>
+        </div>
+      ),
+      filters: [
+        {
+          text: "HCM",
+          value: "HCM",
+        },
+      ],
+      filterMode: "tree",
+      filterSearch: true,
+      onFilter: (value, record) => record.subjectName.indexOf(value) === 0,
+      width: "30%",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      render: (_, record) => (
+        <span
+          className={`inline-flex items-center gap-1 rounded-full ${
+            record.status === "Approved"
+              ? "bg-green-50 text-green-600"
+              : record.status === "Rejected"
+              ? "bg-red-50 text-red-600"
+              : record.status === "Pending"
+              ? "bg-yellow-50 text-yellow-600"
+              : "bg-gray-50 text-gray-600"
+          }  px-2 py-1 text-xs font-semibold`}
+        >
+          <span
+            className={`h-1.5 w-1.5 rounded-full ${
+              record.status === "Approved"
+                ? "bg-green-600"
+                : record.status === "Rejected"
+                ? "bg-red-600"
+                : record.status === "Pending"
+                ? "bg-yellow-600"
+                : "bg-gray-600"
+            }`}
+          ></span>
+          {record.status}
+        </span>
+      ),
+    },
+    {
+      title: "Comment",
+      dataIndex: "comment",
+    },
+    {
+      title: "Type",
+      dataIndex: "type",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <div className="flex justify-start gap-4">
+          {record.status === "Pending" ? (
+            <Tooltip title="Edit">
+              <EditOutlined
+                onClick={() => handleEdit(record.examPaperId)}
+                style={{ fontSize: 17, color: "lightblue" }}
+                height={55}
+              />
+            </Tooltip>
+          ) : null}
+          {record.status === "Pending" ? (
+            <Tooltip title="Delete">
+              <Popconfirm
+                title="Delete the exam-submission"
+                description="Are you sure to delete this?"
+                onConfirm={() => handleDelete(record.examPaperId)}
+                okText="Yes"
+                okType="default"
+                cancelText="No"
+              >
+                <DeleteOutlined
+                  style={{ fontSize: 17, color: "red" }}
+                  height={55}
+                />
+              </Popconfirm>
+            </Tooltip>
+          ) : null}
+          {record.status === "Waiting-Instruction" ? (
+            <Tooltip title="Info">
+              <ModalAnt3
+                examInstructionId={record.examPaperId}
+                title="Exam instruction"
+              />
+            </Tooltip>
+          ) : null}
+        </div>
+      ),
+    },
+  ];
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -73,130 +187,10 @@ const ExamSubmission = () => {
           </Link>
         </div>
       </div>
-      {slice.length > 0 ? (
-        <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
-          <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
-            <thead className="bg-gray-50">
-              <tr>
-                <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                  Basic Info
-                </th>
-                <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                  Status
-                </th>
-                <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                  Comment
-                </th>
-                <th scope="col" className="px-3 py-3 font-medium text-gray-900">
-                  Type
-                </th>
-                <th scope="col" className="px-6 py-4 font-medium text-gray-900">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-              {slice.map((item, index) => (
-                <tr key={index} className="hover:bg-gray-50">
-                  <td className="flex gap-3 px-3 py-3 font-normal text-gray-900 items-center">
-                    <div className="relative h-10 w-10">
-                      <img
-                        className="h-full w-full rounded-full object-cover object-center"
-                        src={avatar}
-                        alt=""
-                      />
-                      <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
-                    </div>
-                    <div className="text-sm">
-                      <div className="font-medium text-gray-700">
-                        Lecturer: {item.lecturerName}
-                      </div>
-                      <div className="text-gray-400">
-                        Subject: {item.subjectName}
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-3 py-3">
-                    <span
-                      className={`inline-flex items-center gap-1 rounded-full ${
-                        item.status === "Approved"
-                          ? "bg-green-50 text-green-600"
-                          : item.status === "Rejected"
-                          ? "bg-red-50 text-red-600"
-                          : item.status === "Pending"
-                          ? "bg-yellow-50 text-yellow-600"
-                          : "bg-gray-50 text-gray-600"
-                      }  px-2 py-1 text-xs font-semibold`}
-                    >
-                      <span
-                        className={`h-1.5 w-1.5 rounded-full ${
-                          item.status === "Approved"
-                            ? "bg-green-600"
-                            : item.status === "Rejected"
-                            ? "bg-red-600"
-                            : item.status === "Pending"
-                            ? "bg-yellow-600"
-                            : "bg-gray-600"
-                        }`}
-                      ></span>
-                      {item.status}
-                    </span>
-                  </td>
-                  <td className="px-3 py-3" title={item.comment}>
-                    {item.comment?.length > 5
-                      ? item.comment?.slice(0, 10) + "..."
-                      : item.comment}
-                  </td>
-                  <td className="px-3 py-3">{item.type}</td>
-                  <td className="px-6 py-4">
-                    <div className="flex justify-start gap-4">
-                    {item.status === "Pending" ? (
-                      <Tooltip title="Edit">
-                        <EditOutlined
-                          onClick={() => handleEdit(item.examPaperId)}
-                          style={{ fontSize: 17, color: "lightblue" }}
-                          height={55}
-                        />
-                      </Tooltip>
-                      ) : null}
-                      {item.status === "Pending" ? (
-                      <Tooltip title="Delete">
-                        <Popconfirm
-                          title="Delete the exam-submission"
-                          description="Are you sure to delete this?"
-                          onConfirm={() => handleDelete(item.examPaperId)}
-                          okText="Yes"
-                          okType="default"
-                          cancelText="No"
-                        >
-                          <DeleteOutlined
-                            style={{ fontSize: 17, color: "red" }}
-                            height={55}
-                          />
-                        </Popconfirm>
-                      </Tooltip>
-                      ) : null}
-                      {item.status === "Waiting-Instruction" ? (
-                        <Tooltip title="Info">
-                          <ModalAnt3 examInstructionId={item.examPaperId} title="Exam instruction" />
-                        </Tooltip>
-                      ) : null}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <Empty />
-      )}
-      <TableFooter
-        total={examData}
-        range={range}
-        slice={slice}
-        setPage={setPage}
-        page={page}
+      <Table
+        columns={columns}
+        dataSource={examData}
+        pagination={{ pageSize: 5 }}
       />
     </div>
   );
