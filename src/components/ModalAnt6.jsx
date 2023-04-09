@@ -31,10 +31,14 @@ const ModalAnt6 = ({
   }, [scheduleDate]);
   const handleOk = () => {
     // setIsModalOpen(false);
+    let slotValue = slotI - 1;
+    if (slotValue < 0) {
+      slotValue = 0;
+    }
     const Data = {
       type,
       scheduleId,
-      slot: slotI - 1,
+      slot: slotValue,
       scheduleDate: selectedDate,
       classId,
     };
