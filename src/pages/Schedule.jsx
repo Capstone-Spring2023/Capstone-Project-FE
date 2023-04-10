@@ -187,7 +187,11 @@ const Schedule = () => {
   }, [shouldFetchSchedule]);
 
   const fetchSchedule = () => {
-    fetch(`${BASE_URL_API}/schedule/lecturer/2/schedule`)
+    fetch(
+      `${BASE_URL_API}/schedule/lecturer/${sessionStorage.getItem(
+        "userId"
+      )}/schedule`
+    )
       .then((res) => {
         return res.json();
       })

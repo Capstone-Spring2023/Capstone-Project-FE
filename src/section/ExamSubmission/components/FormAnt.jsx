@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Input, message, Row } from "antd";
+import { Button, Col, Form, message as messageAnt, Row } from "antd";
 import SelectAnt from "./SelectAnt";
 import UploadAnt from "./UploadAnt";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import SelectType from "./SelectType";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../firebase/firebase";
 import { BASE_URL_API } from "../../../utils/constants";
@@ -20,6 +19,8 @@ const FormAnt = () => {
   const [examScheduleId, setExamScheduleId] = useState("");
   const [file, setFile] = useState("");
   const [subjectType, setSubjectType] = useState("");
+  const type = "Submission";
+  const message = "You have new submission request"
   const handleSubject = (value) => {
     setAvailableSubjectName(value.split(",")[0]);
     setSubjectType(value.split(",")[1]);
@@ -48,7 +49,7 @@ const FormAnt = () => {
   }, []);
 
   const handleSubmit = () => {
-    const examData = { availableSubjectName, examContent, examLink };
+    const examData = { availableSubjectName, examContent, examLink, type, message };
     toast.promise(
       fetch(`${BASE_URL_API}/exam-submission/` + availableSubjectName, {
         method: "POST",
@@ -95,7 +96,7 @@ const FormAnt = () => {
       },
       function error(err) {
         onError(err, file);
-        message.error(`${file.name} file uploaded failed.`);
+        messageAnt.error(`${file.name} file uploaded failed.`);
       },
       function complete() {
         onSuccess(file);
@@ -111,7 +112,7 @@ const FormAnt = () => {
         );
         setExamLink(sessionStorage.getItem("email"));
         console.log(examLink);
-        message.success(`${file.name} file uploaded successfully.`);
+        messageAnt.success(`${file.name} file uploaded successfully.`);
       }
     );
   };
@@ -140,7 +141,7 @@ const FormAnt = () => {
       },
       function error(err) {
         onError(err, file);
-        message.error(`${file.name} file uploaded failed.`);
+        messageAnt.error(`${file.name} file uploaded failed.`);
       },
       function complete() {
         onSuccess(file);
@@ -149,7 +150,7 @@ const FormAnt = () => {
         //   localStorage.setItem("url", url);
         //   setFile(url);
         // })
-        message.success(`${file.name} file uploaded successfully.`);
+        messageAnt.success(`${file.name} file uploaded successfully.`);
       }
     );
   };
@@ -178,7 +179,7 @@ const FormAnt = () => {
       },
       function error(err) {
         onError(err, file);
-        message.error(`${file.name} file uploaded failed.`);
+        messageAnt.error(`${file.name} file uploaded failed.`);
       },
       function complete() {
         onSuccess(file);
@@ -187,7 +188,7 @@ const FormAnt = () => {
         //   localStorage.setItem("url", url);
         //   setFile(url);
         // })
-        message.success(`${file.name} file uploaded successfully.`);
+        messageAnt.success(`${file.name} file uploaded successfully.`);
       }
     );
   };
