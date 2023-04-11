@@ -137,16 +137,16 @@ const Schedule = () => {
   const [showModal2, setShowModal] = useState(false);
 
   const handleLessonClick = (lesson) => {
-    if (lesson) {
+    // if (lesson) {
       setSelectedLesson({
-        scheduleId: lesson.scheduleId,
-        slot: lesson.slot,
-        scheduleDate: lesson.scheduleDate,
-        classCode: lesson.classCode,
-        classId: lesson.classId,
+        scheduleId: lesson?.scheduleId,
+        slot: lesson?.slot,
+        scheduleDate: lesson?.scheduleDate,
+        classCode: lesson?.classCode,
+        classId: lesson?.classId,
       });
       setIsModalOpen(true); // Mở Modal
-    }
+    // }
   };
   const handleStartDateChange = (e) => {
     setStartDate(new Date(e.target.value));
@@ -319,8 +319,8 @@ const Schedule = () => {
                 ))}
               </tbody>
             </table>
-            {selectedLesson?.scheduleId && (
-              <ModalAnt5
+             {selectedLesson?.scheduleId && ( 
+               <ModalAnt5
                 scheduleId={selectedLesson?.scheduleId}
                 slot={selectedLesson?.slot + 1}
                 scheduleDate={selectedLesson?.scheduleDate}
@@ -330,8 +330,8 @@ const Schedule = () => {
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
                 fetchSchedule={fetchSchedule}
-              />
-            )}
+               /> 
+             )}  
           </div>
         </div>
       </div>

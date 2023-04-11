@@ -11,6 +11,7 @@ import { BASE_URL_API, firebaseConfig } from "../utils/constants";
 import { toast } from "react-hot-toast";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import { message } from "antd";
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
@@ -45,7 +46,8 @@ const UserProfile = () => {
               fullName: fullName,
               phone: phone,
               address: address,
-              roldId: roleId
+              roldId: roleId,
+              roleName:roleName
             };
             toast.promise(
               fetch(`${BASE_URL_API}/leader/profile/updateLeader/`+sessionStorage.getItem("userId"), {
@@ -54,6 +56,7 @@ const UserProfile = () => {
                 body: JSON.stringify(examData),
               })
                 .then((res) => {
+                  message.success("Update successfully");
                   console.log("RES", res);
                   setIsModalOpen(true);
                 })

@@ -22,6 +22,7 @@ import {
 } from "firebase/storage";
 import { BASE_URL_API } from "../../../utils/constants";
 import checkPageStatus from "../../../utils/function";
+import SelectAntLecturer from "./SelectAntLecturer";
 
 const { Dragger } = Upload;
 const onFinishFailed = (errorInfo) => {
@@ -177,6 +178,20 @@ const FormAnt = ({ socket }) => {
         </Col>
       </Row>
       <Row>
+      {/* <Col span={12}>
+          <Form.Item
+            label="Lecturer"
+            name="Lecturer"
+            rules={[
+              {
+                required: true,
+                message: "Please input Lecturer!",
+              },
+            ]}
+          >
+            <SelectAntLecturer onChange={handleSubject} />
+          </Form.Item>
+        </Col> */}
         <Col span={12}>
           <Form.Item
             label="Deadline"
