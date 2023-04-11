@@ -40,7 +40,6 @@ const FormAntEdit = ({ availableSubjectId }) => {
       })
       .then((resp) => {
         const data = resp.data;
-        console.log("DATA", data);
         setTitle(data.tittle);
         setSubject(data.subjectName);
         setDeadline(data.deadline);
@@ -78,9 +77,7 @@ const FormAntEdit = ({ availableSubjectId }) => {
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
     setDeadline(dateString);
   };
-  const handleSubject = (value) => {
-    setSubject(value);
-  };
+
   const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
     if (!file) return;
     const storage = getStorage();
@@ -174,7 +171,6 @@ const FormAntEdit = ({ availableSubjectId }) => {
               },
             ]}
           >
-            {/* <SelectAnt onChange={handleSubject} defaultValue={subject} /> */}
             {subject}
           </Form.Item>
         </Col>

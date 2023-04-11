@@ -17,11 +17,10 @@ const FormAnt = () => {
   const [availableSubjectName2, setAvailableSubjectName2] = useState("");
   const [examLink, setExamLink] = useState("");
   const navigate = useNavigate();
-  const [examScheduleId, setExamScheduleId] = useState("");
   const [file, setFile] = useState("");
   const [subjectType, setSubjectType] = useState("");
   const type = "Submission";
-  const message = "You have new submission request"
+  const message = "Have submit the exam for"
   const handleSubject = (value) => {
     setAvailableSubjectName(value.split(",")[0]);
     setSubjectType(value.split(",")[1]);
@@ -38,7 +37,6 @@ const FormAnt = () => {
         return res.json();
       })
       .then((resp) => {
-        // setExamScheduleId(resp[0].examScheduleId);
         console.log(resp);
       })
       .catch((err) => {
@@ -102,11 +100,6 @@ const FormAnt = () => {
       },
       function complete() {
         onSuccess(file);
-        // getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-        //   console.log(url);
-        //   localStorage.setItem("url", url);
-        //   setFile(url);
-        // })
         setFile(
           `gs://capstone-cft.appspot.com/${sessionStorage.getItem(
             "email"
@@ -120,7 +113,6 @@ const FormAnt = () => {
   };
 
   const upLoadFile2 = async ({ onSuccess, onProgress, onError, file }) => {
-    // let fileRef = ref(storage, file.name);
     let fileRef = ref(
       storage,
       `/${sessionStorage.getItem(
@@ -147,18 +139,12 @@ const FormAnt = () => {
       },
       function complete() {
         onSuccess(file);
-        // getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-        //   console.log(url);
-        //   localStorage.setItem("url", url);
-        //   setFile(url);
-        // })
         messageAnt.success(`${file.name} file uploaded successfully.`);
       }
     );
   };
 
   const upLoadFile3 = async ({ onSuccess, onProgress, onError, file }) => {
-    // let fileRef = ref(storage, file.name);
     let fileRef = ref(
       storage,
       `/${sessionStorage.getItem(
@@ -185,16 +171,10 @@ const FormAnt = () => {
       },
       function complete() {
         onSuccess(file);
-        // getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-        //   console.log(url);
-        //   localStorage.setItem("url", url);
-        //   setFile(url);
-        // })
         messageAnt.success(`${file.name} file uploaded successfully.`);
       }
     );
   };
-  console.log("SubjectType", subjectType);
 
   return (
     <Form

@@ -35,11 +35,8 @@ const Navbar = () => {
     currentColor,
     activeMenu,
     setActiveMenu,
-    isClicked,
-    handleClick,
     screenSize,
     setScreenSize,
-    isShowNoti,
     setIsShowNoti,
   } = useStateContext();
   const fullName = sessionStorage.getItem("fullName");

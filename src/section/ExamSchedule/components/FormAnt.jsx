@@ -33,9 +33,8 @@ const FormAnt = ({ socket }) => {
   const [subject, setSubject] = useState("");
   const [deadline, setDeadline] = useState("");
   const [examLink, setExamLink] = useState("");
-  const [noti, setNoti] = useState("You have new exam request");
-  const [type, setType] = useState("Schedule");
-  const [message, setMessage] = useState("You have new Schedule request");
+  const type = "Schedule";
+  const message = "You have new Schedule request";
   const leaderId = sessionStorage.getItem("userId");
   const navigate = useNavigate();
   const onFinish = () => {
@@ -54,16 +53,17 @@ const FormAnt = ({ socket }) => {
         body: JSON.stringify(examScheduleData),
       })
         .then((res) => {
-          if (noti.trim() && sessionStorage.getItem("userId")) {
-            socket.emit("message", {
-              type: "Schedule",
-              message: noti,
-              id: sessionStorage.getItem("userId"),
-            });
-            //Here it is 👇🏻
-            checkPageStatus(noti, sessionStorage.getItem("userId"));
-          }
-          setNoti("");
+          // if (noti.trim() && sessionStorage.getItem("userId")) {
+          //   socket.emit("message", {
+          //     type: "Schedule",
+          //     message: noti,
+          //     id: sessionStorage.getItem("userId"),
+          //   });
+          //   //Here it is 👇🏻
+          //   checkPageStatus(noti, sessionStorage.getItem("userId"));
+          // }
+          // setNoti("");
+          console.log(res)
           navigate("/exam-schedule");
         })
         .catch((err) => {
