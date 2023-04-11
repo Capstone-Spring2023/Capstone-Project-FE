@@ -6,15 +6,15 @@ import { SmileOutlined } from "@ant-design/icons";
 const { Option } = Select;
 
 const SelectAntLecturer = ({ onChange, defaultValue }) => {
-  const [subject, setSubject] = useState([{}]);
+  const [lecturer, setLecturer] = useState([{}]);
   console.log("DEFAULT", defaultValue);
   const fetchSubject = () => {
-    fetch(`${BASE_URL_API}/leader/${sessionStorage.getItem("userId")}/available-subject`)
+    fetch(`${BASE_URL_API}/header/GetLecturersHaveRegisterSubject`)
       .then((res) => {
         return res.json();
       })
       .then((resp) => {
-        setSubject(resp.data);
+        setLecturer(resp.data);
       })
       .catch((err) => {
         console.log(err.message);
@@ -50,13 +50,13 @@ const SelectAntLecturer = ({ onChange, defaultValue }) => {
         onChange={onChange}
         optionLabelProp="label"
       >
-        {subject?.map((item, index) => (
+        {lecturer?.map((item, index) => (
           <Option
             key={index}
-            value={`${item?.availableSubjectId}`}
-            label={`${item?.subjectName}`}
+            value={`${item?.userId}`}
+            label={`${item?.fullName}`}
           >
-            <Space>{item?.subjectName}</Space>
+            <Space>{item?.fullName}</Space>
           </Option>
         ))}
       </Select>

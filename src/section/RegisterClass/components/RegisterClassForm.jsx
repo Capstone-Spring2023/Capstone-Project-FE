@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Row, Select } from "antd";
+import { Button, Col, Form, Row, Select, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { BASE_URL_API } from "../../../utils/constants";
@@ -22,6 +22,9 @@ const RegisterClassForm = () => {
   const [subjectItems, setSubjectItems] = useState([]);
   const userId = sessionStorage.getItem("userId");
   const navigate = useNavigate();
+  const [showSubjects, setShowSubjects] = useState(false);
+  const [selectedSubjects, setSelectedSubjects] = useState([]);
+  const submitDisabled = registerSlots.length === 0 || selectedSubjects.length === 0;
 
   useEffect(() => {
     fetch(`${BASE_URL_API}/AvailableSubject`)
@@ -36,37 +39,46 @@ const RegisterClassForm = () => {
       });
   }, []);
 
-  const handleSubmit = () => {
-    const registerData = {
-      userId,
-      availableSubjectIds,
-      registerSlots,
-    };
-    toast.promise(
-      fetch(`${BASE_URL_API}/schedule/register-subject-slot`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(registerData),
-      })
-        .then((res) => {
-          console.log("RES", res);
-          navigate("/register-class");
+  const handleSubmit = (values) => {
+    if (registerSlots.length === 0 || availableSubjectIds.length === 0) {
+      message.error("Please select both slot and subject.");
+      return;
+    } else {
+      const registerData = {
+        userId,
+        availableSubjectIds,
+        registerSlots,
+      };
+      toast.promise(
+        fetch(`${BASE_URL_API}/schedule/register-subject-slot`, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(registerData),
         })
-        .catch((err) => {
-          console.log(err.message);
-        }),
-      {
-        loading: "Creating...",
-        success: <b>Created successfully</b>,
-        error: <b>Could not create.</b>,
-      }
-    );
+          .then((res) => {
+            console.log("RES", res);
+            navigate("/register-class");
+          })
+          .catch((err) => {
+            console.log(err.message);
+          }),
+        {
+          loading: "Register...",
+          success: <b>Register successfully</b>,
+          error: <b>Could not register.</b>,
+        }
+      );
+    }
   };
   const handleSubject = (value) => {
     setAvailableSubjectIds(value);
+    setSelectedSubjects([]);
   };
   const handleSlot = (value) => {
     setRegisterSlots(value);
+    setAvailableSubjectIds([]);
+    setSelectedSubjects([]);
+    setShowSubjects(true);
   };
   return (
     <Form
@@ -90,29 +102,6 @@ const RegisterClassForm = () => {
       <Row>
         <Col span={16}>
           <Form.Item
-            label="Available Subject"
-            name="subject"
-            rules={[
-              {
-                required: true,
-                message: "Please input your subject!",
-              },
-            ]}
-          >
-            <Select
-              mode="multiple"
-              placeholder="Select your subject"
-              value={availableSubjectIds}
-              onChange={handleSubject}
-            >
-              {subjectItems.map((item, index) => (
-                <Option key={index} value={item.availableSubjectId}>
-                  {item.subjectName}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item
             label="Slot"
             name="slot"
             rules={[
@@ -135,11 +124,38 @@ const RegisterClassForm = () => {
               ))}
             </Select>
           </Form.Item>
+          {showSubjects && (
+            <Form.Item
+              label="Available Subject"
+              name="subject"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your subject!",
+                },
+              ]}
+            >
+              <Select
+                mode="multiple"
+                placeholder="Select your subject"
+                value={availableSubjectIds}
+                onChange={handleSubject}
+              >
+                {subjectItems.map((item, index) => (
+                  <Option key={index} value={item.availableSubjectId}>
+                    {item.subjectName}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+          )}
         </Col>
       </Row>
       <Row>
         <Col>
-          <Button htmlType="submit">Submit</Button>
+          <Button htmlType="submit">
+            Submit
+          </Button>
         </Col>
         <Col offset={18}>
           <Button danger onClick={() => navigate("/register-class")}>
