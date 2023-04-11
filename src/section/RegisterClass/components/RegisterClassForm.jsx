@@ -11,17 +11,11 @@ const onFinishFailed = (errorInfo) => {
 const RegisterClassForm = () => {
   const slotItems = [
     "A1",
-    "A2",
     "A3",
-    "A4",
     "A5",
-    "A6",
     "P1",
-    "P2",
     "P3",
-    "P4",
     "P5",
-    "P6",
   ];
   const [availableSubjectIds, setAvailableSubjectIds] = useState([]);
   const [registerSlots, setRegisterSlots] = useState([]);

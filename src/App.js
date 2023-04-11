@@ -33,6 +33,7 @@ import SubjectEdit from "./section/Subjects/SubjectEdit";
 import Spinner from "./components/Spinner";
 import io from "socket.io-client";
 import { SOCKET_URL } from "./utils/constants";
+import GenerateSchedule from "./pages/GenerateSchedule";
 
 const socket = io(`${SOCKET_URL}`);
 // const socket = io("http://localhost:4000");
@@ -62,7 +63,6 @@ const App = () => {
       setActiveMenu(isActiveMenu);
     }
   }, [isLoginPage, activeMenu]);
-  console.log("RENDER");
 
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
@@ -113,7 +113,6 @@ const App = () => {
                   path="/overview"
                   element={
                     <>
-                      {/*<NotiFirebase />*/}
                       <DashboardLazy />
                       {/*{isShowNoti && (*/}
                       {/*  <NotiPopup*/}
@@ -160,6 +159,7 @@ const App = () => {
                   element={<RegisterClass_Register />}
                 />
                 <Route path="/available-subject" element={<LeaderSubject />} />
+                <Route path="/generate-schedule" element={<GenerateSchedule />} />
 
                 {/*Exams Submission*/}
                 <Route

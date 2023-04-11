@@ -9,7 +9,6 @@ const UploadAnt = ({ uploadFile, description }) => (
       <InboxOutlined />
     </p>
     <p className="ant-upload-text">{description}</p>
-    {/* <p className="ant-upload-hint">Only support for docx and rar file</p> */}
   </Dragger>
 );
 export default UploadAnt;

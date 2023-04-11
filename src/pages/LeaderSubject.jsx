@@ -41,7 +41,6 @@ const LeaderSubject = () => {
       });
   };
   const onChange = (checkedValues: CheckboxValueType[]) => {
-    console.log("checked = ", checkedValues.target.value.split(",")[0]);
     const availableSubjectId = checkedValues.target.value.split(",")[0];
     const userId = checkedValues.target.value.split(",")[1];
     handleLeader(availableSubjectId, userId);
@@ -53,7 +52,7 @@ const LeaderSubject = () => {
     };
     toast.promise(
       fetch(`${BASE_URL_API}/leader`, {
-        method: "POST",
+        method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(leaderData),
       })

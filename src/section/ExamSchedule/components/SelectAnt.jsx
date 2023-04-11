@@ -7,7 +7,6 @@ const { Option } = Select;
 
 const SelectAnt = ({ onChange, defaultValue }) => {
   const [subject, setSubject] = useState([{}]);
-  console.log("DEFAULT", defaultValue);
   const fetchSubject = () => {
     fetch(`${BASE_URL_API}/leader/${sessionStorage.getItem("userId")}/available-subject`)
       .then((res) => {

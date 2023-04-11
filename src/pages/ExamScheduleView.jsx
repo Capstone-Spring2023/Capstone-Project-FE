@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import useTable from "../hooks/useTable";
 import { Toaster } from "react-hot-toast";
 import { Header, ModalAnt2 } from "../components";
 import avatar from "../assets/banner.jpg";
 import { BASE_URL_API } from "../utils/constants";
 import { Table } from "antd";
 import moment from "moment/moment";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const ExamScheduleView = () => {
   const [examScheduleViewData, setExamScheduleViewData] = useState([{}]);
@@ -60,10 +59,10 @@ const ExamScheduleView = () => {
           value: "VNR",
         },
       ],
-      defaultFilteredValue: [`${state?.subject}`],
+      defaultFilteredValue: [`${state?.subject ? state?.subject : ""}`],
       filterMode: "tree",
       filterSearch: true,
-      onFilter: (value, record) => record.subjectName?.indexOf(value) === 0,
+      onFilter: (value: string, record) => record.subjectName?.startsWith(value),
       width: "30%",
     },
     {

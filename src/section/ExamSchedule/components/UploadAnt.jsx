@@ -1,8 +1,12 @@
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
-import { storage } from "../../../firebase/firebase";
-import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
-import {getDownloadURL } from 'firebase/storage';
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+
 const { Dragger } = Upload;
 
 const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {

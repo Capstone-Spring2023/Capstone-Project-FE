@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React from "react";
+import { useParams } from "react-router-dom";
 import { Header } from "../../components";
-import InputField from "../../components/InputField";
-import { MdOutlineSubtitles, MdSubject } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
-import { toast, Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import FormAntEdit from "./components/FormAntEdit";
 
 const ExamSubmissionEdit = () => {

@@ -1,28 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Col,
-  DatePicker,
-  Divider,
-  Form,
-  Input,
-  Row,
-  Space,
-  message,
-} from "antd";
-import SelectAnt from "./SelectAnt";
+import { Button, Col, Form, Input, message, Row } from "antd";
 import UploadAnt from "./UploadAnt";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { DatePickerProps } from "antd";
 import {
-  getStorage,
+  deleteObject,
+  listAll,
   ref,
   uploadBytesResumable,
-  listAll,
-  deleteObject,
 } from "firebase/storage";
-import { getDownloadURL } from "firebase/storage";
 import { storage } from "../../../firebase/firebase";
 import { BASE_URL_API } from "../../../utils/constants";
 
@@ -33,8 +19,6 @@ const FormAntEdit = ({ editID }) => {
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [subjectName, setSubjectName] = useState("");
-  const [deadline, setDeadline] = useState("");
-  const [status, setStatus] = useState(true);
   const [assignee, setAssignee] = useState("");
   const [examScheduleID, setExamScheduleID] = useState("");
   const navigate = useNavigate();
@@ -49,23 +33,18 @@ const FormAntEdit = ({ editID }) => {
         setId(resp.examPaperId);
         setTitle(resp.examContent);
         setSubjectName(resp.subjectName);
-        console.log("name", resp.subjectName);
         setAssignee(resp.examLink);
-        setDeadline(resp.deadline);
-        setStatus(resp.status);
         setExamScheduleID(resp.subjectName);
-        console.log("TITLE", resp);
       })
       .catch((err) => {
         console.log(err.message);
       });
-    console.log("ass", assignee)
   }, []);
   const handleUpdate = () => {
     const examData = {
       examContent: title,
-      examLink: assignee
-    }
+      examLink: assignee,
+    };
 
     toast.promise(
       fetch(`${BASE_URL_API}/exam-submission/` + id, {
@@ -74,7 +53,6 @@ const FormAntEdit = ({ editID }) => {
         body: JSON.stringify(examData),
       })
         .then((res) => {
-          console.log("RES", res);
           navigate("/exam-submission");
         })
         .catch((err) => {
@@ -87,14 +65,8 @@ const FormAntEdit = ({ editID }) => {
       }
     );
   };
-  const handleSubject = (value) => {
-    setSubjectName(value);
-  };
   const upLoadFile = async ({ onSuccess, onProgress, onError, file }) => {
-    let folderRef = ref(
-      storage,
-      `/` + assignee + `/${examScheduleID}/PE1`
-    );
+    let folderRef = ref(storage, `/` + assignee + `/${examScheduleID}/PE1`);
     let fileRef = ref(
       storage,
       `/` + assignee + `/${examScheduleID}/PE1/${file.name}`
@@ -354,7 +326,11 @@ const FormAntEdit = ({ editID }) => {
             ]}
           >
             <Input
-              style={{ backgroundColor: "#fff", color: "#000", border: "1px solid #ccc" }}
+              style={{
+                backgroundColor: "#fff",
+                color: "#000",
+                border: "1px solid #ccc",
+              }}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               // placeholder="Enter title here"

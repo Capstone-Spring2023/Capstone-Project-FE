@@ -19,11 +19,11 @@ export const links = [
   {
     title: "Managements",
     links: [
-      {
-        name: "leaders",
-        icon: <BsPeople />,
-        role: "Header",
-      },
+      // {
+      //   name: "leaders",
+      //   icon: <BsPeople />,
+      //   role: "Header",
+      // },
       {
         name: "schedules",
         icon: <AiOutlineSchedule />,
@@ -31,6 +31,11 @@ export const links = [
       },
       {
         name: "available-subject",
+        icon: <GiNotebook />,
+        role: "Header",
+      },
+      {
+        name: "generate-schedule",
         icon: <GiNotebook />,
         role: "Header",
       },

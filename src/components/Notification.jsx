@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { Empty } from "antd";
 
 const Notification = ({ notiData }) => {
-  const { currentColor } = useStateContext();
   const navigate = useNavigate();
 
   return (
@@ -16,7 +15,7 @@ const Notification = ({ notiData }) => {
             key={index}
             className="flex items-center leading-8 gap-5 border-color p-3 cursor-pointer hover:bg-light-gray rounded-lg"
             onClick={() =>
-              navigate("/exam-schedule-view", { state: { subject: item.subjectCode } })
+              navigate("/exam-schedule-view", { state: { subject: item?.subjectCode } })
             }
           >
             <img

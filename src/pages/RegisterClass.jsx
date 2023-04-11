@@ -1,21 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Header } from "../components";
-import TableFooter from "../components/Table/TableFooter";
-import { customersData, employeesData } from "../data/dummy";
-import useTable from "../hooks/useTable";
-import { MdOutlineCancel } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
+import { Header } from "../components";
+import { Link } from "react-router-dom";
 import avatar from "../assets/banner.jpg";
 import moment from "moment/moment";
-import { Popconfirm, Table, Tooltip } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Table } from "antd";
 import { BASE_URL_API } from "../utils/constants";
 
 const RegisterClass = () => {
-  const [page, setPage] = useState(1);
   const [registerData, setRegisterData] = useState([{}]);
-  const { slice, range } = useTable(registerData, page, 5);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(
@@ -76,7 +68,7 @@ const RegisterClass = () => {
     },
     {
       title: "Slot",
-      dataIndex: "slot",
+      dataIndex: "registerSlots",
     },
     {
       title: "Status",
