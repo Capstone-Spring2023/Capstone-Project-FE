@@ -31,6 +31,7 @@ const onFinishFailed = (errorInfo) => {
 const FormAnt = ({ socket }) => {
   const [tittle, setTitle] = useState("");
   const [subject, setSubject] = useState("");
+  const [lectureId,setLecturerId]=useState("");
   const [deadline, setDeadline] = useState("");
   const [examLink, setExamLink] = useState("");
   const type = "Schedule";
@@ -45,6 +46,7 @@ const FormAnt = ({ socket }) => {
       type,
       message,
       leaderId,
+      appovalUserId:lectureId
     };
     toast.promise(
       fetch(`${BASE_URL_API}/exam-schedule?availableId=` + subject, {
@@ -81,6 +83,9 @@ const FormAnt = ({ socket }) => {
   };
   const handleSubject = (value) => {
     setSubject(value);
+  };
+  const handleLecturer = (value) => {
+    setLecturerId(value);
   };
 
   const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
@@ -178,7 +183,7 @@ const FormAnt = ({ socket }) => {
         </Col>
       </Row>
       <Row>
-      {/* <Col span={12}>
+      <Col span={12}>
           <Form.Item
             label="Lecturer"
             name="Lecturer"
@@ -189,9 +194,9 @@ const FormAnt = ({ socket }) => {
               },
             ]}
           >
-            <SelectAntLecturer onChange={handleSubject} />
+            <SelectAntLecturer onChange={handleLecturer} />
           </Form.Item>
-        </Col> */}
+        </Col>
         <Col span={12}>
           <Form.Item
             label="Deadline"
