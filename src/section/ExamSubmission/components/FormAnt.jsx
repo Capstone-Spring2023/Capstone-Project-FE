@@ -13,7 +13,8 @@ const onFinishFailed = (errorInfo) => {
 };
 const FormAnt = () => {
   const [examContent, setExamContent] = useState("Exam PE");
-  const [availableSubjectName, setAvailableSubjectName] = useState("");
+  const [availableSubjectName, setAvailableSubjectName] = useState("");//id
+  const [availableSubjectName2, setAvailableSubjectName2] = useState("");
   const [examLink, setExamLink] = useState("");
   const navigate = useNavigate();
   const [examScheduleId, setExamScheduleId] = useState("");
@@ -24,6 +25,7 @@ const FormAnt = () => {
   const handleSubject = (value) => {
     setAvailableSubjectName(value.split(",")[0]);
     setSubjectType(value.split(",")[1]);
+    setAvailableSubjectName2(value.split(",")[2]);
   };
 
   const fetchSubject = () => {
@@ -72,11 +74,11 @@ const FormAnt = () => {
   };
 
   const upLoadFile = async ({ onSuccess, onProgress, onError, file }) => {
-    console.log("SUBJECTNAME", availableSubjectName);
+    console.log("SUBJECTNAME", availableSubjectName2);
     // let fileRef = ref(storage, file.name);
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/${availableSubjectName.trim()}/PE1/${
+      `/${sessionStorage.getItem("email")}/${availableSubjectName2.trim()}/PE1/${
         file.name
       }`
     );
@@ -108,7 +110,7 @@ const FormAnt = () => {
         setFile(
           `gs://capstone-cft.appspot.com/${sessionStorage.getItem(
             "email"
-          )}/${availableSubjectName.trim()}/PE1`
+          )}/${availableSubjectName2.trim()}/PE1`
         );
         setExamLink(sessionStorage.getItem("email"));
         console.log(examLink);
@@ -123,7 +125,7 @@ const FormAnt = () => {
       storage,
       `/${sessionStorage.getItem(
         "email"
-      )}/${availableSubjectName.trim()}/PE1/Given/${file.name}`
+      )}/${availableSubjectName2.trim()}/PE1/Given/${file.name}`
     );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(
@@ -161,7 +163,7 @@ const FormAnt = () => {
       storage,
       `/${sessionStorage.getItem(
         "email"
-      )}/${availableSubjectName.trim()}/PE1/TestCases/${file.name}`
+      )}/${availableSubjectName2.trim()}/PE1/TestCases/${file.name}`
     );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(

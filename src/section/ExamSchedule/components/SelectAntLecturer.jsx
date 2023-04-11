@@ -5,15 +5,16 @@ import { SmileOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
-const SelectAnt = ({ onChange }) => {
+const SelectAntLecturer = ({ onChange, defaultValue }) => {
   const [subject, setSubject] = useState([{}]);
+  console.log("DEFAULT", defaultValue);
   const fetchSubject = () => {
-    fetch(`${BASE_URL_API}/user/${sessionStorage.getItem("userId")}/exam-schedule/available-subject`)
+    fetch(`${BASE_URL_API}/leader/${sessionStorage.getItem("userId")}/available-subject`)
       .then((res) => {
         return res.json();
       })
       .then((resp) => {
-        setSubject(resp);
+        setSubject(resp.data);
       })
       .catch((err) => {
         console.log(err.message);
@@ -23,7 +24,6 @@ const SelectAnt = ({ onChange }) => {
   useEffect(() => {
     fetchSubject();
   }, []);
-  
   const customizeRenderEmpty = () => (
     <div
       style={{
@@ -35,7 +35,7 @@ const SelectAnt = ({ onChange }) => {
           fontSize: 20,
         }}
       />
-      <p>There are no request</p>
+      <p>Data Not Found</p>
     </div>
   );
   const style = {
@@ -46,14 +46,14 @@ const SelectAnt = ({ onChange }) => {
       <Select
         showSearch
         style={style}
-        placeholder="Select subjects"
+        placeholder="Select lecturer"
         onChange={onChange}
         optionLabelProp="label"
       >
         {subject?.map((item, index) => (
           <Option
             key={index}
-            value={`${item?.examScheduleId},${item?.typeName},${item?.subjectName}`}
+            value={`${item?.availableSubjectId}`}
             label={`${item?.subjectName}`}
           >
             <Space>{item?.subjectName}</Space>
@@ -64,4 +64,4 @@ const SelectAnt = ({ onChange }) => {
   );
 };
 
-export default SelectAnt;
+export default SelectAntLecturer;
