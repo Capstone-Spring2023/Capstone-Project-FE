@@ -19,6 +19,7 @@ const Login = () => {
   const onSuccess = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
+        console.log("TOKEN", result._tokenResponse.oauthIdToken);
         axios({
           url: "https://fpt-cft.azurewebsites.net/v1/api/authentication/login-google",
           method: "POST",
@@ -30,7 +31,7 @@ const Login = () => {
             sessionStorage.setItem("roleName", value.data.data.roleName);
             sessionStorage.setItem("userId", value.data.data.userId);
             sessionStorage.setItem("email", value.data.data.email);
-            sessionStorage.setItem("fullName", value.data.data.fullName)
+            sessionStorage.setItem("fullName", value.data.data.fullName);
             setIsLoginPage(false);
             setActiveMenu(true);
             localStorage.setItem("isLogin", "false");

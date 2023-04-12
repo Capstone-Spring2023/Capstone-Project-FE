@@ -22,7 +22,7 @@ import { BASE_URL_API } from "../utils/constants";
 
 const { Dragger } = Upload;
 
-const ModalAnt3 = ({ title, id, examInstructionId }) => {
+const ModalAnt3 = ({ title, id, examInstructionId, fetchTable }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [file, setFile] = useState("");
   const { examid } = useParams(id);
@@ -82,6 +82,7 @@ const ModalAnt3 = ({ title, id, examInstructionId }) => {
         body: JSON.stringify(data),
       })
         .then((res) => {
+          fetchTable();
           console.log("RES", res);
         })
         .catch((err) => {
@@ -158,9 +159,7 @@ const ModalAnt3 = ({ title, id, examInstructionId }) => {
             <p className="ant-upload-text">
               Click or drag file to this area to upload
             </p>
-            <p className="ant-upload-hint">
-              Only support for docx file
-            </p>
+            <p className="ant-upload-hint">Only support for docx file</p>
           </Dragger>
         </Form.Item>
       </Modal>

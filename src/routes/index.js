@@ -35,6 +35,11 @@ export const links = [
         role: "Header",
       },
       {
+        name: "import-schedule",
+        icon: <GiNotebook />,
+        role: "Header",
+      },
+      {
         name: "generate-schedule",
         icon: <GiNotebook />,
         role: "Header",

@@ -24,18 +24,9 @@ const Schedule = () => {
       const workbook = read(event.target.result, { type: "binary" });
       const sheet1Name = workbook.SheetNames[0];
       const sheet1 = workbook.Sheets[sheet1Name];
-      const data1 = utils.sheet_to_json(sheet1);
+      const data1 = utils.sheet_to_csv(sheet1);
 
-      const sheet2Name = workbook.SheetNames[1];
-      const sheet2 = workbook.Sheets[sheet2Name];
-      const data2 = utils.sheet_to_json(sheet2);
-
-      console.log(data1); // In dữ liệu từ trang tính 1 ra console
-      console.log(data2); // In dữ liệu từ trang tính 2 ra console
-
-      // Ghép hai mảng JSON lại với nhau nếu cần
-      const mergedData = [...data1, ...data2];
-      console.log(mergedData); // In dữ liệu ghép lại ra console
+      console.log("CSV", data1); // In dữ liệu từ trang tính 1 ra console
     };
     reader.readAsBinaryString(file);
   };
