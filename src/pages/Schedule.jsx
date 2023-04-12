@@ -17,99 +17,7 @@ import ModalAnt5 from "../components/ModalAnt5";
 
 const { sheet_to_json } = utils;
 const Schedule = () => {
-  const handleFile = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const workbook = read(event.target.result, { type: "binary" });
-      const sheet1Name = workbook.SheetNames[0];
-      const sheet1 = workbook.Sheets[sheet1Name];
-      const data1 = utils.sheet_to_csv(sheet1);
-
-      console.log("CSV", data1); // In dữ liệu từ trang tính 1 ra console
-    };
-    reader.readAsBinaryString(file);
-  };
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [file, setFile] = useState("");
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const navigate = useNavigate();
-  const handleOk2 = () => {
-    setIsModalOpen(false);
-    // const data = {
-    //     examInstruction: file,
-    // };
-    // toast.promise(
-    //     fetch(
-    //         `${BASE_URL_API}/exam-submission/instruction/` + examInstructionId,
-    //         {
-    //             method: "PUT",
-    //             headers: { "content-type": "application/json" },
-    //             body: JSON.stringify(data),
-    //         }
-    //     )
-    //         .then((res) => {
-    //             console.log("RES", res);
-    //             navigate("/exam-submission");
-    //             setApprove();
-    //         })
-    //         .catch((err) => {
-    //             console.log(err.message);
-    //         }),
-    //     {
-    //         loading: "Saving...",
-    //         success: <b>Update exam Instruction successfully</b>,
-    //         error: <b>Could not save.</b>,
-    //     }
-    // );
-  };
-  const { Dragger } = Upload;
-  const handleClose = () => {
-    setIsModalOpen(false);
-  };
-  const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
-    if (!file) return;
-    const storage = getStorage();
-    let fileRef = ref(
-      storage,
-      `/${sessionStorage.getItem("email")}/ExamSubmission/${file.name}`
-    );
-    const uploadTask = uploadBytesResumable(fileRef, file);
-    uploadTask.on(
-      "state_changed",
-      function progress(snapshot) {
-        onProgress(
-          {
-            percent:
-              Math.floor(
-                snapshot.bytesTransferred / snapshot.totalBytes
-              ).toFixed(2) * 100,
-          },
-          file
-        );
-      },
-      function error(err) {
-        onError(err, file);
-        message.error(`${file.name} file uploaded failed.`);
-      },
-      function complete() {
-        onSuccess(file);
-        getDownloadURL(uploadTask.snapshot.ref)
-          .then((url) => {
-            console.log(url);
-            localStorage.setItem("url", url);
-            setFile(url);
-            message.success(`${file.name} file uploaded successfully.`);
-          })
-          .catch((error) => {
-            console.log(error);
-            message.error(`${file.name} file uploaded failed.`);
-          });
-      }
-    );
-  };
 
   //Schedule
   const daysOfWeek = [
@@ -126,18 +34,19 @@ const Schedule = () => {
   const endOfWeekDate = endOfWeek(startDate);
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [showModal2, setShowModal] = useState(false);
+  const [lecturerList, setLecturerList] = useState([]);
 
   const handleLessonClick = (lesson) => {
-    // if (lesson) {
-    setSelectedLesson({
-      scheduleId: lesson?.scheduleId,
-      slot: lesson?.slot,
-      scheduleDate: lesson?.scheduleDate,
-      classCode: lesson?.classCode,
-      classId: lesson?.classId,
-    });
-    setIsModalOpen(true); // Mở Modal
-    // }
+    if (lesson) {
+      setSelectedLesson({
+        scheduleId: lesson?.scheduleId,
+        slot: lesson?.slot,
+        scheduleDate: lesson?.scheduleDate,
+        classCode: lesson?.classCode,
+        classId: lesson?.classId,
+      });
+      setIsModalOpen(true); // Mở Modal
+    }
   };
   const handleStartDateChange = (e) => {
     setStartDate(new Date(e.target.value));
@@ -178,6 +87,19 @@ const Schedule = () => {
     }
   }, [shouldFetchSchedule]);
 
+  useEffect(() => {
+    if (shouldFetchSchedule) {
+      fetchSchedule();
+    }
+    // set shouldFetchSchedule thành false sau khi gọi fetchSchedule để ngăn chặn việc gọi fetchSchedule khi không cần thiết
+    setShouldFetchSchedule(false);
+  }, [shouldFetchSchedule]);
+
+  const handleLecturerChange = (value) => {
+    setSelectedUserId(value);
+    setShouldFetchSchedule(true); // đặt shouldFetchSchedule thành true khi chọn giảng viên trong Select
+  };
+
   const [lecturer, setLecturer] = useState("");
   const { Option } = Select;
   const style = {
@@ -190,16 +112,17 @@ const Schedule = () => {
       })
       .then((resp) => {
         setLecturer(resp.data);
+        setLecturerList(resp.data);
       })
       .catch((err) => {
         console.log(err.message);
       });
   };
 
+  const [selectedUserId, setSelectedUserId] = useState("");
   const fetchSchedule = () => {
-    fetch(
-      `${BASE_URL_API}/schedule/lecturer/${sessionStorage.getItem("userId")}`
-    )
+    const userId = selectedUserId || sessionStorage.getItem("userId");
+    fetch(`${BASE_URL_API}/schedule/lecturer/${userId}`)
       .then((res) => {
         return res.json();
       })
@@ -221,6 +144,7 @@ const Schedule = () => {
             scheduleDate: scheduleDate,
           };
         });
+        setShouldFetchSchedule(false);
       })
       .catch((err) => {
         console.log(err.message);
@@ -257,13 +181,14 @@ const Schedule = () => {
             <div className="header">
               <h2>Timetable</h2>
             </div>
-            {/* <Select
+            <Select
               showSearch
               style={style}
               placeholder="Select lecturer"
               optionLabelProp="label"
+              onChange={handleLecturerChange}
             >
-              {lecturer?.map((item, index) => (
+              {lecturer && lecturer?.map((item, index) => (
                 <Option
                   key={index}
                   value={`${item?.userId}`}
@@ -272,7 +197,7 @@ const Schedule = () => {
                   <Space>{item?.fullName}</Space>
                 </Option>
               ))}
-            </Select> */}
+            </Select>
             <table className="table">
               <thead>
                 <tr>
@@ -356,29 +281,6 @@ const Schedule = () => {
               />
             )}
           </div>
-        </div>
-      </div>
-      <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-        <>
-          Import file schedule
-          <Form.Item name="file" accept=".docx">
-            <Dragger customRequest={(e) => upLoadFile(e)}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">
-                Click or drag file to this area to upload
-              </p>
-              <p className="ant-upload-hint">Only support for excel file</p>
-            </Dragger>
-          </Form.Item>
-          <Button key="submit" type="default" onClick={handleOk2}>
-            Submit
-          </Button>
-        </>
-        Import file excel
-        <div>
-          <input type="file" onChange={handleFile} />
         </div>
       </div>
     </>
