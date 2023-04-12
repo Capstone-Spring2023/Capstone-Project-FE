@@ -9,6 +9,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import {read, utils} from "xlsx";
+import { saveAs } from "file-saver";
 
 const { Dragger } = Upload;
 const ImportSchedule = () => {
@@ -63,6 +64,8 @@ const ImportSchedule = () => {
       const data1 = utils.sheet_to_csv(sheet1);
 
       console.log("CSV", data1); // In dữ liệu từ trang tính 1 ra console
+      const csvBlob = new Blob([data1], { type: "text/csv;charset=utf-8" });
+      saveAs(csvBlob, file.name.replace(".xlsx", "") + ".csv");
     };
     reader.readAsBinaryString(file);
   };

@@ -29,20 +29,35 @@ export const links = [
         icon: <AiOutlineSchedule />,
         role: "General",
       },
+      // {
+      //   name: "available-subject",
+      //   icon: <GiNotebook />,
+      //   role: "Header",
+      // },
+      // {
+      //   name: "import-schedule",
+      //   icon: <GiNotebook />,
+      //   role: "Header",
+      // },
+      // {
+      //   name: "generate-schedule",
+      //   icon: <GiNotebook />,
+      //   role: "Header",
+      // },
       {
         name: "available-subject",
         icon: <GiNotebook />,
-        role: "Header",
+        role: "General",
       },
       {
         name: "import-schedule",
         icon: <GiNotebook />,
-        role: "Header",
+        role: "General",
       },
       {
         name: "generate-schedule",
         icon: <GiNotebook />,
-        role: "Header",
+        role: "General",
       },
     ],
   },
