@@ -161,6 +161,7 @@ const ExamSubmission = () => {
           {record.status === "Waiting-Instruction" ? (
             <Tooltip title="Info">
               <ModalAnt3
+                fetchTable={fetchTable}
                 examInstructionId={record.examPaperId}
                 title="Exam instruction"
               />

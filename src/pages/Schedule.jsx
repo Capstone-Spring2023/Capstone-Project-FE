@@ -24,18 +24,9 @@ const Schedule = () => {
       const workbook = read(event.target.result, { type: "binary" });
       const sheet1Name = workbook.SheetNames[0];
       const sheet1 = workbook.Sheets[sheet1Name];
-      const data1 = utils.sheet_to_json(sheet1);
+      const data1 = utils.sheet_to_csv(sheet1);
 
-      const sheet2Name = workbook.SheetNames[1];
-      const sheet2 = workbook.Sheets[sheet2Name];
-      const data2 = utils.sheet_to_json(sheet2);
-
-      console.log(data1); // In dữ liệu từ trang tính 1 ra console
-      console.log(data2); // In dữ liệu từ trang tính 2 ra console
-
-      // Ghép hai mảng JSON lại với nhau nếu cần
-      const mergedData = [...data1, ...data2];
-      console.log(mergedData); // In dữ liệu ghép lại ra console
+      console.log("CSV", data1); // In dữ liệu từ trang tính 1 ra console
     };
     reader.readAsBinaryString(file);
   };
@@ -138,14 +129,14 @@ const Schedule = () => {
 
   const handleLessonClick = (lesson) => {
     // if (lesson) {
-      setSelectedLesson({
-        scheduleId: lesson?.scheduleId,
-        slot: lesson?.slot,
-        scheduleDate: lesson?.scheduleDate,
-        classCode: lesson?.classCode,
-        classId: lesson?.classId,
-      });
-      setIsModalOpen(true); // Mở Modal
+    setSelectedLesson({
+      scheduleId: lesson?.scheduleId,
+      slot: lesson?.slot,
+      scheduleDate: lesson?.scheduleDate,
+      classCode: lesson?.classCode,
+      classId: lesson?.classId,
+    });
+    setIsModalOpen(true); // Mở Modal
     // }
   };
   const handleStartDateChange = (e) => {
@@ -188,7 +179,9 @@ const Schedule = () => {
 
   const fetchSchedule = () => {
     fetch(
-      `${BASE_URL_API}/schedule/lecturer/${sessionStorage.getItem("userId")}/schedule`
+      `${BASE_URL_API}/schedule/lecturer/${sessionStorage.getItem(
+        "userId"
+      )}/schedule`
     )
       .then((res) => {
         return res.json();
@@ -317,8 +310,8 @@ const Schedule = () => {
                 ))}
               </tbody>
             </table>
-             {selectedLesson?.scheduleId && ( 
-               <ModalAnt5
+            {selectedLesson?.scheduleId && (
+              <ModalAnt5
                 scheduleId={selectedLesson?.scheduleId}
                 slot={selectedLesson?.slot + 1}
                 scheduleDate={selectedLesson?.scheduleDate}
@@ -328,8 +321,8 @@ const Schedule = () => {
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
                 fetchSchedule={fetchSchedule}
-               /> 
-             )}  
+              />
+            )}
           </div>
         </div>
       </div>
