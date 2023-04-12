@@ -2,7 +2,7 @@ import { read, utils } from "xlsx";
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { addDays, endOfWeek, format, startOfWeek } from "date-fns";
-import { Button, Form, message, Upload } from "antd";
+import { Button, Form, message, Select, Space, Upload } from "antd";
 import "./GoogleButton.css";
 import { InboxOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
@@ -171,17 +171,34 @@ const Schedule = () => {
   const [shouldFetchSchedule, setShouldFetchSchedule] = useState(false);
 
   useEffect(() => {
+    fetchLecturer();
     fetchSchedule();
     if (shouldFetchSchedule) {
       setShouldFetchSchedule(false);
     }
   }, [shouldFetchSchedule]);
 
+  const [lecturer, setLecturer] = useState("");
+  const { Option } = Select;
+  const style = {
+    width: 200,
+  };
+  const fetchLecturer = () => {
+    fetch(`${BASE_URL_API}/header/GetLecturersHaveRegisterSubject`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((resp) => {
+        setLecturer(resp.data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
   const fetchSchedule = () => {
     fetch(
-      `${BASE_URL_API}/schedule/lecturer/${sessionStorage.getItem(
-        "userId"
-      )}/schedule`
+      `${BASE_URL_API}/schedule/lecturer/${sessionStorage.getItem("userId")}`
     )
       .then((res) => {
         return res.json();
@@ -240,6 +257,22 @@ const Schedule = () => {
             <div className="header">
               <h2>Timetable</h2>
             </div>
+            {/* <Select
+              showSearch
+              style={style}
+              placeholder="Select lecturer"
+              optionLabelProp="label"
+            >
+              {lecturer?.map((item, index) => (
+                <Option
+                  key={index}
+                  value={`${item?.userId}`}
+                  label={`${item?.fullName}`}
+                >
+                  <Space>{item?.fullName}</Space>
+                </Option>
+              ))}
+            </Select> */}
             <table className="table">
               <thead>
                 <tr>
@@ -273,9 +306,8 @@ const Schedule = () => {
                       return (
                         <td
                           key={`slot-${index}-day-${dayIndex}`}
-                          className={`td-style ${
-                            lesson ? "bg-gray-100" : "bg-white"
-                          }`}
+                          className={`td-style ${lesson ? "bg-gray-100" : "bg-white"
+                            }`}
                           onClick={() => handleLessonClick(lesson)} // Gọi hàm xử lý khi người dùng click
                         >
                           {lesson &&

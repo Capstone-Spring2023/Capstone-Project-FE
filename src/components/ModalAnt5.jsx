@@ -32,6 +32,8 @@ const ModalAnt5 = ({
   const [isSaveWarningVisible, setIsSaveWarningVisible] = useState(false);
   const [isConfirmingSave, setIsConfirmingSave] = useState(false);
   const [teacher, setTeacher] = useState([{}]);
+  const userRole = sessionStorage.getItem('roleName');
+  const isHeader = userRole === 'Header';
 
   const handleChangeClick = () => {
     setIsSelectEnabled(true);
@@ -123,12 +125,14 @@ const ModalAnt5 = ({
         title={`${title}`}
         onCancel={handleOk}
         footer={[
-          <Button className="save-button987" type="primary" onClick={handleSaveClick} disabled={!isSaveButtonVisible}>
-            Save
-          </Button>,
-          <Button key="change-teacher" type="primary" onClick={handleChangeClick} style={{ backgroundColor: '#FFFFFF', color: '#FFA500', borderColor: '#FFA500' }}>
-            Change Teacher
-          </Button>,
+          isHeader && (
+            <Button className="save-button987" type="primary" onClick={handleSaveClick} disabled={!isSaveButtonVisible}>
+              Save
+            </Button>),
+          isHeader && (
+            <Button key="change-teacher" type="primary" onClick={handleChangeClick} style={{ backgroundColor: '#FFFFFF', color: '#FFA500', borderColor: '#FFA500' }}>
+              Change Teacher
+            </Button>),
           <Button key="submit" type="default" onClick={handleOk} style={{ backgroundColor: '#FFFFFF', borderColor: '#00BFFF' }}>
             OK
           </Button>
