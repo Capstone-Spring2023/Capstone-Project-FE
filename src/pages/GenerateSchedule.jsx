@@ -25,6 +25,24 @@ const GenerateSchedule = () => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
   const formData = new FormData();
+  const [showUploadButtons, setShowUploadButtons] = useState(false);
+  const [downloadUrl, setDownloadUrl] = useState(null);
+  const [downloadUrl2, setDownloadUrl2] = useState(null);
+
+  const handleButtonClick = async () => {
+    try {
+      const options = {
+        method: "POST"
+      };
+      const response = await fetch(`${BASE_URL_API}/auto-schedule/get-file`, options);
+      const downloadUrl = await response.text();
+      setDownloadUrl(downloadUrl);
+      window.open(downloadUrl, '_blank');
+      setShowUploadButtons(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const generateSchedule = () => {
     fetch(`${BASE_URL_API}/auto-schedule/main-flow`, {
@@ -33,7 +51,10 @@ const GenerateSchedule = () => {
     }).then(
       function (res) {
         if (res.ok) {
-          alert("Perfect! ");
+          res.text().then((downloadUrl) => {
+            setDownloadUrl2(downloadUrl);
+            window.open(downloadUrl, '_blank');
+          });
         } else if (res.status === 401) {
           alert("Oops! ");
         }
@@ -46,6 +67,68 @@ const GenerateSchedule = () => {
 
   const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
     if (!file) return;
+    const fileExtension = file.name.split(".").pop();
+    if (fileExtension !== "csv") {
+      messageAnt.error("Only support for .csv file");
+      return;
+    }
+    if (file.name !== "register_subject_v1.csv") {
+      messageAnt.error("Only support for register_subject_v1.csv file");
+      return;
+    }
+    const storage = getStorage();
+    formData.append("file", file);
+
+    let fileRef = ref(
+      storage,
+      `/${sessionStorage.getItem("email")}/EmptySchedule/${file.name}`
+    );
+    const uploadTask = uploadBytesResumable(fileRef, file);
+    uploadTask.on(
+      "state_changed",
+      function progress(snapshot) {
+        onProgress(
+          {
+            percent:
+              Math.floor(
+                snapshot.bytesTransferred / snapshot.totalBytes
+              ).toFixed(2) * 100,
+          },
+          file
+        );
+      },
+      function error(err) {
+        onError(err, file);
+        messageAnt.error(`${file.name} file imported failed.`);
+      },
+      function complete() {
+        onSuccess(file);
+        getDownloadURL(uploadTask.snapshot.ref)
+          .then((url) => {
+            console.log(url);
+            messageAnt.success(`${file.name} file imported successfully.`);
+          })
+          .catch((error) => {
+            console.log(error);
+            messageAnt.error(`${file.name} file imported failed.`);
+          });
+      }
+    );
+    // }
+  };
+
+  const upLoadFile2 = ({ onSuccess, onProgress, onError, file }) => {
+    if (!file) return;
+    const fileExtension = file.name.split(".").pop();
+    const fileNameParts = file.name.split("-");
+    if (fileExtension !== "csv") {
+      messageAnt.error("Only support for .csv file");
+      return;
+    }
+    if (fileNameParts[0] !== "CF" || fileNameParts[1] !== "Lịch") {
+      messageAnt.error("Only support for CF-Lịch-(semester).csv file");
+      return;
+    }
     const storage = getStorage();
     formData.append("file", file);
 
@@ -102,31 +185,40 @@ const GenerateSchedule = () => {
       autoComplete="off"
     >
       <Row>
+        {!showUploadButtons && ( // hiển thị nút tạm thời
+          <Button type="default" onClick={handleButtonClick}>
+            Download file
+          </Button>
+        )}
         <Col span={12}>
-          <Form.Item name="schedule">
-            <Dragger customRequest={(e) => upLoadFile(e)}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">
-                Click or drag file to this area to import
-              </p>
-              <p className="ant-upload-hint">Only support for .csv file</p>
-            </Dragger>
-          </Form.Item>
+          {showUploadButtons && (
+            <Form.Item name="schedule">
+              <Dragger customRequest={(e) => upLoadFile(e)}>
+                <p className="ant-upload-drag-icon">
+                  <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">
+                  Click or drag file to this area to import
+                </p>
+                <p className="ant-upload-hint">Only support for .csv file</p>
+              </Dragger>
+            </Form.Item>
+          )}
         </Col>
         <Col span={12}>
-          <Form.Item name="schedule">
-            <Dragger customRequest={(e) => upLoadFile(e)}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">
-                Click or drag file to this area to import
-              </p>
-              <p className="ant-upload-hint">Only support for .csv file</p>
-            </Dragger>
-          </Form.Item>
+          {showUploadButtons && (
+            <Form.Item name="schedule">
+              <Dragger customRequest={(e) => upLoadFile2(e)}>
+                <p className="ant-upload-drag-icon">
+                  <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">
+                  Click or drag file to this area to import
+                </p>
+                <p className="ant-upload-hint">Only support for .csv file</p>
+              </Dragger>
+            </Form.Item>
+          )}
         </Col>
       </Row>
     </Form>
