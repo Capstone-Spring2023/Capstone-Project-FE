@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Row, Select, message } from "antd";
+import { Button, Col, Form, Row, Select, Space, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { BASE_URL_API } from "../../../utils/constants";
@@ -26,7 +26,22 @@ const RegisterClassForm = () => {
   const [selectedSubjects, setSelectedSubjects] = useState([]);
   const submitDisabled = registerSlots.length === 0 || selectedSubjects.length === 0;
 
+  const [examAvailableSubjectData, setAvailableSubjectData] = useState([{}]);
+  const handleSubjectSelect = (value) => {
+    fetchAvailableSubject(value);
+    const filteredData = examAvailableSubjectData?.filter(
+      (item) =>
+        item?.subjectName?.toLowerCase()?.indexOf(value.toLowerCase()) >= 0
+    );
+    // Cập nhật lại state để hiển thị dữ liệu đã lọc trên bảng
+    setAvailableSubjectData(filteredData);
+  };
+
   useEffect(() => {
+    fetchAvailableSubject();
+  }, []);
+
+  const fetchAvailableSubject = () => {
     fetch(`${BASE_URL_API}/AvailableSubject`)
       .then((res) => {
         return res.json();
@@ -37,7 +52,7 @@ const RegisterClassForm = () => {
       .catch((err) => {
         console.log(err.message);
       });
-  }, []);
+  }
 
   const handleSubmit = (values) => {
     if (registerSlots.length === 0 || availableSubjectIds.length === 0) {
@@ -140,10 +155,16 @@ const RegisterClassForm = () => {
                 placeholder="Select your subject"
                 value={availableSubjectIds}
                 onChange={handleSubject}
+                onSelect={handleSubjectSelect}
+                optionLabelProp="label"
+                filterOption={(input, option) =>
+                  option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+                optionFilterProp="label"
               >
-                {subjectItems.map((item, index) => (
-                  <Option key={index} value={item.availableSubjectId}>
-                    {item.subjectName}
+                {subjectItems?.map((item, index) => (
+                  <Option key={index} value={item.availableSubjectId} label={item.subjectName}>
+                     <Space>{item?.subjectName}</Space>
                   </Option>
                 ))}
               </Select>
