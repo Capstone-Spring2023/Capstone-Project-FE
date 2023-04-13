@@ -11,17 +11,17 @@ import {
 } from "firebase/storage";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
-import {BASE_URL_API, NO_CORS_URL} from "../utils/constants";
+import { BASE_URL_API, NO_CORS_URL } from "../utils/constants";
 
 const ModalAnt = ({ title, id }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [examTitle, setExamTitle] = useState("");
   const [lecturerName, setLecturerName] = useState("");
   const [subjectName, setSubjectName] = useState("");
-  const [examScheduleID,setExamScheduleID]=useState("");
-  const [examLink,setExamLink]=useState("");
+  const [examScheduleID, setExamScheduleID] = useState("");
+  const [examLink, setExamLink] = useState("");
   const [status, setStatus] = useState(false);
-  const [examInstruction,setExamInstruction]=useState("");
+  const [examInstruction, setExamInstruction] = useState("");
   const showModal = () => {
     getDetail();
     setIsModalOpen(true);
@@ -59,9 +59,15 @@ const ModalAnt = ({ title, id }) => {
     setIsZipping(true);
     const jszip = new JSZip();
     const storage = getStorage();
-    const folderRef = ref(storage,examLink + "/" + subjectName + "/PE1");
-    const folderRef2 = ref(storage, examLink + "/" + subjectName +"/PE1/Given");
-    const folderRef3 = ref(storage, examLink  + "/" + subjectName +"/PE1/TestCases");
+    const folderRef = ref(storage, examLink + "/" + subjectName + "/PE1");
+    const folderRef2 = ref(
+      storage,
+      examLink + "/" + subjectName + "/PE1/Given"
+    );
+    const folderRef3 = ref(
+      storage,
+      examLink + "/" + subjectName + "/PE1/TestCases"
+    );
     const folder = await listAll(folderRef);
     const folder2 = await listAll(folderRef2);
     const folder3 = await listAll(folderRef3);
@@ -72,8 +78,8 @@ const ModalAnt = ({ title, id }) => {
         console.log("FILE", file);
         console.log("FILEREF", fileRef);
         const fileBlob = await getDownloadURL(fileRef).then((url) => {
-          return fetch(`${NO_CORS_URL}/${url}`).then(
-            (response) => response.blob()
+          return fetch(`${NO_CORS_URL}/${url}`).then((response) =>
+            response.blob()
           );
         });
         console.log("FILEBLOB", fileBlob);
@@ -90,8 +96,8 @@ const ModalAnt = ({ title, id }) => {
         const file = await getMetadata(item);
         const fileRef = ref(storage, item.fullPath);
         const fileBlob = await getDownloadURL(fileRef).then((url) => {
-          return fetch(`${NO_CORS_URL}/${url}`).then(
-            (response) => response.blob()
+          return fetch(`${NO_CORS_URL}/${url}`).then((response) =>
+            response.blob()
           );
         });
         givenFolder.file(file.name, fileBlob);
@@ -104,8 +110,8 @@ const ModalAnt = ({ title, id }) => {
         const file = await getMetadata(item);
         const fileRef = ref(storage, item.fullPath);
         const fileBlob = await getDownloadURL(fileRef).then((url) => {
-          return fetch(`${NO_CORS_URL}/${url}`).then(
-            (response) => response.blob()
+          return fetch(`${NO_CORS_URL}/${url}`).then((response) =>
+            response.blob()
           );
         });
         testCFolder.file(file.name, fileBlob);
@@ -169,19 +175,19 @@ const ModalAnt = ({ title, id }) => {
               </a>
             </Descriptions.Item>
             {status === "Approve" ? (
-            <Descriptions.Item label="File Instruction">
-              <a className="container" onClick={examInstruction}>
-                <div className="row align-items-center">
-                  <div className="col-auto">
-                    <img
-                      src="https://e7.pngegg.com/pngimages/887/195/png-clipart-yellow-blue-and-red-files-blue-angle-area-material-system-explorer-blue-angle.png"
-                      className="img-thumbnail rounded img-size"
-                      alt="Responsive image"
-                    />
+              <Descriptions.Item label="File Instruction">
+                <a className="container" onClick={examInstruction}>
+                  <div className="row align-items-center">
+                    <div className="col-auto">
+                      <img
+                        src="https://e7.pngegg.com/pngimages/887/195/png-clipart-yellow-blue-and-red-files-blue-angle-area-material-system-explorer-blue-angle.png"
+                        className="img-thumbnail rounded img-size"
+                        alt="Responsive image"
+                      />
+                    </div>
                   </div>
-                </div>
-              </a>
-            </Descriptions.Item>
+                </a>
+              </Descriptions.Item>
             ) : null}
           </Descriptions>
         </Modal>

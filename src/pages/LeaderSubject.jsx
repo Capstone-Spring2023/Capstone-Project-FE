@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import useTable from "../hooks/useTable";
-import { useNavigate } from "react-router-dom";
 import { Header } from "../components";
 import { BASE_URL_API } from "../utils/constants";
 import { Checkbox, ConfigProvider, Select, Space, Table } from "antd";

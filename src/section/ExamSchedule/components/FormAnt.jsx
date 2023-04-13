@@ -21,7 +21,6 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { BASE_URL_API } from "../../../utils/constants";
-import checkPageStatus from "../../../utils/function";
 import SelectAntLecturer from "./SelectAntLecturer";
 
 const { Dragger } = Upload;

@@ -13,7 +13,7 @@ const onFinishFailed = (errorInfo) => {
 };
 const FormAnt = () => {
   const [examContent, setExamContent] = useState("Exam PE");
-  const [availableSubjectName, setAvailableSubjectName] = useState("");//id
+  const [availableSubjectName, setAvailableSubjectName] = useState(""); //id
   const [availableSubjectName2, setAvailableSubjectName2] = useState("");
   const [examLink, setExamLink] = useState("");
   const navigate = useNavigate();
@@ -54,7 +54,13 @@ const FormAnt = () => {
 
   const handleSubmit = () => {
     if (fileUploaded1 && fileUploaded2 && fileUploaded3) {
-      const examData = { availableSubjectName, examContent, examLink, type, message };
+      const examData = {
+        availableSubjectName,
+        examContent,
+        examLink,
+        type,
+        message,
+      };
       toast.promise(
         fetch(`${BASE_URL_API}/exam-submission/` + availableSubjectName, {
           method: "POST",
@@ -75,7 +81,9 @@ const FormAnt = () => {
         }
       );
     } else {
-      messageAnt.error("Please ensure all files are uploaded before submitting.");
+      messageAnt.error(
+        "Please ensure all files are uploaded before submitting."
+      );
     }
   };
 
@@ -84,8 +92,9 @@ const FormAnt = () => {
     // let fileRef = ref(storage, file.name);
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/${availableSubjectName2.trim()}/PE1/${file.name
-      }`
+      `/${sessionStorage.getItem(
+        "email"
+      )}/${availableSubjectName2.trim()}/PE1/${file.name}`
     );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(

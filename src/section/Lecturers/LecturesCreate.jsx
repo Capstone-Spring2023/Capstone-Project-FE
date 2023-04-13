@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Header } from "../../components";
 import InputField from "../../components/InputField";
-import { MdCategory, MdOutlineSubtitles, MdSubject } from "react-icons/md";
+import { MdOutlineSubtitles, MdSubject } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 
 const LecturersCreate = () => {

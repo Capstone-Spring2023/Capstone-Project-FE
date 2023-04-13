@@ -14,7 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { BASE_URL_API } from "../../../utils/constants";
-import { FallOutlined, InboxOutlined } from "@ant-design/icons";
+import { InboxOutlined } from "@ant-design/icons";
 import {
   getDownloadURL,
   getStorage,
@@ -31,12 +31,14 @@ const FormAntEdit = ({ availableSubjectId }) => {
   const [tittle, setTitle] = useState("");
   const [subject, setSubject] = useState("");
   const [deadline, setDeadline] = useState("");
-  const [examLink,setFile]=useState("");
+  const [examLink, setFile] = useState("");
   const navigate = useNavigate();
   const [fileUploaded, setFileUploaded] = useState(false);
 
   useEffect(() => {
-    fetch(`${BASE_URL_API}/exam-schedule/available-subject/${availableSubjectId}`)
+    fetch(
+      `${BASE_URL_API}/exam-schedule/available-subject/${availableSubjectId}`
+    )
       .then((res) => {
         return res.json();
       })
@@ -52,7 +54,7 @@ const FormAntEdit = ({ availableSubjectId }) => {
   }, []);
   const handleUpdate = () => {
     if (!fileUploaded) {
-      messageAnt.error('Please upload a file before submitting.');
+      messageAnt.error("Please upload a file before submitting.");
       return;
     }
     const examData = {
@@ -87,42 +89,44 @@ const FormAntEdit = ({ availableSubjectId }) => {
   const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
     if (!file) return;
     const storage = getStorage();
-      let fileRef = ref(
-        storage,
-        `/${sessionStorage.getItem("email")}/ExamSchedule/${file.name}`
-      );
-      const uploadTask = uploadBytesResumable(fileRef, file);
-      uploadTask.on(
-        "state_changed",
-        function progress(snapshot) {
-          onProgress(
-            {
-              percent:
-                Math.floor(snapshot.bytesTransferred / snapshot.totalBytes).toFixed(
-                  2
-                ) * 100,
-            },
-            file
-          );
-        },
-        function error(err) {
-          onError(err, file);
-          message.error(`${file.name} file uploaded failed.`);
-        },
-        function complete() {
-          onSuccess(file);
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+    let fileRef = ref(
+      storage,
+      `/${sessionStorage.getItem("email")}/ExamSchedule/${file.name}`
+    );
+    const uploadTask = uploadBytesResumable(fileRef, file);
+    uploadTask.on(
+      "state_changed",
+      function progress(snapshot) {
+        onProgress(
+          {
+            percent:
+              Math.floor(
+                snapshot.bytesTransferred / snapshot.totalBytes
+              ).toFixed(2) * 100,
+          },
+          file
+        );
+      },
+      function error(err) {
+        onError(err, file);
+        message.error(`${file.name} file uploaded failed.`);
+      },
+      function complete() {
+        onSuccess(file);
+        getDownloadURL(uploadTask.snapshot.ref)
+          .then((url) => {
             console.log(url);
             setFile(url);
             setFileUploaded(true);
             message.success(`${file.name} file uploaded successfully.`);
-          }).catch((error) => {
+          })
+          .catch((error) => {
             console.log(error);
             setFileUploaded(false);
             message.error(`${file.name} file uploaded failed.`);
           });
-        }
-      );
+      }
+    );
   };
   return (
     <Form
@@ -206,15 +210,21 @@ const FormAntEdit = ({ availableSubjectId }) => {
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
               </p>
-              <p className="ant-upload-text">Click or drag file to this area to upload</p>
-              <p className="ant-upload-hint">Only support for docx and rar file</p>
+              <p className="ant-upload-text">
+                Click or drag file to this area to upload
+              </p>
+              <p className="ant-upload-hint">
+                Only support for docx and rar file
+              </p>
             </Dragger>
           </Form.Item>
         </Col>
       </Row>
       <Row>
         <Col>
-          <Button htmlType="submit" disabled={!fileUploaded}>Submit</Button>
+          <Button htmlType="submit" disabled={!fileUploaded}>
+            Submit
+          </Button>
         </Col>
         <Col offset={18}>
           <Button danger onClick={() => navigate("/exam-schedule")}>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import useTable from "../hooks/useTable";
 import { toast, Toaster } from "react-hot-toast";
 import { Header, ModalAnt, Popup } from "../components";
 import avatar from "../assets/banner.jpg";

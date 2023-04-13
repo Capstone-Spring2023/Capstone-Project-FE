@@ -33,7 +33,9 @@ const Leaders = () => {
   };
 
   useEffect(() => {
-    fetch("https://fpt-cft.azurewebsites.net/api/header/leaderManagement/getAllLeaders")
+    fetch(
+      "https://fpt-cft.azurewebsites.net/api/header/leaderManagement/getAllLeaders"
+    )
       .then((res) => {
         return res.json();
       })
@@ -45,9 +47,9 @@ const Leaders = () => {
       });
   }, []);
 
-  useEffect(()=>{
-    console.log("dff",leaderData);
-  })
+  useEffect(() => {
+    console.log("dff", leaderData);
+  });
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -97,7 +99,7 @@ const Leaders = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-          {slice.map((item, index) => (
+            {slice.map((item, index) => (
               <tr key={index} className="hover:bg-gray-50">
                 <td className="flex gap-3 font-normal px-3 py-3 text-gray-900 items-center">
                   <div className="relative h-10 w-10">

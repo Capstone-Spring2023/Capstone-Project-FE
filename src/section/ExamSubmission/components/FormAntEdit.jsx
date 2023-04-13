@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Input, message, message as messageAnt, Row } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  message,
+  message as messageAnt,
+  Row,
+} from "antd";
 import UploadAnt from "./UploadAnt";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -45,32 +53,34 @@ const FormAntEdit = ({ editID }) => {
   }, []);
   const handleUpdate = () => {
     if (fileUploaded1 && fileUploaded2 && fileUploaded3) {
-    const examData = {
-      examContent: title,
-      examLink: assignee,
-    };
+      const examData = {
+        examContent: title,
+        examLink: assignee,
+      };
 
-    toast.promise(
-      fetch(`${BASE_URL_API}/exam-submission/` + id, {
-        method: "PUT",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(examData),
-      })
-        .then((res) => {
-          navigate("/exam-submission");
+      toast.promise(
+        fetch(`${BASE_URL_API}/exam-submission/` + id, {
+          method: "PUT",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(examData),
         })
-        .catch((err) => {
-          console.log(err.message);
-        }),
-      {
-        loading: "Saving...",
-        success: <b>Update exam successfully</b>,
-        error: <b>Could not save.</b>,
-      }
-    );
-  } else {
-    messageAnt.error("Please ensure all files are uploaded before submitting.");
-  }
+          .then((res) => {
+            navigate("/exam-submission");
+          })
+          .catch((err) => {
+            console.log(err.message);
+          }),
+        {
+          loading: "Saving...",
+          success: <b>Update exam successfully</b>,
+          error: <b>Could not save.</b>,
+        }
+      );
+    } else {
+      messageAnt.error(
+        "Please ensure all files are uploaded before submitting."
+      );
+    }
   };
   const upLoadFile = async ({ onSuccess, onProgress, onError, file }) => {
     let folderRef = ref(storage, `/` + assignee + `/${examScheduleID}/PE1`);
@@ -346,7 +356,7 @@ const FormAntEdit = ({ editID }) => {
               }}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-            // placeholder="Enter title here"
+              // placeholder="Enter title here"
             />
           </Form.Item>
         </Col>

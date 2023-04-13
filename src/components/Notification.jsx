@@ -1,5 +1,4 @@
 import React from "react";
-import { useStateContext } from "../contexts/ContextProvider";
 import avatar4 from "../assets/banner.jpg";
 import { useNavigate } from "react-router-dom";
 import { Empty } from "antd";
@@ -15,7 +14,9 @@ const Notification = ({ notiData }) => {
             key={index}
             className="flex items-center leading-8 gap-5 border-color p-3 cursor-pointer hover:bg-light-gray rounded-lg"
             onClick={() =>
-              navigate("/exam-schedule-view", { state: { subject: item?.subjectCode } })
+              navigate("/exam-schedule-view", {
+                state: { subject: item?.subjectCode },
+              })
             }
           >
             <img
@@ -29,8 +30,7 @@ const Notification = ({ notiData }) => {
               </p>
               <p className="text-gray-500 text-sm dark:text-gray-400">
                 {"for "}
-                {item.subjectCode}{" "}
-                {"from "}
+                {item.subjectCode} {"from "}
                 {item.sender}{" "}
               </p>
             </div>

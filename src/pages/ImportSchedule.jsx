@@ -1,14 +1,14 @@
 import React from "react";
 import { Header } from "../components";
 import { InboxOutlined } from "@ant-design/icons";
-import { message as messageAnt, Upload } from "antd";
+import { Button, message as messageAnt, Upload } from "antd";
 import {
   getDownloadURL,
   getStorage,
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import {read, utils} from "xlsx";
+import { read, utils } from "xlsx";
 import { saveAs } from "file-saver";
 
 const { Dragger } = Upload;
@@ -83,6 +83,7 @@ const ImportSchedule = () => {
         </p>
         <p className="ant-upload-hint">Only support for .xlsx file</p>
       </Dragger>
+      <Button>Send Noti</Button>
     </div>
   );
 };

@@ -1,22 +1,14 @@
 import React, { useState } from "react";
-import { Badge, Button, Descriptions, Modal } from "antd";
+import { Button, Form, message, Modal, Upload } from "antd";
 import "./GoogleButton.css";
-import { InfoOutlined } from "@ant-design/icons";
+import { InboxOutlined, InfoOutlined } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  Col,
-  DatePicker,
-  Divider,
-  Form,
-  Input,
-  Row,
-  Space,
-  message,
-} from "antd";
-import { InboxOutlined } from "@ant-design/icons";
-import { Upload } from "antd";
-import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
-import { getDownloadURL } from "firebase/storage";
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { toast } from "react-hot-toast";
 import { BASE_URL_API } from "../utils/constants";
 
