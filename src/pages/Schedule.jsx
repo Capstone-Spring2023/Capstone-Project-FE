@@ -183,29 +183,31 @@ const Schedule = () => {
             <div className="header">
               <h2>Timetable</h2>
             </div>
-            <Select
-              showSearch
-              style={style}
-              placeholder="Select lecturer"
-              optionLabelProp="label"
-              onChange={handleLecturerChange}
-              onSelect={handleSubjectSelect}
-              filterOption={(input, option) =>
-                option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-              optionFilterProp="label"
-            >
-              {lecturer &&
-                lecturer?.map((item, index) => (
-                  <Option
-                    key={index}
-                    value={`${item?.userId}`}
-                    label={`${item?.fullName}`}
-                  >
-                    <Space>{item?.fullName}</Space>
-                  </Option>
-                ))}
-            </Select>
+            {sessionStorage.getItem("roleName") === "Header" && (
+              <Select
+                showSearch
+                style={style}
+                placeholder="Select lecturer"
+                optionLabelProp="label"
+                onChange={handleLecturerChange}
+                onSelect={handleSubjectSelect}
+                filterOption={(input, option) =>
+                  option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+                optionFilterProp="label"
+              >
+                {lecturer &&
+                  lecturer?.map((item, index) => (
+                    <Option
+                      key={index}
+                      value={`${item?.userId}`}
+                      label={`${item?.fullName}`}
+                    >
+                      <Space>{item?.fullName}</Space>
+                    </Option>
+                  ))}
+              </Select>
+            )}
             <table className="table">
               <thead>
                 <tr>
@@ -239,9 +241,8 @@ const Schedule = () => {
                       return (
                         <td
                           key={`slot-${index}-day-${dayIndex}`}
-                          className={`td-style ${
-                            lesson ? "bg-gray-100" : "bg-white"
-                          }`}
+                          className={`td-style ${lesson ? "bg-gray-100" : "bg-white"
+                            }`}
                           onClick={() => handleLessonClick(lesson)} // Gọi hàm xử lý khi người dùng click
                         >
                           {lesson &&
