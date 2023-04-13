@@ -29,35 +29,20 @@ export const links = [
         icon: <AiOutlineSchedule />,
         role: "General",
       },
-      // {
-      //   name: "available-subject",
-      //   icon: <GiNotebook />,
-      //   role: "Header",
-      // },
-      // {
-      //   name: "import-schedule",
-      //   icon: <GiNotebook />,
-      //   role: "Header",
-      // },
-      // {
-      //   name: "generate-schedule",
-      //   icon: <GiNotebook />,
-      //   role: "Header",
-      // },
       {
         name: "available-subject",
         icon: <GiNotebook />,
-        role: "General",
+        role: "Header",
       },
       {
         name: "import-schedule",
         icon: <GiNotebook />,
-        role: "General",
+        role: "Header",
       },
       {
         name: "generate-schedule",
         icon: <GiNotebook />,
-        role: "General",
+        role: "Header",
       },
     ],
   },
@@ -72,7 +57,7 @@ export const links = [
       {
         name: "exam-submission-view",
         icon: <GiStabbedNote />,
-        role: "Leader",
+        role: "General",
       },
       {
         name: "exam-submission",

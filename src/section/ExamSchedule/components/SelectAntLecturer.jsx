@@ -9,7 +9,7 @@ const SelectAntLecturer = ({ onChange, defaultValue }) => {
   const [lecturer, setLecturer] = useState([{}]);
   const [lecturerFilter, setLecturerFilter] = useState([{}]);
   const handleSubjectSelect = (value) => {
-    fetchSubject(value);
+    fetchSubject();
     const filteredData = lecturerFilter?.filter(
       (item) =>
         item?.subjectName?.toLowerCase()?.indexOf(value.toLowerCase()) >= 0

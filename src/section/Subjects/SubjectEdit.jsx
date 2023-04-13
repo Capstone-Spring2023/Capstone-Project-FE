@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Header } from "../../components";
 import InputField from "../../components/InputField";
 import { MdOutlineSubtitles, MdSubject } from "react-icons/md";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 const SubjectEdit = () => {
   const { subjectId } = useParams();
@@ -51,7 +51,6 @@ const SubjectEdit = () => {
         console.log(err.message);
       });
   };
-
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">

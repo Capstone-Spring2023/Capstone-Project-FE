@@ -7,7 +7,8 @@ import { useStateContext } from "./contexts/ContextProvider";
 import { Navbar, Sidebar, ThemeSettings } from "./components";
 import {
   Calendar,
-  ColorPicker, ImportSchedule,
+  ColorPicker,
+  ImportSchedule,
   Leaders,
   LoginPage,
   RegisterClass,
@@ -140,13 +141,13 @@ const App = () => {
                     element={<ExamsScheduleView />}
                   />
                 ) : null}
-                {sessionStorage.getItem("roleName") === "Leader" ? (
-                  <Route
-                    path="/exam-submission-view"
-                    element={<ExamSubmissionView />}
-                  />
-                ) : null}
-                <Route path="/leaders" element={<Leaders />} />
+
+                <Route
+                  path="/exam-submission-view"
+                  element={<ExamSubmissionView />}
+                />
+
+                {/*<Route path="/leaders" element={<Leaders />} />*/}
                 <Route path="/schedules" element={<Schedule />} />
                 <Route path="/subjects" element={<Subjects />} />
 
@@ -160,7 +161,10 @@ const App = () => {
                 />
                 <Route path="/available-subject" element={<LeaderSubject />} />
                 <Route path="/import-schedule" element={<ImportSchedule />} />
-                <Route path="/generate-schedule" element={<GenerateSchedule />} />
+                <Route
+                  path="/generate-schedule"
+                  element={<GenerateSchedule />}
+                />
 
                 {/*Exams Submission*/}
                 <Route

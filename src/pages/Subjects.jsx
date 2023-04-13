@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Button, Header } from "../components";
+import { Header } from "../components";
 import TableFooter from "../components/Table/TableFooter";
-import { customersData, employeesData } from "../data/dummy";
 import useTable from "../hooks/useTable";
-import { MdOutlineCancel } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 
 const Subject = () => {
@@ -69,7 +67,7 @@ const Subject = () => {
                 className="px-6 py-4 font-medium text-gray-900"
               ></th>
               <th scope="col" className="px-6 py-4 font-medium text-gray-900">
-                Department ID 
+                Department ID
               </th>
               <th scope="col" className="px-6 py-4 font-medium text-gray-900">
                 Exam ID
@@ -101,7 +99,9 @@ const Subject = () => {
                     <div className="font-medium text-gray-700">
                       ID: {item.id}
                     </div>
-                    <div className="text-gray-400">Subject Name: {item.subjectName}</div>
+                    <div className="text-gray-400">
+                      Subject Name: {item.subjectName}
+                    </div>
                   </div>
                 </th>
                 <td className="px-6 py-4">{item.departmentId}</td>
@@ -109,14 +109,16 @@ const Subject = () => {
                 <td className="px-6 py-4">{item.type}</td>
                 <td className="px-6 py-4">
                   <span
-                    className={`inline-flex items-center gap-1 rounded-full ${item.status
+                    className={`inline-flex items-center gap-1 rounded-full ${
+                      item.status
                         ? "bg-green-50 text-green-600"
                         : "bg-red-50 text-red-600"
-                      }  px-2 py-1 text-xs font-semibold`}
+                    }  px-2 py-1 text-xs font-semibold`}
                   >
                     <span
-                      className={`h-1.5 w-1.5 rounded-full ${item.status ? "bg-green-600" : "bg-red-600"
-                        }`}
+                      className={`h-1.5 w-1.5 rounded-full ${
+                        item.status ? "bg-green-600" : "bg-red-600"
+                      }`}
                     ></span>
                     {item.status ? "Active" : "Inactive"}
                   </span>
@@ -174,6 +176,6 @@ const Subject = () => {
       />
     </div>
   );
-}
+};
 
-export default Subject
+export default Subject;

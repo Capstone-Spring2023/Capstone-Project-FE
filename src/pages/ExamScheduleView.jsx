@@ -62,7 +62,8 @@ const ExamScheduleView = () => {
       defaultFilteredValue: [`${state?.subject ? state?.subject : ""}`],
       filterMode: "tree",
       filterSearch: true,
-      onFilter: (value: string, record) => record.subjectName?.startsWith(value),
+      onFilter: (value: string, record) =>
+        record.subjectName?.startsWith(value),
       width: "30%",
     },
     {

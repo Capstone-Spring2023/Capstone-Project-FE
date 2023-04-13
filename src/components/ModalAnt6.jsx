@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Descriptions, message, Modal, Select } from "antd";
 import "./GoogleButton.css";
-import { toast } from "react-hot-toast";
 import moment from "moment";
 import { BASE_URL_API } from "../utils/constants";
 import dayjs from "dayjs";
@@ -21,7 +20,6 @@ const ModalAnt6 = ({
 }) => {
   const [type, setType] = useState("");
   const [slotI, setSlot] = useState("");
-  const [success, setSuccess] = useState(false);
   const [selectedDate, setSelectedDate] = useState(scheduleDate);
   const dateFormat = "YYYY-MM-DD";
   // const [selectedDate, setSelectedDate] = useState(moment(scheduleDate));
@@ -30,7 +28,6 @@ const ModalAnt6 = ({
     setSelectedDate(scheduleDate ? scheduleDate : moment().startOf("day"));
   }, [scheduleDate]);
   const handleOk = () => {
-    // setIsModalOpen(false);
     let slotValue = slotI - 1;
     if (slotValue < 0) {
       slotValue = 0;

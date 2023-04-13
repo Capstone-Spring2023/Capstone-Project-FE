@@ -1,9 +1,19 @@
 import React, { useState } from "react";
-import { Badge, Button, Descriptions, Modal } from "antd";
+import { Button, Descriptions, Modal } from "antd";
 import "./GoogleButton.css";
 import { InfoOutlined } from "@ant-design/icons";
 
-const ModalAnt2 = ({ title ,examScheduleId,tittle,deadline,leaderName,subjectName,examLink,type,status}) => {
+const ModalAnt2 = ({
+  title,
+  examScheduleId,
+  tittle,
+  deadline,
+  leaderName,
+  subjectName,
+  examLink,
+  type,
+  status,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -30,35 +40,30 @@ const ModalAnt2 = ({ title ,examScheduleId,tittle,deadline,leaderName,subjectNam
         ]}
       >
         <Descriptions layout="vertical">
-        <Descriptions.Item label="Subject">{subjectName}</Descriptions.Item>
+          <Descriptions.Item label="Subject">{subjectName}</Descriptions.Item>
           <Descriptions.Item label="Assign">{examScheduleId}</Descriptions.Item>
           <Descriptions.Item label="Title">{tittle}</Descriptions.Item>
           <Descriptions.Item label="Leader">{leaderName}</Descriptions.Item>
           <Descriptions.Item label="Type">
-          {type ? "By Computer" : "By Hand"}
+            {type ? "By Computer" : "By Hand"}
           </Descriptions.Item>
           <Descriptions.Item label="Status">
-                  <span
-                    className={`inline-flex items-center gap-1 rounded-full ${
-                      status
-                        ? "bg-green-50 text-green-600"
-                        : "bg-red-50 text-red-600"
-                    }  px-2 py-1 text-xs font-semibold`}
-                  >
-                    <span
-                      className={`h-1.5 w-1.5 rounded-full ${
-                        status ? "bg-green-600" : "bg-red-600"
-                      }`}
-                    ></span>
-                    {status ? "Active" : "Inactive"}
-                  </span>
+            <span
+              className={`inline-flex items-center gap-1 rounded-full ${
+                status ? "bg-green-50 text-green-600" : "bg-red-50 text-red-600"
+              }  px-2 py-1 text-xs font-semibold`}
+            >
+              <span
+                className={`h-1.5 w-1.5 rounded-full ${
+                  status ? "bg-green-600" : "bg-red-600"
+                }`}
+              ></span>
+              {status ? "Active" : "Inactive"}
+            </span>
           </Descriptions.Item>
           <Descriptions.Item label="Deadline">{deadline}</Descriptions.Item>
           <Descriptions.Item label="Sample Exam Paper">
-            <a
-              className="container"
-              href={examLink}
-            >
+            <a className="container" href={examLink}>
               <div className="row align-items-center">
                 <div className="col-auto">
                   <img

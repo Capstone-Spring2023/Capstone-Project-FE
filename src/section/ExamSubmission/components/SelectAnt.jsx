@@ -10,7 +10,7 @@ const SelectAnt = ({ onChange }) => {
 
   const [examAvailableSubjectData, setAvailableSubjectData] = useState([{}]);
   const handleSubjectSelect = (value) => {
-    fetchSubject(value);
+    fetchSubject();
     const filteredData = examAvailableSubjectData?.filter(
       (item) =>
         item?.subjectName?.toLowerCase()?.indexOf(value.toLowerCase()) >= 0

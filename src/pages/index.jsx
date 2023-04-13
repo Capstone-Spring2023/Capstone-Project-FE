@@ -5,9 +5,9 @@ export { default as ExamSubmission } from "./ExamSubmission";
 export { default as Leaders } from "./Leaders";
 export { default as ColorMapping } from "./ColorMapping";
 export { default as LoginPage } from "./LoginPage";
-export { default as RegisterClass } from "./RegisterClass"
-export {default as ExamScheduleView} from "./ExamScheduleView"
-export {default as Schedule} from "./Schedule"
-export {default as LeaderSubject} from "./LeaderSubject"
-export {default as GenerateSchedule} from "./GenerateSchedule"
-export {default as ImportSchedule} from "./ImportSchedule"
+export { default as RegisterClass } from "./RegisterClass";
+export { default as ExamScheduleView } from "./ExamScheduleView";
+export { default as Schedule } from "./Schedule";
+export { default as LeaderSubject } from "./LeaderSubject";
+export { default as GenerateSchedule } from "./GenerateSchedule";
+export { default as ImportSchedule } from "./ImportSchedule";

@@ -9,7 +9,7 @@ const SelectAnt = ({ onChange, defaultValue }) => {
   const [subject, setSubject] = useState([{}]);
   const [examAvailableSubjectData, setAvailableSubjectData] = useState([{}]);
   const handleSubjectSelect = (value) => {
-    fetchSubject(value);
+    fetchSubject();
     const filteredData = examAvailableSubjectData?.filter(
       (item) =>
         item?.subjectName?.toLowerCase()?.indexOf(value.toLowerCase()) >= 0
@@ -18,7 +18,11 @@ const SelectAnt = ({ onChange, defaultValue }) => {
     setAvailableSubjectData(filteredData);
   };
   const fetchSubject = () => {
-    fetch(`${BASE_URL_API}/leader/${sessionStorage.getItem("userId")}/available-subject`)
+    fetch(
+      `${BASE_URL_API}/leader/${sessionStorage.getItem(
+        "userId"
+      )}/available-subject`
+    )
       .then((res) => {
         return res.json();
       })

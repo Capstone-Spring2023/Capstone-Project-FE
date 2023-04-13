@@ -5,6 +5,7 @@ import {
   Col,
   Form,
   message as messageAnt,
+  Result,
   Row,
   Steps,
   theme,
@@ -18,6 +19,8 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { BASE_URL_API } from "../utils/constants";
+import { toast, Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const { Dragger } = Upload;
 
@@ -28,16 +31,20 @@ const GenerateSchedule = () => {
   const [showUploadButtons, setShowUploadButtons] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState(null);
   const [downloadUrl2, setDownloadUrl2] = useState(null);
+  const navigate = useNavigate();
 
   const handleButtonClick = async () => {
     try {
       const options = {
-        method: "POST"
+        method: "POST",
       };
-      const response = await fetch(`${BASE_URL_API}/auto-schedule/get-file`, options);
+      const response = await fetch(
+        `${BASE_URL_API}/auto-schedule/get-file`,
+        options
+      );
       const downloadUrl = await response.text();
       setDownloadUrl(downloadUrl);
-      window.open(downloadUrl, '_blank');
+      window.open(downloadUrl, "_blank");
       setShowUploadButtons(true);
     } catch (error) {
       console.error(error);
@@ -45,22 +52,29 @@ const GenerateSchedule = () => {
   };
 
   const generateSchedule = () => {
-    fetch(`${BASE_URL_API}/auto-schedule/main-flow`, {
-      method: "POST",
-      body: formData,
-    }).then(
-      function (res) {
-        if (res.ok) {
-          res.text().then((downloadUrl) => {
-            setDownloadUrl2(downloadUrl);
-            window.open(downloadUrl, '_blank');
-          });
-        } else if (res.status === 401) {
-          alert("Oops! ");
-        }
-      },
-      function (e) {
-        alert("Error submitting form!");
+    toast.promise(
+      fetch(`${BASE_URL_API}/auto-schedule/main-flow`, {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => {
+          if (res.ok) {
+            res.text().then((downloadUrl) => {
+              setDownloadUrl2(downloadUrl);
+              window.open(downloadUrl, "_blank");
+              setCurrent(current + 1);
+            });
+          } else if (res.status === 401) {
+            alert("Oops! ");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        }),
+      {
+        loading: "Generating...",
+        success: <b>Generate successfully</b>,
+        error: <b>Generate fail</b>,
       }
     );
   };
@@ -170,75 +184,85 @@ const GenerateSchedule = () => {
     // }
   };
 
-  const HandleFileInput = () => (
-    <Form
-      name="basic"
-      labelCol={{
-        span: 16,
-      }}
-      wrapperCol={{
-        span: 30,
-      }}
-      initialValues={{
-        remember: true,
-      }}
-      autoComplete="off"
-    >
-      <Row>
-        {!showUploadButtons && ( // hiển thị nút tạm thời
-          <Button type="default" onClick={handleButtonClick}>
-            Download file
-          </Button>
-        )}
-        <Col span={12}>
-          {showUploadButtons && (
-            <Form.Item name="schedule">
-              <Dragger customRequest={(e) => upLoadFile(e)}>
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">
-                  Click or drag file to this area to import
-                </p>
-                <p className="ant-upload-hint">Only support for .csv file</p>
-              </Dragger>
-            </Form.Item>
-          )}
-        </Col>
-        <Col span={12}>
-          {showUploadButtons && (
-            <Form.Item name="schedule">
-              <Dragger customRequest={(e) => upLoadFile2(e)}>
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">
-                  Click or drag file to this area to import
-                </p>
-                <p className="ant-upload-hint">Only support for .csv file</p>
-              </Dragger>
-            </Form.Item>
-          )}
-        </Col>
-      </Row>
-    </Form>
-  );
-
   const steps = [
     {
       title: "Generate schedule",
-      content: <HandleFileInput />,
+      content: (
+        <Form
+          name="basic"
+          labelCol={{
+            span: 16,
+          }}
+          wrapperCol={{
+            span: 30,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          autoComplete="off"
+        >
+          <Row>
+            {!showUploadButtons && ( // hiển thị nút tạm thời
+              <Button type="default" onClick={handleButtonClick}>
+                Download file
+              </Button>
+            )}
+            <Col span={12}>
+              {showUploadButtons && (
+                <Form.Item name="schedule">
+                  <Dragger customRequest={(e) => upLoadFile(e)}>
+                    <p className="ant-upload-drag-icon">
+                      <InboxOutlined />
+                    </p>
+                    <p className="ant-upload-text">
+                      Click or drag file to this area to import
+                    </p>
+                    <p className="ant-upload-hint">
+                      Only support for .csv file
+                    </p>
+                  </Dragger>
+                </Form.Item>
+              )}
+            </Col>
+            <Col span={12}>
+              {showUploadButtons && (
+                <Form.Item name="schedule">
+                  <Dragger customRequest={(e) => upLoadFile2(e)}>
+                    <p className="ant-upload-drag-icon">
+                      <InboxOutlined />
+                    </p>
+                    <p className="ant-upload-text">
+                      Click or drag file to this area to import
+                    </p>
+                    <p className="ant-upload-hint">
+                      Only support for .csv file
+                    </p>
+                  </Dragger>
+                </Form.Item>
+              )}
+            </Col>
+          </Row>
+        </Form>
+      ),
     },
     {
-      title: "Export csv",
-      content: "Last-content",
+      title: "Done",
+      content: (
+        <Result
+          status="success"
+          title="Success"
+          subTitle="All operation done successfully. Please continue to process"
+          extra={
+            <Button onClick={() => start()} type="default">
+              Back Home
+            </Button>
+          }
+        />
+      ),
     },
   ];
-  const next = () => {
-    setCurrent(current + 1);
-  };
-  const prev = () => {
-    setCurrent(current - 1);
+  const start = () => {
+    setCurrent(0);
   };
   const items = steps.map((item) => ({
     key: item.title,
@@ -249,6 +273,9 @@ const GenerateSchedule = () => {
   };
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+      <div>
+        <Toaster />
+      </div>
       <div className="flex justify-between items-center">
         <Header category="Managements" title="Generate Schedule" />
       </div>
@@ -260,31 +287,8 @@ const GenerateSchedule = () => {
         }}
       >
         {current < steps.length - 1 && (
-          <>
-            <Button type="default" onClick={() => next()}>
-              Next
-            </Button>
-            <Button type="default" onClick={() => generateSchedule()}>
-              Generate
-            </Button>
-          </>
-        )}
-        {current === steps.length - 1 && (
-          <Button
-            type="default"
-            onClick={() => messageAnt.success("Processing complete!")}
-          >
-            Done
-          </Button>
-        )}
-        {current > 0 && (
-          <Button
-            style={{
-              margin: "0 8px",
-            }}
-            onClick={() => prev()}
-          >
-            Previous
+          <Button type="default" onClick={() => generateSchedule()}>
+            Generate
           </Button>
         )}
       </div>

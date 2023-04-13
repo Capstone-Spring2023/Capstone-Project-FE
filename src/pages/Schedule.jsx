@@ -1,17 +1,9 @@
-import { read, utils } from "xlsx";
+import { utils } from "xlsx";
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { addDays, endOfWeek, format, startOfWeek } from "date-fns";
-import { Button, Form, message, Select, Space, Upload } from "antd";
+import { Select, Space } from "antd";
 import "./GoogleButton.css";
-import { InboxOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
 import { BASE_URL_API } from "../utils/constants";
 import ModalAnt5 from "../components/ModalAnt5";
 
@@ -203,15 +195,16 @@ const Schedule = () => {
               }
               optionFilterProp="label"
             >
-              {lecturer && lecturer?.map((item, index) => (
-                <Option
-                  key={index}
-                  value={`${item?.userId}`}
-                  label={`${item?.fullName}`}
-                >
-                  <Space>{item?.fullName}</Space>
-                </Option>
-              ))}
+              {lecturer &&
+                lecturer?.map((item, index) => (
+                  <Option
+                    key={index}
+                    value={`${item?.userId}`}
+                    label={`${item?.fullName}`}
+                  >
+                    <Space>{item?.fullName}</Space>
+                  </Option>
+                ))}
             </Select>
             <table className="table">
               <thead>
@@ -246,8 +239,9 @@ const Schedule = () => {
                       return (
                         <td
                           key={`slot-${index}-day-${dayIndex}`}
-                          className={`td-style ${lesson ? "bg-gray-100" : "bg-white"
-                            }`}
+                          className={`td-style ${
+                            lesson ? "bg-gray-100" : "bg-white"
+                          }`}
                           onClick={() => handleLessonClick(lesson)} // Gọi hàm xử lý khi người dùng click
                         >
                           {lesson &&
