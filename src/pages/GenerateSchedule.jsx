@@ -55,7 +55,7 @@ const GenerateSchedule = () => {
   };
 
   const generateSchedule = () => {
-    if (uploadSuccess &&  uploadSuccess2){
+    // if (uploadSuccess &&  uploadSuccess2){
     toast.promise(
       fetch(`${BASE_URL_API}/auto-schedule/main-flow`, {
         method: "POST",
@@ -81,11 +81,11 @@ const GenerateSchedule = () => {
         error: <b>Generate fail</b>,
       }
     );
-    }else{
-      messageAnt.error(
-        "Please ensure all files are uploaded before submitting."
-      );
-    }
+    // }else{
+    //   messageAnt.error(
+    //     "Please ensure all files are uploaded before submitting."
+    //   );
+    // }
   };
 
   const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
@@ -129,8 +129,8 @@ const GenerateSchedule = () => {
         getDownloadURL(uploadTask.snapshot.ref)
           .then((url) => {
             console.log(url);
-            setShowUploadButtons2(true);
-            setUploadSucces(true);
+            // setShowUploadButtons2(true);
+            // setUploadSucces(true);
             messageAnt.success(`${file.name} file imported successfully.`);
           })
           .catch((error) => {
@@ -184,7 +184,7 @@ const GenerateSchedule = () => {
         getDownloadURL(uploadTask.snapshot.ref)
           .then((url) => {
             console.log(url);
-            setUploadSucces2(true);
+            // setUploadSucces2(true);
             messageAnt.success(`${file.name} file imported successfully.`);
           })
           .catch((error) => {
@@ -237,7 +237,7 @@ const GenerateSchedule = () => {
               )}
             </Col>
             <Col span={12}>
-              {showUploadButtons && showUploadButtons2 && (
+              {showUploadButtons && (
                 <Form.Item name="schedule">
                   <Dragger customRequest={(e) => upLoadFile2(e)}>
                     <p className="ant-upload-drag-icon">
