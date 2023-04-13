@@ -78,6 +78,16 @@ const Schedule = () => {
   );
 
   const [shouldFetchSchedule, setShouldFetchSchedule] = useState(false);
+  const [lecturerFilter, setlecturerFilter] = useState([{}]);
+  const handleSubjectSelect = (value) => {
+    fetchLecturer(value);
+    const filteredData = lecturerFilter?.filter(
+      (item) =>
+        item?.subjectName?.toLowerCase()?.indexOf(value.toLowerCase()) >= 0
+    );
+    // Cập nhật lại state để hiển thị dữ liệu đã lọc trên bảng
+    setlecturerFilter(filteredData);
+  };
 
   useEffect(() => {
     fetchLecturer();
@@ -187,6 +197,11 @@ const Schedule = () => {
               placeholder="Select lecturer"
               optionLabelProp="label"
               onChange={handleLecturerChange}
+              onSelect={handleSubjectSelect}
+              filterOption={(input, option) =>
+                option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+              optionFilterProp="label"
             >
               {lecturer && lecturer?.map((item, index) => (
                 <Option
