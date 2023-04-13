@@ -7,6 +7,16 @@ const { Option } = Select;
 
 const SelectAnt = ({ onChange, defaultValue }) => {
   const [subject, setSubject] = useState([{}]);
+  const [examAvailableSubjectData, setAvailableSubjectData] = useState([{}]);
+  const handleSubjectSelect = (value) => {
+    fetchSubject(value);
+    const filteredData = examAvailableSubjectData?.filter(
+      (item) =>
+        item?.subjectName?.toLowerCase()?.indexOf(value.toLowerCase()) >= 0
+    );
+    // Cập nhật lại state để hiển thị dữ liệu đã lọc trên bảng
+    setAvailableSubjectData(filteredData);
+  };
   const fetchSubject = () => {
     fetch(`${BASE_URL_API}/leader/${sessionStorage.getItem("userId")}/available-subject`)
       .then((res) => {
@@ -47,7 +57,12 @@ const SelectAnt = ({ onChange, defaultValue }) => {
         style={style}
         placeholder="Select subjects"
         onChange={onChange}
+        onSelect={handleSubjectSelect}
         optionLabelProp="label"
+        filterOption={(input, option) =>
+          option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        }
+        optionFilterProp="label"
       >
         {subject?.map((item, index) => (
           <Option

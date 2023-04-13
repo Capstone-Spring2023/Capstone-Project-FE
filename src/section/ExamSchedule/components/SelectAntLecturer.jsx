@@ -7,6 +7,16 @@ const { Option } = Select;
 
 const SelectAntLecturer = ({ onChange, defaultValue }) => {
   const [lecturer, setLecturer] = useState([{}]);
+  const [lecturerFilter, setLecturerFilter] = useState([{}]);
+  const handleSubjectSelect = (value) => {
+    fetchSubject(value);
+    const filteredData = lecturerFilter?.filter(
+      (item) =>
+        item?.subjectName?.toLowerCase()?.indexOf(value.toLowerCase()) >= 0
+    );
+    // Cập nhật lại state để hiển thị dữ liệu đã lọc trên bảng
+    setLecturerFilter(filteredData);
+  };
   console.log("DEFAULT", defaultValue);
   const fetchSubject = () => {
     fetch(`${BASE_URL_API}/header/GetLecturersHaveRegisterSubject`)
@@ -48,7 +58,12 @@ const SelectAntLecturer = ({ onChange, defaultValue }) => {
         style={style}
         placeholder="Select lecturer"
         onChange={onChange}
+        onSelect={handleSubjectSelect}
         optionLabelProp="label"
+        filterOption={(input, option) =>
+          option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        }
+        optionFilterProp="label"
       >
         {lecturer?.map((item, index) => (
           <Option
