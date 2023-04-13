@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Input, message, Row } from "antd";
+import { Button, Col, Form, Input, message, message as messageAnt, Row } from "antd";
 import UploadAnt from "./UploadAnt";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -23,6 +23,9 @@ const FormAntEdit = ({ editID }) => {
   const [examScheduleID, setExamScheduleID] = useState("");
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
+  const [fileUploaded1, setFileUploaded1] = useState(false);
+  const [fileUploaded2, setFileUploaded2] = useState(false);
+  const [fileUploaded3, setFileUploaded3] = useState(false);
 
   useEffect(() => {
     fetch(`${BASE_URL_API}/exam-submission/` + editID)
@@ -41,6 +44,7 @@ const FormAntEdit = ({ editID }) => {
       });
   }, []);
   const handleUpdate = () => {
+    if (fileUploaded1 && fileUploaded2 && fileUploaded3) {
     const examData = {
       examContent: title,
       examLink: assignee,
@@ -64,6 +68,9 @@ const FormAntEdit = ({ editID }) => {
         error: <b>Could not save.</b>,
       }
     );
+  } else {
+    messageAnt.error("Please ensure all files are uploaded before submitting.");
+  }
   };
   const upLoadFile = async ({ onSuccess, onProgress, onError, file }) => {
     let folderRef = ref(storage, `/` + assignee + `/${examScheduleID}/PE1`);
@@ -102,6 +109,7 @@ const FormAntEdit = ({ editID }) => {
                 setFile(
                   `gs://capstone-cft.appspot.com/${assignee}/${examScheduleID}/PE1`
                 );
+                setFileUploaded1(true);
                 message.success(`${file.name} file uploaded successfully.`);
               }
             );
@@ -133,6 +141,7 @@ const FormAntEdit = ({ editID }) => {
               `gs://capstone-cft.appspot.com/${assignee}/${examScheduleID}/PE1`
             );
             console.log(file);
+            setFileUploaded1(true);
             message.success(`${file.name} file uploaded successfully.`);
           }
         );
@@ -181,6 +190,7 @@ const FormAntEdit = ({ editID }) => {
                     "email"
                   )}/${examScheduleID}/PE1`
                 );
+                setFileUploaded2(true);
                 message.success(`${file.name} file uploaded successfully.`);
               }
             );
@@ -211,6 +221,7 @@ const FormAntEdit = ({ editID }) => {
             setFile(
               `gs://capstone-cft.appspot.com/${assignee}/${examScheduleID}/PE1`
             );
+            setFileUploaded2(true);
             message.success(`${file.name} file uploaded successfully.`);
           }
         );
@@ -254,6 +265,7 @@ const FormAntEdit = ({ editID }) => {
               },
               function complete() {
                 onSuccess(file);
+                setFileUploaded3(true);
                 setFile(
                   `gs://capstone-cft.appspot.com/${assignee}/${examScheduleID}/PE1`
                 );
@@ -287,6 +299,7 @@ const FormAntEdit = ({ editID }) => {
             setFile(
               `gs://capstone-cft.appspot.com/${assignee}/${examScheduleID}/PE1`
             );
+            setFileUploaded3(true);
             message.success(`${file.name} file uploaded successfully.`);
           }
         );
@@ -333,7 +346,7 @@ const FormAntEdit = ({ editID }) => {
               }}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              // placeholder="Enter title here"
+            // placeholder="Enter title here"
             />
           </Form.Item>
         </Col>

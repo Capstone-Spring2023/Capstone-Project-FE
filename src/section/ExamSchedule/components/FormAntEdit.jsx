@@ -7,13 +7,14 @@ import {
   Form,
   Input,
   message,
+  message as messageAnt,
   Row,
   Upload,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { BASE_URL_API } from "../../../utils/constants";
-import { InboxOutlined } from "@ant-design/icons";
+import { FallOutlined, InboxOutlined } from "@ant-design/icons";
 import {
   getDownloadURL,
   getStorage,
@@ -32,6 +33,7 @@ const FormAntEdit = ({ availableSubjectId }) => {
   const [deadline, setDeadline] = useState("");
   const [examLink,setFile]=useState("");
   const navigate = useNavigate();
+  const [fileUploaded, setFileUploaded] = useState(false);
 
   useEffect(() => {
     fetch(`${BASE_URL_API}/exam-schedule/available-subject/${availableSubjectId}`)
@@ -49,6 +51,10 @@ const FormAntEdit = ({ availableSubjectId }) => {
       });
   }, []);
   const handleUpdate = () => {
+    if (!fileUploaded) {
+      messageAnt.error('Please upload a file before submitting.');
+      return;
+    }
     const examData = {
       tittle: tittle,
       deadline: deadline,
@@ -108,9 +114,11 @@ const FormAntEdit = ({ availableSubjectId }) => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             console.log(url);
             setFile(url);
+            setFileUploaded(true);
             message.success(`${file.name} file uploaded successfully.`);
           }).catch((error) => {
             console.log(error);
+            setFileUploaded(false);
             message.error(`${file.name} file uploaded failed.`);
           });
         }
@@ -206,7 +214,7 @@ const FormAntEdit = ({ availableSubjectId }) => {
       </Row>
       <Row>
         <Col>
-          <Button htmlType="submit">Submit</Button>
+          <Button htmlType="submit" disabled={!fileUploaded}>Submit</Button>
         </Col>
         <Col offset={18}>
           <Button danger onClick={() => navigate("/exam-schedule")}>

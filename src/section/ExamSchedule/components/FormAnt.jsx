@@ -38,7 +38,12 @@ const FormAnt = ({ socket }) => {
   const message = "You have new Schedule request";
   const leaderId = sessionStorage.getItem("userId");
   const navigate = useNavigate();
+  const [fileUploaded, setFileUploaded] = useState(false);
   const onFinish = () => {
+    if (!fileUploaded) {
+      messageAnt.error('Please upload a file before submitting.');
+      return;
+    }
     const examScheduleData = {
       tittle,
       deadline,
@@ -119,10 +124,12 @@ const FormAnt = ({ socket }) => {
           .then((url) => {
             console.log(url);
             setExamLink(url);
+            setFileUploaded(true);
             messageAnt.success(`${file.name} file uploaded successfully.`);
           })
           .catch((error) => {
             console.log(error);
+            setFileUploaded(false);
             messageAnt.error(`${file.name} file uploaded failed.`);
           });
       }
@@ -230,7 +237,7 @@ const FormAnt = ({ socket }) => {
 
       <Row>
         <Col>
-          <Button htmlType="submit">Submit</Button>
+          <Button htmlType="submit" disabled={!fileUploaded}>Submit</Button>
         </Col>
         <Col offset={18}>
           <Button danger onClick={() => navigate("/exam-schedule")}>
