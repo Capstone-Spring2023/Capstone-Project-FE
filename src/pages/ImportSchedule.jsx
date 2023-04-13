@@ -71,19 +71,19 @@ const ImportSchedule = () => {
   };
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col gap-3">
         <Header category="Managements" title="Import Schedule" />
+        <Dragger customRequest={(e) => upLoadFile(e)}>
+          <p className="ant-upload-drag-icon">
+            <InboxOutlined />
+          </p>
+          <p className="ant-upload-text">
+            Click or drag file to this area to import
+          </p>
+          <p className="ant-upload-hint">Only support for .xlsx file</p>
+        </Dragger>
+        <Button className="w-fit">Send Notification</Button>
       </div>
-      <Dragger customRequest={(e) => upLoadFile(e)}>
-        <p className="ant-upload-drag-icon">
-          <InboxOutlined />
-        </p>
-        <p className="ant-upload-text">
-          Click or drag file to this area to import
-        </p>
-        <p className="ant-upload-hint">Only support for .xlsx file</p>
-      </Dragger>
-      <Button>Send Noti</Button>
     </div>
   );
 };

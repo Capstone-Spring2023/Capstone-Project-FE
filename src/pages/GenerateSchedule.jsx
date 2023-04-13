@@ -206,7 +206,7 @@ const GenerateSchedule = () => {
             span: 16,
           }}
           wrapperCol={{
-            span: 30,
+            span: 23,
           }}
           initialValues={{
             remember: true,
@@ -288,21 +288,21 @@ const GenerateSchedule = () => {
       <div>
         <Toaster />
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col gap-3">
         <Header category="Managements" title="Generate Schedule" />
-      </div>
-      <Steps current={current} items={items} />
-      <div style={contentStyle}>{steps[current].content}</div>
-      <div
-        style={{
-          marginTop: 24,
-        }}
-      >
-        {current < steps.length - 1 && (
-          <Button type="default" onClick={() => generateSchedule()}>
-            Generate
-          </Button>
-        )}
+        <Steps current={current} items={items} />
+        <div style={contentStyle}>{steps[current].content}</div>
+        <div
+            style={{
+              marginTop: 16,
+            }}
+        >
+          {current < steps.length - 1 && showUploadButtons && (
+              <Button type="default" onClick={() => generateSchedule()}>
+                Generate
+              </Button>
+          )}
+        </div>
       </div>
     </div>
   );
