@@ -19,8 +19,12 @@ const FormAnt = () => {
   const navigate = useNavigate();
   const [file, setFile] = useState("");
   const [subjectType, setSubjectType] = useState("");
+  const [fileUploaded1, setFileUploaded1] = useState(false);
+  const [fileUploaded2, setFileUploaded2] = useState(false);
+  const [fileUploaded3, setFileUploaded3] = useState(false);
   const type = "Submission";
-  const message = "Have submit the exam for"
+  const message = "Have submit the exam for";
+
   const handleSubject = (value) => {
     setAvailableSubjectName(value.split(",")[0]);
     setSubjectType(value.split(",")[1]);
@@ -49,26 +53,30 @@ const FormAnt = () => {
   }, []);
 
   const handleSubmit = () => {
-    const examData = { availableSubjectName, examContent, examLink, type, message };
-    toast.promise(
-      fetch(`${BASE_URL_API}/exam-submission/` + availableSubjectName, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(examData),
-      })
-        .then((res) => {
-          navigate("/exam-submission");
-          console.log(res);
+    if (fileUploaded1 && fileUploaded2 && fileUploaded3) {
+      const examData = { availableSubjectName, examContent, examLink, type, message };
+      toast.promise(
+        fetch(`${BASE_URL_API}/exam-submission/` + availableSubjectName, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(examData),
         })
-        .catch((err) => {
-          console.log(err.message);
-        }),
-      {
-        loading: "Creating...",
-        success: <b>Created successfully</b>,
-        error: <b>Could not create.</b>,
-      }
-    );
+          .then((res) => {
+            navigate("/exam-submission");
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err.message);
+          }),
+        {
+          loading: "Creating...",
+          success: <b>Created successfully</b>,
+          error: <b>Could not create.</b>,
+        }
+      );
+    } else {
+      messageAnt.error("Please ensure all files are uploaded before submitting.");
+    }
   };
 
   const upLoadFile = async ({ onSuccess, onProgress, onError, file }) => {
@@ -76,8 +84,7 @@ const FormAnt = () => {
     // let fileRef = ref(storage, file.name);
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/${availableSubjectName2.trim()}/PE1/${
-        file.name
+      `/${sessionStorage.getItem("email")}/${availableSubjectName2.trim()}/PE1/${file.name
       }`
     );
     const uploadTask = uploadBytesResumable(fileRef, file);
@@ -105,6 +112,7 @@ const FormAnt = () => {
             "email"
           )}/${availableSubjectName2.trim()}/PE1`
         );
+        setFileUploaded1(true);
         setExamLink(sessionStorage.getItem("email"));
         console.log(examLink);
         messageAnt.success(`${file.name} file uploaded successfully.`);
@@ -139,6 +147,7 @@ const FormAnt = () => {
       },
       function complete() {
         onSuccess(file);
+        setFileUploaded2(true);
         messageAnt.success(`${file.name} file uploaded successfully.`);
       }
     );
@@ -171,6 +180,7 @@ const FormAnt = () => {
       },
       function complete() {
         onSuccess(file);
+        setFileUploaded3(true);
         messageAnt.success(`${file.name} file uploaded successfully.`);
       }
     );
@@ -196,14 +206,14 @@ const FormAnt = () => {
       <Row>
         <Col span={12}>
           <Form.Item
-              label="Subject"
-              name="subject"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your subject!",
-                },
-              ]}
+            label="Subject"
+            name="subject"
+            rules={[
+              {
+                required: true,
+                message: "Please input your subject!",
+              },
+            ]}
           >
             <SelectAnt onChange={handleSubject} />
           </Form.Item>
