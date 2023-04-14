@@ -32,9 +32,6 @@ const GenerateSchedule = () => {
   const [downloadUrl, setDownloadUrl] = useState(null);
   const [downloadUrl2, setDownloadUrl2] = useState(null);
   const navigate = useNavigate();
-  const [showUploadButtons2,setShowUploadButtons2]=useState(false);
-  const [uploadSuccess,setUploadSucces]=useState(false);
-  const [uploadSuccess2,setUploadSucces2]=useState(false);
 
   const handleButtonClick = async () => {
     try {
@@ -55,7 +52,6 @@ const GenerateSchedule = () => {
   };
 
   const generateSchedule = () => {
-    // if (uploadSuccess &&  uploadSuccess2){
     toast.promise(
       fetch(`${BASE_URL_API}/auto-schedule/main-flow`, {
         method: "POST",
@@ -81,11 +77,6 @@ const GenerateSchedule = () => {
         error: <b>Generate fail</b>,
       }
     );
-    // }else{
-    //   messageAnt.error(
-    //     "Please ensure all files are uploaded before submitting."
-    //   );
-    // }
   };
 
   const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
@@ -129,8 +120,6 @@ const GenerateSchedule = () => {
         getDownloadURL(uploadTask.snapshot.ref)
           .then((url) => {
             console.log(url);
-            // setShowUploadButtons2(true);
-            // setUploadSucces(true);
             messageAnt.success(`${file.name} file imported successfully.`);
           })
           .catch((error) => {
@@ -184,7 +173,6 @@ const GenerateSchedule = () => {
         getDownloadURL(uploadTask.snapshot.ref)
           .then((url) => {
             console.log(url);
-            // setUploadSucces2(true);
             messageAnt.success(`${file.name} file imported successfully.`);
           })
           .catch((error) => {
@@ -237,7 +225,7 @@ const GenerateSchedule = () => {
               )}
             </Col>
             <Col span={12}>
-              {showUploadButtons && (
+              {showUploadButtons &&(
                 <Form.Item name="schedule">
                   <Dragger customRequest={(e) => upLoadFile2(e)}>
                     <p className="ant-upload-drag-icon">

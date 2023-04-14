@@ -108,14 +108,14 @@ const LeaderSubject = () => {
       title: "Semester",
       dataIndex: "semester",
       filters: [
-        {
-          text: "London",
-          value: "London",
-        },
-        {
-          text: "New York",
-          value: "New York",
-        },
+        // {
+        //   text: "London",
+        //   value: "London",
+        // },
+        // {
+        //   text: "New York",
+        //   value: "New York",
+        // },
       ],
       onFilter: (value, record) => record.address.startsWith(value),
       filterSearch: true,
