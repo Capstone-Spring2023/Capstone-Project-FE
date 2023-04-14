@@ -8,7 +8,6 @@ import {
   Result,
   Row,
   Steps,
-  theme,
   Upload,
 } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
@@ -20,18 +19,16 @@ import {
 } from "firebase/storage";
 import { BASE_URL_API } from "../utils/constants";
 import { toast, Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 
 const { Dragger } = Upload;
 
 const GenerateSchedule = () => {
-  const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
-  const formData = new FormData();
+  const [formData, setFormData] = useState(new FormData());
   const [showUploadButtons, setShowUploadButtons] = useState(false);
-  const [downloadUrl, setDownloadUrl] = useState(null);
-  const [downloadUrl2, setDownloadUrl2] = useState(null);
-  const navigate = useNavigate();
+  const [showUploadButtons2, setShowUploadButtons2] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [uploadSuccess2, setUploadSuccess2] = useState(false);
 
   const handleButtonClick = async () => {
     try {
@@ -43,7 +40,6 @@ const GenerateSchedule = () => {
         options
       );
       const downloadUrl = await response.text();
-      setDownloadUrl(downloadUrl);
       window.open(downloadUrl, "_blank");
       setShowUploadButtons(true);
     } catch (error) {
@@ -52,31 +48,36 @@ const GenerateSchedule = () => {
   };
 
   const generateSchedule = () => {
-    toast.promise(
-      fetch(`${BASE_URL_API}/auto-schedule/main-flow`, {
-        method: "POST",
-        body: formData,
-      })
-        .then((res) => {
-          if (res.ok) {
-            res.text().then((downloadUrl) => {
-              setDownloadUrl2(downloadUrl);
-              window.open(downloadUrl, "_blank");
-              setCurrent(current + 1);
-            });
-          } else if (res.status === 401) {
-            alert("Oops! ");
-          }
+    if (uploadSuccess && uploadSuccess2) {
+      toast.promise(
+        fetch(`${BASE_URL_API}/auto-schedule/main-flow`, {
+          method: "POST",
+          body: formData,
         })
-        .catch((err) => {
-          console.log(err);
-        }),
-      {
-        loading: "Generating...",
-        success: <b>Generate successfully</b>,
-        error: <b>Generate fail</b>,
-      }
-    );
+          .then((res) => {
+            if (res.ok) {
+              res.text().then((downloadUrl) => {
+                window.open(downloadUrl, "_blank");
+                setCurrent(current + 1);
+              });
+            } else if (res.status === 401) {
+              alert("Oops! ");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          }),
+        {
+          loading: "Generating...",
+          success: <b>Generate successfully</b>,
+          error: <b>Generate fail</b>,
+        }
+      );
+    } else {
+      messageAnt.error(
+        "Please ensure all files are uploaded before submitting."
+      );
+    }
   };
 
   const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
@@ -92,6 +93,10 @@ const GenerateSchedule = () => {
     }
     const storage = getStorage();
     formData.append("file", file);
+    setFormData(formData => {
+      formData.append("file", file);
+      return formData;
+    });
 
     let fileRef = ref(
       storage,
@@ -120,6 +125,8 @@ const GenerateSchedule = () => {
         getDownloadURL(uploadTask.snapshot.ref)
           .then((url) => {
             console.log(url);
+            setShowUploadButtons2(true);
+            setUploadSuccess(true);
             messageAnt.success(`${file.name} file imported successfully.`);
           })
           .catch((error) => {
@@ -144,7 +151,10 @@ const GenerateSchedule = () => {
       return;
     }
     const storage = getStorage();
-    formData.append("file", file);
+    setFormData(formData => {
+      formData.append("file", file);
+      return formData;
+    });
 
     let fileRef = ref(
       storage,
@@ -173,6 +183,7 @@ const GenerateSchedule = () => {
         getDownloadURL(uploadTask.snapshot.ref)
           .then((url) => {
             console.log(url);
+            setUploadSuccess2(true);
             messageAnt.success(`${file.name} file imported successfully.`);
           })
           .catch((error) => {
@@ -210,7 +221,10 @@ const GenerateSchedule = () => {
             <Col span={12}>
               {showUploadButtons && (
                 <Form.Item name="schedule">
-                  <Dragger customRequest={(e) => upLoadFile(e)}>
+                  <Dragger
+                    customRequest={(e) => upLoadFile(e)}
+                    onChange={(e) => console.log(e)}
+                  >
                     <p className="ant-upload-drag-icon">
                       <InboxOutlined />
                     </p>
@@ -225,9 +239,12 @@ const GenerateSchedule = () => {
               )}
             </Col>
             <Col span={12}>
-              {showUploadButtons &&(
+              {showUploadButtons2 && (
                 <Form.Item name="schedule">
-                  <Dragger customRequest={(e) => upLoadFile2(e)}>
+                  <Dragger
+                    customRequest={(e) => upLoadFile2(e)}
+                    onChange={(e) => console.log(e)}
+                  >
                     <p className="ant-upload-drag-icon">
                       <InboxOutlined />
                     </p>
@@ -281,14 +298,14 @@ const GenerateSchedule = () => {
         <Steps current={current} items={items} />
         <div style={contentStyle}>{steps[current].content}</div>
         <div
-            style={{
-              marginTop: 16,
-            }}
+          style={{
+            marginTop: 16,
+          }}
         >
           {current < steps.length - 1 && showUploadButtons && (
-              <Button type="default" onClick={() => generateSchedule()}>
-                Generate
-              </Button>
+            <Button type="default" onClick={() => generateSchedule()}>
+              Generate
+            </Button>
           )}
         </div>
       </div>

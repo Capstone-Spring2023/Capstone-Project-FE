@@ -9,6 +9,8 @@ import { useStateContext } from "../contexts/ContextProvider";
 import { BASE_URL_API } from "../utils/constants";
 import { Badge, Popover } from "antd";
 import { BellOutlined } from "@ant-design/icons";
+import checkPageStatus from "../utils/function";
+import { da } from "date-fns/locale";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position="BottomCenter">
@@ -27,8 +29,9 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   </TooltipComponent>
 );
 
-const Navbar = () => {
+const Navbar = ({ socket }) => {
   const [notiData, setNotiData] = useState([{}]);
+  const [noti, setNoti] = useState([]);
   const [openNoti, setOpenNoti] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const {
@@ -61,7 +64,12 @@ const Navbar = () => {
 
   useEffect(() => {
     fetchNoti();
-  }, [notiData]);
+  }, [noti]);
+
+  useEffect(() => {
+    socket.on("messageResponse", (data) => setNoti([...noti, data]));
+    //Here it is 👇🏻
+  }, [socket, noti]);
 
   const fetchNoti = () => {
     fetch(`${BASE_URL_API}/Notifications/` + sessionStorage.getItem("userId"))
@@ -71,6 +79,7 @@ const Navbar = () => {
       .then((resp) => {
         setNotiData(resp.data);
         setIsShowNoti(true);
+        setNoti("");
       })
       .catch((err) => {
         console.log(err.message);

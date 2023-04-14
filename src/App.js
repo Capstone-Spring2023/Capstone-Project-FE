@@ -96,7 +96,7 @@ const App = () => {
         >
           {activeMenu && !isLoginPage ? (
             <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full">
-              <Navbar />
+              <Navbar socket={socket}/>
             </div>
           ) : (
             <></>
