@@ -17,7 +17,6 @@ const SelectAntLecturer = ({ onChange, defaultValue }) => {
     // Cập nhật lại state để hiển thị dữ liệu đã lọc trên bảng
     setLecturerFilter(filteredData);
   };
-  console.log("DEFAULT", defaultValue);
   const fetchSubject = () => {
     fetch(`${BASE_URL_API}/header/GetLecturersHaveRegisterSubject`)
       .then((res) => {

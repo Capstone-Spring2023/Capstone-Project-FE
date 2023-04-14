@@ -22,6 +22,7 @@ import {
 } from "firebase/storage";
 import { BASE_URL_API } from "../../../utils/constants";
 import SelectAntLecturer from "./SelectAntLecturer";
+import checkPageStatus from "../../../utils/function";
 
 const { Dragger } = Upload;
 const onFinishFailed = (errorInfo) => {
@@ -33,6 +34,7 @@ const FormAnt = ({ socket }) => {
   const [lectureId,setLecturerId]=useState("");
   const [deadline, setDeadline] = useState("");
   const [examLink, setExamLink] = useState("");
+  const [noti, setNoti] = useState("Schedule request");
   const type = "Schedule";
   const message = "You have new Schedule request";
   const leaderId = sessionStorage.getItem("userId");
@@ -59,16 +61,15 @@ const FormAnt = ({ socket }) => {
         body: JSON.stringify(examScheduleData),
       })
         .then((res) => {
-          // if (noti.trim() && sessionStorage.getItem("userId")) {
-          //   socket.emit("message", {
-          //     type: "Schedule",
-          //     message: noti,
-          //     id: sessionStorage.getItem("userId"),
-          //   });
-          //   //Here it is 👇🏻
-          //   checkPageStatus(noti, sessionStorage.getItem("userId"));
-          // }
-          // setNoti("");
+          if (noti.trim() && sessionStorage.getItem("fullName")) {
+            socket.emit("message", {
+              type: "Schedule",
+              message: noti,
+              userName: sessionStorage.getItem("fullName"),
+            });
+            checkPageStatus(noti, sessionStorage.getItem("fullName"));
+          }
+          setNoti("")
           console.log(res)
           navigate("/exam-schedule");
         })

@@ -19,7 +19,6 @@ const Login = () => {
   const onSuccess = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        console.log("TOKEN", result._tokenResponse.oauthIdToken);
         axios({
           url: "https://fpt-cft.azurewebsites.net/v1/api/authentication/login-google",
           method: "POST",
