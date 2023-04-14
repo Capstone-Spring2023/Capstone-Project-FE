@@ -92,12 +92,12 @@ const GenerateSchedule = () => {
       return;
     }
     const storage = getStorage();
-    formData.append("file", file);
+    // formData.append("file", file);
     setFormData(formData => {
       formData.append("file", file);
       return formData;
     });
-
+    
     let fileRef = ref(
       storage,
       `/${sessionStorage.getItem("email")}/EmptySchedule/${file.name}`
