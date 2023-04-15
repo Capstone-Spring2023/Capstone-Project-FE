@@ -13,13 +13,14 @@ const Schedule = () => {
 
   //Schedule
   const daysOfWeek = [
+    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
     "Saturday",
-    "Sunday",
+    // "Sunday",
   ];
   const [startDate, setStartDate] = useState(new Date());
   const startOfWeekDate = startOfWeek(startDate);
@@ -27,6 +28,7 @@ const Schedule = () => {
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [showModal2, setShowModal] = useState(false);
   const [lecturerList, setLecturerList] = useState([]);
+  const [selectedLecturer, setSelectedLecturer] = useState(sessionStorage.getItem("fullName"));
 
   const handleLessonClick = (lesson) => {
     if (lesson) {
@@ -40,6 +42,7 @@ const Schedule = () => {
       setIsModalOpen(true); // Mở Modal
     }
   };
+
   const handleStartDateChange = (e) => {
     setStartDate(new Date(e.target.value));
     setShouldFetchSchedule(true);
@@ -187,7 +190,8 @@ const Schedule = () => {
               <Select
                 showSearch
                 style={style}
-                placeholder="Select lecturer"
+                // placeholder="Select lecturer"
+                // placeholder={sessionStorage.getItem("fullName")}
                 optionLabelProp="label"
                 onChange={handleLecturerChange}
                 onSelect={handleSubjectSelect}
@@ -195,6 +199,7 @@ const Schedule = () => {
                   option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
                 optionFilterProp="label"
+                defaultValue={sessionStorage.getItem("fullName")}
               >
                 {lecturer &&
                   lecturer?.map((item, index) => (
@@ -288,6 +293,7 @@ const Schedule = () => {
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
                 fetchSchedule={fetchSchedule}
+                selectedUserId={selectedUserId}
               />
             )}
           </div>

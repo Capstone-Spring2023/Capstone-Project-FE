@@ -55,7 +55,8 @@ const SelectAntLecturer = ({ onChange, defaultValue }) => {
       <Select
         showSearch
         style={style}
-        placeholder="Select lecturer"
+        // placeholder="Select lecturer"
+        placeholder={sessionStorage.getItem("fullName")}
         onChange={onChange}
         onSelect={handleSubjectSelect}
         optionLabelProp="label"
@@ -63,6 +64,7 @@ const SelectAntLecturer = ({ onChange, defaultValue }) => {
           option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
         optionFilterProp="label"
+        defaultValue={sessionStorage.getItem("userId")}
       >
         {lecturer?.map((item, index) => (
           <Option

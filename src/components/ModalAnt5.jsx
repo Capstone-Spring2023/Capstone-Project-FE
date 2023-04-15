@@ -3,6 +3,7 @@ import { Button, Descriptions, Modal, Select } from "antd";
 import "./GoogleButton.css";
 import { BASE_URL_API } from "../utils/constants";
 import { toast } from "react-hot-toast";
+import ModalAnt6 from "./ModalAnt6";
 
 const ModalAnt5 = ({
   title,
@@ -14,6 +15,7 @@ const ModalAnt5 = ({
   isModalOpen,
   setIsModalOpen,
   fetchSchedule,
+  selectedTeacherId,
 }) => {
   const handleOk = () => {
     setIsModalOpen(false);
@@ -43,37 +45,6 @@ const ModalAnt5 = ({
     setIsConfirmingSave(true);
   };
 
-  const handleConfirmSave = () => {
-    // setIsConfirmingSave(false);
-    const examData = {
-      classId: classId,
-      userId: selectedTeacher,
-    };
-    toast.promise(
-      fetch(`${BASE_URL_API}/schedule/lecturer/schedule`, {
-        method: "PUT",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(examData),
-      })
-        .then((res) => {
-          setIsConfirmingSave(false);
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err.message);
-        }),
-      {
-        loading: "Creating...",
-        success: <b>Change successfully</b>,
-        error: <b>Could not change.</b>,
-      }
-    );
-  };
-
-  const handleCancelSave = () => {
-    setIsConfirmingSave(false);
-  };
-
   const fetchSubject = () => {
     fetch(`${BASE_URL_API}/header/GetLecturersHaveRegisterSubject`)
       .then((res) => {
@@ -90,7 +61,8 @@ const ModalAnt5 = ({
 
   useEffect(() => {
     fetchSubject();
-  }, []);
+    setSelectedTeacher(selectedTeacherId);
+  }, [selectedTeacherId]);
 
   return (
     <>
@@ -105,7 +77,7 @@ const ModalAnt5 = ({
               className="save-button987"
               type="primary"
               onClick={handleSaveClick}
-              disabled={!isSaveButtonVisible}
+              disabled={!isSaveButtonVisible || !selectedTeacher}
             >
               Save
             </Button>
@@ -153,6 +125,7 @@ const ModalAnt5 = ({
               placeholder="Select teacher"
               onChange={(value) => setSelectedTeacher(value)}
               disabled={!isSelectEnabled}
+              // value={selectedTeacher}
               value={selectedTeacher}
               style={{ display: isSelectEnabled ? "block" : "none" }}
             >
@@ -168,7 +141,7 @@ const ModalAnt5 = ({
             </Select>
           </Descriptions.Item>
         </Descriptions>
-        <Modal
+        {/* <Modal
           title="Warning"
           open={isSaveWarningVisible && isConfirmingSave}
           onCancel={handleCancelSave}
@@ -191,7 +164,14 @@ const ModalAnt5 = ({
           ]}
         >
           <p>Are you sure you want to save?</p>
-        </Modal>
+        </Modal> */}
+        <ModalAnt6
+          classId={classId}
+          userId={selectedTeacher}
+          isModalOpen={isSaveWarningVisible && isConfirmingSave}
+          setIsModalOpen={setIsConfirmingSave}
+          fetchSchedule={fetchSchedule}
+        />
       </Modal>
     </>
   );
