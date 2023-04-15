@@ -31,7 +31,7 @@ const onFinishFailed = (errorInfo) => {
 const FormAnt = ({ socket }) => {
   const [tittle, setTitle] = useState("");
   const [subject, setSubject] = useState("");
-  const [lectureId,setLecturerId]=useState("");
+  const [lectureId,setLecturerId]=useState(sessionStorage.getItem("userId"));
   const [deadline, setDeadline] = useState("");
   const [examLink, setExamLink] = useState("");
   const [noti, setNoti] = useState("Schedule request");
@@ -196,7 +196,7 @@ const FormAnt = ({ socket }) => {
             name="Lecturer"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please input Lecturer!",
               },
             ]}
