@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, Descriptions, message, Modal, Select } from "antd";
+import { Button, DatePicker, Descriptions, message, Modal, Select , message as messageAnt} from "antd";
 import "./GoogleButton.css";
 import moment from "moment";
 import { BASE_URL_API } from "../utils/constants";
@@ -36,10 +36,12 @@ const ModalAnt6 = ({
         .then((res) => {
           console.log(res);
           fetchSchedule();
+          messageAnt.success(`Change successfully`);
           setIsModalOpen(false);
         })
         .catch((err) => {
           console.log(err.message);
+          messageAnt.error(`You can't change their schedule for themselves`);
         }),
       {
         loading: "Creating...",
