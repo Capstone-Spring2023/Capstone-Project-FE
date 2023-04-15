@@ -2,7 +2,7 @@ import { utils } from "xlsx";
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { addDays, endOfWeek, format, startOfWeek } from "date-fns";
-import { Select, Space } from "antd";
+import { Select, Space, Descriptions } from "antd";
 import "./GoogleButton.css";
 import { BASE_URL_API } from "../utils/constants";
 import ModalAnt5 from "../components/ModalAnt5";
@@ -186,6 +186,8 @@ const Schedule = () => {
             <div className="header">
               <h2>Timetable</h2>
             </div>
+            <Descriptions layout="vertical">
+            <Descriptions.Item label="Choose a Lecturer to see the schedule">
             {sessionStorage.getItem("roleName") === "Header" && (
               <Select
                 showSearch
@@ -213,6 +215,8 @@ const Schedule = () => {
                   ))}
               </Select>
             )}
+            </Descriptions.Item>
+            </Descriptions>
             <table className="table">
               <thead>
                 <tr>

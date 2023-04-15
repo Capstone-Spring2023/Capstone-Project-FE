@@ -30,6 +30,7 @@ const ModalAnt5 = ({
   const [teacher, setTeacher] = useState([{}]);
   const userRole = sessionStorage.getItem("roleName");
   const isHeader = userRole === "Header";
+  const [lecturerName,setLecturerName]=useState("");
 
   const handleChangeClick = () => {
     setIsSelectEnabled(true);
