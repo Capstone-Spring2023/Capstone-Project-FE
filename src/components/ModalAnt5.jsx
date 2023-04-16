@@ -31,7 +31,7 @@ const ModalAnt5 = ({
   const [teacher, setTeacher] = useState([{}]);
   const userRole = sessionStorage.getItem("roleName");
   const isHeader = userRole === "Header";
-  const [lecturerName,setLecturerName]=useState("");
+  const [lecturerName, setLecturerName] = useState("");
 
   const handleChangeClick = () => {
     setIsSelectEnabled(true);
@@ -46,6 +46,21 @@ const ModalAnt5 = ({
     setIsSelectEnabled(false);
     setIsConfirmingSave(true);
   };
+
+  useEffect(() => {
+    fetch(`${BASE_URL_API}/header/profile/getHeader/` + selectedUserId)
+      .then((res) => {
+        return res.json();
+      })
+      .then((resp) => {
+        console.log(resp.data.fullName);
+        setLecturerName(resp.data.fullName);
+      })
+      .catch((err) => {
+        console.log(err.message);
+        toast.error("Failed to fetch lecturer information.");
+      });
+  }, [selectedUserId]);
 
   const fetchSubject = () => {
     fetch(`${BASE_URL_API}/header/GetLecturersHaveRegisterSubject`)
@@ -118,6 +133,9 @@ const ModalAnt5 = ({
           </Descriptions.Item>
           <Descriptions.Item label="Class">
             {classCode && classCode.split("_")[1]}
+          </Descriptions.Item>
+          <Descriptions.Item label="Teacher">
+            {lecturerName}
           </Descriptions.Item>
           <Descriptions.Item
             label="Change Teacher"
