@@ -14,7 +14,8 @@ const ModalAnt6 = ({
   userId,
   isModalOpen,
   setIsModalOpen,
-  fetchSchedule
+  fetchSchedule,
+  selectedUserId
 }) => {
   const navigate = useNavigate();
 
@@ -25,10 +26,12 @@ const ModalAnt6 = ({
   const handleConfirmSave = () => {
     const examData = {
       classId: classId,
-      userId: userId,
+      newUserId: userId,
+      semesterId:1,
+      oldUserId:selectedUserId,
     };
     toast.promise(
-      fetch(`${BASE_URL_API}/schedule/lecturer`, {
+      fetch(`${BASE_URL_API}/schedule`, {
         method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(examData),

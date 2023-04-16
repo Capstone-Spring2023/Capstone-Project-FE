@@ -16,6 +16,7 @@ const ModalAnt5 = ({
   setIsModalOpen,
   fetchSchedule,
   selectedTeacherId,
+  selectedUserId
 }) => {
   const handleOk = () => {
     setIsModalOpen(false);
@@ -172,6 +173,7 @@ const ModalAnt5 = ({
           isModalOpen={isSaveWarningVisible && isConfirmingSave}
           setIsModalOpen={setIsConfirmingSave}
           fetchSchedule={fetchSchedule}
+          selectedUserId={selectedUserId}
         />
       </Modal>
     </>
