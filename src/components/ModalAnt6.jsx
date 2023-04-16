@@ -77,7 +77,7 @@ const ModalAnt6 = ({
             OK
           </Button>,
         ]}
-        visible={isModalOpen}
+        open={isModalOpen}
       >
         <p>Are you sure you want to save?</p>
       </Modal>
