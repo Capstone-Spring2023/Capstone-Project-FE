@@ -23,6 +23,7 @@ import {
 import { BASE_URL_API } from "../../../utils/constants";
 import SelectAntLecturer from "./SelectAntLecturer";
 import checkPageStatus from "../../../utils/function";
+import moment from "moment";
 
 const { Dragger } = Upload;
 const onFinishFailed = (errorInfo) => {
@@ -40,6 +41,7 @@ const FormAnt = ({ socket }) => {
   const leaderId = sessionStorage.getItem("userId");
   const navigate = useNavigate();
   const [fileUploaded, setFileUploaded] = useState(false);
+
   const onFinish = () => {
     if (!fileUploaded) {
       messageAnt.error('Please upload a file before submitting.');
@@ -86,6 +88,20 @@ const FormAnt = ({ socket }) => {
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
     setDeadline(dateString);
   };
+
+  const isDisabledDate = (current) => {
+    // Lấy ra ngày hiện tại
+    const today = moment().startOf("day");
+    // Tính toán ngày hết hạn tối thiểu
+    const minDeadline = moment(today).add(1, "day"); // Tối thiểu ngày mai
+    // Tính toán ngày hết hạn tối đa
+    const maxDeadline = moment(today).add(4, "month"); // Tối đa 4 tháng sau
+    // Kiểm tra current có nằm trong khoảng thời gian tối thiểu và tối đa không
+    return (
+      current && (current < minDeadline || current > maxDeadline || current.isSame(today))
+    );
+  };
+
   const handleSubject = (value) => {
     setSubject(value);
   };
@@ -215,7 +231,9 @@ const FormAnt = ({ socket }) => {
               },
             ]}
           >
-            <DatePicker onChange={onChange} />
+            <DatePicker onChange={onChange} 
+            disabledDate={isDisabledDate}
+            />
           </Form.Item>
         </Col>
       </Row>

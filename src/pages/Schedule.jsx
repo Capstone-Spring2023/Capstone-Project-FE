@@ -29,6 +29,7 @@ const Schedule = () => {
   const [showModal2, setShowModal] = useState(false);
   const [lecturerList, setLecturerList] = useState([]);
   const [selectedLecturer, setSelectedLecturer] = useState(sessionStorage.getItem("fullName"));
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
   const handleLessonClick = (lesson) => {
     if (lesson) {
@@ -124,7 +125,6 @@ const Schedule = () => {
       });
   };
 
-  const [selectedUserId, setSelectedUserId] = useState("");
   const fetchSchedule = () => {
     const userId = selectedUserId || sessionStorage.getItem("userId");
     fetch(`${BASE_URL_API}/schedule/lecturer/${userId}`)
@@ -186,9 +186,9 @@ const Schedule = () => {
             <div className="header">
               <h2>Timetable</h2>
             </div>
+            {sessionStorage.getItem("roleName") === "Header" && (
             <Descriptions layout="vertical">
             <Descriptions.Item label="Choose a Lecturer to see the schedule">
-            {sessionStorage.getItem("roleName") === "Header" && (
               <Select
                 showSearch
                 style={style}
@@ -214,9 +214,9 @@ const Schedule = () => {
                     </Option>
                   ))}
               </Select>
-            )}
             </Descriptions.Item>
             </Descriptions>
+            )}
             <table className="table">
               <thead>
                 <tr>
@@ -297,7 +297,7 @@ const Schedule = () => {
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
                 fetchSchedule={fetchSchedule}
-                selectedUserId={selectedUserId}
+                selectedUserId={parseInt(selectedUserId)}
               />
             )}
           </div>
