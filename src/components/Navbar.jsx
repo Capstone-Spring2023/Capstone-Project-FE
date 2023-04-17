@@ -9,8 +9,6 @@ import { useStateContext } from "../contexts/ContextProvider";
 import { BASE_URL_API } from "../utils/constants";
 import { Badge, Popover } from "antd";
 import { BellOutlined } from "@ant-design/icons";
-import checkPageStatus from "../utils/function";
-import { da } from "date-fns/locale";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position="BottomCenter">

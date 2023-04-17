@@ -24,11 +24,7 @@ const Schedule = () => {
   ];
   const [startDate, setStartDate] = useState(new Date());
   const startOfWeekDate = startOfWeek(startDate);
-  const endOfWeekDate = endOfWeek(startDate);
   const [selectedLesson, setSelectedLesson] = useState(null);
-  const [showModal2, setShowModal] = useState(false);
-  const [lecturerList, setLecturerList] = useState([]);
-  const [selectedLecturer, setSelectedLecturer] = useState(sessionStorage.getItem("fullName"));
   const [selectedUserId, setSelectedUserId] = useState(null);
 
   const handleLessonClick = (lesson) => {
@@ -76,7 +72,7 @@ const Schedule = () => {
   const [shouldFetchSchedule, setShouldFetchSchedule] = useState(false);
   const [lecturerFilter, setlecturerFilter] = useState([{}]);
   const handleSubjectSelect = (value) => {
-    fetchLecturer(value);
+    fetchLecturer();
     const filteredData = lecturerFilter?.filter(
       (item) =>
         item?.subjectName?.toLowerCase()?.indexOf(value.toLowerCase()) >= 0
@@ -118,7 +114,6 @@ const Schedule = () => {
       })
       .then((resp) => {
         setLecturer(resp.data);
-        setLecturerList(resp.data);
       })
       .catch((err) => {
         console.log(err.message);
@@ -187,35 +182,36 @@ const Schedule = () => {
               <h2>Timetable</h2>
             </div>
             {sessionStorage.getItem("roleName") === "Header" && (
-            <Descriptions layout="vertical">
-            <Descriptions.Item label="Choose a Lecturer to see the schedule">
-              <Select
-                showSearch
-                style={style}
-                // placeholder="Select lecturer"
-                // placeholder={sessionStorage.getItem("fullName")}
-                optionLabelProp="label"
-                onChange={handleLecturerChange}
-                onSelect={handleSubjectSelect}
-                filterOption={(input, option) =>
-                  option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                }
-                optionFilterProp="label"
-                defaultValue={sessionStorage.getItem("fullName")}
-              >
-                {lecturer &&
-                  lecturer?.map((item, index) => (
-                    <Option
-                      key={index}
-                      value={`${item?.userId}`}
-                      label={`${item?.fullName}`}
-                    >
-                      <Space>{item?.fullName}</Space>
-                    </Option>
-                  ))}
-              </Select>
-            </Descriptions.Item>
-            </Descriptions>
+              <Descriptions layout="vertical">
+                <Descriptions.Item label="Choose a Lecturer to see the schedule">
+                  <Select
+                    showSearch
+                    style={style}
+                    // placeholder="Select lecturer"
+                    // placeholder={sessionStorage.getItem("fullName")}
+                    optionLabelProp="label"
+                    onChange={handleLecturerChange}
+                    onSelect={handleSubjectSelect}
+                    filterOption={(input, option) =>
+                      option.label.toLowerCase().indexOf(input.toLowerCase()) >=
+                      0
+                    }
+                    optionFilterProp="label"
+                    defaultValue={sessionStorage.getItem("fullName")}
+                  >
+                    {lecturer &&
+                      lecturer?.map((item, index) => (
+                        <Option
+                          key={index}
+                          value={`${item?.userId}`}
+                          label={`${item?.fullName}`}
+                        >
+                          <Space>{item?.fullName}</Space>
+                        </Option>
+                      ))}
+                  </Select>
+                </Descriptions.Item>
+              </Descriptions>
             )}
             <table className="table">
               <thead>
@@ -250,8 +246,9 @@ const Schedule = () => {
                       return (
                         <td
                           key={`slot-${index}-day-${dayIndex}`}
-                          className={`td-style ${lesson ? "bg-gray-100" : "bg-white"
-                            }`}
+                          className={`td-style ${
+                            lesson ? "bg-gray-100" : "bg-white"
+                          }`}
                           onClick={() => handleLessonClick(lesson)} // Gọi hàm xử lý khi người dùng click
                         >
                           {lesson &&
