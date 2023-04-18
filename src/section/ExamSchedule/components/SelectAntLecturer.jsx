@@ -5,9 +5,11 @@ import { SmileOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
-const SelectAntLecturer = ({ onChange, defaultValue }) => {
+const SelectAntLecturer = ({ onChange, defaultValue,subjectId,isSubjectSelected }) => {
   const [lecturer, setLecturer] = useState([{}]);
   const [lecturerFilter, setLecturerFilter] = useState([{}]);
+  const [subject,setSubject]=useState("");
+
   const handleSubjectSelect = (value) => {
     fetchSubject();
     const filteredData = lecturerFilter?.filter(
@@ -17,8 +19,9 @@ const SelectAntLecturer = ({ onChange, defaultValue }) => {
     // Cập nhật lại state để hiển thị dữ liệu đã lọc trên bảng
     setLecturerFilter(filteredData);
   };
+  
   const fetchSubject = () => {
-    fetch(`${BASE_URL_API}/header/GetLecturersHaveRegisterSubject`)
+    fetch(`${BASE_URL_API}/header/GetLecturersHaveRegisterSubjectByAvailableSubjectId/${subjectId}`)
       .then((res) => {
         return res.json();
       })
@@ -31,8 +34,15 @@ const SelectAntLecturer = ({ onChange, defaultValue }) => {
   };
 
   useEffect(() => {
+    if (subjectId) {
+      fetchSubject();
+    }
+  }, [subjectId]);
+
+  useEffect(() => {
     fetchSubject();
   }, []);
+
   const customizeRenderEmpty = () => (
     <div
       style={{
@@ -59,6 +69,7 @@ const SelectAntLecturer = ({ onChange, defaultValue }) => {
         placeholder={sessionStorage.getItem("fullName")}
         onChange={onChange}
         onSelect={handleSubjectSelect}
+        disabled={!isSubjectSelected}
         optionLabelProp="label"
         filterOption={(input, option) =>
           option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0

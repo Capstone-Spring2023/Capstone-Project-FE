@@ -32,7 +32,7 @@ const onFinishFailed = (errorInfo) => {
 const FormAnt = ({ socket }) => {
   const [tittle, setTitle] = useState("");
   const [subject, setSubject] = useState("");
-  const [lectureId,setLecturerId]=useState(sessionStorage.getItem("userId"));
+  const [lectureId, setLecturerId] = useState(sessionStorage.getItem("userId"));
   const [deadline, setDeadline] = useState("");
   const [examLink, setExamLink] = useState("");
   const [noti, setNoti] = useState("Schedule request");
@@ -41,6 +41,7 @@ const FormAnt = ({ socket }) => {
   const leaderId = sessionStorage.getItem("userId");
   const navigate = useNavigate();
   const [fileUploaded, setFileUploaded] = useState(false);
+  const [isSubjectSelected, setIsSubjectSelected] = useState(false);
 
   const onFinish = () => {
     if (!fileUploaded) {
@@ -54,7 +55,7 @@ const FormAnt = ({ socket }) => {
       type,
       message,
       leaderId,
-      appovalUserId:lectureId
+      appovalUserId: lectureId
     };
     toast.promise(
       fetch(`${BASE_URL_API}/exam-schedule?availableId=` + subject, {
@@ -102,9 +103,16 @@ const FormAnt = ({ socket }) => {
     );
   };
 
-  const handleSubject = (value) => {
-    setSubject(value);
+  const [subjectId, setSubjectId] = useState("");
+  // const handleSubject = (value) => {
+  //   setSubject(value);
+  // };
+  const handleSubject = (value, option) => {
+    setSubject(option.children);
+    setSubjectId(value);
+    setIsSubjectSelected(true);
   };
+
   const handleLecturer = (value) => {
     setLecturerId(value);
   };
@@ -206,10 +214,11 @@ const FormAnt = ({ socket }) => {
         </Col>
       </Row>
       <Row>
-      <Col span={12}>
+        <Col span={12}>
           <Form.Item
             label="Lecturer"
             name="Lecturer"
+            disabled={!isSubjectSelected}
             rules={[
               {
                 required: false,
@@ -217,7 +226,7 @@ const FormAnt = ({ socket }) => {
               },
             ]}
           >
-            <SelectAntLecturer onChange={handleLecturer} />
+            <SelectAntLecturer onChange={handleLecturer}  subjectId={subjectId} isSubjectSelected={isSubjectSelected}/>
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -231,8 +240,8 @@ const FormAnt = ({ socket }) => {
               },
             ]}
           >
-            <DatePicker onChange={onChange} 
-            disabledDate={isDisabledDate}
+            <DatePicker onChange={onChange}
+              disabledDate={isDisabledDate}
             />
           </Form.Item>
         </Col>
