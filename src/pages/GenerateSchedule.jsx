@@ -5,12 +5,15 @@ import {
   Col,
   Form,
   message as messageAnt,
+  Popconfirm,
   Result,
   Row,
   Steps,
+  Table,
+  Tooltip,
   Upload,
 } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, InboxOutlined } from "@ant-design/icons";
 import {
   getDownloadURL,
   getStorage,
@@ -19,6 +22,8 @@ import {
 } from "firebase/storage";
 import { BASE_URL_API } from "../utils/constants";
 import { toast, Toaster } from "react-hot-toast";
+import avatar from "../assets/banner.jpg";
+import moment from "moment/moment";
 
 const { Dragger } = Upload;
 
@@ -29,16 +34,11 @@ const GenerateSchedule = () => {
   const [showUploadButtons2, setShowUploadButtons2] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [uploadSuccess2, setUploadSuccess2] = useState(false);
+  const [statistic, setStatistic] = useState([{}]);
 
   const handleButtonClick = async () => {
     try {
-      const options = {
-        method: "POST",
-      };
-      const response = await fetch(
-        `${BASE_URL_API}/auto-schedule/get-file`,
-        options
-      );
+      const response = await fetch(`${BASE_URL_API}/auto-schedule/get-file`);
       const downloadUrl = await response.text();
       window.open(downloadUrl, "_blank");
       setShowUploadButtons(true);
@@ -47,10 +47,23 @@ const GenerateSchedule = () => {
     }
   };
 
+  const fetchStatistic = () => {
+    fetch(`${BASE_URL_API}/statistic/all/semester/1`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((resp) => {
+        setStatistic(resp);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
   const generateSchedule = () => {
     if (uploadSuccess && uploadSuccess2) {
       toast.promise(
-        fetch(`${BASE_URL_API}/auto-schedule/main-flow`, {
+        fetch(`${BASE_URL_API}/auto-schedule/main-flow-full`, {
           method: "POST",
           body: formData,
         })
@@ -58,6 +71,7 @@ const GenerateSchedule = () => {
             if (res.ok) {
               res.text().then((downloadUrl) => {
                 window.open(downloadUrl, "_blank");
+                fetchStatistic();
                 setCurrent(current + 1);
               });
             } else if (res.status === 401) {
@@ -93,11 +107,11 @@ const GenerateSchedule = () => {
     }
     const storage = getStorage();
     // formData.append("file", file);
-    setFormData(formData => {
+    setFormData((formData) => {
       formData.append("file", file);
       return formData;
     });
-    
+
     let fileRef = ref(
       storage,
       `/${sessionStorage.getItem("email")}/EmptySchedule/${file.name}`
@@ -151,7 +165,7 @@ const GenerateSchedule = () => {
       return;
     }
     const storage = getStorage();
-    setFormData(formData => {
+    setFormData((formData) => {
       formData.append("file", file);
       return formData;
     });
@@ -194,6 +208,26 @@ const GenerateSchedule = () => {
     );
     // }
   };
+
+  const columns = [
+    {
+      title: "Full Name",
+      dataIndex: "fullName",
+    },
+    {
+      title: "No. Class Not Register",
+      dataIndex: "numNotRegisteredSubject",
+    },
+    {
+      title: "Num class",
+      dataIndex: "numClass",
+    },
+    {
+      title: "Satisfaction Level",
+      dataIndex: "percentPoint",
+      render: (_, record) => `${Number(record.percentPoint).toFixed(1)}%`,
+    },
+  ];
 
   const steps = [
     {
@@ -263,17 +297,12 @@ const GenerateSchedule = () => {
       ),
     },
     {
-      title: "Done",
+      title: "Statistic",
       content: (
-        <Result
-          status="success"
-          title="Success"
-          subTitle="All operation done successfully. Please continue to process"
-          extra={
-            <Button onClick={() => start()} type="default">
-              Back Home
-            </Button>
-          }
+        <Table
+          columns={columns}
+          dataSource={statistic}
+          pagination={{ pageSize: 5 }}
         />
       ),
     },
