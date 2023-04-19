@@ -5,9 +5,11 @@ import avatar from "../assets/banner.jpg";
 import { APPROVED, BASE_URL_API } from "../utils/constants";
 import { Popconfirm, Table, Tooltip } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
+import { useLocation } from "react-router-dom";
 
 const ExamSubmissionView = () => {
   const [examData, setExamData] = useState([{}]);
+  const { state } = useLocation();
 
   useEffect(() => {
     fetchTable();
@@ -88,9 +90,10 @@ const ExamSubmissionView = () => {
           value: "HCM",
         },
       ],
+      defaultFilteredValue: [`${state?.subject ? state?.subject : ""}`],
       filterMode: "tree",
       filterSearch: true,
-      onFilter: (value, record) => record.subjectName.indexOf(value) === 0,
+      onFilter: (value, record) => record?.subjectName?.indexOf(value) === 0,
       width: "30%",
     },
     {

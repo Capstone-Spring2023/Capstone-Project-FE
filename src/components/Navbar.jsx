@@ -109,7 +109,7 @@ const Navbar = ({ socket }) => {
       <div className="flex items-center gap-3">
         <Badge count={notiData?.length} size="small">
           <Popover
-            content={<Notification notiData={notiData} />}
+            content={<Notification fetchNoti={fetchNoti} notiData={notiData} />}
             trigger="click"
             open={openNoti}
             onOpenChange={handleOpenNotiChange}
