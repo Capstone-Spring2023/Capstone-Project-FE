@@ -10,7 +10,6 @@ import { useLocation } from "react-router-dom";
 const ExamScheduleView = () => {
   const [examScheduleViewData, setExamScheduleViewData] = useState([{}]);
   const { state } = useLocation();
-  console.log("SUBJECT", state?.subject);
 
   useEffect(() => {
     fetchTable();

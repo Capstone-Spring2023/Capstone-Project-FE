@@ -96,7 +96,7 @@ const App = () => {
         >
           {activeMenu && !isLoginPage ? (
             <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full">
-              <Navbar socket={socket}/>
+              <Navbar socket={socket} />
             </div>
           ) : (
             <></>
@@ -169,7 +169,7 @@ const App = () => {
                 {/*Exams Submission*/}
                 <Route
                   path="/exam/submission/create"
-                  element={<ExamSubmissionCreate />}
+                  element={<ExamSubmissionCreate socket={socket} />}
                 />
                 <Route
                   path="/exam/submission/edit/:examPaperId"

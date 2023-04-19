@@ -7,11 +7,12 @@ import { toast } from "react-hot-toast";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../firebase/firebase";
 import { BASE_URL_API } from "../../../utils/constants";
+import checkPageStatus from "../../../utils/function";
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
-const FormAnt = () => {
+const FormAnt = ({ socket }) => {
   const [examContent, setExamContent] = useState("Exam PE");
   const [availableSubjectName, setAvailableSubjectName] = useState(""); //id
   const [availableSubjectName2, setAvailableSubjectName2] = useState("");
@@ -22,6 +23,7 @@ const FormAnt = () => {
   const [fileUploaded1, setFileUploaded1] = useState(false);
   const [fileUploaded2, setFileUploaded2] = useState(false);
   const [fileUploaded3, setFileUploaded3] = useState(false);
+  const [noti, setNoti] = useState("Submission");
   const type = "Submission";
   const message = "Have submit the exam for";
 
@@ -68,6 +70,15 @@ const FormAnt = () => {
           body: JSON.stringify(examData),
         })
           .then((res) => {
+            if (noti.trim() && sessionStorage.getItem("fullName")) {
+              socket.emit("message", {
+                type: "Submission",
+                message: noti,
+                userName: sessionStorage.getItem("fullName"),
+              });
+              checkPageStatus(noti, sessionStorage.getItem("fullName"));
+            }
+            setNoti("");
             navigate("/exam-submission");
             console.log(res);
           })

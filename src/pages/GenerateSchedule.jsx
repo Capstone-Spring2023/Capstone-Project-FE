@@ -5,15 +5,12 @@ import {
   Col,
   Form,
   message as messageAnt,
-  Popconfirm,
-  Result,
   Row,
   Steps,
   Table,
-  Tooltip,
   Upload,
 } from "antd";
-import { DeleteOutlined, EditOutlined, InboxOutlined } from "@ant-design/icons";
+import { InboxOutlined } from "@ant-design/icons";
 import {
   getDownloadURL,
   getStorage,
@@ -22,8 +19,6 @@ import {
 } from "firebase/storage";
 import { BASE_URL_API } from "../utils/constants";
 import { toast, Toaster } from "react-hot-toast";
-import avatar from "../assets/banner.jpg";
-import moment from "moment/moment";
 
 const { Dragger } = Upload;
 
@@ -63,7 +58,7 @@ const GenerateSchedule = () => {
   const generateSchedule = () => {
     if (uploadSuccess && uploadSuccess2) {
       toast.promise(
-        fetch(`${BASE_URL_API}/auto-schedule/main-flow-full`, {
+        fetch(`${BASE_URL_API}/auto-schedule/main-flow-full?semesterId=1`, {
           method: "POST",
           body: formData,
         })
