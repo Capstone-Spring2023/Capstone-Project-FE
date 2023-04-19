@@ -3,7 +3,7 @@ import { Header } from "../components";
 import { BASE_URL_API } from "../utils/constants";
 import { Checkbox, ConfigProvider, Select, Space, Table } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 
 const { Option } = Select;
@@ -55,7 +55,7 @@ const LeaderSubject = () => {
         body: JSON.stringify(leaderData),
       })
         .then((res) => {
-          fetchTable();
+          fetchTable(availableSubjectId);
         })
         .catch((err) => {
           console.log(err.message);
@@ -155,6 +155,7 @@ const LeaderSubject = () => {
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+      <Toaster />
       <div className="flex justify-between items-center">
         <Header category="App" title="Available Subject" />
       </div>
