@@ -108,7 +108,7 @@ const FormAnt = ({ socket }) => {
   //   setSubject(value);
   // };
   const handleSubject = (value, option) => {
-    setSubject(option.children);
+    setSubject(option.value);
     setSubjectId(value);
     setIsSubjectSelected(true);
   };
