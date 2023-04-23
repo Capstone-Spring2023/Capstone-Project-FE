@@ -5,12 +5,15 @@ import { Checkbox, ConfigProvider, Select, Space, Table } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
 import { toast, Toaster } from "react-hot-toast";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
+import checkPageStatus from "../utils/function";
 
 const { Option } = Select;
 const { Column } = Table;
-const LeaderSubject = () => {
+const LeaderSubject = ({ socket }) => {
   const [examAvailableSubjectData, setAvailableSubjectData] = useState([{}]);
   const [subject, setSubject] = useState([{}]);
+  const [noti, setNoti] = useState("Leader assign");
+  const userIdofHeader = sessionStorage.getItem("userId");
 
   useEffect(() => {
     fetchSubject();
@@ -47,14 +50,24 @@ const LeaderSubject = () => {
     const leaderData = {
       availableSubjectId,
       userId,
+      userIdofHeader,
     };
     toast.promise(
-      fetch(`${BASE_URL_API}/leader`, {
+      fetch(`${BASE_URL_API}/header/SetLeader`, {
         method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(leaderData),
       })
         .then((res) => {
+          if (noti.trim() && sessionStorage.getItem("fullName")) {
+            socket.emit("message", {
+              type: "subjectLeader",
+              message: noti,
+              userName: sessionStorage.getItem("fullName"),
+            });
+            // checkPageStatus(noti, sessionStorage.getItem("fullName"));
+          }
+          setNoti("");
           fetchTable(availableSubjectId);
         })
         .catch((err) => {

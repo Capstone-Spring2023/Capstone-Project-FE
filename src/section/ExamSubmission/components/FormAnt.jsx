@@ -76,7 +76,7 @@ const FormAnt = ({ socket }) => {
                 message: noti,
                 userName: sessionStorage.getItem("fullName"),
               });
-              checkPageStatus(noti, sessionStorage.getItem("fullName"));
+              // checkPageStatus(noti, sessionStorage.getItem("fullName"));
             }
             setNoti("");
             navigate("/exam-submission");

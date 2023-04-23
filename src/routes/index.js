@@ -62,12 +62,12 @@ export const links = [
       {
         name: "exam-submission",
         icon: <GiNotebook />,
-        role: "Lecturer",
+        role: "General",
       },
       {
         name: "exam-schedule-view",
         icon: <BiNotepad />,
-        role: "Lecturer",
+        role: "General",
       },
       {
         name: "register-class",

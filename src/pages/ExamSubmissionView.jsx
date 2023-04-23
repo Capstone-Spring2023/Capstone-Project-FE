@@ -78,7 +78,7 @@ const ExamSubmissionView = () => {
           </div>
           <div className="text-sm">
             <div className="font-medium text-gray-700">
-              Assign: {record.lecturerName}
+              Submitter: {record.lecturerName}
             </div>
             <div className="text-gray-400">Subject: {record.subjectName}</div>
           </div>

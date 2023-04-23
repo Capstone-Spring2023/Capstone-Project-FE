@@ -101,7 +101,6 @@ const GenerateSchedule = () => {
       return;
     }
     const storage = getStorage();
-    // formData.append("file", file);
     setFormData((formData) => {
       formData.append("file", file);
       return formData;
@@ -210,11 +209,11 @@ const GenerateSchedule = () => {
       dataIndex: "fullName",
     },
     {
-      title: "No. Class Not Register",
+      title: "No. Class Has Registered But Not Assign",
       dataIndex: "numNotRegisteredSubject",
     },
     {
-      title: "Num class",
+      title: "No. Class has been assign",
       dataIndex: "numClass",
     },
     {
