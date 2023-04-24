@@ -17,6 +17,8 @@ const Notification = ({ fetchNoti, notiData }) => {
           ? navigate("/exam-schedule-view", {
               state: { subject: subjectCode },
             })
+          : type === "subjectLead"
+          ? navigate("/exam-schedule")
           : navigate("/exam-submission-view", {
               state: { subject: subjectCode },
             });
@@ -44,12 +46,23 @@ const Notification = ({ fetchNoti, notiData }) => {
             />
             <div>
               <p className="font-semibold dark:text-gray-200">
-                You have new {item.type} notification
-              </p>
-              <p className="text-gray-500 text-sm dark:text-gray-400">
-                {"for "}
-                {item.subjectCode} {"from "}
-                {item.sender}{" "}
+                {item.type === "subjectLead" ? (
+                  <div>
+                    You have new Noti from {item.sender}
+                    <p className="text-gray-500 text-sm dark:text-gray-400">
+                      {item.message}
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    You have new {item.type} notification
+                    <p className="text-gray-500 text-sm dark:text-gray-400">
+                      {"from "}
+                      {item.sender} {"for "}
+                      {item.subjectCode}
+                    </p>
+                  </div>
+                )}
               </p>
             </div>
             <div className="text-gray-500">{item.status}</div>

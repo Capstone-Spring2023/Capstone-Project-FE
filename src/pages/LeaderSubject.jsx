@@ -3,14 +3,17 @@ import { Header } from "../components";
 import { BASE_URL_API } from "../utils/constants";
 import { Checkbox, ConfigProvider, Select, Space, Table } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
+import checkPageStatus from "../utils/function";
 
 const { Option } = Select;
 const { Column } = Table;
-const LeaderSubject = () => {
+const LeaderSubject = ({ socket }) => {
   const [examAvailableSubjectData, setAvailableSubjectData] = useState([{}]);
   const [subject, setSubject] = useState([{}]);
+  const [noti, setNoti] = useState("Leader assign");
+  const userIdofHeader = sessionStorage.getItem("userId");
 
   useEffect(() => {
     fetchSubject();
@@ -47,15 +50,25 @@ const LeaderSubject = () => {
     const leaderData = {
       availableSubjectId,
       userId,
+      userIdofHeader,
     };
     toast.promise(
-      fetch(`${BASE_URL_API}/leader`, {
+      fetch(`${BASE_URL_API}/header/SetLeader`, {
         method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(leaderData),
       })
         .then((res) => {
-          fetchTable();
+          if (noti.trim() && sessionStorage.getItem("fullName")) {
+            socket.emit("message", {
+              type: "subjectLeader",
+              message: noti,
+              userName: sessionStorage.getItem("fullName"),
+            });
+            // checkPageStatus(noti, sessionStorage.getItem("fullName"));
+          }
+          setNoti("");
+          fetchTable(availableSubjectId);
         })
         .catch((err) => {
           console.log(err.message);
@@ -155,6 +168,7 @@ const LeaderSubject = () => {
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+      <Toaster />
       <div className="flex justify-between items-center">
         <Header category="App" title="Available Subject" />
       </div>

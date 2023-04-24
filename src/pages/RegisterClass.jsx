@@ -20,6 +20,7 @@ const RegisterClass = () => {
       })
       .then((resp) => {
         setRegisterData(resp.registerSubjects);
+        console.log("REGISTER", resp.registerSlots);
       })
       .catch((err) => {
         console.log(err.message);
@@ -28,29 +29,8 @@ const RegisterClass = () => {
 
   const columns = [
     {
-      title: "Basic Info",
+      title: "Subject",
       dataIndex: "subjectName",
-      render: (_, record) => (
-        <div className="flex gap-3 font-normal text-gray-900 items-center">
-          <div className="relative h-10 w-10">
-            <img
-              className="h-full w-full rounded-full object-cover object-center"
-              src={avatar}
-              alt=""
-            />
-            <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
-          </div>
-          <div className="text-sm">
-            <div className="font-medium text-gray-700">
-              Register Date:{" "}
-              {moment(record.registerDate, "YYYY-MM-DDTHH:mm:ss").format(
-                "YYYY-MM-DD"
-              )}
-            </div>
-            <div className="text-gray-400">Subject: {record.subjectName}</div>
-          </div>
-        </div>
-      ),
       filters: [
         {
           text: "HCM",
@@ -67,8 +47,10 @@ const RegisterClass = () => {
       width: "40%",
     },
     {
-      title: "Slot",
-      dataIndex: "registerSlots",
+      title: "Register Date",
+      dataIndex: "registerDate",
+      render: (_, record) =>
+        moment(record.registerDate, "YYYY-MM-DDTHH:mm:ss").format("YYYY-MM-DD"),
     },
     {
       title: "Status",

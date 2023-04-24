@@ -126,21 +126,18 @@ const App = () => {
                 />
 
                 {/*Pages*/}
-                {sessionStorage.getItem("roleName") === "Lecturer" ? (
-                  <Route
-                    path="/exam-submission"
-                    element={<ExamsSubmission />}
-                  />
-                ) : null}
-                {sessionStorage.getItem("roleName") === "Leader" ? (
-                  <Route path="/exam-schedule" element={<ExamsSchedule />} />
-                ) : null}
-                {sessionStorage.getItem("roleName") === "Lecturer" ? (
-                  <Route
-                    path="/exam-schedule-view"
-                    element={<ExamsScheduleView />}
-                  />
-                ) : null}
+                {/*{sessionStorage.getItem("roleName") === "Lecturer" ? (*/}
+                <Route path="/exam-submission" element={<ExamsSubmission />} />
+                {/*) : null}*/}
+                {/*{sessionStorage.getItem("roleName") === "Leader" ? (*/}
+                <Route path="/exam-schedule" element={<ExamsSchedule />} />
+                {/*) : null}*/}
+                {/*{sessionStorage.getItem("roleName") === "Lecturer" ? (*/}
+                <Route
+                  path="/exam-schedule-view"
+                  element={<ExamsScheduleView />}
+                />
+                {/*) : null}*/}
 
                 <Route
                   path="/exam-submission-view"
@@ -159,7 +156,10 @@ const App = () => {
                   path="/register-class/register"
                   element={<RegisterClass_Register />}
                 />
-                <Route path="/available-subject" element={<LeaderSubject />} />
+                <Route
+                  path="/available-subject"
+                  element={<LeaderSubject socket={socket} />}
+                />
                 <Route path="/import-schedule" element={<ImportSchedule />} />
                 <Route
                   path="/generate-schedule"
