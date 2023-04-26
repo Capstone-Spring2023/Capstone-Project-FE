@@ -33,7 +33,7 @@ const GenerateSchedule = () => {
 
   const handleButtonClick = async () => {
     try {
-      const response = await fetch(`${BASE_URL_API}/auto-schedule/get-file`);
+      const response = await fetch(`${BASE_URL_API}/auto-schedule/get-file?semesterId=1`);
       const downloadUrl = await response.text();
       window.open(downloadUrl, "_blank");
       setShowUploadButtons(true);

@@ -3,16 +3,19 @@ import { toast, Toaster } from "react-hot-toast";
 import { Header, ModalAnt, Popup } from "../components";
 import avatar from "../assets/banner.jpg";
 import { APPROVED, BASE_URL_API } from "../utils/constants";
-import { Popconfirm, Table, Tooltip } from "antd";
+import { Popconfirm, Switch, Table, Tooltip } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import { useLocation } from "react-router-dom";
 
 const ExamSubmissionView = () => {
   const [examData, setExamData] = useState([{}]);
+  const [examHistoryData, setExamHistoryData] = useState([{}]);
+  const [isHistory, setIsHistory] = useState(false);
   const { state } = useLocation();
 
   useEffect(() => {
     fetchTable();
+    fetchHistoryTable();
   }, []);
 
   const handleApprove = (id) => {
@@ -57,6 +60,33 @@ const ExamSubmissionView = () => {
       .then((resp) => {
         setExamData(resp);
         console.log("re", resp);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
+  const handleChangeHistory = (checked) => {
+    if (checked) {
+      setIsHistory(true);
+      fetchHistoryTable();
+    }
+    setIsHistory(false);
+    fetchTable();
+  };
+
+  const fetchHistoryTable = () => {
+    fetch(
+      `${BASE_URL_API}/leader/${sessionStorage.getItem(
+        "userId"
+      )}/exam-submission-approved`
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((resp) => {
+        setExamHistoryData(resp);
+        console.log("rehis", resp);
       })
       .catch((err) => {
         console.log(err.message);
@@ -139,29 +169,38 @@ const ExamSubmissionView = () => {
       key: "action",
       render: (_, record) => (
         <div className="flex justify-start gap-4 content-center items-center">
-          <Tooltip title="Approve">
-            <Popconfirm
-              title="Approve the exam"
-              description="Are you sure to approve this exam?"
-              onConfirm={() => handleApprove(record.examPaperId)}
-              okText="Yes"
-              okType="default"
-              cancelText="No"
-            >
-              <CheckOutlined
-                style={{ fontSize: 17, color: "lightgreen" }}
-                height={55}
+          {isHistory ? (
+            <ModalAnt title="Exam submission detail" id={record.examPaperId} />
+          ) : (
+            <>
+              <Tooltip title="Approve">
+                <Popconfirm
+                  title="Approve the exam"
+                  description="Are you sure to approve this exam?"
+                  onConfirm={() => handleApprove(record.examPaperId)}
+                  okText="Yes"
+                  okType="default"
+                  cancelText="No"
+                >
+                  <CheckOutlined
+                    style={{ fontSize: 17, color: "lightgreen" }}
+                    height={55}
+                  />
+                </Popconfirm>
+              </Tooltip>
+              <Popup
+                title="Comment"
+                fetchTable={fetchTable}
+                examPaperId={record.examPaperId}
+                examLink={record.examLink}
+                subjectName={record.subjectName}
               />
-            </Popconfirm>
-          </Tooltip>
-          <Popup
-            title="Comment"
-            fetchTable={fetchTable}
-            examPaperId={record.examPaperId}
-            examLink={record.examLink}
-            subjectName={record.subjectName}
-          />
-          <ModalAnt title="Exam submission detail" id={record.examPaperId} />
+              <ModalAnt
+                title="Exam submission detail"
+                id={record.examPaperId}
+              />
+            </>
+          )}
         </div>
       ),
     },
@@ -175,9 +214,16 @@ const ExamSubmissionView = () => {
       <div className="flex justify-between items-center">
         <Header category="App" title="Exam Submission View" />
       </div>
+      <Switch
+        style={{ marginBottom: "10px" }}
+        checkedChildren="History"
+        unCheckedChildren="Current"
+        defaultChecked={false}
+        onClick={handleChangeHistory}
+      />
       <Table
         columns={columns}
-        dataSource={examData}
+        dataSource={isHistory ? examHistoryData : examData}
         pagination={{ pageSize: 5 }}
       />
     </div>

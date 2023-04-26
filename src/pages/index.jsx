@@ -11,3 +11,4 @@ export { default as Schedule } from "./Schedule";
 export { default as LeaderSubject } from "./LeaderSubject";
 export { default as GenerateSchedule } from "./GenerateSchedule";
 export { default as ImportSchedule } from "./ImportSchedule";
+export { default as ExamManagement } from "./ExamManagement";

@@ -75,15 +75,11 @@ const ModalAnt = ({ title, id }) => {
       .map(async (item) => {
         const file = await getMetadata(item);
         const fileRef = ref(storage, item.fullPath);
-        console.log("FILE", file);
-        console.log("FILEREF", fileRef);
         const fileBlob = await getDownloadURL(fileRef).then((url) => {
           return fetch(`${NO_CORS_URL}/${url}`).then((response) =>
             response.blob()
           );
         });
-        console.log("FILEBLOB", fileBlob);
-        console.log("FOLDER", folder.prefixes[0]._location.path);
         jszip.folder("Given/");
         jszip.folder("TestCases/");
         jszip.file(file.name, fileBlob);

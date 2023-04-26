@@ -1,9 +1,10 @@
 import React from "react";
 import { AiOutlineSchedule } from "react-icons/ai";
 import { BiNotepad } from "react-icons/bi";
-import { BsPeople } from "react-icons/bs";
-import { MdClass, MdDashboard } from "react-icons/md";
-import { GiNotebook, GiStabbedNote } from "react-icons/gi";
+import { MdDashboard, MdOutlineClass, MdSubject } from "react-icons/md";
+import { GiNotebook } from "react-icons/gi";
+import { GrNotes, GrScheduleNew, GrSchedulePlay } from "react-icons/gr";
+import { RiNewspaperLine } from "react-icons/ri";
 
 export const links = [
   {
@@ -31,18 +32,23 @@ export const links = [
       },
       {
         name: "available-subject",
-        icon: <GiNotebook />,
+        icon: <MdSubject />,
         role: "Header",
       },
       {
         name: "import-schedule",
-        icon: <GiNotebook />,
+        icon: <GrScheduleNew />,
         role: "Header",
       },
       {
         name: "generate-schedule",
-        icon: <GiNotebook />,
+        icon: <GrSchedulePlay />,
         role: "Header",
+      },
+      {
+        name: "exam-submission-view",
+        icon: <GrNotes />,
+        role: "General",
       },
     ],
   },
@@ -55,23 +61,18 @@ export const links = [
         role: "Leader",
       },
       {
-        name: "exam-submission-view",
-        icon: <GiStabbedNote />,
-        role: "General",
-      },
-      {
         name: "exam-submission",
         icon: <GiNotebook />,
         role: "General",
       },
       {
-        name: "exam-schedule-view",
+        name: "exam-schedule-request",
         icon: <BiNotepad />,
         role: "General",
       },
       {
         name: "register-class",
-        icon: <MdClass />,
+        icon: <MdOutlineClass />,
         role: "General",
       },
     ],

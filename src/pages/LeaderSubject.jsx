@@ -1,18 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { Header } from "../components";
-import { BASE_URL_API } from "../utils/constants";
-import { Checkbox, ConfigProvider, Select, Space, Table } from "antd";
-import { SmileOutlined } from "@ant-design/icons";
+import { BASE_URL_API, NO_CORS_URL } from "../utils/constants";
+import { Checkbox, Popconfirm, Select, Space, Table } from "antd";
 import { toast, Toaster } from "react-hot-toast";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-import checkPageStatus from "../utils/function";
+import { DownloadOutlined } from "@ant-design/icons";
+import { saveAs } from "file-saver";
+import JSZip from "jszip";
+import {
+  getDownloadURL,
+  getMetadata,
+  getStorage,
+  listAll,
+  ref,
+} from "firebase/storage";
 
 const { Option } = Select;
 const { Column } = Table;
 const LeaderSubject = ({ socket }) => {
   const [examAvailableSubjectData, setAvailableSubjectData] = useState([{}]);
   const [subject, setSubject] = useState([{}]);
+  const semester = [
+    { id: 1, name: "SU23" },
+    { id: 2, name: "FA23" },
+  ];
   const [noti, setNoti] = useState("Leader assign");
+  const [availableSubjectId, setAvailableSubjectId] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [subjectName, setSubjectName] = useState("");
+  const [semesterId, setSemesterId] = useState("");
+  const [examLink, setExamLink] = useState("");
+  const [isZipping, setIsZipping] = useState(false);
   const userIdofHeader = sessionStorage.getItem("userId");
 
   useEffect(() => {
@@ -20,13 +38,15 @@ const LeaderSubject = ({ socket }) => {
   }, []);
 
   const handleSubjectSelect = (value) => {
-    fetchTable(value);
-    const filteredData = examAvailableSubjectData?.filter(
-      (item) =>
-        item?.subjectName?.toLowerCase()?.indexOf(value.toLowerCase()) >= 0
-    );
-    // Cập nhật lại state để hiển thị dữ liệu đã lọc trên bảng
-    setAvailableSubjectData(filteredData);
+    console.log("VALUE", value);
+    const id = value.split(",")[0];
+    const selectSubjectName = value.split(",")[1];
+    setSubjectName(selectSubjectName);
+    fetchTable(id);
+  };
+
+  const handleSemesterSelect = (value) => {
+    setSemesterId(value);
   };
 
   const fetchSubject = () => {
@@ -42,9 +62,8 @@ const LeaderSubject = ({ socket }) => {
       });
   };
   const onChange = (checkedValues: CheckboxValueType[]) => {
-    const availableSubjectId = checkedValues.target.value.split(",")[0];
-    const userId = checkedValues.target.value.split(",")[1];
-    handleLeader(availableSubjectId, userId);
+    setAvailableSubjectId(checkedValues.target.value.split(",")[0]);
+    setUserId(checkedValues.target.value.split(",")[1]);
   };
   const handleLeader = (availableSubjectId, userId) => {
     const leaderData = {
@@ -81,6 +100,70 @@ const LeaderSubject = ({ socket }) => {
     );
   };
 
+  const downloadFolderAsZip = async () => {
+    setIsZipping(true);
+    const jszip = new JSZip();
+    const storage = getStorage();
+    const folderRef = ref(storage, examLink + "/" + subjectName + "/PE1");
+    const folderRef2 = ref(
+      storage,
+      examLink + "/" + subjectName + "/PE1/Given"
+    );
+    const folderRef3 = ref(
+      storage,
+      examLink + "/" + subjectName + "/PE1/TestCases"
+    );
+    const folder = await listAll(folderRef);
+    const folder2 = await listAll(folderRef2);
+    const folder3 = await listAll(folderRef3);
+    const promises = folder.items
+      .map(async (item) => {
+        const file = await getMetadata(item);
+        const fileRef = ref(storage, item.fullPath);
+        const fileBlob = await getDownloadURL(fileRef).then((url) => {
+          return fetch(`${NO_CORS_URL}/${url}`).then((response) =>
+            response.blob()
+          );
+        });
+        jszip.folder("Given/");
+        jszip.folder("TestCases/");
+        jszip.file(file.name, fileBlob);
+      })
+      .reduce((acc, curr) => acc.then(() => curr), Promise.resolve());
+    await promises;
+    const promises2 = folder2.items
+      .map(async (item) => {
+        const givenFolder = jszip.folder("Given");
+        const file = await getMetadata(item);
+        const fileRef = ref(storage, item.fullPath);
+        const fileBlob = await getDownloadURL(fileRef).then((url) => {
+          return fetch(`${NO_CORS_URL}/${url}`).then((response) =>
+            response.blob()
+          );
+        });
+        givenFolder.file(file.name, fileBlob);
+      })
+      .reduce((acc, curr) => acc.then(() => curr), Promise.resolve());
+    await promises2;
+    const promises3 = folder3.items
+      .map(async (item) => {
+        const testCFolder = jszip.folder("TestCases");
+        const file = await getMetadata(item);
+        const fileRef = ref(storage, item.fullPath);
+        const fileBlob = await getDownloadURL(fileRef).then((url) => {
+          return fetch(`${NO_CORS_URL}/${url}`).then((response) =>
+            response.blob()
+          );
+        });
+        testCFolder.file(file.name, fileBlob);
+      })
+      .reduce((acc, curr) => acc.then(() => curr), Promise.resolve());
+    await promises3;
+    setIsZipping(false);
+    const zipBlob = await jszip.generateAsync({ type: "blob" });
+    saveAs(zipBlob, "PE1.zip");
+  };
+
   const fetchTable = (availableSubjectId) => {
     fetch(
       `${BASE_URL_API}/header/GetLecturersHaveRegisterSubjectByAvailableSubjectId/${availableSubjectId}`
@@ -110,61 +193,65 @@ const LeaderSubject = ({ socket }) => {
       filterMode: "tree",
       filterSearch: true,
       onFilter: (value, record) => record.fullName.indexOf(value) === 0,
-      width: "30%",
+      width: "20%",
     },
     {
       title: "Subject",
       dataIndex: "subjectName",
-      sorter: (a, b) => a.age - b.age,
     },
     {
       title: "Semester",
       dataIndex: "semester",
-      filters: [
-        // {
-        //   text: "London",
-        //   value: "London",
-        // },
-        // {
-        //   text: "New York",
-        //   value: "New York",
-        // },
-      ],
-      onFilter: (value, record) => record.address.startsWith(value),
-      filterSearch: true,
-      width: "20%",
+    },
+    {
+      title: "Reviewer",
+      dataIndex: "approvalUserName",
+    },
+    {
+      title: "Exam file",
+      dataIndex: "examLink",
+      render: (_, record) =>
+        record.status ? (
+          <DownloadOutlined
+            style={{ fontSize: 23, color: "lightblue" }}
+            onClick={() => downloadFolderAsZip()}
+          />
+        ) : (
+          <></>
+        ),
+    },
+    {
+      title: "Exam status",
+      dataIndex: "status",
+      render: (_, record) =>
+        record.status ? <div>Submitted</div> : <div>Not Submit</div>,
     },
     {
       title: "isLeader",
       dataIndex: "isLeader",
-      render: (_, record) => (
-        <Checkbox
-          onChange={onChange}
-          value={`${record.availableSubjectId},${record.userId}`}
-          checked={record?.isLeader}
-        >
-          isLeader
-        </Checkbox>
-      ),
+      render: (_, record) =>
+        record.isCol ? (
+          <div>Is Collaborator</div>
+        ) : (
+          <Popconfirm
+            title="Assign subject Leader"
+            description="Are you sure to assign leader?"
+            onConfirm={() => handleLeader(availableSubjectId, userId)}
+            okText="Yes"
+            okType="default"
+            cancelText="No"
+          >
+            <Checkbox
+              onChange={onChange}
+              value={`${record.availableSubjectId},${record.userId}`}
+              checked={record?.isLeader}
+            >
+              isLeader
+            </Checkbox>
+          </Popconfirm>
+        ),
     },
   ];
-  const customizeRenderEmpty = () => (
-    <div
-      style={{
-        textAlign: "center",
-      }}
-    >
-      <SmileOutlined
-        style={{
-          fontSize: 20,
-        }}
-      />
-      <p>Data Not Found</p>
-    </div>
-  );
-  const style = {
-    width: 200,
-  };
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -173,29 +260,36 @@ const LeaderSubject = ({ socket }) => {
         <Header category="App" title="Available Subject" />
       </div>
       <div className="flex justify-start items-center mb-5">
-        <ConfigProvider renderEmpty={customizeRenderEmpty}>
-          <Select
-            showSearch
-            style={style}
-            placeholder="Select subjects"
-            onSelect={handleSubjectSelect}
-            optionLabelProp="label"
-            filterOption={(input, option) =>
-              option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-            optionFilterProp="label"
-          >
-            {subject?.map((item, index) => (
-              <Option
-                key={index}
-                value={`${item?.availableSubjectId}`}
-                label={`${item?.subjectName}`}
-              >
-                <Space>{item?.subjectName}</Space>
-              </Option>
-            ))}
-          </Select>
-        </ConfigProvider>
+        <Select
+          style={{ width: "200px", marginRight: "10px" }}
+          placeholder="Select semester"
+          onSelect={handleSemesterSelect}
+          optionLabelProp="label"
+          optionFilterProp="label"
+        >
+          {semester?.map((item, index) => (
+            <Option key={index} value={`${item.id}`} label={`${item.name}`}>
+              <Space>{item.name}</Space>
+            </Option>
+          ))}
+        </Select>
+        <Select
+          style={{ width: "200px" }}
+          showSearch
+          placeholder="Select subjects"
+          onSelect={handleSubjectSelect}
+          optionLabelProp="label"
+        >
+          {subject?.map((item, index) => (
+            <Option
+              key={index}
+              value={`${item?.availableSubjectId},${item?.subjectName}`}
+              label={`${item?.subjectName}`}
+            >
+              <Space>{item?.subjectName}</Space>
+            </Option>
+          ))}
+        </Select>
       </div>
       <Table
         columns={columns}
