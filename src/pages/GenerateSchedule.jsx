@@ -92,12 +92,14 @@ const GenerateSchedule = () => {
   const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
     if (!file) return;
     const fileExtension = file.name.split(".").pop();
+    const fileNameParts = file.name.split("_");
     if (fileExtension !== "csv") {
       messageAnt.error("Only support for .csv file");
       return;
     }
-    if (file.name !== "register_subject_v1.csv") {
-      messageAnt.error("Only support for register_subject_v1.csv file");
+    // if (file.name !== "register_subject_v1.csv") {
+    if (fileNameParts[0] !== "register" || fileNameParts[1] !== "subject") {
+      messageAnt.error("Only support for register_subject_(v1).csv file");
       return;
     }
     const storage = getStorage();
