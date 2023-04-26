@@ -5,7 +5,7 @@ import { SmileOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
-const SelectAnt = ({ onChange, defaultValue }) => {
+const SelectAnt = ({ onChange, defaultValue,subjectId  }) => {
   const [subject, setSubject] = useState([{}]);
   const [examAvailableSubjectData, setAvailableSubjectData] = useState([{}]);
   const handleSubjectSelect = (value) => {

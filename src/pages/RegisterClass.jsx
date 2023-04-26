@@ -8,8 +8,21 @@ import { BASE_URL_API } from "../utils/constants";
 
 const RegisterClass = () => {
   const [registerData, setRegisterData] = useState([{}]);
+  const [deadlineRegister, setDeadlineRegister] = useState([{}]);
+  const [deadlinePassed, setDeadlinePassed] = useState(false);
 
   useEffect(() => {
+    fetchRegister();
+    fetchDeadlineRegister();
+  }, []);
+
+  useEffect(() => {
+    if (moment().isAfter(moment(deadlineRegister))) {
+      setDeadlinePassed(true);
+    }
+  }, [deadlineRegister]);
+
+  const fetchRegister = () => {
     fetch(
       `${BASE_URL_API}/user/${sessionStorage.getItem(
         "userId"
@@ -25,7 +38,23 @@ const RegisterClass = () => {
       .catch((err) => {
         console.log(err.message);
       });
-  }, []);
+  };
+
+  const fetchDeadlineRegister = () => {
+    fetch(
+      `https://fpt-cft.azurewebsites.net/api/schedule/deadline-checking?semesterId=1`
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((resp) => {
+        setDeadlineRegister(resp.deadline);
+        console.log("Deadline", resp.deadline);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
 
   const columns = [
     {
@@ -57,16 +86,14 @@ const RegisterClass = () => {
       dataIndex: "status",
       render: (_, record) => (
         <span
-          className={`inline-flex items-center gap-1 rounded-full ${
-            record.status
-              ? "bg-green-50 text-green-600"
-              : "bg-red-50 text-red-600"
-          }  px-2 py-1 text-xs font-semibold`}
+          className={`inline-flex items-center gap-1 rounded-full ${record.status
+            ? "bg-green-50 text-green-600"
+            : "bg-red-50 text-red-600"
+            }  px-2 py-1 text-xs font-semibold`}
         >
           <span
-            className={`h-1.5 w-1.5 rounded-full ${
-              record.status ? "bg-green-600" : "bg-red-600"
-            }`}
+            className={`h-1.5 w-1.5 rounded-full ${record.status ? "bg-green-600" : "bg-red-600"
+              }`}
           ></span>
           {record.status ? "Active" : "Inactive"}
         </span>
@@ -79,12 +106,27 @@ const RegisterClass = () => {
       <div className="flex justify-between items-center">
         <Header category="Register" title="Class" />
         <div>
-          <Link
+          {/* <Link
             to="/register-class/register"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            onClick={() => {
+              if (deadlinePassed) {
+                return false;
+              }
+            }}
           >
-            Register Class
-          </Link>
+            Register
+          </Link> */}
+          {deadlinePassed ? (
+            null
+          ) : (
+            <Link
+              to="/register-class/register"
+              className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800`}
+            >
+              Register
+            </Link>
+          )}
         </div>
       </div>
       <Table

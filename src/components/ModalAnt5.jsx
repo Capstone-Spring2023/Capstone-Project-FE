@@ -48,7 +48,9 @@ const ModalAnt5 = ({
   };
 
   useEffect(() => {
-    fetch(`${BASE_URL_API}/header/profile/getHeader/` + selectedUserId)
+    const userId = selectedUserId || sessionStorage.getItem("userId");
+    // fetch(`${BASE_URL_API}/header/profile/getHeader/` + selectedUserId)
+    fetch(`${BASE_URL_API}/header/profile/getHeader/${userId}`)
       .then((res) => {
         return res.json();
       })
