@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Header } from "../components";
-import { InboxOutlined } from "@ant-design/icons";
+import { InboxOutlined, SearchOutlined } from "@ant-design/icons";
 import {
   Button,
+  Checkbox,
   DatePicker,
   DatePickerProps,
-  message as messageAnt,
-  Upload,
   Form,
-  Steps,
+  Input,
+  message as messageAnt,
+  Popconfirm,
   Result,
+  Select,
+  Space,
+  Steps,
+  Table,
+  Upload,
 } from "antd";
 import {
   getDownloadURL,
@@ -18,16 +24,29 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { read, utils } from "xlsx";
-import { saveAs } from "file-saver";
 import { BASE_URL_API } from "../utils/constants";
 import moment from "moment/moment";
 import { toast, Toaster } from "react-hot-toast";
+import Highlighter from "react-highlight-words";
 
 const { Dragger } = Upload;
+const { Option } = Select;
 const ImportSchedule = () => {
   const [deadLine, setDeadLine] = useState("");
   const [formData, setFormData] = useState(new FormData());
   const [current, setCurrent] = useState(0);
+  const [subject, setSubject] = useState([{}]);
+  const [subjectId, setSubjectId] = useState(null);
+  const [availableSubjectId, setAvailableSubjectId] = useState(null);
+  const [teachableData, setTeachableData] = useState([{}]);
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef(null);
+
+  useEffect(() => {
+    fetchSubject();
+  }, []);
+
   const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
     if (!file) return;
     const storage = getStorage();
@@ -59,6 +78,7 @@ const ImportSchedule = () => {
           .then((url) => {
             console.log(url);
             handleFile(file);
+            setCurrent(current + 1);
             messageAnt.success(`${file.name} file imported successfully.`);
           })
           .catch((error) => {
@@ -127,7 +147,6 @@ const ImportSchedule = () => {
       const sheet1 = workbook.Sheets[sheet1Name];
       const data1 = utils.sheet_to_csv(sheet1);
 
-      console.log("CSV", data1); // In dữ liệu từ trang tính 1 ra console
       // const csvBlob = new Blob([data1], { type: "text/csv;charset=utf-8" });
       // saveAs(csvBlob, file.name.replace(".xlsx", "") + ".csv");
     };
@@ -136,6 +155,58 @@ const ImportSchedule = () => {
 
   const contentStyle: React.CSSProperties = {
     marginTop: 16,
+  };
+  const fetchSubject = (semesterId) => {
+    fetch(`https://fpt-cft.azurewebsites.net/Semester/1`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((resp) => {
+        setSubject(resp);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
+  const fetchTeachableData = (availableId) => {
+    fetch(
+      `${BASE_URL_API}/user/GetUserCanTeachByAvailableSubjectId/${availableId}`
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((resp) => {
+        setTeachableData(resp.data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
+  const handleTeachable = (subjectId, userId, availableSubjectId) => {
+    const teachableData = {
+      subjectId,
+      userId,
+    };
+    toast.promise(
+      fetch(`${BASE_URL_API}/able-subject/api/user/able-subject`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(teachableData),
+      })
+        .then((res) => {
+          fetchTeachableData(availableSubjectId);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        }),
+      {
+        loading: "Updating...",
+        success: <b>Updated successfully</b>,
+        error: <b>Could not update.</b>,
+      }
+    );
   };
 
   const isDisabledDate = (current) => {
@@ -151,6 +222,149 @@ const ImportSchedule = () => {
       (current < minDeadline || current > maxDeadline || current.isSame(today))
     );
   };
+
+  const handleSubjectSelect = (value) => {
+    const availableSubjectId = value.split(",")[0];
+    const subjectId = value.split(",")[1];
+    fetchTeachableData(availableSubjectId);
+    setSubjectId(subjectId);
+    setAvailableSubjectId(availableSubjectId);
+  };
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText("");
+  };
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+      close,
+    }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: "block",
+          }}
+        />
+        <Space>
+          <Button
+            type="default"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            close
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? "#1890ff" : undefined,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: "#ffc069",
+            padding: 0,
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ""}
+        />
+      ) : (
+        text
+      ),
+  });
+
+  const columns = [
+    {
+      title: "FullName",
+      dataIndex: "fullName",
+      key: "fullName",
+      ...getColumnSearchProps("fullName"),
+    },
+    {
+      title: "Semester",
+      dataIndex: "semester",
+    },
+    {
+      title: "Teachable",
+      dataIndex: "status",
+      render: (_, record) => (
+        <Popconfirm
+          title="Set teachable subject"
+          description="Are you sure to set this subject?"
+          onConfirm={() =>
+            handleTeachable(subjectId, record.userId, availableSubjectId)
+          }
+          okText="Yes"
+          okType="default"
+          cancelText="No"
+        >
+          <Checkbox
+            onChange={onChange}
+            value={`${record.userId}`}
+            checked={record?.status}
+          >
+            isTeachable
+          </Checkbox>
+        </Popconfirm>
+      ),
+    },
+  ];
 
   const steps = [
     {
@@ -194,9 +408,40 @@ const ImportSchedule = () => {
               </p>
             </Dragger>
           </Form.Item>
-          <Button htmlType="submit" className="w-fit">
-            Send Notification
-          </Button>
+        </Form>
+      ),
+    },
+    {
+      title: "Set teachable subject",
+      content: (
+        <Form name="basic" onFinish={sendNotification} autoComplete="off">
+          <div className="flex flex-col gap-3">
+            <Select
+              style={{ width: "200px" }}
+              showSearch
+              placeholder="Select subjects"
+              onSelect={handleSubjectSelect}
+              optionLabelProp="label"
+            >
+              {subject?.map((item, index) => (
+                <Option
+                  key={index}
+                  value={`${item?.availableSubjectId},${item?.subjectId}`}
+                  label={`${item?.subjectName}`}
+                >
+                  <Space>{item?.subjectName}</Space>
+                </Option>
+              ))}
+            </Select>
+            <Table
+              columns={columns}
+              dataSource={teachableData?.length > 1 ? teachableData : null}
+              pagination={{ pageSize: 5 }}
+            />
+            <Button htmlType="submit" className="w-fit">
+              Send Notification
+            </Button>
+          </div>
         </Form>
       ),
     },

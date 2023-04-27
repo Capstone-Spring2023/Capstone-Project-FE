@@ -70,9 +70,10 @@ const ExamSubmissionView = () => {
     if (checked) {
       setIsHistory(true);
       fetchHistoryTable();
+    } else {
+      setIsHistory(false);
+      fetchTable();
     }
-    setIsHistory(false);
-    fetchTable();
   };
 
   const fetchHistoryTable = () => {

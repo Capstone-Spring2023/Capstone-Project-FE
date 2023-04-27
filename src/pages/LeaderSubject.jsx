@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Header } from "../components";
 import { BASE_URL_API, NO_CORS_URL } from "../utils/constants";
 import { Checkbox, Popconfirm, Select, Space, Table } from "antd";
@@ -21,6 +21,7 @@ const LeaderSubject = ({ socket }) => {
   const [examAvailableSubjectData, setAvailableSubjectData] = useState([{}]);
   const [subject, setSubject] = useState([{}]);
   const semester = [
+    { id: 3, name: "SP23" },
     { id: 1, name: "SU23" },
     { id: 2, name: "FA23" },
   ];
@@ -28,17 +29,10 @@ const LeaderSubject = ({ socket }) => {
   const [availableSubjectId, setAvailableSubjectId] = useState(null);
   const [userId, setUserId] = useState(null);
   const [subjectName, setSubjectName] = useState("");
-  const [semesterId, setSemesterId] = useState("");
-  const [examLink, setExamLink] = useState("");
   const [isZipping, setIsZipping] = useState(false);
   const userIdofHeader = sessionStorage.getItem("userId");
 
-  useEffect(() => {
-    fetchSubject();
-  }, []);
-
   const handleSubjectSelect = (value) => {
-    console.log("VALUE", value);
     const id = value.split(",")[0];
     const selectSubjectName = value.split(",")[1];
     setSubjectName(selectSubjectName);
@@ -46,11 +40,11 @@ const LeaderSubject = ({ socket }) => {
   };
 
   const handleSemesterSelect = (value) => {
-    setSemesterId(value);
+    fetchSubject(value);
   };
 
-  const fetchSubject = () => {
-    fetch(`${BASE_URL_API}/AvailableSubject`)
+  const fetchSubject = (semesterId) => {
+    fetch(`https://fpt-cft.azurewebsites.net/Semester/${semesterId}`)
       .then((res) => {
         return res.json();
       })
@@ -100,7 +94,7 @@ const LeaderSubject = ({ socket }) => {
     );
   };
 
-  const downloadFolderAsZip = async () => {
+  const downloadFolderAsZip = async (examLink) => {
     setIsZipping(true);
     const jszip = new JSZip();
     const storage = getStorage();
@@ -196,10 +190,6 @@ const LeaderSubject = ({ socket }) => {
       width: "20%",
     },
     {
-      title: "Subject",
-      dataIndex: "subjectName",
-    },
-    {
       title: "Semester",
       dataIndex: "semester",
     },
@@ -214,7 +204,7 @@ const LeaderSubject = ({ socket }) => {
         record.status ? (
           <DownloadOutlined
             style={{ fontSize: 23, color: "lightblue" }}
-            onClick={() => downloadFolderAsZip()}
+            onClick={() => downloadFolderAsZip(record.examLink)}
           />
         ) : (
           <></>

@@ -134,7 +134,7 @@ const RegisterClassForm = () => {
           </Form.Item>
           {showSubjects && (
             <Form.Item
-              label="Available Subject"
+              label="Teachable Subject"
               name="subject"
               rules={[
                 {
