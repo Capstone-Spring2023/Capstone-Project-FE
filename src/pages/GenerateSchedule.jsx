@@ -110,7 +110,7 @@ const GenerateSchedule = () => {
 
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/EmptySchedule/${file.name}`
+      `/SP23/${sessionStorage.getItem("email")}/EmptySchedule/${file.name}`
     );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(
@@ -168,7 +168,7 @@ const GenerateSchedule = () => {
 
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/EmptySchedule/${file.name}`
+      `/SP23/${sessionStorage.getItem("email")}/EmptySchedule/${file.name}`
     );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(

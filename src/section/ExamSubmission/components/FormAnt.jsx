@@ -103,7 +103,7 @@ const FormAnt = ({ socket }) => {
     // let fileRef = ref(storage, file.name);
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem(
+      `/SP23/${sessionStorage.getItem(
         "email"
       )}/${availableSubjectName2.trim()}/PE1/${file.name}`
     );
@@ -128,7 +128,7 @@ const FormAnt = ({ socket }) => {
       function complete() {
         onSuccess(file);
         setFile(
-          `gs://capstone-cft.appspot.com/${sessionStorage.getItem(
+          `gs://capstone-cft.appspot.com/SP23/${sessionStorage.getItem(
             "email"
           )}/${availableSubjectName2.trim()}/PE1`
         );
@@ -143,7 +143,7 @@ const FormAnt = ({ socket }) => {
   const upLoadFile2 = async ({ onSuccess, onProgress, onError, file }) => {
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem(
+      `/SP23/${sessionStorage.getItem(
         "email"
       )}/${availableSubjectName2.trim()}/PE1/Given/${file.name}`
     );
@@ -176,7 +176,7 @@ const FormAnt = ({ socket }) => {
   const upLoadFile3 = async ({ onSuccess, onProgress, onError, file }) => {
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem(
+      `/SP23/${sessionStorage.getItem(
         "email"
       )}/${availableSubjectName2.trim()}/PE1/TestCases/${file.name}`
     );

@@ -86,10 +86,10 @@ const FormAntEdit = ({ editID }) => {
     }
   };
   const upLoadFile = async ({ onSuccess, onProgress, onError, file }) => {
-    let folderRef = ref(storage, `/` + assignee + `/${examScheduleID}/PE1`);
+    let folderRef = ref(storage, `/SP23/` + assignee + `/${examScheduleID}/PE1`);
     let fileRef = ref(
       storage,
-      `/` + assignee + `/${examScheduleID}/PE1/${file.name}`
+      `/SP23/` + assignee + `/${examScheduleID}/PE1/${file.name}`
     );
     listAll(folderRef).then((res) => {
       if (res.items.length > 0) {
@@ -164,11 +164,11 @@ const FormAntEdit = ({ editID }) => {
   const upLoadFile2 = async ({ onSuccess, onProgress, onError, file }) => {
     let folderRef = ref(
       storage,
-      `/` + assignee + `/${examScheduleID}/PE1/Given`
+      `/SP23/` + assignee + `/${examScheduleID}/PE1/Given`
     );
     let fileRef = ref(
       storage,
-      `/` + assignee + `/${examScheduleID}/PE1/Given/${file.name}`
+      `/SP23/` + assignee + `/${examScheduleID}/PE1/Given/${file.name}`
     );
     listAll(folderRef).then((res) => {
       if (res.items.length > 0) {
@@ -244,11 +244,11 @@ const FormAntEdit = ({ editID }) => {
   const upLoadFile3 = async ({ onSuccess, onProgress, onError, file }) => {
     let folderRef = ref(
       storage,
-      `/` + assignee + `/${examScheduleID}/PE1/TestCases`
+      `/SP23/` + assignee + `/${examScheduleID}/PE1/TestCases`
     );
     let fileRef = ref(
       storage,
-      `/` + assignee + `/${examScheduleID}/PE1/TestCases/${file.name}`
+      `/SP23/` + assignee + `/${examScheduleID}/PE1/TestCases/${file.name}`
     );
     listAll(folderRef).then((res) => {
       if (res.items.length > 0) {

@@ -19,7 +19,7 @@ const Popup = ({ title, fetchTable, examPaperId, examLink, subjectName }) => {
   };
 
   const deleteFile = () => {
-    let folderRef = ref(storage, `/${examLink}/${subjectName.trim()}/PE1`);
+    let folderRef = ref(storage, `/SP23/${examLink}/${subjectName.trim()}/PE1`);
     listAll(folderRef).then((res) => {
       if (res.items.length > 0) {
         const promises = [];
@@ -40,7 +40,7 @@ const Popup = ({ title, fetchTable, examPaperId, examLink, subjectName }) => {
   const deleteFile2 = () => {
     let folderRef = ref(
       storage,
-      `/${examLink}/${subjectName.trim()}/PE1/Given`
+      `/SP23/${examLink}/${subjectName.trim()}/PE1/Given`
     );
     listAll(folderRef).then((res) => {
       if (res.items.length > 0) {
@@ -62,7 +62,7 @@ const Popup = ({ title, fetchTable, examPaperId, examLink, subjectName }) => {
   const deleteFile3 = () => {
     let folderRef = ref(
       storage,
-      `/${examLink}/${subjectName.trim()}/PE1/TestCases`
+      `/SP23/${examLink}/${subjectName.trim()}/PE1/TestCases`
     );
     listAll(folderRef).then((res) => {
       if (res.items.length > 0) {
