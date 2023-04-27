@@ -64,7 +64,6 @@ const RegisterClassForm = () => {
           body: JSON.stringify(registerData),
         })
           .then((res) => {
-            console.log("RES", res);
             navigate("/register-class");
           })
           .catch((err) => {

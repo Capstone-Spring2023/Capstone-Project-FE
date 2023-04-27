@@ -59,7 +59,6 @@ const ExamSubmissionView = () => {
       })
       .then((resp) => {
         setExamData(resp);
-        console.log("re", resp);
       })
       .catch((err) => {
         console.log(err.message);
@@ -87,7 +86,6 @@ const ExamSubmissionView = () => {
       })
       .then((resp) => {
         setExamHistoryData(resp);
-        console.log("rehis", resp);
       })
       .catch((err) => {
         console.log(err.message);

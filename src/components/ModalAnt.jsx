@@ -41,7 +41,6 @@ const ModalAnt = ({ title, id }) => {
         return res.json();
       })
       .then((resp) => {
-        console.log("RES", resp);
         setExamTitle(resp.examContent);
         setLecturerName(resp.lecturerName);
         setSubjectName(resp.subjectName);

@@ -37,7 +37,6 @@ const SubjectCreate = () => {
       body: JSON.stringify(subjectData),
     })
       .then((res) => {
-        console.log("RES", res);
         alert("Create successfully");
         navigate("/subjects");
       })

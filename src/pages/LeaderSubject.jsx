@@ -167,7 +167,6 @@ const LeaderSubject = ({ socket }) => {
       })
       .then((resp) => {
         setAvailableSubjectData(resp.data);
-        console.log("RES", resp);
       })
       .catch((err) => {
         console.log(err.message);
