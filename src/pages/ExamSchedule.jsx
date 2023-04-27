@@ -75,9 +75,10 @@ const ExamSchedule = () => {
           </div>
           <div className="text-sm">
             <div className="font-medium text-gray-700">
-              Assign: {record.leaderName}
+              {/* Assign: {record.leaderName}*/}
+              Subject: {record.subjectName}
             </div>
-            <div className="text-gray-400">Subject: {record.subjectName}</div>
+            {/* <div className="text-gray-400">Subject: {record.subjectName}</div> */}
           </div>
         </div>
       ),

@@ -9,6 +9,10 @@ const SelectAntLecturer = ({ onChange, defaultValue,subjectId,isSubjectSelected 
   const [lecturer, setLecturer] = useState([{}]);
   const [lecturerFilter, setLecturerFilter] = useState([{}]);
   const [subject,setSubject]=useState("");
+  const [defaultLecturer, setDefaultLecturer] = useState({
+    value: sessionStorage.getItem("userId"),
+    label: sessionStorage.getItem("fullName")
+  });
 
   const handleSubjectSelect = (value) => {
     fetchSubject();
@@ -65,7 +69,6 @@ const SelectAntLecturer = ({ onChange, defaultValue,subjectId,isSubjectSelected 
       <Select
         showSearch
         style={style}
-        // placeholder="Select lecturer"
         placeholder={sessionStorage.getItem("fullName")}
         onChange={onChange}
         onSelect={handleSubjectSelect}
@@ -75,7 +78,7 @@ const SelectAntLecturer = ({ onChange, defaultValue,subjectId,isSubjectSelected 
           option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
         optionFilterProp="label"
-        defaultValue={sessionStorage.getItem("userId")}
+        defaultValue={defaultLecturer}
       >
         {lecturer?.map((item, index) => (
           <Option
