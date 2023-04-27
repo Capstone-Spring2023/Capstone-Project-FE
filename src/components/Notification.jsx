@@ -14,7 +14,7 @@ const Notification = ({ fetchNoti, notiData }) => {
       .then(() => {
         fetchNoti();
         type === "Schedule"
-          ? navigate("/exam-schedule-view", {
+          ? navigate("/exam-schedule-request", {
               state: { subject: subjectCode },
             })
           : type === "subjectLead"

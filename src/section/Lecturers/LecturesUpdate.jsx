@@ -28,7 +28,6 @@ const LecturersEdit = () => {
         setSubject(resp.subject);
         setCampus(resp.campus);
         setStatus(resp.status);
-        console.log("ID", id);
       })
       .catch((err) => {
         console.log(err.message);
@@ -43,7 +42,6 @@ const LecturersEdit = () => {
       body: JSON.stringify(lecturerData),
     })
       .then((res) => {
-        console.log("RES", res);
         alert("Saved successfully");
         navigate("/lecturers");
       })

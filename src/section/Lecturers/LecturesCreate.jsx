@@ -22,7 +22,6 @@ const LecturersCreate = () => {
       body: JSON.stringify(lecturersData),
     })
       .then((res) => {
-        console.log("RES", res);
         alert("Create successfully");
         navigate("/lecturers");
       })

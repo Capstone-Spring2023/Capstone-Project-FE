@@ -28,7 +28,6 @@ const SubjectEdit = () => {
         setType(resp.type);
         setEXamId(resp.examId);
         setStatus(resp.status);
-        console.log("ID:", id);
       })
       .catch((err) => {
         console.log(err.message);
@@ -43,7 +42,6 @@ const SubjectEdit = () => {
       body: JSON.stringify(subjectData),
     })
       .then((res) => {
-        console.log("RES", res);
         alert("Saved successfully");
         navigate("/subjects");
       })

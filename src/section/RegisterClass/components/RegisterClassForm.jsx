@@ -9,14 +9,7 @@ const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 const RegisterClassForm = () => {
-  const slotItems = [
-    "A1",
-    "A3",
-    "A5",
-    "P1",
-    "P3",
-    "P5",
-  ];
+  const slotItems = ["A1", "A3", "A5", "P1", "P3", "P5"];
   const [availableSubjectIds, setAvailableSubjectIds] = useState([]);
   const [registerSlots, setRegisterSlots] = useState([]);
   const [subjectItems, setSubjectItems] = useState([]);
@@ -24,7 +17,8 @@ const RegisterClassForm = () => {
   const navigate = useNavigate();
   const [showSubjects, setShowSubjects] = useState(false);
   const [selectedSubjects, setSelectedSubjects] = useState([]);
-  const submitDisabled = registerSlots.length === 0 || selectedSubjects.length === 0;
+  const submitDisabled =
+    registerSlots.length === 0 || selectedSubjects.length === 0;
 
   const [examAvailableSubjectData, setAvailableSubjectData] = useState([{}]);
   const handleSubjectSelect = (value) => {
@@ -42,7 +36,7 @@ const RegisterClassForm = () => {
   }, []);
 
   const fetchAvailableSubject = () => {
-    fetch(`${BASE_URL_API}/AvailableSubject`)
+    fetch(`${BASE_URL_API}/user/${userId}/semester/1/available-subject`)
       .then((res) => {
         return res.json();
       })
@@ -52,12 +46,11 @@ const RegisterClassForm = () => {
       .catch((err) => {
         console.log(err.message);
       });
-  }
+  };
 
   const handleSubmit = (values) => {
     if (registerSlots.length === 0 || availableSubjectIds.length === 0) {
       message.error("Please select both slot and subject.");
-      return;
     } else {
       const registerData = {
         userId,
@@ -71,7 +64,6 @@ const RegisterClassForm = () => {
           body: JSON.stringify(registerData),
         })
           .then((res) => {
-            console.log("RES", res);
             navigate("/register-class");
           })
           .catch((err) => {
@@ -141,7 +133,7 @@ const RegisterClassForm = () => {
           </Form.Item>
           {showSubjects && (
             <Form.Item
-              label="Available Subject"
+              label="Teachable Subject"
               name="subject"
               rules={[
                 {
@@ -163,8 +155,12 @@ const RegisterClassForm = () => {
                 optionFilterProp="label"
               >
                 {subjectItems?.map((item, index) => (
-                  <Option key={index} value={item.availableSubjectId} label={item.subjectName}>
-                     <Space>{item?.subjectName}</Space>
+                  <Option
+                    key={index}
+                    value={item.availableSubjectId}
+                    label={item.subjectName}
+                  >
+                    <Space>{item?.subjectName}</Space>
                   </Option>
                 ))}
               </Select>
@@ -174,9 +170,7 @@ const RegisterClassForm = () => {
       </Row>
       <Row>
         <Col>
-          <Button htmlType="submit">
-            Submit
-          </Button>
+          <Button htmlType="submit">Submit</Button>
         </Col>
         <Col offset={18}>
           <Button danger onClick={() => navigate("/register-class")}>

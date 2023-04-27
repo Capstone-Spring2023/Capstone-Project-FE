@@ -70,7 +70,6 @@ const FormAntEdit = ({ availableSubjectId }) => {
         body: JSON.stringify(examData),
       })
         .then((res) => {
-          console.log("RES", res);
           navigate("/exam-schedule");
         })
         .catch((err) => {

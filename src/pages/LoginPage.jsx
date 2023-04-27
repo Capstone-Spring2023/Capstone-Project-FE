@@ -55,7 +55,7 @@ const Login = () => {
             <div style={{ borderRadius: "8px 0 0 8px", overflow: "hidden" }}>
               <img
                 className="rounded-r-3xl w-780"
-                src={process.env.PUBLIC_URL + "./FPTU.jpg"}
+                src={process.env.PUBLIC_URL + "./FPTU-HCM.jpg"}
                 alt="FPT image"
               />
             </div>

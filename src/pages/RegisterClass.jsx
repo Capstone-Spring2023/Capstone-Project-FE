@@ -33,7 +33,6 @@ const RegisterClass = () => {
       })
       .then((resp) => {
         setRegisterData(resp.registerSubjects);
-        console.log("REGISTER", resp.registerSlots);
       })
       .catch((err) => {
         console.log(err.message);
@@ -49,7 +48,6 @@ const RegisterClass = () => {
       })
       .then((resp) => {
         setDeadlineRegister(resp.deadline);
-        console.log("Deadline", resp.deadline);
       })
       .catch((err) => {
         console.log(err.message);

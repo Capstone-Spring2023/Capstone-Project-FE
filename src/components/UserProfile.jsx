@@ -62,7 +62,6 @@ const UserProfile = () => {
               )
                 .then((res) => {
                   message.success("Update successfully");
-                  console.log("RES", res);
                   setIsModalOpen(true);
                 })
                 .catch((err) => {
