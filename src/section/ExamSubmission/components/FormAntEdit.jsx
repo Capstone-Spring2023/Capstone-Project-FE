@@ -7,6 +7,7 @@ import {
   message,
   message as messageAnt,
   Row,
+  Typography
 } from "antd";
 import UploadAnt from "./UploadAnt";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +20,8 @@ import {
 } from "firebase/storage";
 import { storage } from "../../../firebase/firebase";
 import { BASE_URL_API } from "../../../utils/constants";
+
+const { Text } = Typography;
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -356,7 +359,7 @@ const FormAntEdit = ({ editID }) => {
               }}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              // placeholder="Enter title here"
+            // placeholder="Enter title here"
             />
           </Form.Item>
         </Col>
@@ -376,6 +379,9 @@ const FormAntEdit = ({ editID }) => {
         </Col>
       </Row>
       <Row justify="center" align="center">
+        <Text type="danger" >
+          ***You need to re-upload the entire file if you want to update
+        </Text>
         <Col span={20} offset={6}>
           <Form.Item name="file" accept=".docx">
             <UploadAnt

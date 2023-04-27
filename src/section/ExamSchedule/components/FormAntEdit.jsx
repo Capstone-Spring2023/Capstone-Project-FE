@@ -10,6 +10,7 @@ import {
   message as messageAnt,
   Row,
   Upload,
+  Typography
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -24,6 +25,7 @@ import {
 import moment from "moment";
 
 const { Dragger } = Upload;
+const { Text } = Typography;
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -213,11 +215,14 @@ const FormAntEdit = ({ availableSubjectId }) => {
               },
             ]}
           >
-            <DatePicker defaultValue={`${deadline}`} onChange={onChange} disabledDate={isDisabledDate}/>
+            <DatePicker defaultValue={`${deadline}`} onChange={onChange} disabledDate={isDisabledDate} />
           </Form.Item>
         </Col>
       </Row>
       <Row justify="center" align="center">
+        <Text type="danger" >
+          ***You need to re-upload the entire file if you want to update
+        </Text>
         <Col span={20} offset={6}>
           <Form.Item name="file">
             <Dragger customRequest={(e) => upLoadFile(e)}>

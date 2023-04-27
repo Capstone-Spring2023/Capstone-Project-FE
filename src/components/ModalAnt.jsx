@@ -169,9 +169,9 @@ const ModalAnt = ({ title, id }) => {
                 {isZipping && <div>Loading file...</div>}
               </a>
             </Descriptions.Item>
-            {status === "Approve" ? (
+            {status === "Approved" ? (
               <Descriptions.Item label="File Instruction">
-                <a className="container" onClick={examInstruction}>
+                <a className="container" onClick={() => window.open(examInstruction)}>
                   <div className="row align-items-center">
                     <div className="col-auto">
                       <img
