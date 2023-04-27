@@ -35,7 +35,6 @@ import Spinner from "./components/Spinner";
 import io from "socket.io-client";
 import { SOCKET_URL } from "./utils/constants";
 import GenerateSchedule from "./pages/GenerateSchedule";
-import ExamManagement from "./pages/ExamManagement";
 
 const socket = io(`${SOCKET_URL}`);
 // const socket = io("http://localhost:4000");
@@ -165,10 +164,6 @@ const App = () => {
                 <Route
                   path="/generate-schedule"
                   element={<GenerateSchedule />}
-                />
-                <Route
-                    path="/exam-management"
-                    element={<ExamManagement />}
                 />
 
                 {/*Exams Submission*/}
