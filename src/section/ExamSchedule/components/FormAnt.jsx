@@ -122,7 +122,7 @@ const FormAnt = ({ socket }) => {
     const storage = getStorage();
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/ExamSchedule/${file.name}`
+      `/SP23/${sessionStorage.getItem("email")}/ExamSchedule/${file.name}`
     );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(

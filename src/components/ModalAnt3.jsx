@@ -87,7 +87,7 @@ const ModalAnt3 = ({ title, id, examInstructionId, fetchTable }) => {
     const storage = getStorage();
     let fileRef = ref(
       storage,
-      `/${sessionStorage.getItem("email")}/ExamSubmission/${file.name}`
+      `/SP23/${sessionStorage.getItem("email")}/ExamSubmission/${file.name}`
     );
     const uploadTask = uploadBytesResumable(fileRef, file);
     uploadTask.on(
@@ -111,7 +111,6 @@ const ModalAnt3 = ({ title, id, examInstructionId, fetchTable }) => {
         onSuccess(file);
         getDownloadURL(uploadTask.snapshot.ref)
           .then((url) => {
-            console.log(url);
             localStorage.setItem("url", url);
             setFile(url);
             message.success(`${file.name} file uploaded successfully.`);

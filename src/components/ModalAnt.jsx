@@ -58,14 +58,14 @@ const ModalAnt = ({ title, id }) => {
     setIsZipping(true);
     const jszip = new JSZip();
     const storage = getStorage();
-    const folderRef = ref(storage, examLink + "/" + subjectName + "/PE1");
+    const folderRef = ref(storage, "/SP23/" + examLink + "/" + subjectName + "/PE1");
     const folderRef2 = ref(
       storage,
-      examLink + "/" + subjectName + "/PE1/Given"
+      "/SP23/" + examLink + "/" + subjectName + "/PE1/Given"
     );
     const folderRef3 = ref(
       storage,
-      examLink + "/" + subjectName + "/PE1/TestCases"
+      "/SP23/" + examLink + "/" + subjectName + "/PE1/TestCases"
     );
     const folder = await listAll(folderRef);
     const folder2 = await listAll(folderRef2);
