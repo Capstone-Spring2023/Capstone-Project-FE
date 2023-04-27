@@ -21,6 +21,7 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+import moment from "moment";
 
 const { Dragger } = Upload;
 
@@ -82,6 +83,20 @@ const FormAntEdit = ({ availableSubjectId }) => {
       }
     );
   };
+
+  const isDisabledDate = (current) => {
+    // Lấy ra ngày hiện tại
+    const today = moment().startOf("day");
+    // Tính toán ngày hết hạn tối thiểu
+    const minDeadline = moment(today).add(1, "day"); // Tối thiểu ngày mai
+    // Tính toán ngày hết hạn tối đa
+    const maxDeadline = moment(today).add(4, "month"); // Tối đa 4 tháng sau
+    // Kiểm tra current có nằm trong khoảng thời gian tối thiểu và tối đa không
+    return (
+      current && (current < minDeadline || current > maxDeadline || current.isSame(today))
+    );
+  };
+
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
     setDeadline(dateString);
   };
@@ -199,7 +214,7 @@ const FormAntEdit = ({ availableSubjectId }) => {
               },
             ]}
           >
-            <DatePicker defaultValue={`${deadline}`} onChange={onChange} />
+            <DatePicker defaultValue={`${deadline}`} onChange={onChange} disabledDate={isDisabledDate}/>
           </Form.Item>
         </Col>
       </Row>
