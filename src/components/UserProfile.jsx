@@ -160,7 +160,7 @@ const UserProfile = () => {
           </label>
           <input
             id="phone"
-            type="text"
+            type="number"
             value={phone}
             onChange={handlePhoneChange}
             className="border rounded-md px-3 py-2 w-full"

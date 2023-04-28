@@ -16,6 +16,7 @@ const FormAnt = ({ socket }) => {
   const [examContent, setExamContent] = useState("Exam PE");
   const [availableSubjectName, setAvailableSubjectName] = useState(""); //id
   const [availableSubjectName2, setAvailableSubjectName2] = useState("");
+  const [subjectSelected, setSubjectSelected] = useState(false);
   const [examLink, setExamLink] = useState("");
   const navigate = useNavigate();
   const [file, setFile] = useState("");
@@ -31,6 +32,7 @@ const FormAnt = ({ socket }) => {
     setAvailableSubjectName(value.split(",")[0]);
     setSubjectType(value.split(",")[1]);
     setAvailableSubjectName2(value.split(",")[2]);
+    setSubjectSelected(true);
   };
 
   const fetchSubject = () => {

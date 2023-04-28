@@ -10,7 +10,6 @@ import {
   message as messageAnt,
   Row,
   Upload,
-  Typography
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -25,7 +24,6 @@ import {
 import moment from "moment";
 
 const { Dragger } = Upload;
-const { Text } = Typography;
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -50,16 +48,17 @@ const FormAntEdit = ({ availableSubjectId }) => {
         setTitle(data.tittle);
         setSubject(data.subjectName);
         setDeadline(data.deadline);
+        setFile(data.examLink);
       })
       .catch((err) => {
         console.log(err.message);
       });
   }, []);
   const handleUpdate = () => {
-    if (!fileUploaded) {
-      messageAnt.error("Please upload a file before submitting.");
-      return;
-    }
+    // if (!fileUploaded) {
+    //   messageAnt.error("Please upload a file before submitting.");
+    //   return;
+    // }
     const examData = {
       tittle: tittle,
       deadline: deadline,
@@ -133,12 +132,12 @@ const FormAntEdit = ({ availableSubjectId }) => {
           .then((url) => {
             console.log(url);
             setFile(url);
-            setFileUploaded(true);
+            // setFileUploaded(true);
             message.success(`${file.name} file uploaded successfully.`);
           })
           .catch((error) => {
             console.log(error);
-            setFileUploaded(false);
+            // setFileUploaded(false);
             message.error(`${file.name} file uploaded failed.`);
           });
       }
@@ -204,7 +203,7 @@ const FormAntEdit = ({ availableSubjectId }) => {
         </Col>
       </Row>
       <Row>
-        <Col span={12}>
+        {/* <Col span={12}>
           <Form.Item
             label="Deadline"
             name="deadline"
@@ -217,12 +216,24 @@ const FormAntEdit = ({ availableSubjectId }) => {
           >
             <DatePicker defaultValue={`${deadline}`} onChange={onChange} disabledDate={isDisabledDate} />
           </Form.Item>
+        </Col> */}
+        <Col span={12}>
+          <Form.Item
+            label="Deadline"
+            name="deadline"
+            rules={[
+              {
+                required: false,
+                message: "Please input your deadline!",
+              },
+            ]}
+          >
+            <DatePicker value={deadline} onChange={onChange} disabledDate={isDisabledDate} />
+          </Form.Item>
         </Col>
+
       </Row>
       <Row justify="center" align="center">
-        <Text type="danger" >
-          ***You need to re-upload the entire file if you want to update
-        </Text>
         <Col span={20} offset={6}>
           <Form.Item name="file">
             <Dragger customRequest={(e) => upLoadFile(e)}>
@@ -241,7 +252,8 @@ const FormAntEdit = ({ availableSubjectId }) => {
       </Row>
       <Row>
         <Col>
-          <Button htmlType="submit" disabled={!fileUploaded}>
+          {/* <Button htmlType="submit" disabled={!fileUploaded}> */}
+          <Button htmlType="submit" >
             Submit
           </Button>
         </Col>

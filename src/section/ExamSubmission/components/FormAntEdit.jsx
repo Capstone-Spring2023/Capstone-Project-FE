@@ -359,7 +359,8 @@ const FormAntEdit = ({ editID }) => {
               }}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-            // placeholder="Enter title here"
+              // placeholder="Enter title here"
+              disabled // Thêm thuộc tính disabled vào đây
             />
           </Form.Item>
         </Col>
