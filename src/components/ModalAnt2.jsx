@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Descriptions, Modal } from "antd";
 import "./GoogleButton.css";
-import { InfoOutlined } from "@ant-design/icons";
+import { DownloadOutlined, InfoOutlined, LoadingOutlined } from "@ant-design/icons";
 
 const ModalAnt2 = ({
   title,
@@ -15,6 +15,7 @@ const ModalAnt2 = ({
   status,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isZipping, setIsZipping] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -63,7 +64,7 @@ const ModalAnt2 = ({
           </Descriptions.Item>
           <Descriptions.Item label="Deadline">{deadline}</Descriptions.Item>
           <Descriptions.Item label="Sample Exam Paper">
-            <a className="container" href={examLink}>
+            {/* <a className="container" href={examLink}>
               <div className="row align-items-center">
                 <div className="col-auto">
                   <img
@@ -73,7 +74,14 @@ const ModalAnt2 = ({
                   />
                 </div>
               </div>
-            </a>
+            </a> */}
+            <Button
+                onClick={() => window.open(examLink)}
+                icon={isZipping ? <LoadingOutlined /> : <DownloadOutlined />}
+                loading={isZipping}
+              >
+                {isZipping ? "Download..." : ""}
+              </Button>
           </Descriptions.Item>
         </Descriptions>
       </Modal>

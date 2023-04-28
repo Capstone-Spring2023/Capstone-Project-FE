@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Badge, Button, Descriptions, Modal, Tooltip } from "antd";
 import "./GoogleButton.css";
-import { InfoOutlined } from "@ant-design/icons";
+import { DownloadOutlined, InfoOutlined, LoadingOutlined } from "@ant-design/icons";
 import {
   getDownloadURL,
   getMetadata,
@@ -156,7 +156,7 @@ const ModalAnt = ({ title, id }) => {
             </Descriptions.Item>
             <Descriptions.Item label="Type">By computer</Descriptions.Item>
             <Descriptions.Item label="File">
-              <a className="container" onClick={downloadFolderAsZip}>
+              {/* <a className="container" onClick={downloadFolderAsZip}>
                 <div className="row align-items-center">
                   <div className="col-auto">
                     <img
@@ -167,11 +167,18 @@ const ModalAnt = ({ title, id }) => {
                   </div>
                 </div>
                 {isZipping && <div>Loading file...</div>}
-              </a>
+              </a> */}
+              <Button
+                onClick={() => downloadFolderAsZip(examLink)}
+                icon={isZipping ? <LoadingOutlined /> : <DownloadOutlined />}
+                loading={isZipping}
+              >
+                {isZipping ? "Loading..." : ""}
+              </Button>
             </Descriptions.Item>
             {status === "Approved" ? (
               <Descriptions.Item label="File Instruction">
-                <a className="container" onClick={() => window.open(examInstruction)}>
+                {/* <a className="container" onClick={() => window.open(examInstruction)}>
                   <div className="row align-items-center">
                     <div className="col-auto">
                       <img
@@ -181,7 +188,14 @@ const ModalAnt = ({ title, id }) => {
                       />
                     </div>
                   </div>
-                </a>
+                </a> */}
+                <Button
+                onClick={() => window.open(examInstruction)}
+                icon={isZipping ? <LoadingOutlined /> : <DownloadOutlined />}
+                loading={isZipping}
+              >
+                {isZipping ? "Download..." : ""}
+              </Button>
               </Descriptions.Item>
             ) : null}
           </Descriptions>
