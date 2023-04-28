@@ -452,7 +452,6 @@ const ImportSchedule = () => {
           status="success"
           title="All operation has been success!"
           subTitle="You can continue your work now."
-          extra={[<Button key="buy">Home</Button>]}
         />
       ),
     },
