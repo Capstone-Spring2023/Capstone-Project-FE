@@ -98,14 +98,17 @@ const LeaderSubject = ({ socket }) => {
     setIsZipping(true);
     const jszip = new JSZip();
     const storage = getStorage();
-    const folderRef = ref(storage, examLink + "/" + subjectName + "/PE1");
+    const folderRef = ref(
+      storage,
+      "/SP23/" + examLink + "/" + subjectName + "/PE1"
+    );
     const folderRef2 = ref(
       storage,
-      examLink + "/" + subjectName + "/PE1/Given"
+      "/SP23/" + examLink + "/" + subjectName + "/PE1/Given"
     );
     const folderRef3 = ref(
       storage,
-      examLink + "/" + subjectName + "/PE1/TestCases"
+      "/SP23/" + examLink + "/" + subjectName + "/PE1/TestCases"
     );
     const folder = await listAll(folderRef);
     const folder2 = await listAll(folderRef2);
@@ -200,7 +203,7 @@ const LeaderSubject = ({ socket }) => {
       title: "Exam file",
       dataIndex: "examLink",
       render: (_, record) =>
-        record.status ? (
+        record.status !== "Not Submit" && record.status ? (
           <DownloadOutlined
             style={{ fontSize: 23, color: "lightblue" }}
             onClick={() => downloadFolderAsZip(record.examLink)}
@@ -212,15 +215,13 @@ const LeaderSubject = ({ socket }) => {
     {
       title: "Exam status",
       dataIndex: "status",
-      render: (_, record) =>
-        record.status ? <div>Submitted</div> : <div>Not Submit</div>,
     },
     {
       title: "isLeader",
       dataIndex: "isLeader",
       render: (_, record) =>
         record.isCol ? (
-          <div>Is Collaborator</div>
+          <></>
         ) : (
           <Popconfirm
             title="Assign subject Leader"

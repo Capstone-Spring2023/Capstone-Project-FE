@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Header, ModalAnt3 } from "../components";
-import avatar from "../assets/banner.jpg";
 import { toast, Toaster } from "react-hot-toast";
 import { Popconfirm, Table, Tooltip } from "antd";
 import { Link, useNavigate } from "react-router-dom";
@@ -58,26 +57,8 @@ const ExamSubmission = () => {
 
   const columns = [
     {
-      title: "Basic Info",
+      title: "Subject",
       dataIndex: "subjectName",
-      render: (_, record) => (
-        <div className="flex gap-3 font-normal text-gray-900 items-center">
-          <div className="relative h-10 w-10">
-            <img
-              className="h-full w-full rounded-full object-cover object-center"
-              src={avatar}
-              alt=""
-            />
-            <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
-          </div>
-          <div className="text-sm">
-            <div className="font-medium text-gray-700">
-              Assign: {record.leaderName}
-            </div>
-            <div className="text-gray-400">Subject: {record.subjectName}</div>
-          </div>
-        </div>
-      ),
       filters: [
         {
           text: "HCM",
@@ -87,7 +68,6 @@ const ExamSubmission = () => {
       filterMode: "tree",
       filterSearch: true,
       onFilter: (value, record) => record.subjectName.indexOf(value) === 0,
-      width: "30%",
     },
     {
       title: "Status",
