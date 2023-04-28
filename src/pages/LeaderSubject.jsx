@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Header } from "../components";
 import { BASE_URL_API, NO_CORS_URL } from "../utils/constants";
-import { Checkbox, Popconfirm, Select, Space, Table } from "antd";
+import { Button, Checkbox, Popconfirm, Select, Space, Table } from "antd";
 import { toast, Toaster } from "react-hot-toast";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-import { DownloadOutlined } from "@ant-design/icons";
+import { DownloadOutlined, LoadingOutlined } from "@ant-design/icons";
 import { saveAs } from "file-saver";
 import JSZip from "jszip";
 import {
@@ -204,10 +204,13 @@ const LeaderSubject = ({ socket }) => {
       dataIndex: "examLink",
       render: (_, record) =>
         record.status !== "Not Submit" && record.status ? (
-          <DownloadOutlined
-            style={{ fontSize: 23, color: "lightblue" }}
+          <Button
             onClick={() => downloadFolderAsZip(record.examLink)}
-          />
+            icon={isZipping ? <LoadingOutlined /> : <DownloadOutlined />} 
+            loading={isZipping}
+          >
+            {isZipping ? "Loading..." : ""}
+          </Button>
         ) : (
           <></>
         ),
