@@ -90,6 +90,7 @@ const Popup = ({ title, fetchTable, examPaperId, examLink, subjectName }) => {
     const data = {
       commentModel: {
         leaderId: 5,
+        approvalUserId:sessionStorage.getItem("userId"),
         examPaperId: examPaperId,
         commentContent: commentContent,
       },

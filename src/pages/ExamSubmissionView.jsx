@@ -22,6 +22,7 @@ const ExamSubmissionView = () => {
     const data = {
       commentModel: {
         leaderId: sessionStorage.getItem("userId"),
+        approvalUserId:sessionStorage.getItem("userId"),
         examPaperId: id,
       },
       examUpdateApproveModel: {

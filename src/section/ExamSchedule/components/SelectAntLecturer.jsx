@@ -9,10 +9,11 @@ const SelectAntLecturer = ({ onChange, defaultValue,subjectId,isSubjectSelected 
   const [lecturer, setLecturer] = useState([{}]);
   const [lecturerFilter, setLecturerFilter] = useState([{}]);
   const [subject,setSubject]=useState("");
-  const [defaultLecturer, setDefaultLecturer] = useState({
-    value: sessionStorage.getItem("userId"),
-    label: sessionStorage.getItem("fullName")
-  });
+  // const [defaultLecturer, setDefaultLecturer] = useState({
+  //   value: sessionStorage.getItem("userId"),
+  //   label: sessionStorage.getItem("fullName")
+  // });
+  const [defaultLecturer, setDefaultLecturer] = useState(sessionStorage.getItem("userId"));
 
   const handleSubjectSelect = (value) => {
     fetchSubject();

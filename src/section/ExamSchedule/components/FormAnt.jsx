@@ -183,6 +183,20 @@ const FormAnt = ({ socket }) => {
       <Row>
         <Col span={12}>
           <Form.Item
+            label="Subject"
+            name="subject"
+            rules={[
+              {
+                required: true,
+                message: "Please input your subject!",
+              },
+            ]}
+          >
+            <SelectAnt onChange={handleSubject} />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
             label="Exam title"
             name="title"
             rules={[
@@ -196,20 +210,6 @@ const FormAnt = ({ socket }) => {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter title here"
             />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item
-            label="Subject"
-            name="subject"
-            rules={[
-              {
-                required: true,
-                message: "Please input your subject!",
-              },
-            ]}
-          >
-            <SelectAnt onChange={handleSubject} />
           </Form.Item>
         </Col>
       </Row>
@@ -226,7 +226,7 @@ const FormAnt = ({ socket }) => {
               },
             ]}
           >
-            <SelectAntLecturer onChange={handleLecturer}  subjectId={subjectId} isSubjectSelected={isSubjectSelected}/>
+            <SelectAntLecturer onChange={handleLecturer} subjectId={subjectId} isSubjectSelected={isSubjectSelected} />
           </Form.Item>
         </Col>
         <Col span={12}>
