@@ -15,6 +15,7 @@ import { BASE_URL_API, NO_CORS_URL } from "../utils/constants";
 
 const ModalAnt = ({ title, id }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [examContent, setExamContent] = useState("");
   const [examTitle, setExamTitle] = useState("");
   const [lecturerName, setLecturerName] = useState("");
   const [subjectName, setSubjectName] = useState("");
@@ -22,6 +23,7 @@ const ModalAnt = ({ title, id }) => {
   const [examLink, setExamLink] = useState("");
   const [status, setStatus] = useState(false);
   const [examInstruction, setExamInstruction] = useState("");
+  const [type,setType]=useState("");
   const showModal = () => {
     getDetail();
     setIsModalOpen(true);
@@ -30,6 +32,7 @@ const ModalAnt = ({ title, id }) => {
     setIsModalOpen(false);
   };
   const [isZipping, setIsZipping] = useState(false);
+  const [isZipping1, setIsZipping1] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
 
   const getDetail = () => {
@@ -41,13 +44,14 @@ const ModalAnt = ({ title, id }) => {
         return res.json();
       })
       .then((resp) => {
-        setExamTitle(resp.examContent);
+        setExamContent(resp.examContent);
         setLecturerName(resp.lecturerName);
         setSubjectName(resp.subjectName);
         setStatus(resp.status);
         setExamInstruction(resp.examInstruction);
         setExamScheduleID(resp.examScheduleId);
         setExamLink(resp.examLink);
+        setType(resp.type);
       })
       .catch((err) => {
         console.log(err.message);
@@ -141,10 +145,11 @@ const ModalAnt = ({ title, id }) => {
           ]}
         >
           <Descriptions layout="vertical">
-            <Descriptions.Item label="UserName">
+            <Descriptions.Item label="Lecturer">
               {lecturerName}
             </Descriptions.Item>
-            <Descriptions.Item label="Title">{examTitle}</Descriptions.Item>
+            <Descriptions.Item label="Content">{examContent}</Descriptions.Item>
+            <Descriptions.Item label="Subject">{subjectName}</Descriptions.Item>
             <Descriptions.Item label="Status">
               {status === "Pending" ? (
                 <Badge status="processing" text="Pending" />
@@ -154,7 +159,7 @@ const ModalAnt = ({ title, id }) => {
                 <Badge status="error" text="Rejected" />
               )}
             </Descriptions.Item>
-            <Descriptions.Item label="Type">By computer</Descriptions.Item>
+            <Descriptions.Item label="Type">{type}</Descriptions.Item>
             <Descriptions.Item label="File">
               {/* <a className="container" onClick={downloadFolderAsZip}>
                 <div className="row align-items-center">
@@ -191,10 +196,10 @@ const ModalAnt = ({ title, id }) => {
                 </a> */}
                 <Button
                 onClick={() => window.open(examInstruction)}
-                icon={isZipping ? <LoadingOutlined /> : <DownloadOutlined />}
-                loading={isZipping}
+                icon={isZipping1 ? <LoadingOutlined /> : <DownloadOutlined />}
+                loading={isZipping1}
               >
-                {isZipping ? "Download..." : ""}
+                {isZipping1 ? "Download..." : ""}
               </Button>
               </Descriptions.Item>
             ) : null}
