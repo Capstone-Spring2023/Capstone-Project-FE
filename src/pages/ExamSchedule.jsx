@@ -98,7 +98,7 @@ const ExamSchedule = () => {
               height={55}
             />
           </Tooltip>
-          <Tooltip title="Delete">
+          {/* <Tooltip title="Delete">
             <Popconfirm
               title="Delete the exam-schedule"
               description="Are you sure to delete this?"
@@ -112,7 +112,7 @@ const ExamSchedule = () => {
                 height={55}
               />
             </Popconfirm>
-          </Tooltip>
+          </Tooltip> */}
         </div>
       ),
     },
