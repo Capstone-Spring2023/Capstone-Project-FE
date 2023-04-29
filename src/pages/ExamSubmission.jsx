@@ -1,42 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Header, ModalAnt3 } from "../components";
-import { toast, Toaster } from "react-hot-toast";
-import { Popconfirm, Table, Tooltip } from "antd";
+import { Toaster } from "react-hot-toast";
+import { Table, Tooltip } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL_API } from "../utils/constants";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 
-const ExamSubmission = () => {
+const ExamSubmission = ({ socket }) => {
   const [examData, setExamData] = useState([{}]);
+  const [dataChange, setDataChange] = useState(false);
   const navigate = useNavigate();
 
   const handleEdit = (id) => {
     navigate("/exam/submission/edit/" + id);
   };
 
-  const handleDelete = (id) => {
-    toast.promise(
-      fetch(`${BASE_URL_API}/exam-submission/` + id, {
-        method: "DELETE",
-        headers: { "content-type": "application/json" },
-      })
-        .then((res) => {
-          fetchTable();
-        })
-        .catch((err) => {
-          console.log(err.message);
-        }),
-      {
-        loading: "Deleting...",
-        success: <b>Delete successfully</b>,
-        error: <b>Delete fail</b>,
-      }
-    );
-  };
+  useEffect(() => {
+    socket.on("dataChangeResponse", () => fetchTable());
+  }, [socket]);
 
   useEffect(() => {
     fetchTable();
-  }, []);
+  }, [dataChange]);
 
   const fetchTable = () => {
     fetch(

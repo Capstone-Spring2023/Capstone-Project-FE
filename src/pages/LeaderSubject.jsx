@@ -23,7 +23,6 @@ const LeaderSubject = ({ socket }) => {
   const semester = [
     { id: 3, name: "SP23" },
     { id: 1, name: "SU23" },
-    { id: 2, name: "FA23" },
   ];
   const [noti, setNoti] = useState("Leader assign");
   const [availableSubjectId, setAvailableSubjectId] = useState(null);

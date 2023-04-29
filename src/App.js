@@ -127,7 +127,10 @@ const App = () => {
 
                 {/*Pages*/}
                 {/*{sessionStorage.getItem("roleName") === "Lecturer" ? (*/}
-                <Route path="/exam-submission" element={<ExamsSubmission />} />
+                <Route
+                  path="/exam-submission"
+                  element={<ExamsSubmission socket={socket} />}
+                />
                 {/*) : null}*/}
                 {/*{sessionStorage.getItem("roleName") === "Leader" ? (*/}
                 <Route path="/exam-schedule" element={<ExamsSchedule />} />
@@ -141,7 +144,7 @@ const App = () => {
 
                 <Route
                   path="/exam-submission-view"
-                  element={<ExamSubmissionView />}
+                  element={<ExamSubmissionView socket={socket} />}
                 />
 
                 {/*<Route path="/leaders" element={<Leaders />} />*/}

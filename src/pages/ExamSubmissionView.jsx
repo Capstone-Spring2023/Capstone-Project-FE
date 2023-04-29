@@ -5,17 +5,26 @@ import { APPROVED, BASE_URL_API } from "../utils/constants";
 import { Popconfirm, Switch, Table, Tooltip } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import { useLocation } from "react-router-dom";
+import dataChange from "../utils/function";
 
-const ExamSubmissionView = () => {
+const ExamSubmissionView = ({ socket }) => {
   const [examData, setExamData] = useState([{}]);
   const [examHistoryData, setExamHistoryData] = useState([{}]);
   const [isHistory, setIsHistory] = useState(false);
+  const [noti, setNoti] = useState("Data Change");
   const { state } = useLocation();
 
   useEffect(() => {
     fetchTable();
     fetchHistoryTable();
   }, []);
+
+  useEffect(() => {
+    socket.on("dataChangeResponse", () => {
+      fetchTable();
+      fetchHistoryTable();
+    });
+  }, [socket]);
 
   const handleApprove = (id) => {
     const data = {
@@ -35,6 +44,7 @@ const ExamSubmissionView = () => {
         body: JSON.stringify(data),
       })
         .then((resp) => {
+          dataChange(socket);
           fetchTable();
         })
         .catch((err) => {
@@ -178,6 +188,7 @@ const ExamSubmissionView = () => {
                 examPaperId={record.examPaperId}
                 examLink={record.examLink}
                 subjectName={record.subjectName}
+                socket={socket}
               />
               <ModalAnt
                 title="Exam submission detail"

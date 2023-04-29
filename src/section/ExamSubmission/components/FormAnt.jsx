@@ -7,7 +7,7 @@ import { toast } from "react-hot-toast";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../firebase/firebase";
 import { BASE_URL_API } from "../../../utils/constants";
-import checkPageStatus from "../../../utils/function";
+import checkPageStatus, { dataChange } from "../../../utils/function";
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -81,6 +81,7 @@ const FormAnt = ({ socket }) => {
               // checkPageStatus(noti, sessionStorage.getItem("fullName"));
             }
             setNoti("");
+            dataChange(socket);
             navigate("/exam-submission");
             console.log(res);
           })

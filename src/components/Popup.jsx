@@ -7,8 +7,16 @@ import { toast } from "react-hot-toast";
 import { BASE_URL_API, REJECTED } from "../utils/constants";
 import { ref, deleteObject, listAll } from "@firebase/storage";
 import { storage } from "../firebase/firebase";
+import { dataChange } from "../utils/function";
 
-const Popup = ({ title, fetchTable, examPaperId, examLink, subjectName }) => {
+const Popup = ({
+  title,
+  fetchTable,
+  examPaperId,
+  examLink,
+  subjectName,
+  socket,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentContent, setCommentContent] = useState("");
   const handleCommentChange = (event) => {
@@ -33,7 +41,6 @@ const Popup = ({ title, fetchTable, examPaperId, examLink, subjectName }) => {
           .catch((error) => {
             console.error("Error deleting files:", error);
           });
-      } else {
       }
     });
   };
@@ -55,7 +62,6 @@ const Popup = ({ title, fetchTable, examPaperId, examLink, subjectName }) => {
           .catch((error) => {
             console.error("Error deleting files:", error);
           });
-      } else {
       }
     });
   };
@@ -77,7 +83,6 @@ const Popup = ({ title, fetchTable, examPaperId, examLink, subjectName }) => {
           .catch((error) => {
             console.error("Error deleting files:", error);
           });
-      } else {
       }
     });
   };
@@ -90,7 +95,7 @@ const Popup = ({ title, fetchTable, examPaperId, examLink, subjectName }) => {
     const data = {
       commentModel: {
         leaderId: 5,
-        approvalUserId:sessionStorage.getItem("userId"),
+        approvalUserId: sessionStorage.getItem("userId"),
         examPaperId: examPaperId,
         commentContent: commentContent,
       },
@@ -105,6 +110,7 @@ const Popup = ({ title, fetchTable, examPaperId, examLink, subjectName }) => {
         body: JSON.stringify(data),
       })
         .then((resp) => {
+          dataChange(socket);
           fetchTable();
           return resp;
         })
