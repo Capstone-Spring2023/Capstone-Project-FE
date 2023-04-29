@@ -8,6 +8,7 @@ import {
   DatePickerProps,
   Form,
   Input,
+  message,
   message as messageAnt,
   Popconfirm,
   Result,
@@ -49,6 +50,16 @@ const ImportSchedule = () => {
 
   const upLoadFile = ({ onSuccess, onProgress, onError, file }) => {
     if (!file) return;
+    const fileExtension = file.name.split(".").pop();
+    const fileNameParts = file.name.split("-");
+    if (fileExtension !== "csv") {
+      messageAnt.error("Only support for .csv or .xlsx file");
+      return;
+    }
+    if (fileNameParts[0] !== "CF" || fileNameParts[1] !== "Lịch") {
+      messageAnt.error("Only support for CF schedule file");
+      return;
+    }
     const storage = getStorage();
     let fileRef = ref(
       storage,
@@ -89,7 +100,7 @@ const ImportSchedule = () => {
     );
   };
 
-  const sendNotification = () => {
+  const sendNotification = (values) => {
     importSchedule();
     setRegisterDeadLine();
   };
