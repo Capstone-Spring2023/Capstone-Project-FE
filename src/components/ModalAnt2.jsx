@@ -42,11 +42,11 @@ const ModalAnt2 = ({
       >
         <Descriptions layout="vertical">
           <Descriptions.Item label="Subject">{subjectName}</Descriptions.Item>
+          <Descriptions.Item label="Leader">{leaderName}</Descriptions.Item>
           {/* <Descriptions.Item label="Assign">{examScheduleId}</Descriptions.Item> */}
           <Descriptions.Item label="Title">{tittle}</Descriptions.Item>
-          {/* <Descriptions.Item label="Leader">{leaderName}</Descriptions.Item> */}
           <Descriptions.Item label="Type">
-            {type ? "By Computer" : "By Hand"}
+            {type ? "Manual" : "Machine"}
           </Descriptions.Item>
           <Descriptions.Item label="Status">
             <span
