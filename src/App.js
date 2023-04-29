@@ -55,8 +55,8 @@ const App = () => {
   const ExamsScheduleView = lazy(() => import("./pages/ExamScheduleView"));
   const ExamsSubmissionView = lazy(() => import("./pages/ExamSubmissionView"));
   const DashboardLazy = lazy(() => import("./pages/Dashboard"));
-  const isLogin = JSON.parse(localStorage.getItem("isLogin"));
-  const isActiveMenu = JSON.parse(localStorage.getItem("isActiveMenu"));
+  const isLogin = JSON.parse(sessionStorage.getItem("isLogin"));
+  const isActiveMenu = JSON.parse(sessionStorage.getItem("isActiveMenu"));
 
   useEffect(() => {
     if (isLogin != null && isActiveMenu != null) {
