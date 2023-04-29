@@ -121,7 +121,7 @@ const ExamSubmission = () => {
               />
             </Tooltip>
           ) : null}
-          {record.status === "Pending" ? (
+          {/* {record.status === "Pending" ? (
             <Tooltip title="Delete">
               <Popconfirm
                 title="Delete the exam-submission"
@@ -137,7 +137,7 @@ const ExamSubmission = () => {
                 />
               </Popconfirm>
             </Tooltip>
-          ) : null}
+          ) : null} */}
           {record.status === "Waiting-Instruction" ? (
             <Tooltip title="Info">
               <ModalAnt3
