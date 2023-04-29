@@ -102,19 +102,8 @@ const RegisterClass = () => {
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <div className="flex justify-between items-center">
-        <Header category="Register" title="Class" />
+        <Header category="Apps" title="Register Class" />
         <div>
-          {/* <Link
-            to="/register-class/register"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-            onClick={() => {
-              if (deadlinePassed) {
-                return false;
-              }
-            }}
-          >
-            Register
-          </Link> */}
           {deadlinePassed ? (
             null
           ) : (

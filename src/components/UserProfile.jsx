@@ -121,9 +121,9 @@ const UserProfile = () => {
     sessionStorage.removeItem("userId");
     sessionStorage.removeItem("roleName");
     sessionStorage.removeItem("fullName");
-    localStorage.setItem("isLogin", "true");
-    localStorage.setItem("isActiveMenu", "false");
-    localStorage.setItem("SidebarReset", "false");
+    sessionStorage.setItem("isLogin", "true");
+    sessionStorage.setItem("isActiveMenu", "false");
+    sessionStorage.setItem("SidebarReset", "false");
     navigate("/");
   };
   return (

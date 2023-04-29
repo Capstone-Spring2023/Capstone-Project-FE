@@ -206,7 +206,7 @@ const LeaderSubject = ({ socket }) => {
         record.status !== "Not Submit" && record.status ? (
           <Button
             onClick={() => downloadFolderAsZip(record.examLink)}
-            icon={isZipping ? <LoadingOutlined /> : <DownloadOutlined />} 
+            icon={isZipping ? <LoadingOutlined /> : <DownloadOutlined />}
             loading={isZipping}
           >
             {isZipping ? "Loading..." : ""}

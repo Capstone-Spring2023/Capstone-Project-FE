@@ -33,9 +33,9 @@ const Login = () => {
             sessionStorage.setItem("fullName", value.data.data.fullName);
             setIsLoginPage(false);
             setActiveMenu(true);
-            localStorage.setItem("isLogin", "false");
-            localStorage.setItem("isActiveMenu", "true");
-            localStorage.setItem("SidebarReset", "true");
+            sessionStorage.setItem("isLogin", "false");
+            sessionStorage.setItem("isActiveMenu", "true");
+            sessionStorage.setItem("SidebarReset", "true");
             navigate("/overview");
           })
           .catch((error) => {
