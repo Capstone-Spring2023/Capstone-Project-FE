@@ -79,8 +79,8 @@ const SelectAntLecturer = ({ onChange, defaultValue,subjectId,isSubjectSelected 
           option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
         optionFilterProp="label"
-        // defaultValue={defaultLecturer}
-        value={defaultLecturer}
+        defaultValue={defaultLecturer}
+        // value={defaultLecturer}
       >
         {lecturer?.map((item, index) => (
           <Option

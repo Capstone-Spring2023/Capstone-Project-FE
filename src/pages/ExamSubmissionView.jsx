@@ -50,7 +50,7 @@ const ExamSubmissionView = () => {
 
   const fetchTable = () => {
     fetch(
-      `${BASE_URL_API}/leader/${sessionStorage.getItem(
+      `${BASE_URL_API}/approvalUser/${sessionStorage.getItem(
         "userId"
       )}/exam-submission`
     )
