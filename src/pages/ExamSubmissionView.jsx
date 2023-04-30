@@ -60,7 +60,7 @@ const ExamSubmissionView = ({ socket }) => {
 
   const fetchTable = () => {
     fetch(
-      `${BASE_URL_API}/approvalUser/${sessionStorage.getItem(
+      `${BASE_URL_API}/approval-user/${sessionStorage.getItem(
         "userId"
       )}/exam-submission`
     )
@@ -87,7 +87,7 @@ const ExamSubmissionView = ({ socket }) => {
 
   const fetchHistoryTable = () => {
     fetch(
-      `${BASE_URL_API}/leader/${sessionStorage.getItem(
+      `${BASE_URL_API}/approval-user/${sessionStorage.getItem(
         "userId"
       )}/exam-submission-approved`
     )
