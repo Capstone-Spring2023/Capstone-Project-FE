@@ -340,7 +340,7 @@ const FormAntEdit = ({ editID }) => {
       autoComplete="off"
     >
       <Row>
-        <Col span={12}>
+        {/* <Col span={12}>
           <Form.Item
             label="Exam title"
             // name="title"
@@ -363,7 +363,7 @@ const FormAntEdit = ({ editID }) => {
               disabled // Thêm thuộc tính disabled vào đây
             />
           </Form.Item>
-        </Col>
+        </Col> */}
         <Col span={12}>
           <Form.Item
             label="Subject"

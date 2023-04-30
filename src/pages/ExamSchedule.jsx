@@ -84,7 +84,8 @@ const ExamSchedule = () => {
       title: "Deadline",
       dataIndex: "deadline",
       render: (_, record) =>
-        moment(record.deadline).format("YYYY/MM/DD hh:mm:ss"),
+        // moment(record.deadline).format("YYYY/MM/DD hh:mm:ss"),
+        moment(record.deadline).format("YYYY/MM/DD"),
     },
     {
       title: "Action",

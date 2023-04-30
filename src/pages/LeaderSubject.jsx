@@ -21,7 +21,7 @@ const LeaderSubject = ({ socket }) => {
   const [examAvailableSubjectData, setAvailableSubjectData] = useState([{}]);
   const [subject, setSubject] = useState([{}]);
   const semester = [
-    { id: 3, name: "SP23" },
+    { id: 0, name: "SP23" },
     { id: 1, name: "SU23" },
   ];
   const [noti, setNoti] = useState("Leader assign");

@@ -58,6 +58,72 @@ const ModalAnt = ({ title, id }) => {
       });
   };
 
+  // const downloadFolderAsZip = async () => {
+  //   setIsZipping(true);
+  //   const jszip = new JSZip();
+  //   const storage = getStorage();
+  //   const folderRef = ref(storage, "/SP23/" + examLink + "/" + subjectName + "/PE1");
+  //   const folderRef2 = ref(
+  //     storage,
+  //     "/SP23/" + examLink + "/" + subjectName + "/PE1/Given"
+  //   );
+  //   const folderRef3 = ref(
+  //     storage,
+  //     "/SP23/" + examLink + "/" + subjectName + "/PE1/TestCases"
+  //   );
+  //   const folder = await listAll(folderRef);
+  //   const folder2 = await listAll(folderRef2);
+  //   const folder3 = await listAll(folderRef3);
+  //   const promises = folder.items
+  //     .map(async (item) => {
+  //       const file = await getMetadata(item);
+  //       const fileRef = ref(storage, item.fullPath);
+  //       const fileBlob = await getDownloadURL(fileRef).then((url) => {
+  //         return fetch(`${NO_CORS_URL}/${url}`).then((response) =>
+  //           response.blob()
+  //         );
+  //       });
+  //       jszip.folder("Given/");
+  //       jszip.folder("TestCases/");
+  //       jszip.file(file.name, fileBlob);
+  //     })
+  //     .reduce((acc, curr) => acc.then(() => curr), Promise.resolve());
+  //   await promises;
+  //   const promises2 = folder2.items
+  //     .map(async (item) => {
+  //       const givenFolder = jszip.folder("Given");
+  //       const file = await getMetadata(item);
+  //       const fileRef = ref(storage, item.fullPath);
+  //       const fileBlob = await getDownloadURL(fileRef).then((url) => {
+  //         return fetch(`${NO_CORS_URL}/${url}`).then((response) =>
+  //           response.blob()
+  //         );
+  //       });
+  //       givenFolder.file(file.name, fileBlob);
+  //     })
+  //     .reduce((acc, curr) => acc.then(() => curr), Promise.resolve());
+  //   await promises2;
+  //   const promises3 = folder3.items
+  //     .map(async (item) => {
+  //       const testCFolder = jszip.folder("TestCases");
+  //       const file = await getMetadata(item);
+  //       const fileRef = ref(storage, item.fullPath);
+  //       const fileBlob = await getDownloadURL(fileRef).then((url) => {
+  //         return fetch(`${NO_CORS_URL}/${url}`).then((response) =>
+  //           response.blob()
+  //         );
+  //       });
+  //       testCFolder.file(file.name, fileBlob);
+  //     })
+  //     .reduce((acc, curr) => acc.then(() => curr), Promise.resolve());
+  //   await promises3;
+  //   setIsZipping(false);
+  //   setIsDownloading(true);
+  //   const zipBlob = await jszip.generateAsync({ type: "blob" });
+  //   saveAs(zipBlob, "PE1.zip");
+  //   setIsDownloading(false);
+  // };
+
   const downloadFolderAsZip = async () => {
     setIsZipping(true);
     const jszip = new JSZip();
@@ -74,53 +140,55 @@ const ModalAnt = ({ title, id }) => {
     const folder = await listAll(folderRef);
     const folder2 = await listAll(folderRef2);
     const folder3 = await listAll(folderRef3);
-    const promises = folder.items
-      .map(async (item) => {
-        const file = await getMetadata(item);
-        const fileRef = ref(storage, item.fullPath);
-        const fileBlob = await getDownloadURL(fileRef).then((url) => {
-          return fetch(`${NO_CORS_URL}/${url}`).then((response) =>
-            response.blob()
-          );
-        });
-        jszip.folder("Given/");
-        jszip.folder("TestCases/");
-        jszip.file(file.name, fileBlob);
-      })
-      .reduce((acc, curr) => acc.then(() => curr), Promise.resolve());
+  
+    // Add files to the "PE1" folder
+    const pe1Folder = jszip.folder("PE1");
+    const promises = folder.items.map(async (item) => {
+      const file = await getMetadata(item);
+      const fileRef = ref(storage, item.fullPath);
+      const fileBlob = await getDownloadURL(fileRef).then((url) => {
+        return fetch(`${NO_CORS_URL}/${url}`).then((response) =>
+          response.blob()
+        );
+      });
+      pe1Folder.file(file.name, fileBlob);
+    }).reduce((acc, curr) => acc.then(() => curr), Promise.resolve());
     await promises;
-    const promises2 = folder2.items
-      .map(async (item) => {
-        const givenFolder = jszip.folder("Given");
-        const file = await getMetadata(item);
-        const fileRef = ref(storage, item.fullPath);
-        const fileBlob = await getDownloadURL(fileRef).then((url) => {
-          return fetch(`${NO_CORS_URL}/${url}`).then((response) =>
-            response.blob()
-          );
-        });
-        givenFolder.file(file.name, fileBlob);
-      })
-      .reduce((acc, curr) => acc.then(() => curr), Promise.resolve());
+  
+    // Add files to the "PE1/Given" folder
+    const givenFolder = pe1Folder.folder("Given");
+    const promises2 = folder2.items.map(async (item) => {
+      const file = await getMetadata(item);
+      const fileRef = ref(storage, item.fullPath);
+      const fileBlob = await getDownloadURL(fileRef).then((url) => {
+        return fetch(`${NO_CORS_URL}/${url}`).then((response) =>
+          response.blob()
+        );
+      });
+      givenFolder.file(file.name, fileBlob);
+    }).reduce((acc, curr) => acc.then(() => curr), Promise.resolve());
     await promises2;
-    const promises3 = folder3.items
-      .map(async (item) => {
-        const testCFolder = jszip.folder("TestCases");
-        const file = await getMetadata(item);
-        const fileRef = ref(storage, item.fullPath);
-        const fileBlob = await getDownloadURL(fileRef).then((url) => {
-          return fetch(`${NO_CORS_URL}/${url}`).then((response) =>
-            response.blob()
-          );
-        });
-        testCFolder.file(file.name, fileBlob);
-      })
-      .reduce((acc, curr) => acc.then(() => curr), Promise.resolve());
+  
+    // Add files to the "PE1/TestCases" folder
+    const testCFolder = pe1Folder.folder("TestCases");
+    const promises3 = folder3.items.map(async (item) => {
+      const file = await getMetadata(item);
+      const fileRef = ref(storage, item.fullPath);
+      const fileBlob = await getDownloadURL(fileRef).then((url) => {
+        return fetch(`${NO_CORS_URL}/${url}`).then((response) =>
+          response.blob()
+        );
+      });
+      testCFolder.file(file.name, fileBlob);
+    }).reduce((acc, curr) => acc.then(() => curr), Promise.resolve());
     await promises3;
+  
     setIsZipping(false);
     setIsDownloading(true);
     const zipBlob = await jszip.generateAsync({ type: "blob" });
-    saveAs(zipBlob, "PE1.zip");
+  
+    // Save the zip file with the desired name
+    saveAs(zipBlob, `PE_${subjectName}.zip`);
     setIsDownloading(false);
   };
 
@@ -181,7 +249,7 @@ const ModalAnt = ({ title, id }) => {
                 {isZipping ? "Loading..." : ""}
               </Button>
             </Descriptions.Item>
-            {status === "Approved" ? (
+            {status === "Approved" && type === "Manual" ? (
               <Descriptions.Item label="File Instruction">
                 {/* <a className="container" onClick={() => window.open(examInstruction)}>
                   <div className="row align-items-center">
