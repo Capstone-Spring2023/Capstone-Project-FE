@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { Header, ModalAnt2 } from "../components";
 import { BASE_URL_API } from "../utils/constants";
 import { Table } from "antd";
 import moment from "moment/moment";
 import { useLocation } from "react-router-dom";
+import { getColumnSearchProps } from "../utils/function";
 
 const ExamScheduleView = () => {
   const [examScheduleViewData, setExamScheduleViewData] = useState([{}]);
-  const { state } = useLocation();
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef(null);
 
   useEffect(() => {
     fetchTable();
@@ -33,17 +36,15 @@ const ExamScheduleView = () => {
     {
       title: "Subject",
       dataIndex: "subjectName",
-      filters: [
-        {
-          text: "VNR",
-          value: "VNR",
-        },
-      ],
-      defaultFilteredValue: [`${state?.subject ? state?.subject : ""}`],
-      filterMode: "tree",
-      filterSearch: true,
-      onFilter: (value: string, record) =>
-        record.subjectName?.startsWith(value),
+      key: "subjectName",
+      ...getColumnSearchProps(
+        "subjectName",
+        setSearchText,
+        setSearchedColumn,
+        searchInput,
+        searchedColumn,
+        searchText
+      ),
     },
     {
       title: "Leader",
