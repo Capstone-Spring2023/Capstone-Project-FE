@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Descriptions, Modal } from "antd";
 import "./GoogleButton.css";
 import { DownloadOutlined, InfoOutlined, LoadingOutlined } from "@ant-design/icons";
+import moment from "moment";
 
 const ModalAnt2 = ({
   title,
@@ -45,9 +46,9 @@ const ModalAnt2 = ({
           <Descriptions.Item label="Leader">{leaderName}</Descriptions.Item>
           {/* <Descriptions.Item label="Assign">{examScheduleId}</Descriptions.Item> */}
           <Descriptions.Item label="Title">{tittle}</Descriptions.Item>
-          <Descriptions.Item label="Type">
-            {type ? "Manual" : "Machine"}
-          </Descriptions.Item>
+          {/* <Descriptions.Item label="Type">
+            {type === "Machine" ? "Machine" : "Manual"}
+          </Descriptions.Item> */}
           <Descriptions.Item label="Status">
             <span
               className={`inline-flex items-center gap-1 rounded-full ${
@@ -62,7 +63,8 @@ const ModalAnt2 = ({
               {status ? "Active" : "Inactive"}
             </span>
           </Descriptions.Item>
-          <Descriptions.Item label="Deadline">{deadline}</Descriptions.Item>
+          {/* <Descriptions.Item label="Deadline">{deadline}</Descriptions.Item>*/}
+          <Descriptions.Item label="Deadline">{moment(deadline).format("YYYY/MM/DD")}</Descriptions.Item>
           <Descriptions.Item label="Sample Exam Paper">
             {/* <a className="container" href={examLink}>
               <div className="row align-items-center">
