@@ -32,7 +32,7 @@ const RegisterClass = () => {
     fetch(
       `${BASE_URL_API}/user/${sessionStorage.getItem(
         "userId"
-      )}/register-subject-slot`
+      )}/register-subject-slot?semesterId=1`
     )
       .then((res) => {
         return res.json();

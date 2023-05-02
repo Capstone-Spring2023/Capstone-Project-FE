@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast, Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { Header } from "../components";
 import { BASE_URL_API } from "../utils/constants";
 import moment from "moment";
@@ -17,26 +17,6 @@ const ExamSchedule = () => {
 
   const handleEdit = (availableSubjectId) => {
     navigate("/exam/schedule/edit/" + availableSubjectId);
-  };
-
-  const handleDelete = (availableSubjectId) => {
-    toast.promise(
-      fetch(`${BASE_URL_API}/exam-schedule/` + availableSubjectId, {
-        method: "DELETE",
-        headers: { "content-type": "application/json" },
-      })
-        .then((res) => {
-          fetchTable();
-        })
-        .catch((err) => {
-          console.log(err.message);
-        }),
-      {
-        loading: "Deleting...",
-        success: <b>Delete successfully</b>,
-        error: <b>Delete fail</b>,
-      }
-    );
   };
 
   useEffect(() => {
@@ -84,7 +64,6 @@ const ExamSchedule = () => {
       title: "Deadline",
       dataIndex: "deadline",
       render: (_, record) =>
-        // moment(record.deadline).format("YYYY/MM/DD hh:mm:ss"),
         moment(record.deadline).format("YYYY/MM/DD"),
     },
     {

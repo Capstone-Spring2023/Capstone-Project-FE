@@ -34,7 +34,7 @@ const Notification = ({ fetchNoti, notiData }) => {
       case "subjectLead":
         return (
           <div>
-            You have new Noti from {item.sender}
+            You have new notification from {item.sender}
             <p className="text-gray-500 text-sm dark:text-gray-400">
               {item.message}
             </p>

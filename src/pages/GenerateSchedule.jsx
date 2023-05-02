@@ -204,7 +204,6 @@ const GenerateSchedule = () => {
           });
       }
     );
-    // }
   };
 
   const columns = [
