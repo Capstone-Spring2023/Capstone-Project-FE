@@ -9,7 +9,6 @@ import {
   Calendar,
   ColorPicker,
   ImportSchedule,
-  Leaders,
   LoginPage,
   RegisterClass,
 } from "./pages";
@@ -22,7 +21,6 @@ import LecturesCreate from "./section/Lecturers/LecturesCreate";
 import LecturersEdit from "./section/Lecturers/LecturesUpdate";
 import ExamScheduleCreate from "./section/ExamSchedule/ExamScheduleCreate";
 import ExamScheduleEdit from "./section/ExamSchedule/ExamScheduleEdit";
-import ExamSubmissionView from "./pages/ExamSubmissionView";
 import Schedule from "./pages/Schedule";
 import LeaderSubject from "./pages/LeaderSubject";
 
@@ -37,7 +35,6 @@ import { SOCKET_URL } from "./utils/constants";
 import GenerateSchedule from "./pages/GenerateSchedule";
 
 const socket = io(`${SOCKET_URL}`);
-// const socket = io("http://localhost:4000");
 const App = () => {
   const {
     activeMenu,
@@ -48,7 +45,6 @@ const App = () => {
     setThemeSettings,
     currentColor,
     currentMode,
-    isShowNoti,
   } = useStateContext();
   const ExamsSubmission = lazy(() => import("./pages/ExamSubmission"));
   const ExamsSchedule = lazy(() => import("./pages/ExamSchedule"));
@@ -115,39 +111,27 @@ const App = () => {
                   element={
                     <>
                       <DashboardLazy />
-                      {/*{isShowNoti && (*/}
-                      {/*  <NotiPopup*/}
-                      {/*    title="You have exam schedule request from"*/}
-                      {/*    body="Hoa DNT"*/}
-                      {/*  />*/}
-                      {/*)}*/}
                     </>
                   }
                 />
 
                 {/*Pages*/}
-                {/*{sessionStorage.getItem("roleName") === "Lecturer" ? (*/}
                 <Route
                   path="/exam-submission"
                   element={<ExamsSubmission socket={socket} />}
                 />
-                {/*) : null}*/}
-                {/*{sessionStorage.getItem("roleName") === "Leader" ? (*/}
                 <Route path="/exam-schedule" element={<ExamsSchedule />} />
-                {/*) : null}*/}
-                {/*{sessionStorage.getItem("roleName") === "Lecturer" ? (*/}
+
                 <Route
                   path="/exam-schedule-request"
                   element={<ExamsScheduleView />}
                 />
-                {/*) : null}*/}
 
                 <Route
                   path="/exam-submission-view"
-                  element={<ExamSubmissionView socket={socket} />}
+                  element={<ExamsSubmissionView socket={socket} />}
                 />
 
-                {/*<Route path="/leaders" element={<Leaders />} />*/}
                 <Route path="/schedules" element={<Schedule />} />
                 <Route path="/subjects" element={<Subjects />} />
 

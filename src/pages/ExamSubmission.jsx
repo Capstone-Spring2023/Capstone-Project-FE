@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { Header, ModalAnt3 } from "../components";
 import { Toaster } from "react-hot-toast";
 import { Table, Tooltip } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL_API } from "../utils/constants";
 import { EditOutlined } from "@ant-design/icons";
+import {getColumnSearchProps} from "../utils/function";
 
 const ExamSubmission = ({ socket }) => {
   const [examData, setExamData] = useState([{}]);
-  const [dataChange, setDataChange] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef(null);
   const navigate = useNavigate();
 
   const handleEdit = (id) => {
@@ -21,7 +24,7 @@ const ExamSubmission = ({ socket }) => {
 
   useEffect(() => {
     fetchTable();
-  }, [dataChange]);
+  }, []);
 
   const fetchTable = () => {
     fetch(
@@ -44,15 +47,15 @@ const ExamSubmission = ({ socket }) => {
     {
       title: "Subject",
       dataIndex: "subjectName",
-      filters: [
-        {
-          text: "HCM",
-          value: "HCM",
-        },
-      ],
-      filterMode: "tree",
-      filterSearch: true,
-      onFilter: (value, record) => record.subjectName.indexOf(value) === 0,
+      key: "subjectName",
+      ...getColumnSearchProps(
+          "subjectName",
+          setSearchText,
+          setSearchedColumn,
+          searchInput,
+          searchedColumn,
+          searchText
+      ),
     },
     {
       title: "Status",
@@ -106,23 +109,6 @@ const ExamSubmission = ({ socket }) => {
               />
             </Tooltip>
           ) : null}
-          {/* {record.status === "Pending" ? (
-            <Tooltip title="Delete">
-              <Popconfirm
-                title="Delete the exam-submission"
-                description="Are you sure to delete this?"
-                onConfirm={() => handleDelete(record.examPaperId)}
-                okText="Yes"
-                okType="default"
-                cancelText="No"
-              >
-                <DeleteOutlined
-                  style={{ fontSize: 17, color: "red" }}
-                  height={55}
-                />
-              </Popconfirm>
-            </Tooltip>
-          ) : null} */}
           {record.status === "Waiting-Instruction" ? (
             <Tooltip title="Info">
               <ModalAnt3

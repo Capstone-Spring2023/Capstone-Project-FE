@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
 import { Header } from "../components";
 import { BASE_URL_API } from "../utils/constants";
 import moment from "moment";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Popconfirm, Table, Tooltip } from "antd";
+import { EditOutlined } from "@ant-design/icons";
+import { Table, Tooltip } from "antd";
+import { getColumnSearchProps } from "../utils/function";
 
 const ExamSchedule = () => {
   const [examScheduleData, setExamScheduleData] = useState([{}]);
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef(null);
   const navigate = useNavigate();
 
   const handleEdit = (availableSubjectId) => {
@@ -62,19 +66,15 @@ const ExamSchedule = () => {
     {
       title: "Subject",
       dataIndex: "subjectName",
-      filters: [
-        {
-          text: "HCM",
-          value: "HCM",
-        },
-        {
-          text: "VNR",
-          value: "VNR",
-        },
-      ],
-      filterMode: "tree",
-      filterSearch: true,
-      onFilter: (value, record) => record.subjectName?.indexOf(value) === 0,
+      key: "subjectName",
+      ...getColumnSearchProps(
+          "subjectName",
+          setSearchText,
+          setSearchedColumn,
+          searchInput,
+          searchedColumn,
+          searchText
+      ),
     },
     {
       title: "Title",
@@ -99,21 +99,6 @@ const ExamSchedule = () => {
               height={55}
             />
           </Tooltip>
-          {/* <Tooltip title="Delete">
-            <Popconfirm
-              title="Delete the exam-schedule"
-              description="Are you sure to delete this?"
-              onConfirm={() => handleDelete(record.availableSubjectId)}
-              okText="Yes"
-              okType="default"
-              cancelText="No"
-            >
-              <DeleteOutlined
-                style={{ fontSize: 17, color: "red" }}
-                height={55}
-              />
-            </Popconfirm>
-          </Tooltip> */}
         </div>
       ),
     },

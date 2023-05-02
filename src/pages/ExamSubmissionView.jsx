@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { Header, ModalAnt, Popup } from "../components";
 import { APPROVED, BASE_URL_API } from "../utils/constants";
 import { Popconfirm, Switch, Table, Tooltip } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
-import { useLocation } from "react-router-dom";
-import dataChange from "../utils/function";
+import dataChange, { getColumnSearchProps } from "../utils/function";
 
 const ExamSubmissionView = ({ socket }) => {
   const [examData, setExamData] = useState([{}]);
   const [examHistoryData, setExamHistoryData] = useState([{}]);
   const [isHistory, setIsHistory] = useState(false);
-  const [noti, setNoti] = useState("Data Change");
-  const { state } = useLocation();
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef(null);
 
   useEffect(() => {
     fetchTable();
@@ -101,20 +101,20 @@ const ExamSubmissionView = ({ socket }) => {
         console.log(err.message);
       });
   };
+
   const columns = [
     {
       title: "Subject",
       dataIndex: "subjectName",
-      filters: [
-        {
-          text: "HCM",
-          value: "HCM",
-        },
-      ],
-      defaultFilteredValue: [`${state?.subject ? state?.subject : ""}`],
-      filterMode: "tree",
-      filterSearch: true,
-      onFilter: (value, record) => record?.subjectName?.indexOf(value) === 0,
+      key: "subjectName",
+      ...getColumnSearchProps(
+        "subjectName",
+        setSearchText,
+        setSearchedColumn,
+        searchInput,
+        searchedColumn,
+        searchText
+      ),
     },
     {
       title: "Submitter",

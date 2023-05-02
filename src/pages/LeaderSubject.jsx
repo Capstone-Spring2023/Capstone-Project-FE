@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Header } from "../components";
 import { BASE_URL_API, NO_CORS_URL } from "../utils/constants";
 import { Button, Checkbox, Popconfirm, Select, Space, Table } from "antd";
@@ -14,6 +14,7 @@ import {
   listAll,
   ref,
 } from "firebase/storage";
+import { getColumnSearchProps } from "../utils/function";
 
 const { Option } = Select;
 const { Column } = Table;
@@ -29,6 +30,9 @@ const LeaderSubject = ({ socket }) => {
   const [userId, setUserId] = useState(null);
   const [subjectName, setSubjectName] = useState("");
   const [isZipping, setIsZipping] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef(null);
   const userIdofHeader = sessionStorage.getItem("userId");
 
   const handleSubjectSelect = (value) => {
@@ -179,16 +183,15 @@ const LeaderSubject = ({ socket }) => {
     {
       title: "FullName",
       dataIndex: "fullName",
-      filters: [
-        {
-          text: "Han",
-          value: "Han",
-        },
-      ],
-      filterMode: "tree",
-      filterSearch: true,
-      onFilter: (value, record) => record.fullName.indexOf(value) === 0,
-      width: "20%",
+      key: "fullName",
+      ...getColumnSearchProps(
+        "fullName",
+        setSearchText,
+        setSearchedColumn,
+        searchInput,
+        searchedColumn,
+        searchText
+      ),
     },
     {
       title: "Semester",

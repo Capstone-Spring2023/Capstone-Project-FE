@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Header } from "../components";
 import { Link } from "react-router-dom";
-import avatar from "../assets/banner.jpg";
 import moment from "moment/moment";
-import { Table } from "antd";
+import { Table, Typography } from "antd";
 import { BASE_URL_API } from "../utils/constants";
+import { getColumnSearchProps } from "../utils/function";
+
+const { Text } = Typography;
 
 const RegisterClass = () => {
   const [registerData, setRegisterData] = useState([{}]);
   const [deadlineRegister, setDeadlineRegister] = useState([{}]);
   const [deadlinePassed, setDeadlinePassed] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const [registerSlot, setRegisterSlot] = useState([]);
+  const searchInput = useRef(null);
 
   useEffect(() => {
     fetchRegister();
@@ -33,6 +39,7 @@ const RegisterClass = () => {
       })
       .then((resp) => {
         setRegisterData(resp.registerSubjects);
+        setRegisterSlot(resp.registerSlots);
       })
       .catch((err) => {
         console.log(err.message);
@@ -40,9 +47,7 @@ const RegisterClass = () => {
   };
 
   const fetchDeadlineRegister = () => {
-    fetch(
-      `https://fpt-cft.azurewebsites.net/api/schedule/deadline-checking?semesterId=1`
-    )
+    fetch(`${BASE_URL_API}/schedule/deadline-checking?semesterId=1`)
       .then((res) => {
         return res.json();
       })
@@ -58,20 +63,15 @@ const RegisterClass = () => {
     {
       title: "Subject",
       dataIndex: "subjectName",
-      filters: [
-        {
-          text: "HCM",
-          value: "HCM",
-        },
-        {
-          text: "VNR",
-          value: "VNR",
-        },
-      ],
-      filterMode: "tree",
-      filterSearch: true,
-      onFilter: (value, record) => record.subjectName?.indexOf(value) === 0,
-      width: "40%",
+      key: "subjectName",
+      ...getColumnSearchProps(
+        "subjectName",
+        setSearchText,
+        setSearchedColumn,
+        searchInput,
+        searchedColumn,
+        searchText
+      ),
     },
     {
       title: "Register Date",
@@ -84,29 +84,28 @@ const RegisterClass = () => {
       dataIndex: "status",
       render: (_, record) => (
         <span
-          className={`inline-flex items-center gap-1 rounded-full ${record.status
-            ? "bg-green-50 text-green-600"
-            : "bg-red-50 text-red-600"
-            }  px-2 py-1 text-xs font-semibold`}
+          className={`inline-flex items-center gap-1 rounded-full ${
+            record.status
+              ? "bg-green-50 text-green-600"
+              : "bg-red-50 text-red-600"
+          }  px-2 py-1 text-xs font-semibold`}
         >
           <span
-            className={`h-1.5 w-1.5 rounded-full ${record.status ? "bg-green-600" : "bg-red-600"
-              }`}
+            className={`h-1.5 w-1.5 rounded-full ${
+              record.status ? "bg-green-600" : "bg-red-600"
+            }`}
           ></span>
           {record.status ? "Active" : "Inactive"}
         </span>
       ),
     },
   ];
-
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <div className="flex justify-between items-center">
         <Header category="Apps" title="Register Class" />
         <div>
-          {deadlinePassed ? (
-            null
-          ) : (
+          {deadlinePassed ? null : (
             <Link
               to="/register-class/register"
               className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800`}
@@ -116,11 +115,16 @@ const RegisterClass = () => {
           )}
         </div>
       </div>
-      <Table
-        columns={columns}
-        dataSource={registerData}
-        pagination={{ pageSize: 5 }}
-      />
+      <div className="flex flex-col gap-3">
+        <Text type="warning" strong={true}>
+          Register Slot: {registerSlot?.join(", ")}
+        </Text>
+        <Table
+          columns={columns}
+          dataSource={registerData}
+          pagination={{ pageSize: 5 }}
+        />
+      </div>
     </div>
   );
 };

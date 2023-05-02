@@ -33,7 +33,9 @@ const GenerateSchedule = () => {
 
   const handleButtonClick = async () => {
     try {
-      const response = await fetch(`${BASE_URL_API}/auto-schedule/get-file?semesterId=1`);
+      const response = await fetch(
+        `${BASE_URL_API}/auto-schedule/get-file?semesterId=1`
+      );
       const downloadUrl = await response.text();
       window.open(downloadUrl, "_blank");
       setShowUploadButtons(true);
@@ -220,8 +222,9 @@ const GenerateSchedule = () => {
     },
     {
       title: "Satisfaction Level",
-      dataIndex: "percentPoint",
-      render: (_, record) => `${Number(record.percentPoint).toFixed(1)}%`,
+      dataIndex: "satisfyPoint",
+      render: (_, record) =>
+        `${Number((record.satisfyPoint / 15) * 100).toFixed(1)}%`,
     },
   ];
 

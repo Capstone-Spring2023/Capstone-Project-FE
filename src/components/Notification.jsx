@@ -3,6 +3,7 @@ import avatar4 from "../assets/banner.jpg";
 import { useNavigate } from "react-router-dom";
 import { Empty } from "antd";
 import { BASE_URL_API } from "../utils/constants";
+import { it } from "date-fns/locale";
 
 const Notification = ({ fetchNoti, notiData }) => {
   const navigate = useNavigate();
@@ -28,6 +29,76 @@ const Notification = ({ fetchNoti, notiData }) => {
       });
   };
 
+  const notiCondition = (type, item) => {
+    switch (type) {
+      case "subjectLead":
+        return (
+          <div>
+            You have new Noti from {item.sender}
+            <p className="text-gray-500 text-sm dark:text-gray-400">
+              {item.message}
+            </p>
+          </div>
+        );
+      case "Schedule":
+        return (
+          <div>
+            You have new notification from
+            {item.sender}
+            <p className="text-gray-500 text-sm dark:text-gray-400">
+              {item.message}
+              {" for "}
+              {item.subjectCode}
+            </p>
+          </div>
+        );
+      case "schedule":
+        return (
+          <div>
+            You have new notification
+            <p className="text-gray-500 text-sm dark:text-gray-400">
+              {item.message}
+            </p>
+          </div>
+        );
+      case "Submission":
+        return (
+          <div>
+            You have new notification
+            <p className="text-gray-500 text-sm dark:text-gray-400">
+              {item.sender} {item.message}
+              {" for "}
+              {item.subjectCode}
+            </p>
+          </div>
+        );
+      case "Reject":
+        return (
+          <div>
+            You have new notification from {item.sender}
+            <p className="text-gray-500 text-sm dark:text-gray-400">
+              {item.message}
+              {" for "}
+              {item.subjectCode}
+            </p>
+          </div>
+        );
+      case "Appprove":
+        return (
+          <div>
+            You have new notification from {item.sender}
+            <p className="text-gray-500 text-sm dark:text-gray-400">
+              {item.message}
+              {" for "}
+              {item.subjectCode}
+            </p>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <div>
       {notiData?.length > 0 ? (
@@ -46,23 +117,7 @@ const Notification = ({ fetchNoti, notiData }) => {
             />
             <div>
               <p className="font-semibold dark:text-gray-200">
-                {item.type === "subjectLead" ? (
-                  <div>
-                    You have new Noti from {item.sender}
-                    <p className="text-gray-500 text-sm dark:text-gray-400">
-                      {item.message}
-                    </p>
-                  </div>
-                ) : (
-                  <div>
-                    You have new {item.type} notification
-                    <p className="text-gray-500 text-sm dark:text-gray-400">
-                      {"from "}
-                      {item.sender} {"for "}
-                      {item.subjectCode}
-                    </p>
-                  </div>
-                )}
+                {notiCondition(item.type, item)}
               </p>
             </div>
             <div className="text-gray-500">{item.status}</div>
