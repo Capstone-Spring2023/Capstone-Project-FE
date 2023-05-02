@@ -57,7 +57,7 @@ const FormAnt = ({ socket }) => {
   }, []);
 
   const handleSubmit = () => {
-    if (fileUploaded1 && fileUploaded2 && fileUploaded3) {
+    if (fileUploaded1 && fileUploaded2 ) {
       const examData = {
         availableSubjectName,
         examContent,
@@ -203,7 +203,6 @@ const FormAnt = ({ socket }) => {
       },
       function complete() {
         onSuccess(file);
-        setFileUploaded3(true);
         messageAnt.success(`${file.name} file uploaded successfully.`);
       }
     );

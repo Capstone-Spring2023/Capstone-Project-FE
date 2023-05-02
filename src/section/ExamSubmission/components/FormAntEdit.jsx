@@ -7,7 +7,6 @@ import {
   message,
   message as messageAnt,
   Row,
-  Typography
 } from "antd";
 import UploadAnt from "./UploadAnt";
 import { useNavigate } from "react-router-dom";
@@ -20,8 +19,6 @@ import {
 } from "firebase/storage";
 import { storage } from "../../../firebase/firebase";
 import { BASE_URL_API } from "../../../utils/constants";
-
-const { Text } = Typography;
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -55,7 +52,7 @@ const FormAntEdit = ({ editID }) => {
       });
   }, []);
   const handleUpdate = () => {
-    if (fileUploaded1 && fileUploaded2 && fileUploaded3) {
+    // if (fileUploaded1 && fileUploaded2 ) {
       const examData = {
         examContent: title,
         examLink: assignee,
@@ -79,12 +76,13 @@ const FormAntEdit = ({ editID }) => {
           error: <b>Could not save.</b>,
         }
       );
-    } else {
-      messageAnt.error(
-        "Please ensure all files are uploaded before submitting."
-      );
-    }
+    // } else {
+    //   messageAnt.error(
+    //     "Please ensure all files are uploaded before submitting."
+    //   );
+    // }
   };
+
   const upLoadFile = async ({ onSuccess, onProgress, onError, file }) => {
     let folderRef = ref(storage, `/SP23/` + assignee + `/${examScheduleID}/PE1`);
     let fileRef = ref(
@@ -122,7 +120,7 @@ const FormAntEdit = ({ editID }) => {
                 setFile(
                   `gs://capstone-cft.appspot.com/${assignee}/${examScheduleID}/PE1`
                 );
-                setFileUploaded1(true);
+                // setFileUploaded1(true);
                 message.success(`${file.name} file uploaded successfully.`);
               }
             );
@@ -154,13 +152,14 @@ const FormAntEdit = ({ editID }) => {
               `gs://capstone-cft.appspot.com/${assignee}/${examScheduleID}/PE1`
             );
             console.log(file);
-            setFileUploaded1(true);
+            // setFileUploaded1(true);
             message.success(`${file.name} file uploaded successfully.`);
           }
         );
       }
     });
   };
+
   const upLoadFile2 = async ({ onSuccess, onProgress, onError, file }) => {
     let folderRef = ref(
       storage,
@@ -203,7 +202,7 @@ const FormAntEdit = ({ editID }) => {
                     "email"
                   )}/${examScheduleID}/PE1`
                 );
-                setFileUploaded2(true);
+                // setFileUploaded2(true);
                 message.success(`${file.name} file uploaded successfully.`);
               }
             );
@@ -234,13 +233,14 @@ const FormAntEdit = ({ editID }) => {
             setFile(
               `gs://capstone-cft.appspot.com/${assignee}/${examScheduleID}/PE1`
             );
-            setFileUploaded2(true);
+            // setFileUploaded2(true);
             message.success(`${file.name} file uploaded successfully.`);
           }
         );
       }
     });
   };
+
   const upLoadFile3 = async ({ onSuccess, onProgress, onError, file }) => {
     let folderRef = ref(
       storage,
@@ -278,7 +278,6 @@ const FormAntEdit = ({ editID }) => {
               },
               function complete() {
                 onSuccess(file);
-                setFileUploaded3(true);
                 setFile(
                   `gs://capstone-cft.appspot.com/${assignee}/${examScheduleID}/PE1`
                 );
@@ -312,7 +311,6 @@ const FormAntEdit = ({ editID }) => {
             setFile(
               `gs://capstone-cft.appspot.com/${assignee}/${examScheduleID}/PE1`
             );
-            setFileUploaded3(true);
             message.success(`${file.name} file uploaded successfully.`);
           }
         );
@@ -380,9 +378,6 @@ const FormAntEdit = ({ editID }) => {
         </Col>
       </Row>
       <Row justify="center" align="center">
-        <Text type="danger" >
-          ***You need to re-upload the entire file if you want to update
-        </Text>
         <Col span={20} offset={6}>
           <Form.Item name="file" accept=".docx">
             <UploadAnt

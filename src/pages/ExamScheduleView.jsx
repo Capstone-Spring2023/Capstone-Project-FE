@@ -92,6 +92,7 @@ const ExamScheduleView = () => {
           subjectName={record.subjectName}
           examLink={record.examLink}
           type={record.typeId}
+          typeName={record.typeName}
           status={record.status}
           title="Exam Schedule detail"
         />

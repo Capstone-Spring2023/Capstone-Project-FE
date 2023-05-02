@@ -13,6 +13,7 @@ const ModalAnt2 = ({
   subjectName,
   examLink,
   type,
+  typeName,
   status,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,9 +47,9 @@ const ModalAnt2 = ({
           <Descriptions.Item label="Leader">{leaderName}</Descriptions.Item>
           {/* <Descriptions.Item label="Assign">{examScheduleId}</Descriptions.Item> */}
           <Descriptions.Item label="Title">{tittle}</Descriptions.Item>
-          {/* <Descriptions.Item label="Type">
-            {type === "Machine" ? "Machine" : "Manual"}
-          </Descriptions.Item> */}
+          <Descriptions.Item label="Type">
+            {typeName}
+          </Descriptions.Item>
           <Descriptions.Item label="Status">
             <span
               className={`inline-flex items-center gap-1 rounded-full ${
