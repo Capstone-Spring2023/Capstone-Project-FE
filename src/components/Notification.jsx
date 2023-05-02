@@ -43,8 +43,7 @@ const Notification = ({ fetchNoti, notiData }) => {
       case "Schedule":
         return (
           <div>
-            You have new notification from
-            {item.sender}
+            You have new notification from {item.sender}
             <p className="text-gray-500 text-sm dark:text-gray-400">
               {item.message}
               {" for "}
@@ -66,9 +65,7 @@ const Notification = ({ fetchNoti, notiData }) => {
           <div>
             You have new notification
             <p className="text-gray-500 text-sm dark:text-gray-400">
-              {item.sender} {item.message}
-              {" for "}
-              {item.subjectCode}
+              {item.sender} {item.message} {item.subjectCode}
             </p>
           </div>
         );
@@ -91,6 +88,15 @@ const Notification = ({ fetchNoti, notiData }) => {
               {item.message}
               {" for "}
               {item.subjectCode}
+            </p>
+          </div>
+        );
+      case "Instruction":
+        return (
+          <div>
+            You have new notification from {item.sender}
+            <p className="text-gray-500 text-sm dark:text-gray-400">
+              {item.message}
             </p>
           </div>
         );

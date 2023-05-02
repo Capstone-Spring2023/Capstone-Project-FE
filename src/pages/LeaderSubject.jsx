@@ -225,7 +225,7 @@ const LeaderSubject = ({ socket }) => {
       title: "isLeader",
       dataIndex: "isLeader",
       render: (_, record) =>
-        record.isCol ? (
+        record.isCol || record.semester === 'SP23' ? (
           <></>
         ) : (
           <Popconfirm
