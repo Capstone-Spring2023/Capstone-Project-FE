@@ -216,19 +216,23 @@ const ModalAnt = ({ title, id }) => {
             <Descriptions.Item label="Lecturer">
               {lecturerName}
             </Descriptions.Item>
-            <Descriptions.Item label="Content">{examContent}</Descriptions.Item>
+            {/* <Descriptions.Item label="Content">{examContent}</Descriptions.Item> */}
             <Descriptions.Item label="Subject">{subjectName}</Descriptions.Item>
             <Descriptions.Item label="Status">
               {status === "Pending" ? (
                 <Badge status="processing" text="Pending" />
               ) : status === "Approved" ? (
                 <Badge status="success" text="Approved" />
+              ): status === "Waiting-Instruction" ? (
+                <Badge status="processing" text="Waiting-Instruction" />
+              ): status === "Submitted-Instruction" ? (
+                <Badge status="processing" text="Submitted-Instruction" />
               ) : (
                 <Badge status="error" text="Rejected" />
               )}
             </Descriptions.Item>
             <Descriptions.Item label="Type">{type}</Descriptions.Item>
-            <Descriptions.Item label="File">
+            <Descriptions.Item label=" Submission File">
               {/* <a className="container" onClick={downloadFolderAsZip}>
                 <div className="row align-items-center">
                   <div className="col-auto">
@@ -249,8 +253,8 @@ const ModalAnt = ({ title, id }) => {
                 {isZipping ? "Loading..." : ""}
               </Button>
             </Descriptions.Item>
-            {status === "Approved" && type === "Manual" ? (
-              <Descriptions.Item label="File Instruction">
+            {status === "Approved" && type === "Manual" || status === "Submitted-Instruction"? (
+              <Descriptions.Item label="Instruction File">
                 {/* <a className="container" onClick={() => window.open(examInstruction)}>
                   <div className="row align-items-center">
                     <div className="col-auto">

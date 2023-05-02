@@ -133,26 +133,24 @@ const ExamSubmissionView = ({ socket }) => {
       dataIndex: "status",
       render: (_, record) => (
         <span
-          className={`inline-flex items-center gap-1 rounded-full ${
-            record.status === "Approved"
-              ? "bg-green-50 text-green-600"
-              : record.status === "Rejected"
+          className={`inline-flex items-center gap-1 rounded-full ${record.status === "Approved"
+            ? "bg-green-50 text-green-600"
+            : record.status === "Rejected"
               ? "bg-red-50 text-red-600"
               : record.status === "Pending"
-              ? "bg-yellow-50 text-yellow-600"
-              : "bg-gray-50 text-gray-600"
-          }  px-2 py-1 text-xs font-semibold`}
+                ? "bg-yellow-50 text-yellow-600"
+                : "bg-gray-50 text-gray-600"
+            }  px-2 py-1 text-xs font-semibold`}
         >
           <span
-            className={`h-1.5 w-1.5 rounded-full ${
-              record.status === "Approved"
-                ? "bg-green-600"
-                : record.status === "Rejected"
+            className={`h-1.5 w-1.5 rounded-full ${record.status === "Approved"
+              ? "bg-green-600"
+              : record.status === "Rejected"
                 ? "bg-red-600"
                 : record.status === "Pending"
-                ? "bg-yellow-600"
-                : "bg-gray-600"
-            }`}
+                  ? "bg-yellow-600"
+                  : "bg-gray-600"
+              }`}
           ></span>
           {record.status}
         </span>
@@ -167,29 +165,33 @@ const ExamSubmissionView = ({ socket }) => {
             <ModalAnt title="Exam submission detail" id={record.examPaperId} />
           ) : (
             <>
-              <Tooltip title="Approve">
-                <Popconfirm
-                  title="Approve the exam"
-                  description="Are you sure to approve this exam?"
-                  onConfirm={() => handleApprove(record.examPaperId)}
-                  okText="Yes"
-                  okType="default"
-                  cancelText="No"
-                >
-                  <CheckOutlined
-                    style={{ fontSize: 17, color: "lightgreen" }}
-                    height={55}
-                  />
-                </Popconfirm>
-              </Tooltip>
-              <Popup
-                title="Comment"
-                fetchTable={fetchTable}
-                examPaperId={record.examPaperId}
-                examLink={record.examLink}
-                subjectName={record.subjectName}
-                socket={socket}
-              />
+              {record.status === "Pending" || record.status === "Submitted-Instruction" ? (
+                <Tooltip title="Approve">
+                  <Popconfirm
+                    title="Approve the exam"
+                    description="Are you sure to approve this exam?"
+                    onConfirm={() => handleApprove(record.examPaperId)}
+                    okText="Yes"
+                    okType="default"
+                    cancelText="No"
+                  >
+                    <CheckOutlined
+                      style={{ fontSize: 17, color: "lightgreen" }}
+                      height={55}
+                    />
+                  </Popconfirm>
+                </Tooltip>
+              ) : null}
+              {record.status === "Pending" || record.status === "Submitted-Instruction" ? (
+                <Popup
+                  title="Comment"
+                  fetchTable={fetchTable}
+                  examPaperId={record.examPaperId}
+                  examLink={record.examLink}
+                  subjectName={record.subjectName}
+                  socket={socket}
+                />
+              ) : null}
               <ModalAnt
                 title="Exam submission detail"
                 id={record.examPaperId}

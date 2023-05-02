@@ -217,13 +217,13 @@ const FormAnt = ({ socket }) => {
         {isSubjectSelected?(
         <Col span={12}>
           <Form.Item
-            label="Lecturer"
-            name="Lecturer"
+            label="Reviewer"
+            name="Reviewer"
             // disabled={!isSubjectSelected}
             rules={[
               {
                 required: false,
-                message: "Please input Lecturer!",
+                message: "Please input Reviewer!",
               },
             ]}
           >

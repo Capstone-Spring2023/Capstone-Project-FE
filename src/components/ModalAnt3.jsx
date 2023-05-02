@@ -16,6 +16,7 @@ const { Dragger } = Upload;
 
 const ModalAnt3 = ({ title, id, examInstructionId, fetchTable }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [uploadFileIns,setUploadFileIns]=useState(false);
   const [file, setFile] = useState("");
   const { examid } = useParams(id);
   const showModal = () => {
@@ -113,6 +114,7 @@ const ModalAnt3 = ({ title, id, examInstructionId, fetchTable }) => {
           .then((url) => {
             localStorage.setItem("url", url);
             setFile(url);
+            setUploadFileIns(true);
             message.success(`${file.name} file uploaded successfully.`);
           })
           .catch((error) => {
@@ -137,7 +139,7 @@ const ModalAnt3 = ({ title, id, examInstructionId, fetchTable }) => {
         onOk={handleOk2}
         onCancel={handleClose}
         footer={[
-          <Button key="submit" type="default" onClick={handleOk2}>
+          <Button key="submit" type="default" onClick={handleOk2} disabled={!uploadFileIns}>
             Submit
           </Button>,
         ]}
