@@ -38,7 +38,6 @@ const RegisterClass = () => {
         return res.json();
       })
       .then((resp) => {
-        console.log("RES", resp);
         setRegisterData(resp.registerSubjects);
         setRegisterSlot(resp.registerSlots);
       })
@@ -118,7 +117,7 @@ const RegisterClass = () => {
       </div>
       <div className="flex flex-col gap-3">
         <Text type="warning" strong={true}>
-          Register Slot: {registerSlot.join(", ")}
+          Register Slot: {registerSlot?.join(", ")}
         </Text>
         <Table
           columns={columns}
