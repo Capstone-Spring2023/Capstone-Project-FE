@@ -237,6 +237,7 @@ const LeaderSubject = ({ socket }) => {
             cancelText="No"
           >
             <Checkbox
+              disabled={record.semester === "SP23"}
               onChange={onChange}
               value={`${record.availableSubjectId},${record.userId}`}
               checked={record?.isLeader}

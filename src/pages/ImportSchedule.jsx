@@ -244,7 +244,7 @@ const ImportSchedule = () => {
 
   const columns = [
     {
-      title: "FullName",
+      title: "Lecturer Name",
       dataIndex: "fullName",
       key: "fullName",
       ...getColumnSearchProps(

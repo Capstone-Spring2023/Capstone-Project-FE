@@ -21,7 +21,7 @@ const SelectAnt = ({ onChange, defaultValue,subjectId  }) => {
     fetch(
       `${BASE_URL_API}/leader/${sessionStorage.getItem(
         "userId"
-      )}/available-subject`
+      )}/available-subject?semesterId=0`
     )
       .then((res) => {
         return res.json();
