@@ -16,6 +16,7 @@ const Popup = ({
   examLink,
   subjectName,
   socket,
+  status
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentContent, setCommentContent] = useState("");
@@ -88,9 +89,11 @@ const Popup = ({
   };
 
   const handleOk = () => {
-    deleteFile();
-    deleteFile2();
-    deleteFile3();
+    if (status !== "Submitted-Instruction") {
+      deleteFile();
+      deleteFile2();
+      deleteFile3();
+    }
     setIsModalOpen(false);
     const data = {
       commentModel: {

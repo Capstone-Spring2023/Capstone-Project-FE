@@ -189,6 +189,7 @@ const ExamSubmissionView = ({ socket }) => {
                   examPaperId={record.examPaperId}
                   examLink={record.examLink}
                   subjectName={record.subjectName}
+                  status={record.status}
                   socket={socket}
                 />
               ) : null}
