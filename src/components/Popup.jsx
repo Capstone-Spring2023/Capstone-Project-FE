@@ -97,7 +97,6 @@ const Popup = ({
     setIsModalOpen(false);
     const data = {
       commentModel: {
-        leaderId: 5,
         approvalUserId: sessionStorage.getItem("userId"),
         examPaperId: examPaperId,
         commentContent: commentContent,
@@ -144,7 +143,6 @@ const Popup = ({
           centered={true}
           open={isModalOpen}
           title={`${title}`}
-          onOk={handleOk}
           onCancel={handleClose}
           footer={[
             <Button
