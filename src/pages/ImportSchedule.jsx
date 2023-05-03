@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Header } from "../components";
-import { InboxOutlined, SearchOutlined } from "@ant-design/icons";
+import { InboxOutlined } from "@ant-design/icons";
 import {
   Button,
   Checkbox,
   DatePicker,
   DatePickerProps,
   Form,
-  Input,
   message as messageAnt,
   Popconfirm,
   Result,
@@ -27,7 +26,6 @@ import { read, utils } from "xlsx";
 import { BASE_URL_API } from "../utils/constants";
 import moment from "moment/moment";
 import { toast, Toaster } from "react-hot-toast";
-import Highlighter from "react-highlight-words";
 import { getColumnSearchProps } from "../utils/function";
 
 const { Dragger } = Upload;
@@ -100,7 +98,7 @@ const ImportSchedule = () => {
     );
   };
 
-  const sendNotification = (values) => {
+  const sendNotification = () => {
     importSchedule();
     setRegisterDeadLine();
   };
@@ -167,7 +165,7 @@ const ImportSchedule = () => {
   const contentStyle: React.CSSProperties = {
     marginTop: 16,
   };
-  const fetchSubject = (semesterId) => {
+  const fetchSubject = () => {
     fetch(`https://fpt-cft.azurewebsites.net/Semester/1`)
       .then((res) => {
         return res.json();

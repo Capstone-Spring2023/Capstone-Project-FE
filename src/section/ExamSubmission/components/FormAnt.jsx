@@ -7,7 +7,7 @@ import { toast } from "react-hot-toast";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../firebase/firebase";
 import { BASE_URL_API } from "../../../utils/constants";
-import checkPageStatus, { dataChange } from "../../../utils/function";
+import { dataChange } from "../../../utils/function";
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);

@@ -1,11 +1,11 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Header, ModalAnt3 } from "../components";
 import { Toaster } from "react-hot-toast";
 import { Table, Tooltip } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL_API } from "../utils/constants";
 import { EditOutlined } from "@ant-design/icons";
-import {getColumnSearchProps} from "../utils/function";
+import { getColumnSearchProps } from "../utils/function";
 
 const ExamSubmission = ({ socket }) => {
   const [examData, setExamData] = useState([{}]);
@@ -49,12 +49,12 @@ const ExamSubmission = ({ socket }) => {
       dataIndex: "subjectName",
       key: "subjectName",
       ...getColumnSearchProps(
-          "subjectName",
-          setSearchText,
-          setSearchedColumn,
-          searchInput,
-          searchedColumn,
-          searchText
+        "subjectName",
+        setSearchText,
+        setSearchedColumn,
+        searchInput,
+        searchedColumn,
+        searchText
       ),
     },
     {

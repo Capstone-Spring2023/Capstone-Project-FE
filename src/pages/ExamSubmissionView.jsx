@@ -29,7 +29,6 @@ const ExamSubmissionView = ({ socket }) => {
   const handleApprove = (id) => {
     const data = {
       commentModel: {
-        leaderId: sessionStorage.getItem("userId"),
         approvalUserId: sessionStorage.getItem("userId"),
         examPaperId: id,
       },
@@ -43,7 +42,7 @@ const ExamSubmissionView = ({ socket }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       })
-        .then((resp) => {
+        .then(() => {
           dataChange(socket);
           fetchTable();
         })

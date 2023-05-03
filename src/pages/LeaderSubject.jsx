@@ -19,7 +19,7 @@ import { getColumnSearchProps } from "../utils/function";
 const { Option } = Select;
 const { Column } = Table;
 const LeaderSubject = ({ socket }) => {
-  const [examAvailableSubjectData, setAvailableSubjectData] = useState([{}]);
+  const [examAvailableSubjectData, setAvailableSubjectData] = useState(null);
   const [subject, setSubject] = useState([{}]);
   const semester = [
     { id: 0, name: "SP23" },
@@ -311,9 +311,7 @@ const LeaderSubject = ({ socket }) => {
       </div>
       <Table
         columns={columns}
-        dataSource={
-          examAvailableSubjectData?.length > 1 ? examAvailableSubjectData : null
-        }
+        dataSource={examAvailableSubjectData}
         pagination={{ pageSize: 5 }}
       />
     </div>
