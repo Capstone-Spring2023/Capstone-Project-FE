@@ -220,6 +220,28 @@ const LeaderSubject = ({ socket }) => {
     {
       title: "Exam status",
       dataIndex: "status",
+      render: (_, record) => (
+        <span
+          className={`inline-flex items-center gap-1 rounded-full ${
+            record.status === "Approved"
+              ? "bg-green-50 text-green-600"
+              : record.status === null
+              ? "bg-none"
+              : "bg-yellow-50 text-yellow-600"
+          }  px-2 py-1 text-xs font-semibold`}
+        >
+          <span
+            className={`h-1.5 w-1.5 rounded-full ${
+              record.status === "Approved"
+                ? "bg-green-600"
+                : record.status === null
+                ? "bg-none"
+                : "bg-yellow-600"
+            }`}
+          ></span>
+          {record.status}
+        </span>
+      ),
     },
     {
       title: "isLeader",

@@ -195,7 +195,15 @@ const ImportSchedule = () => {
       });
   };
 
-  const handleTeachable = (subjectId, userId, availableSubjectId) => {
+  const handleTeachable = (subjectId, userId, availableSubjectId, status) => {
+    if (status) {
+      removeTeachable(subjectId, userId);
+    } else {
+      setTeachable(subjectId, userId, availableSubjectId);
+    }
+  };
+
+  const setTeachable = (subjectId, userId, availableSubjectId) => {
     const teachableData = {
       subjectId,
       userId,
@@ -203,6 +211,30 @@ const ImportSchedule = () => {
     toast.promise(
       fetch(`${BASE_URL_API}/able-subject/api/user/able-subject`, {
         method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(teachableData),
+      })
+        .then((res) => {
+          fetchTeachableData(availableSubjectId);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        }),
+      {
+        loading: "Updating...",
+        success: <b>Updated successfully</b>,
+        error: <b>Could not update.</b>,
+      }
+    );
+  };
+  const removeTeachable = (subjectId, userId) => {
+    const teachableData = {
+      subjectId,
+      userId,
+    };
+    toast.promise(
+      fetch(`${BASE_URL_API}/able-subject/api/user/able-subject`, {
+        method: "DELETE",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(teachableData),
       })
@@ -261,10 +293,21 @@ const ImportSchedule = () => {
       dataIndex: "status",
       render: (_, record) => (
         <Popconfirm
-          title="Set teachable subject"
-          description="Are you sure to set this subject?"
+          title={`${
+            record.status ? "Remove teachable subject" : "Set teachable subject"
+          }`}
+          description={`${
+            record.status
+              ? "Are you sure to remove this subject?"
+              : "Are you sure to set this subject?"
+          }`}
           onConfirm={() =>
-            handleTeachable(subjectId, record.userId, availableSubjectId)
+            handleTeachable(
+              subjectId,
+              record.userId,
+              availableSubjectId,
+              record?.status
+            )
           }
           okText="Yes"
           okType="default"

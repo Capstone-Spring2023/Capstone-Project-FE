@@ -29,6 +29,7 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
 
 const Navbar = ({ socket }) => {
   const [notiData, setNotiData] = useState([{}]);
+  const [countNoti, setCountNoti] = useState(0);
   const [noti, setNoti] = useState([]);
   const [openNoti, setOpenNoti] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
@@ -75,7 +76,8 @@ const Navbar = ({ socket }) => {
         return res.json();
       })
       .then((resp) => {
-        setNotiData(resp.data);
+        setNotiData(resp.data.reponseNotificationModels);
+        setCountNoti(resp.data.countUnread)
         setIsShowNoti(true);
         setNoti("");
       })
@@ -107,7 +109,7 @@ const Navbar = ({ socket }) => {
         icon={<AiOutlineMenu />}
       />
       <div className="flex items-center gap-3">
-        <Badge count={notiData?.length} size="small">
+        <Badge count={countNoti} size="small">
           <Popover
             content={<Notification fetchNoti={fetchNoti} notiData={notiData} />}
             trigger="click"
