@@ -3,6 +3,8 @@ import { overviewData } from "../data/dummy";
 import banner from "../assets/banner.png";
 import { useStateContext } from "../contexts/ContextProvider";
 import { BASE_URL_API } from "../utils/constants";
+import { MdOutlineSupervisorAccount } from "react-icons/md";
+import { HiOutlineRefresh } from "react-icons/hi";
 
 const Dashboard = () => {
   const { currentColor } = useStateContext();
@@ -67,6 +69,7 @@ const Dashboard = () => {
               className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"
             >
               {/* {item.icon} */}
+              <MdOutlineSupervisorAccount />
             </button>
             <p className="mt-3">
               <span className="text-lg font-semibold">{totalExam.totalExamNeedApprove}</span>
@@ -85,6 +88,7 @@ const Dashboard = () => {
               className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"
             >
               {/* {item.icon} */}
+              <HiOutlineRefresh />
             </button>
             <p className="mt-3">
               <span className="text-lg font-semibold">{totalExam.totalExamNeedSubmit}</span>
@@ -103,6 +107,7 @@ const Dashboard = () => {
               className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"
             >
               {/* {item.icon} */}
+              <HiOutlineRefresh />
             </button>
             <p className="mt-3">
               <span className="text-lg font-semibold">{totalExam.totalClassTeaching}</span>
@@ -125,6 +130,7 @@ const Dashboard = () => {
               className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"
             >
               {/* {item.icon} */}
+              <MdOutlineSupervisorAccount />
             </button>
             <p className="mt-3">
               <span className="text-lg font-semibold">{totalExam.totalExamNeedSubmittedOfHeader}</span>
@@ -143,6 +149,7 @@ const Dashboard = () => {
               className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"
             >
               {/* {item.icon} */}
+              <HiOutlineRefresh />
             </button>
             <p className="mt-3">
               <span className="text-lg font-semibold">{totalExam.totalExamNotSubmitOfTeacher}</span>
@@ -161,6 +168,7 @@ const Dashboard = () => {
               className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"
             >
               {/* {item.icon} */}
+              <HiOutlineRefresh />
             </button>
             <p className="mt-3">
               <span className="text-lg font-semibold">{totalExam.totalExamNeedSubmittedOfTeacher}</span>
