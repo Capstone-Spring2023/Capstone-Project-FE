@@ -212,7 +212,7 @@ const GenerateSchedule = () => {
       dataIndex: "fullName",
     },
     {
-      title: "No. Class has been assign",
+      title: "No. Class has been assigned",
       dataIndex: "numClass",
     },
     {
