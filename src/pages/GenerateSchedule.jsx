@@ -212,10 +212,6 @@ const GenerateSchedule = () => {
       dataIndex: "fullName",
     },
     {
-      title: "No. Class Has Registered But Not Assign",
-      dataIndex: "numNotRegisteredSubject",
-    },
-    {
       title: "No. Class has been assign",
       dataIndex: "numClass",
     },
