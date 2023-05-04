@@ -126,7 +126,7 @@ const Dashboard = () => {
           >
             <button
               type="button"
-              style={{ color: "blue", backgroundColor: "yellow" }}
+              style={{ color: "rgb(255, 244, 229)", backgroundColor: "rgb(254, 201, 15)" }}
               className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"
             >
               {/* {item.icon} */}
@@ -145,7 +145,7 @@ const Dashboard = () => {
           >
             <button
               type="button"
-              style={{ color: "blue", backgroundColor: "yellow" }}
+              style={{ color: "rgb(0, 194, 146)", backgroundColor: "rgb(235, 250, 242)" }}
               className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"
             >
               {/* {item.icon} */}
@@ -164,7 +164,7 @@ const Dashboard = () => {
           >
             <button
               type="button"
-              style={{ color: "blue", backgroundColor: "yellow" }}
+              style={{ color: "rgb(0, 194, 146)", backgroundColor: "rgb(235, 250, 242)" }}
               className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"
             >
               {/* {item.icon} */}
@@ -172,9 +172,9 @@ const Dashboard = () => {
             </button>
             <p className="mt-3">
               <span className="text-lg font-semibold">{totalExam.totalExamNeedSubmittedOfTeacher}</span>
-              <span className={`text-sm text-white ml-2`}>
+              {/* <span className={`text-sm text-rgb(0, 194, 146) ml-2`}>
                 {totalExam.totalExamNeedSubmittedOfTeacher}
-              </span>
+              </span> */}
             </p>
             <p className="text-sm text-gray-400 mt-1">Total Exam Need Submitted Of Teacher</p>
           </div>
